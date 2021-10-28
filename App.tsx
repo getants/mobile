@@ -4,7 +4,7 @@ import * as Sentry from 'sentry-expo';
 import * as Linking from 'expo-linking';
 import * as WebBrowser from 'expo-web-browser';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Platform } from 'react-native';
+import { LogBox, Platform } from 'react-native';
 import { ThemeProvider } from 'react-native-elements';
 // import { NhostAuthProvider } from '@nhost/react-auth';
 import { enableScreens } from 'react-native-screens';
@@ -12,7 +12,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import type { NavigationState } from '@react-navigation/native';
 
 import { Text, View } from 'react-native';
-import { NAVIGATION_STATE, SENTRY_DSN } from '@/utils';
+import { RootStack } from '@/stacks';
+import { NAVIGATION_STATE, SENTRY_DSN } from '@/utils/constants';
+
+// There are warnings that we can't have resource to fix, ignore now
+LogBox.ignoreLogs(['Warning:', 'Constants.deviceYearClass']);
 
 Sentry.init({
   dsn: SENTRY_DSN,
@@ -84,7 +88,7 @@ const App = () => {
       onStateChange={handleOnStateChange}
     >
       <ThemeProvider theme={customTheme}>
-        <Text>Blank app</Text>
+        <RootStack />
       </ThemeProvider>
     </NavigationContainer>
   );
