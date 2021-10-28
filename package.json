@@ -5,7 +5,13 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "ts-check": "node --max_old_space_size=4096 node_modules/.bin/tsc --project tsconfig.json --noEmit",
+    "test": "jest",
+    "test:ci": "yarn test --ci --maxWorkers=50% --silent",
+    "test:watch": "yarn test --watch --coverage",
+    "plop": "plop",
+    "publish:staging": "expo publish --release-channel staging",
+    "publish:prod": "expo publish --release-channel prod"
   },
   "dependencies": {
     "@nhost/nhost-js": "^0.1.4",

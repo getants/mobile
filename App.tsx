@@ -11,8 +11,8 @@ import { enableScreens } from 'react-native-screens';
 import { NavigationContainer } from '@react-navigation/native';
 import type { NavigationState } from '@react-navigation/native';
 
-import { Text, View } from 'react-native';
 import { RootStack } from '@/stacks';
+import { Flex, Text } from '@/components';
 import { NAVIGATION_STATE, SENTRY_DSN } from '@/utils/constants';
 
 // There are warnings that we can't have resource to fix, ignore now
@@ -70,15 +70,9 @@ const App = () => {
 
   if (!isReady) {
     return (
-      <View style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100%',
-      }}
-      >
-        <Text style={{ paddingBottom: 10 }}>Loading...</Text>
-      </View>
+      <Flex align="center" justify="center" height="100%">
+        <Text>Loading...</Text>
+      </Flex>
     );
   }
 

@@ -35,12 +35,16 @@ const LoginScreen = (props: Props) => {
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <Flex justify="space-between" height="100%" backgroundColor="white">
+    <Flex
+      height="100%"
+      justify="space-between"
+      backgroundColor="white"
+    >
         <LogoBackground source={imageUri} />
 
         <Flex
-          justify="space-around"
           width="100%"
+          justify="space-around"
           paddingLeft={20}
           paddingRight={20}
           marginBottom={5}
