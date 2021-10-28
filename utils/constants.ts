@@ -9,7 +9,7 @@ export const defaultImage = 'https://template-api.s3-ap-southeast-1.amazonaws.co
 export const TENANT_ID = {
   FINLAND: 'e280dfdb-8b9b-41b7-9f0f-21ae73b2b356',
 };
-export const ENV_VARS = {
+export const ENV_VARS: Record<string, any> = {
   dev: {
     finland: {
       tenantId: '12cd2a35-541a-4020-b2b4-5fd3c5f19a93',

@@ -4,7 +4,7 @@ import {
   Input as TextInput,
   Text as Title,
 } from 'react-native-elements';
-import s from '@/utils/tokens';
+import { style as s } from '@/utils/tokens';
 import { Flex } from '../Flex';
 
 export type SignupFormInput = {

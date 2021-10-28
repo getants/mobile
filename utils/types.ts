@@ -136,6 +136,20 @@ export type InboxScreenRouteProp = RouteProp<
   InboxStackEnum.Inbox
 >;
 
+// TODO: Make use of this
+export type ShortProperty = 'mt' | 'mr' | 'mb' | 'ml' | 'pt' | 'pr' | 'pb' | 'pl' | 'w' | 'h';
+export type RichProperty = `${ShortProperty}-${number}`;
+
+export type EnvironmentType = {
+  tenantId: string;
+  env: string;
+  apiUrl: string;
+  baseUrl: string;
+  wsUrl: string;
+  syncUrl: string;
+  chatUrl: string;
+};
+
 export type EnvType = 'dev' | 'stage' | 'prod';
 
 export interface LayoutProps {

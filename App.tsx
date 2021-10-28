@@ -6,7 +6,8 @@ import * as WebBrowser from 'expo-web-browser';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LogBox, Platform } from 'react-native';
 import { ThemeProvider } from 'react-native-elements';
-// import { NhostAuthProvider } from '@nhost/react-auth';
+import { NhostAuthProvider } from '@nhost/react-auth';
+import { NhostApolloProvider } from '@nhost/react-apollo';
 import { enableScreens } from 'react-native-screens';
 import { NavigationContainer } from '@react-navigation/native';
 import type { NavigationState } from '@react-navigation/native';
@@ -14,6 +15,7 @@ import type { NavigationState } from '@react-navigation/native';
 import { RootStack } from '@/stacks';
 import { Flex, Text } from '@/components';
 import { NAVIGATION_STATE, SENTRY_DSN } from '@/utils/constants';
+// import { nhost } from '@/utils/nhost'; // TODO: Wait for the fix in @nhost/hasura-auth-js
 
 // There are warnings that we can't have resource to fix, ignore now
 LogBox.ignoreLogs(['Warning:', 'Constants.deviceYearClass']);
@@ -27,6 +29,10 @@ Sentry.init({
 enableScreens();
 
 const customTheme = {};
+
+// console.log('### nhost: ', nhost);
+console.log('### NhostAuthProvider: ', NhostAuthProvider);
+console.log('### NhostApolloProvider: ', NhostApolloProvider);
 
 const App = () => {
   const [isReady, setIsReady] = useState(false);
