@@ -4,7 +4,7 @@ import {
   Input,
   Text as Title,
 } from 'react-native-elements';
-import s from '@/utils/tokens';
+import { style as s } from '@/utils/tokens';
 import { Flex } from '../Flex';
 
 export type LoginFormInput = {
@@ -50,37 +50,34 @@ const LoginForm = (props: LoginFormProps) => {
       <Title style={{ textAlign: 'center' }}>
         Login
       </Title>
+
       <Input
         autoFocus
-        label="Email"
-        style={s('mb-10')}
+        placeholder="Email"
         value={input.email}
         onChangeText={(value) => changeInput('email', value)}
       />
 
       <Input
         secureTextEntry
-        style={s('mb-20')}
-        label="Password"
+        placeholder="Password"
         value={input.password}
         onChangeText={(value) => changeInput('password', value)}
       />
 
       <Button
-        // mode="contained"
-        // contentStyle={s('pt-10 pb-10')}
         style={s('mb-5')}
+        title="Login"
+        titleStyle={s('py-10')}
         onPress={handleSubmit}
-      >
-        Login
-      </Button>
+      />
 
       <Button
-        // contentStyle={s('pt-10 pb-10')}
+        type="clear"
+        title="Signup"
+        titleStyle={s('py-5')}
         onPress={handleSwitchView}
-      >
-        Signup
-      </Button>
+      />
     </Flex>
   );
 };

@@ -60,43 +60,37 @@ const SignupForm = (props: SignupFormProps) => {
 
       <TextInput
         autoFocus
-        label="Full name"
-        style={s('mb-10')}
+        placeholder="Full name"
         value={input.displayName}
         onChangeText={(value) => changeInput('displayName', value)}
       />
 
       <TextInput
-        autoFocus
-        label="Email"
-        style={s('mb-10')}
+        placeholder="Email"
         value={input.email}
         onChangeText={(value) => changeInput('email', value)}
       />
 
       <TextInput
         secureTextEntry
-        style={s('mb-20')}
-        label="Password"
+        placeholder="Password"
         value={input.password}
         onChangeText={(value) => changeInput('password', value)}
       />
 
       <Button
-        // mode="contained"
-        // contentStyle={s('pt-10 pb-10')}
         style={s('mb-5')}
+        title="Signup"
+        titleStyle={s('py-10')}
         onPress={handleSubmit}
-      >
-        Signup
-      </Button>
+      />
 
       <Button
-        // contentStyle={s('pt-10 pb-10')}
+        type="clear"
+        title="Login"
+        titleStyle={s('py-5')}
         onPress={handleSwitchView}
-      >
-        Login
-      </Button>
+      />
     </Flex>
   );
 };

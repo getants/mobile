@@ -137,8 +137,25 @@ export type InboxScreenRouteProp = RouteProp<
 >;
 
 // TODO: Make use of this
-export type ShortProperty = 'mt' | 'mr' | 'mb' | 'ml' | 'pt' | 'pr' | 'pb' | 'pl' | 'w' | 'h';
+export type ShortProperty =
+  | 'mt'
+  | 'mr'
+  | 'mb'
+  | 'ml'
+  | 'mx'
+  | 'my'
+  | 'pt'
+  | 'pr'
+  | 'pb'
+  | 'pl'
+  | 'px'
+  | 'py'
+  | 'w'
+  | 'h'
+;
+
 export type RichProperty = `${ShortProperty}-${number}`;
+export type StyleObject = Record<string, string | number>;
 
 export type EnvironmentType = {
   tenantId: string;

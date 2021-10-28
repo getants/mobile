@@ -17,6 +17,73 @@ export const propertyMap: Record<string, string> = {
   h: 'height',
 };
 
+export const makeProperty = (key: string, value: number) => {
+  switch (key) {
+    case 'mt':
+      return {
+        marginTop: value,
+      };
+    case 'mr':
+      return {
+        marginRight: value,
+      };
+    case 'mb':
+      return {
+        marginBottom: value,
+      };
+    case 'ml':
+      return {
+        marginLeft: value,
+      };
+    case 'mx':
+      return {
+        marginLeft: value,
+        marginRight: value,
+      };
+    case 'my':
+      return {
+        marginTop: value,
+        marginBottom: value,
+      };
+    case 'pt':
+      return {
+        paddingTop: value,
+      };
+    case 'pr':
+      return {
+        paddingRight: value,
+      };
+    case 'pb':
+      return {
+        paddingBottom: value,
+      };
+    case 'pl':
+      return {
+        paddingLeft: value,
+      };
+    case 'px':
+      return {
+        paddingLeft: value,
+        paddingRight: value,
+      };
+    case 'py':
+      return {
+        paddingTop: value,
+        paddingBottom: value,
+      };
+    case 'w':
+      return {
+        width: value,
+      };
+    case 'h':
+      return {
+        height: value,
+      };
+    default:
+      throw new Error('Wrong property name for style tokens');
+  }
+};
+
 // TODO: How to check mt-10 type?
 export const style = (input: string) => {
   if (input.length < 4) {
@@ -25,18 +92,15 @@ export const style = (input: string) => {
 
   const tokens = input.split(' ');
 
-  return tokens.map((token) => {
+  const tokensMap = tokens.reduce<Record<string, any>>((acc, token) => {
     const [property, value] = token.split('-');
-    if (!propertyMap[property]) {
-      throw new Error('Wrong property name');
-    }
-    const styles = StyleSheet.create({
-      [token]: {
-        [propertyMap[property]]: parseInt(value, 10),
-      },
-    });
-    return styles[token];
-  });
+    acc[token] = makeProperty(property, parseInt(value, 10));
+    return acc;
+  }, {});
+
+  const styles = StyleSheet.create(tokensMap);
+
+  return StyleSheet.flatten(Object.values(styles));
 };
 
 export const getStatusBarHeight = () => {
