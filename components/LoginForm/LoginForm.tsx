@@ -5,6 +5,7 @@ import {
   Text as Title,
 } from 'react-native-elements';
 import { style as s } from '@/utils/tokens';
+import { useAuth } from '@/utils/states';
 import { Flex } from '../Flex';
 
 export type LoginFormInput = {
@@ -22,6 +23,10 @@ const LoginForm = (props: LoginFormProps) => {
   const { onChange, onSubmit, onSwitchView } = props;
   const [input, setInput] = useState<LoginFormInput>({ email: '', password: '' });
 
+  const { isLoggedIn, me, setMe } = useAuth();
+  console.log('### isLoggedIn: ', isLoggedIn);
+  console.log('### me: ', me);
+
   const changeInput = (key: keyof LoginFormInput, value: string) => {
     const newInputValue = {
       ...input,
@@ -37,6 +42,9 @@ const LoginForm = (props: LoginFormProps) => {
     if (typeof onSubmit === 'function') {
       onSubmit(input);
     }
+    setMe({
+      name: 'asdfasdfasdfasdfasdfadsf'
+    });
   };
 
   const handleSwitchView = () => {

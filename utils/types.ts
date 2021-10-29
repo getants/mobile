@@ -1,4 +1,5 @@
 import * as CSS from 'csstype';
+import type { PrimitiveAtom } from 'jotai';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { StackNavigationProp } from '@react-navigation/stack';
 import {
@@ -17,6 +18,15 @@ import {
   AuthStackEnum,
 } from './enums';
 
+// Only stacks have screens, not composite stack
+export type StackScreenEnums = 
+  | InitialStackEnum
+  | AuthStackEnum
+  | JobStackEnum
+  | InboxStackEnum
+  | CalendarStackEnum
+  | ProfileStackEnum
+;
 // NOTE: These are composite stacks, so it does not have real screens
 export type RootStackParams = {
   [RootStackEnum.AuthStack]: NavigatorScreenParams<AuthStackParams>;
@@ -136,8 +146,64 @@ export type InboxScreenRouteProp = RouteProp<
   InboxStackEnum.Inbox
 >;
 
-// TODO: Make use of this
-export type ShortProperty =
+export type Location = {
+  coordinates: [number, number];
+  type: string;
+};
+
+/* Address is the place company registered, it might
+ * be different from the real working place. We use the Address
+ * only for company entity, and Location to track with the job.
+ */
+export type Address = {
+  id?: string;
+  data_usage?: string;
+  unstructured_value?: string;
+  structured_value?: string;
+  location?: Location;
+  created_at?: Date | string;
+  updated_at?: Date | string;
+};
+export type Company = {
+  id: string;
+  created_at: Date | string;
+  updated_at?: Date | string;
+  establish_date?: Date | string;
+  image?: string;
+  name?: string;
+  summary?: string;
+};
+export type Job = {
+  id: string;
+  address: Address; // Address registerd with company
+  company: Company;
+  created_at: Date;
+  updated_at?: Date;
+  description: string;
+  end?: Date;
+  title: string;
+  image?: string;
+  quantity: number;
+  slug?: string;
+  start?: Date;
+  location?: Location; // Actually location of the job
+};
+export type FacebookProfilePicture = {
+  data?: {
+    height?: number;
+    is_silhouette?: Boolean;
+    url?: string;
+    width?: number;
+  };
+};
+export type FacebookProfile = {
+  email: string;
+  name?: string;
+  picture?: FacebookProfilePicture;
+  id: string; // this is Facebook ID, not our UUID
+  access_token?: string;
+};
+export type ShortProperty = // TODO: Make use of this
   | 'mt'
   | 'mr'
   | 'mb'
@@ -153,10 +219,8 @@ export type ShortProperty =
   | 'w'
   | 'h'
 ;
-
 export type RichProperty = `${ShortProperty}-${number}`;
 export type StyleObject = Record<string, string | number>;
-
 export type EnvironmentType = {
   tenantId: string;
   env: string;
@@ -166,9 +230,7 @@ export type EnvironmentType = {
   syncUrl: string;
   chatUrl: string;
 };
-
 export type EnvType = 'dev' | 'stage' | 'prod';
-
 export interface LayoutProps {
   display?: CSS.Property.Display;
   d?: CSS.Property.Display;
@@ -209,7 +271,6 @@ export interface LayoutProps {
   visibility?: CSS.Property.Visibility;
   isolation?: CSS.Property.Isolation;
 }
-
 export interface FlexboxProps {
   alignItems?: CSS.Property.AlignItems;
   alignContent?: CSS.Property.AlignContent;
@@ -230,7 +291,40 @@ export interface FlexboxProps {
   placeContent?: CSS.Property.PlaceContent;
   placeSelf?: CSS.Property.PlaceSelf;
 }
-
 export interface StyleProps extends FlexboxProps, LayoutProps {}
-
 export interface SystemProps extends StyleProps {}
+export type UserType = {
+  id: string;
+  created_at: Date;
+  updated_at: Date;
+  email: string;
+  is_available: boolean;
+  is_hirable: boolean;
+  full_name?: string | null;
+  source?: string;
+  tenant_id?: string;
+  last_seen?: Date;
+  education_level?: string;
+  location: Location | null;
+  settings?: string | null;
+  user_role: string;
+  picture?: string | null;
+};
+export type Resume = {
+  id: string;
+  name?: string;
+  user_id: string;
+  summary?: string;
+  created_at: Date;
+  updated_at: Date;
+};
+// export type ResumeAggregateData = AggregateData<Resume, Entity.Resume>;
+export type AppState = {
+  currentScreen: StackScreenEnums | null;
+  isLoggedIn: boolean;
+  me: UserType | null;
+};
+export type FocusAtomInput<T> = {
+  source: PrimitiveAtom<T>;
+  key: string | (keyof T)[];
+};

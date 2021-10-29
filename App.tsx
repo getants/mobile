@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler'; // This one must be on top
 import React, { useState, useEffect } from 'react';
+import { Provider as JotaiProvider } from 'jotai';
 import * as Sentry from 'sentry-expo';
 import * as Linking from 'expo-linking';
 import * as WebBrowser from 'expo-web-browser';
@@ -20,6 +21,7 @@ import {
   SENTRY_DSN,
   customTheme,
 } from '@/utils/constants';
+import { globalState, initialState as initialJotaiState } from '@/utils/states';
 // import { nhost } from '@/utils/nhost'; // TODO: Wait for the fix in @nhost/hasura-auth-js
 
 // There are warnings that we can't have resource to fix, ignore now
@@ -88,17 +90,19 @@ const App = () => {
   }
 
   return (
-    <NavigationContainer
-      initialState={initialState}
-      onStateChange={handleOnStateChange}
-    >
-      <ThemeProvider
-        useDark={colorScheme === 'dark'}
-        theme={customTheme}
+    <JotaiProvider initialValues={[[globalState, initialJotaiState]]}>
+      <NavigationContainer
+        initialState={initialState}
+        onStateChange={handleOnStateChange}
       >
-        <RootStack />
-      </ThemeProvider>
-    </NavigationContainer>
+        <ThemeProvider
+          useDark={colorScheme === 'dark'}
+          theme={customTheme}
+        >
+          <RootStack />
+        </ThemeProvider>
+      </NavigationContainer>
+    </JotaiProvider>
   );
 };
 
