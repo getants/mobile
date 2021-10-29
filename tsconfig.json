@@ -4,6 +4,7 @@
     "strict": true,
     "strictNullChecks": true,
     "esModuleInterop": true,
+    "noImplicitAny": true,
     "baseUrl": ".",
     "paths": {
       "@/assets": ["assets"],

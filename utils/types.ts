@@ -1,4 +1,5 @@
 import * as CSS from 'csstype';
+// import type { SetStateAction, WritableAtom } from 'jotai';
 import type { PrimitiveAtom } from 'jotai';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -19,7 +20,7 @@ import {
 } from './enums';
 
 // Only stacks have screens, not composite stack
-export type StackScreenEnums = 
+export type StackScreens = 
   | InitialStackEnum
   | AuthStackEnum
   | JobStackEnum
@@ -320,9 +321,9 @@ export type Resume = {
 };
 // export type ResumeAggregateData = AggregateData<Resume, Entity.Resume>;
 export type AppState = {
-  currentScreen: StackScreenEnums | null;
-  isLoggedIn: boolean;
-  me: UserType | null;
+  currentScreen: PrimitiveAtom<StackScreens | null>;
+  isLoggedIn: PrimitiveAtom<boolean>;
+  me: PrimitiveAtom<Partial<UserType> | null>;
 };
 export type FocusAtomInput<T> = {
   source: PrimitiveAtom<T>;

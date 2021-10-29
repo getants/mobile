@@ -1,33 +1,21 @@
 import { useEffect, useMemo } from 'react';
 import { atom, useAtom } from 'jotai';
-import { focusAtom } from "jotai/optics";
-// import type { PrimitiveAtom } from 'jotai';
-import type { AppState, FocusAtomInput } from '@/utils/types';
+import type { AppState, StackScreens, UserType } from '@/utils/types';
 
-export const useFocusAtom = <T>(input: FocusAtomInput<T>) => {
-  const { source , key } = input;
-
-  return useMemo(() => {
-    if (typeof key === 'string') {
-      return focusAtom(source, (optic) => optic.path(key));
-    }
-    return focusAtom(source, (optic) => optic.pick(key));
-  }, [source, key]);
-};
+export const currentScreenAtom = atom<StackScreens | null>(null);
+export const isLoggedInAtom = atom<boolean>(false);
+export const meAtom = atom<Partial<UserType> | null>(null);
 
 export const initialState: AppState = {
-  currentScreen: null,
-  isLoggedIn: false,
-  me: null,
+  currentScreen: currentScreenAtom,
+  isLoggedIn: isLoggedInAtom,
+  me: meAtom,
 };
 
 export const globalState = atom<AppState | null>(initialState);
 
 export const useAuth = () => {
-  // const currentScreenAtom = useFocusAtom({ source: globalState, key: 'currentScreen' });
-  const isLoggedInAtom = useFocusAtom({ source: globalState, key: 'isLoggedIn' });
-  const meAtom = useFocusAtom({ source: globalState, key: 'me' });
-
+  const [currentScreen, setCurrentScreen] = useAtom(currentScreenAtom);
   const [isLoggedIn, setLoggedIn] = useAtom(isLoggedInAtom);
   const [me, setMe] = useAtom(meAtom);
   
@@ -36,7 +24,7 @@ export const useAuth = () => {
   }, [me]);
 
   return useMemo(
-    () =>({ isLoggedIn, me, setMe }),
-    [isLoggedIn, me, setMe],
+    () =>({ currentScreen, setCurrentScreen, isLoggedIn, me, setMe }),
+    [currentScreen, setCurrentScreen, isLoggedIn, me, setMe],
   );
 };

@@ -42,9 +42,7 @@ const LoginForm = (props: LoginFormProps) => {
     if (typeof onSubmit === 'function') {
       onSubmit(input);
     }
-    setMe({
-      name: 'asdfasdfasdfasdfasdfadsf'
-    });
+    setMe({ email: 'asdfasdfasdfasdfasdfadsf' });
   };
 
   const handleSwitchView = () => {
