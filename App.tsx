@@ -10,6 +10,7 @@ import { ThemeProvider } from 'react-native-elements';
 import { useColorScheme } from 'react-native-appearance';
 import { NhostAuthProvider } from '@nhost/react-auth';
 import { NhostApolloProvider } from '@nhost/react-apollo';
+import { ApolloProvider } from '@apollo/client';
 import { enableScreens } from 'react-native-screens';
 import { NavigationContainer } from '@react-navigation/native';
 import type { NavigationState } from '@react-navigation/native';
@@ -21,6 +22,7 @@ import {
   SENTRY_DSN,
   customTheme,
 } from '@/utils/constants';
+import { apolloClient } from '@/utils/apollo';
 import { globalState, initialState as initialJotaiState } from '@/utils/states';
 // import { nhost } from '@/utils/nhost'; // TODO: Wait for the fix in @nhost/hasura-auth-js
 
@@ -91,17 +93,19 @@ const App = () => {
 
   return (
     <JotaiProvider initialValues={[[globalState, initialJotaiState]]}>
-      <NavigationContainer
-        initialState={initialState}
-        onStateChange={handleOnStateChange}
-      >
-        <ThemeProvider
-          useDark={colorScheme === 'dark'}
-          theme={customTheme}
+      <ApolloProvider client={apolloClient}>
+        <NavigationContainer
+          initialState={initialState}
+          onStateChange={handleOnStateChange}
         >
-          <RootStack />
-        </ThemeProvider>
-      </NavigationContainer>
+          <ThemeProvider
+            useDark={colorScheme === 'dark'}
+            theme={customTheme}
+          >
+            <RootStack />
+          </ThemeProvider>
+        </NavigationContainer>
+      </ApolloProvider>
     </JotaiProvider>
   );
 };

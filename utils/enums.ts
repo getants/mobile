@@ -33,3 +33,12 @@ export enum ProfileStackEnum {
   Profile = 'Profile',
   CameraRoll = 'CameraRoll',
 }
+export enum Entity {
+  Address = 'Addresses',
+  Company = 'Companies',
+  Conversation = 'Conversations',
+  Job = 'Jobs',
+  Message = 'Messages',
+  Resume = 'Resumes',
+  Tenant = 'Tenants',
+}

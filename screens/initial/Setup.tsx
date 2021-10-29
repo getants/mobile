@@ -4,7 +4,7 @@ import {
   Picker,
   Text,
   View,
-} from '@components';
+} from '@/components';
 
 const industryOptions = [
   { label: 'Collecting, Picking', value: 'collect-pick' },

@@ -5,48 +5,33 @@ import React, {
 } from 'react';
 import styled from 'styled-components/native';
 import {
-  ProgressBar,
-  Subheading,
-} from '@components';
+  LinearProgress,
+  Text,
+  Flex,
+} from '@/components';
 import {
   INSERT_RESUME,
   RESUME_AGGREGATE,
-} from '@graphqls/users';
+} from '@/graphqls';
 import {
-  useAuth,
+  // useAuth,
   useFocusEffect,
   useQuery,
   useMutation,
   useTimeoutFn,
-} from '@hooks';
-import type { ResumeAggregateData } from '@screens/profile/types';
-import { space } from '@styles/helpers';
-import {
-  // InitialStackEnum,
-  RootStackEnum,
-  MainStackEnum,
-} from '@stacks/Types';
-import type { WelcomeScreenNavigationProp } from '@stacks/Types';
+} from '@/utils/hooks';
+import { style as s, space } from '@/utils/tokens';
+import { RootStackEnum, MainStackEnum } from '@/utils/enums';
+import type {
+  ResumeAggregateData,
+  WelcomeScreenNavigationProp,
+} from '@/utils/types';
 
 const StyledBackground = styled.ImageBackground`
   width: 100%;
   height: 100%;
 `;
-const Wrapper = styled.View`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-top: 100px;
-  padding: 40px 20px;
-  height: 100%;
-`;
-const Section = styled.View`
-  margin: 40px 20px 80px;
-`;
-const Space = styled.View`
-  padding: ${space(1)};
-`;
-const TinyMessage = styled(Subheading)`
+const TinyMessage = styled(Text)`
   text-align: center;
   font-size: 12px;
   font-weight: 300;
@@ -60,7 +45,7 @@ type Props = {
 
 const WelcomeScreen = (props: Props) => {
   const { navigation } = props;
-  const { session: { jwt, user } } = useAuth();
+  // const { session: { jwt, user } } = useAuth();
   const [message, setMessage] = useState<string>('Setup, please wait...');
 
   const {
@@ -73,7 +58,7 @@ const WelcomeScreen = (props: Props) => {
         offset: 0,
         order_by: { created_at: 'desc' },
         where: {
-          user_id: { _eq: user?.id },
+          // user_id: { _eq: user?.id },
         },
       },
       fetchPolicy: 'cache-and-network',
@@ -87,12 +72,12 @@ const WelcomeScreen = (props: Props) => {
     if (aggregateResume === undefined) {
       setMessage('New profile setup...');
       resetTimer();
-    } else if (aggregateResume?.resume_aggregate?.nodes?.length === 0) {
+    } else if (aggregateResume?.resumes_aggregate?.nodes?.length === 0) {
       setMessage('Creating nessesary data...');
       await createResume({
         variables: {
           object: {
-            user_id: user.id,
+            // user_id: user.id,
             name: 'default',
             summary: 'Auto-generated',
           },
@@ -114,22 +99,26 @@ const WelcomeScreen = (props: Props) => {
     }, [resetTimer, cancelTimer]),
   );
 
-  useEffect(() => {
-    if (!user && !jwt) {
-      navigation.navigate(RootStackEnum.AuthStack);
-    }
-  }, [jwt, user, navigation]);
+  // useEffect(() => {
+  //   if (!user && !jwt) {
+  //     navigation.navigate(RootStackEnum.AuthStack);
+  //   }
+  // }, [jwt, user, navigation]);
 
   return (
     <StyledBackground source={require('assets/splash.png') /* eslint-disable-line */}>
-      <Wrapper>
-        <Space />
+      <Flex
+        direction="column"
+        justify="space-between"
+        height="100%"
+      >
+        <Flex padding={10} />
 
-        <Section>
-          <ProgressBar />
+        <Flex paddingBottom={180}>
+          <LinearProgress color="primary" style={s('h-1 w-180 mx-auto')} />
           <TinyMessage>{message}</TinyMessage>
-        </Section>
-      </Wrapper>
+        </Flex>
+      </Flex>
     </StyledBackground>
   );
 };

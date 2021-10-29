@@ -1,8 +1,8 @@
 import Constants from 'expo-constants';
 import { Platform, StatusBar, StyleSheet } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
-import { ENV_VARS } from './constants';
-import { EnvironmentType } from './types';
+import { ENV_VARS, SPACE_MULTIPLIER } from './constants';
+import { EnvironmentType, Spacing } from './types';
 
 export const propertyMap: Record<string, string> = {
   mt: 'marginTop',
@@ -17,7 +17,7 @@ export const propertyMap: Record<string, string> = {
   h: 'height',
 };
 
-export const makeProperty = (key: string, value: number) => {
+export const makeProperty = (key: string, value: number | string) => {
   switch (key) {
     case 'mt':
       return {
@@ -86,15 +86,16 @@ export const makeProperty = (key: string, value: number) => {
 
 // TODO: How to check mt-10 type?
 export const style = (input: string) => {
-  if (input.length < 4) {
-    throw new Error('Wrong token shape');
+  if (input.length < 3 || input.indexOf('-') === -1) {
+    throw new Error('Wrong token shape, did you forget the dash "-"?');
   }
 
   const tokens = input.split(' ');
 
   const tokensMap = tokens.reduce<Record<string, any>>((acc, token) => {
     const [property, value] = token.split('-');
-    acc[token] = makeProperty(property, parseInt(value, 10));
+    const parsedValue = parseInt(value, 10);
+    acc[token] = makeProperty(property, Number.isNaN(parsedValue) ? value : parsedValue);
     return acc;
   }, {});
 
@@ -120,3 +121,11 @@ export const getEnvironment = (): EnvironmentType => {
   const [env, country] = releaseChannel.split('-');
   return ENV_VARS[env][country];
 };
+
+export const space = (multiplier: number): Spacing => {
+  if ((Number.isInteger(multiplier) && multiplier >= 0) || multiplier === 0.5) {
+    return `${multiplier * SPACE_MULTIPLIER}px` as Spacing;
+  }
+  throw new Error('Multiplier needs to be a positive integer');
+};
+

@@ -1,15 +1,12 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { LogBox } from 'react-native';
-// import { useAuth } from '@hooks';
+import { useAuth } from '@/utils/states';
 
 import AuthStack from './AuthStack';
-// import InitialStack from './InitialStack';
+import InitialStack from './InitialStack';
 // import MainStack from './MainStack';
 import { RootStackEnum } from '@/utils/enums';
 import type { RootStackParams } from '@/utils/types';
-
-LogBox.ignoreLogs(['Warning:']);
 
 export type IconProps = {
   focused: boolean;
@@ -22,26 +19,35 @@ const { Navigator, Screen } = createStackNavigator<
 >();
 
 export const RootStack = () => {
-  // const { session } = useAuth();
+  const { isLoggedIn } = useAuth();
+  console.log('### isLoggedIn: ', isLoggedIn);
 
   return (
     <Navigator screenOptions={{ headerShown: false }}>
-      <Screen name={RootStackEnum.AuthStack} component={AuthStack} />
+      {!isLoggedIn && (
+        <Screen
+          name={RootStackEnum.AuthStack}
+          component={AuthStack}
+        />
+      )}
 
-      {/* {session?.jwt && session?.initial && ( */}
-      {/*   <Screen */}
-      {/*     name={RootStackEnum.InitialStack} */}
-      {/*     component={InitialStack} */}
-      {/*   /> */}
-      {/* )} */}
+      {isLoggedIn && (
+        <Screen
+          name={RootStackEnum.InitialStack}
+          component={InitialStack}
+        />
+      )}
 
-      {/* {session?.jwt && session?.user ? ( */}
+      {/* {isLoggedIn ? ( */}
       {/*   <Screen */}
       {/*     name={RootStackEnum.MainStack} */}
       {/*     component={MainStack} */}
       {/*   /> */}
       {/* ) : ( */}
-      {/*   <Screen name={RootStackEnum.AuthStack} component={AuthStack} /> */}
+      {/*   <Screen */}
+      {/*     name={RootStackEnum.AuthStack} */}
+      {/*     component={AuthStack} */}
+      {/*   /> */}
       {/* )} */}
     </Navigator>
   );

@@ -9,6 +9,7 @@
     "paths": {
       "@/assets": ["assets"],
       "@/components": ["components"],
+      "@/graphqls": ["graphqls"],
       "@/screens": ["screens"],
       "@/stacks": ["stacks"],
       "@/utils/*": ["utils/*"]

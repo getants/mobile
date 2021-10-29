@@ -1,15 +1,17 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { WelcomeScreen, SetupScreen } from '@screens/initial';
-import defaultOptions from './helpers/navigations';
-import { InitialStackEnum } from './Types';
-import type { InitialStackParams } from './Types';
+import { WelcomeScreen } from '@/screens';
+import { makeNavigationOptions } from '@/utils/navigations';
+import { InitialStackEnum } from '@/utils/enums';
+import type { InitialStackParams } from '@/utils/types';
 
 const { Navigator, Screen } = createStackNavigator<InitialStackParams>();
 
+const customOptions = makeNavigationOptions({});
+
 const InitialStack = () => (
-  <Navigator screenOptions={defaultOptions}>
+  <Navigator screenOptions={customOptions}>
     <Screen
       name={InitialStackEnum.WelcomeScreen}
       component={WelcomeScreen}
@@ -17,15 +19,15 @@ const InitialStack = () => (
         headerShown: false,
       }}
     />
-    <Screen
-      name={InitialStackEnum.SetupScreen}
-      component={SetupScreen}
-      options={{
-        title: 'Setup your profile',
-        headerShown: true,
-        headerLeft: () => null,
-      }}
-    />
+    {/* <Screen */}
+    {/*   name={InitialStackEnum.SetupScreen} */}
+    {/*   component={SetupScreen} */}
+    {/*   options={{ */}
+    {/*     title: 'Setup your profile', */}
+    {/*     headerShown: true, */}
+    {/*     headerLeft: () => null, */}
+    {/*   }} */}
+    {/* /> */}
   </Navigator>
 );
 

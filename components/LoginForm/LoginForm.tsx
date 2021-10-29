@@ -23,9 +23,7 @@ const LoginForm = (props: LoginFormProps) => {
   const { onChange, onSubmit, onSwitchView } = props;
   const [input, setInput] = useState<LoginFormInput>({ email: '', password: '' });
 
-  const { isLoggedIn, me, setMe } = useAuth();
-  console.log('### isLoggedIn: ', isLoggedIn);
-  console.log('### me: ', me);
+  const { setMe } = useAuth();
 
   const changeInput = (key: keyof LoginFormInput, value: string) => {
     const newInputValue = {
@@ -42,7 +40,7 @@ const LoginForm = (props: LoginFormProps) => {
     if (typeof onSubmit === 'function') {
       onSubmit(input);
     }
-    setMe({ email: 'asdfasdfasdfasdfasdfadsf' });
+    setMe({ email: input.email });
   };
 
   const handleSwitchView = () => {

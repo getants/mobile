@@ -10,6 +10,7 @@ import {
 } from '@react-navigation/native';
 import {
   CalendarStackEnum,
+  Entity,
   InboxStackEnum,
   InitialStackEnum,
   JobStackEnum,
@@ -48,9 +49,7 @@ export type MainStackParams = {
   [MainStackEnum.CalendarStack]: NavigatorScreenParams<CalendarStackParams>;
   [MainStackEnum.ProfileStack]: NavigatorScreenParams<ProfileStackParams>;
 };
-
-// These stacks live inside the Bottom Navigation
-export type JobStackParams = {
+export type JobStackParams = { // These stacks live inside the Bottom Navigation
   [JobStackEnum.JobList]: undefined;
   [JobStackEnum.SingleJob]: {
     jobId: string,
@@ -74,7 +73,6 @@ export type ProfileStackParams = {
   [ProfileStackEnum.Profile]: undefined;
   [ProfileStackEnum.CameraRoll]: undefined;
 };
-
 // We don't use the Abstract because it's not nested in BottomBar
 export type WelcomeScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<InitialStackParams, InitialStackEnum.WelcomeScreen>,
@@ -84,13 +82,11 @@ export type LoginScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<AuthStackParams, AuthStackEnum.Login>,
   StackNavigationProp<RootStackParams>
 >;
-
 // Abstract for root and main stacks
 export type AbstractCompositeNavigationProps = CompositeNavigationProp<
   BottomTabNavigationProp<MainStackParams>,
   StackNavigationProp<RootStackParams>
 >;
-
 // Job screens props
 export type JobListScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<JobStackParams, JobStackEnum.JobList>,
@@ -100,7 +96,6 @@ export type SingleJobScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<JobStackParams, JobStackEnum.SingleJob>,
   AbstractCompositeNavigationProps
 >;
-
 // Inbox and conversation props
 export type InboxScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<InboxStackParams, InboxStackEnum.Inbox>,
@@ -116,7 +111,6 @@ export type CalendarScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<CalendarStackParams, CalendarStackEnum.Calendar>,
   AbstractCompositeNavigationProps
 >;
-
 // Profile and settings props
 export type ProfileScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<ProfileStackParams, ProfileStackEnum.Profile>,
@@ -126,7 +120,6 @@ export type CameraRollScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<ProfileStackParams, ProfileStackEnum.CameraRoll>,
   AbstractCompositeNavigationProps
 >;
-
 // Job route props
 export type JobListScreenRouteProp = RouteProp<
   JobStackParams,
@@ -136,7 +129,6 @@ export type SingleJobScreenRouteProp = RouteProp<
   JobStackParams,
   JobStackEnum.SingleJob
 >;
-
 // Inbox route props
 export type SingleConversationScreenRouteProp = RouteProp<
   InboxStackParams,
@@ -146,12 +138,18 @@ export type InboxScreenRouteProp = RouteProp<
   InboxStackParams,
   InboxStackEnum.Inbox
 >;
-
+// export type RecursivePartial<T> = { [P in keyof T]?: RecursivePartial<T[P]> };
+export type RecursivePartial<T> = {
+  [P in keyof T]?: T[P] extends (infer U)[]
+    ? RecursivePartial<U>[]
+    : T[P] extends Record<string, unknown>
+      ? RecursivePartial<T[P]>
+      : T[P];
+}; // TODO: Which one is correct?
 export type Location = {
   coordinates: [number, number];
   type: string;
 };
-
 /* Address is the place company registered, it might
  * be different from the real working place. We use the Address
  * only for company entity, and Location to track with the job.
@@ -204,6 +202,15 @@ export type FacebookProfile = {
   id: string; // this is Facebook ID, not our UUID
   access_token?: string;
 };
+export type Spacing =
+  | '0'
+  | '4px'
+  | '8px'
+  | '12px'
+  | '16px'
+  | '20px'
+  | '24px'
+  | '32px';
 export type ShortProperty = // TODO: Make use of this
   | 'mt'
   | 'mr'
@@ -319,7 +326,6 @@ export type Resume = {
   created_at: Date;
   updated_at: Date;
 };
-// export type ResumeAggregateData = AggregateData<Resume, Entity.Resume>;
 export type AppState = {
   currentScreen: PrimitiveAtom<StackScreens | null>;
   isLoggedIn: PrimitiveAtom<boolean>;
@@ -328,4 +334,56 @@ export type AppState = {
 export type FocusAtomInput<T> = {
   source: PrimitiveAtom<T>;
   key: string | (keyof T)[];
+};
+export type ReturningValue<T> = { returning: T[]; };
+export type AggregateValue<T> = { nodes: T[], aggregate: { count: number } };
+export type QueryData<T, K extends Entity> = Record<`${Lowercase<K>}`, T[]>;
+export type AggregateData<T, K extends Entity> = Record<`${Lowercase<K>}_aggregate`, AggregateValue<T>>;
+export type SingleData<T, K extends Entity> = Record<`${Lowercase<K>}_by_pk`, T>;
+export type InsertedOneData<T, K extends Entity> = Record<`insert_${Lowercase<K>}_one`, T>;
+export type InsertedData<T, K extends Entity> = Record<`insert_${Lowercase<K>}`, ReturningValue<T>>;
+export type DeletedData<T, K extends Entity> = Record<`delete_${Lowercase<K>}_by_pk`, T>;
+export type UpdatedData<T, K extends Entity> = Record<`update_${Lowercase<K>}`, ReturningValue<T>>;
+export type PaginatedData<T, K extends Entity> = AggregateData<T, K> & QueryData<T, K>;
+// Specified type for each entity below
+export type ResumeAggregateData = AggregateData<Resume, Entity.Resume>;
+export type Conversation = {
+  id: string;
+  company_id: string;
+  created_at?: Date | number;
+  updated_at?: Date | number;
+  name?: string;
+  description?: string;
+  status?: string;
+};
+
+export type Message = {
+  id: string;
+  created_at?: Date | number;
+  updated_at?: Date | number;
+  conversation_id: string;
+  user_id: string;
+  user: UserType;
+  content: string;
+  image?: string;
+  video?: string;
+  audio?: string;
+  system?: boolean;
+};
+
+export type MessageAggregateData = AggregateData<Message, Entity.Message>;
+export type ConversationAggregateData = AggregateData<Conversation, Entity.Conversation>;
+export type SingleConversationData = SingleData<Conversation, Entity.Conversation>;
+
+export type ChatRequest = {
+  conversation: Partial<Conversation>;
+  user: Partial<UserType>;
+  content: string;
+  message?: Partial<Message>;
+  locale?: string;
+  jobId?: string;
+};
+
+export type ChatResponse = {
+  message: Partial<Message>;
 };
