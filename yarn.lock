@@ -1280,10 +1280,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@nhost/hasura-auth-js@^0.0.13":
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/@nhost/hasura-auth-js/-/hasura-auth-js-0.0.13.tgz#8ca69b7e20de93ff9641c5d878454802bb67d2b4"
-  integrity sha512-oRtUtPWPqAnGP28Z1/Xu7dNsaVkC3anIs/u9Rn405UNalrr5EWmDELXlQVYyxsXwr4KEwGeXKWAfC+GkzQlE+g==
+"@nhost/hasura-auth-js@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@nhost/hasura-auth-js/-/hasura-auth-js-0.1.0.tgz#9b0416e79d018ac8d502cc31659948f044b7ce42"
+  integrity sha512-T+k6qtHOo5U10lmJFkoYShajjBMIxBpiJqS+Cx5wypIw2VvPLE3yna4/szKOfxtDr18BR6i1RQOxkLi1V27Htg==
   dependencies:
     "@types/jwt-decode" "^2.2.1"
     axios "^0.21.1"
@@ -1297,12 +1297,12 @@
   dependencies:
     axios "^0.21.1"
 
-"@nhost/nhost-js@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@nhost/nhost-js/-/nhost-js-0.1.4.tgz#c2649026bae58d516460c1811993ff234f35bdad"
-  integrity sha512-lZj93yKshmxMzjV81UrbjEvtB1Py8CLFqVhAus0otKc0JMRdwf3X25fLFZS8w6e1hEPh/f0MhItZpxWr0Czd8g==
+"@nhost/nhost-js@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@nhost/nhost-js/-/nhost-js-0.2.1.tgz#ddd0dd0f8bdf5e50e3b890ddede94fb8be1c170d"
+  integrity sha512-wdSc+nLFmfO11kUL+ClxFWu/hBYlZIlHUrNRUrRg1o8fdyGEkTTEOPNZxc47EclMeUcp/moubUGnJkWCG3UUrA==
   dependencies:
-    "@nhost/hasura-auth-js" "^0.0.13"
+    "@nhost/hasura-auth-js" "^0.1.0"
     "@nhost/hasura-storage-js" "^0.0.5"
     axios "^0.23.0"
     jwt-decode "^3.1.2"
@@ -3133,10 +3133,10 @@ expo-updates-interface@~0.4.0:
   resolved "https://registry.yarnpkg.com/expo-updates-interface/-/expo-updates-interface-0.4.0.tgz#20961f2cb4bd068a74c29434affa08791dbaa240"
   integrity sha512-EUJaLnDAePikGEQT8w6gjCY3m/dlGgjZKVn5XBaxZMkHzOy3PDQo6QOcK/bcMdkA3CyNrvo6NCe+/7RHrgmK4A==
 
-expo-updates@~0.10.8:
-  version "0.10.8"
-  resolved "https://registry.yarnpkg.com/expo-updates/-/expo-updates-0.10.8.tgz#7cbcde6c01ea6422614afc18a7844dbc3d5a75b9"
-  integrity sha512-uZ7zHcqDXyrbCNcMc3zPuKNZMK3YEtwrxC5fEjyph9LY/1bbhHZ40KqYfsGL5szn6qWO19SB7wrtkBVc7SmRLA==
+expo-updates@~0.10.10:
+  version "0.10.11"
+  resolved "https://registry.yarnpkg.com/expo-updates/-/expo-updates-0.10.11.tgz#8871913375d97abef3aee70e3516d151aa0088d1"
+  integrity sha512-PQzmMa1uely9gXJKOtOTH0LijdYJUf4tn+P4rWNn4BSD6YLgPAsxxP71KM3QhVk18gFa1L5KDhZWqS3su7iMsg==
   dependencies:
     "@expo/config" "^5.0.9"
     "@expo/config-plugins" "^4.0.2"

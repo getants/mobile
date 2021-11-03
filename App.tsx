@@ -24,7 +24,8 @@ import {
 } from '@/utils/constants';
 import { apolloClient } from '@/utils/apollo';
 import { globalState, initialState as initialJotaiState } from '@/utils/states';
-// import { nhost } from '@/utils/nhost'; // TODO: Wait for the fix in @nhost/hasura-auth-js
+import { nhost } from '@/utils/nhost'; // TODO: Wait for the fix in @nhost/hasura-auth-js
+console.log('### nhost: ', nhost);
 
 // There are warnings that we can't have resource to fix, ignore now
 LogBox.ignoreLogs(['Warning:', 'Constants.deviceYearClass']);

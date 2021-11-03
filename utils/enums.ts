@@ -33,6 +33,8 @@ export enum ProfileStackEnum {
   Profile = 'Profile',
   CameraRoll = 'CameraRoll',
 }
+// TODO: Bring this to shared-common package
+// Entity value should match with the Postgres table name
 export enum Entity {
   Address = 'Addresses',
   Company = 'Companies',

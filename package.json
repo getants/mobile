@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.16",
-    "@nhost/nhost-js": "^0.1.4",
+    "@nhost/nhost-js": "^0.2.1",
     "@nhost/react-apollo": "^2.0.5",
     "@nhost/react-auth": "^2.0.3",
     "@react-native-async-storage/async-storage": "~1.15.0",
@@ -36,7 +36,7 @@
     "expo-linking": "~2.4.2",
     "expo-secure-store": "~11.0.3",
     "expo-status-bar": "~1.1.0",
-    "expo-updates": "~0.10.8",
+    "expo-updates": "~0.10.10",
     "expo-web-browser": "~10.0.3",
     "graphql": "^15.7.2",
     "jotai": "^1.4.2",
