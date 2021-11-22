@@ -1,18 +1,23 @@
 import { Platform } from 'react-native';
 
 export const APP_NAME = 'GetAnts';
-export const authEndpoint = __DEV__ ? 'http://localhost:1337' : 'https://auth.getants.com';
+export const authEndpoint = __DEV__
+  ? 'http://localhost:1337'
+  : 'https://auth.getants.com';
 export const endpoint = 'https://something.com'; // TODO: Make the upload to S3
-export const facebookProfileUrl = 'https://graph.facebook.com/me?fields=email,name,picture';
-export const SENTRY_DSN = 'https://b1aebc40dd134a2985d322a95cf0fed6@o333769.ingest.sentry.io/5568983';
-export const defaultImage = 'https://template-api.s3-ap-southeast-1.amazonaws.com/image/default.png';
+export const facebookProfileUrl =
+  'https://graph.facebook.com/me?fields=email,name,picture';
+export const SENTRY_DSN =
+  'https://b1aebc40dd134a2985d322a95cf0fed6@o333769.ingest.sentry.io/5568983';
+export const defaultImage =
+  'https://template-api.s3-ap-southeast-1.amazonaws.com/image/default.png';
 
 export const ENV_VARS: Record<string, any> = {
   dev: {
     finland: {
       tenantId: '12cd2a35-541a-4020-b2b4-5fd3c5f19a93',
       apiUrl: 'http://localhost:8080',
-      baseUrl: 'http://localhost:9001',
+      baseUrl: 'http://localhost:1337',
       wsUrl: 'wss://localhost:8080',
       chatUrl: 'http://localhost:8080',
     },
@@ -57,15 +62,10 @@ export const ENV_VARS: Record<string, any> = {
     },
   },
 };
-export const BOT_KEYWORDS = [
-  'bot',
-  'hello bot',
-  'chatbot',
-  'robot',
-];
+export const BOT_KEYWORDS = ['bot', 'hello bot', 'chatbot', 'robot'];
 export const SafeBounceHeight = Platform.select({
   ios: 150,
-  android: 100
+  android: 100,
 });
 
 export const FB_APP_ID = '358217902274990';
@@ -78,16 +78,16 @@ export const JOB_IMAGE_FRAME_RATIO = 8 / 3;
 export const MESSAGE_QUERY_LIMIT = 20;
 export const customTheme = {
   colors: {
-    primary:      '#D97B1E',
-    secondary:    '#1e7bd9',
-    white:        '#FFFFFF',
-    black:        '#111111',
-    grayOutline:  '#CCCCCC',
-    placeholder:  '#ECECEC',
-    text:         '#333333',
-    success:      '#88C425',
-    warning:      '#FF3D71',
-    error:        '#FF3D71',
+    primary: '#D97B1E',
+    secondary: '#1e7bd9',
+    white: '#FFFFFF',
+    black: '#111111',
+    grayOutline: '#CCCCCC',
+    placeholder: '#ECECEC',
+    text: '#333333',
+    success: '#88C425',
+    warning: '#FF3D71',
+    error: '#FF3D71',
     // facebook:  '#4267B2',
     // grey0;
     // grey1;

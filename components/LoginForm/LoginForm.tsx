@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Button, Input, Text as Title } from "react-native-elements";
-import { style as s } from "@/utils/tokens";
-import { useAuth } from "@/utils/states";
-import { Flex } from "../Flex";
+import React, { useState } from 'react';
+import { Button, Input, Text as Title } from 'react-native-elements';
+import { style as s } from '../../utils/tokens';
+import { useAuth } from '../../utils/states';
+import { Flex } from '../Flex';
 
 export type LoginFormInput = {
   email: string;
@@ -18,8 +18,8 @@ export type LoginFormProps = {
 const LoginForm = (props: LoginFormProps) => {
   const { onChange, onSubmit, onSwitchView } = props;
   const [input, setInput] = useState<LoginFormInput>({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const { setMe } = useAuth();
@@ -29,54 +29,54 @@ const LoginForm = (props: LoginFormProps) => {
       ...input,
       [key]: value,
     };
-    if (typeof onChange === "function") {
+    if (typeof onChange === 'function') {
       onChange(newInputValue);
     }
     setInput(newInputValue);
   };
 
   const handleSubmit = () => {
-    if (typeof onSubmit === "function") {
+    if (typeof onSubmit === 'function') {
       onSubmit(input);
     }
     setMe({ email: input.email });
   };
 
   const handleSwitchView = () => {
-    if (typeof onSwitchView === "function") {
+    if (typeof onSwitchView === 'function') {
       onSwitchView();
     }
   };
 
   return (
     <Flex>
-      <Title style={{ textAlign: "center" }}>Login</Title>
+      <Title style={{ textAlign: 'center' }}>Login</Title>
 
       <Input
         autoFocus
         placeholder="Email"
-        value={input.email}
-        onChangeText={(value) => changeInput("email", value)}
+        value={input.email.toLowerCase()}
+        onChangeText={(value) => changeInput('email', value.toLowerCase())}
       />
 
       <Input
         secureTextEntry
         placeholder="Password"
         value={input.password}
-        onChangeText={(value) => changeInput("password", value)}
+        onChangeText={(value) => changeInput('password', value)}
       />
 
       <Button
-        style={s("mb-5")}
+        style={s('mb-5')}
         title="Login"
-        titleStyle={s("py-10")}
+        titleStyle={s('py-10')}
         onPress={handleSubmit}
       />
 
       <Button
         type="clear"
         title="Signup"
-        titleStyle={s("py-5")}
+        titleStyle={s('py-5')}
         onPress={handleSwitchView}
       />
     </Flex>

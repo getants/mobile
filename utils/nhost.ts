@@ -1,6 +1,6 @@
 import { NhostClient } from '@nhost/nhost-js';
 import * as SecureStore from 'expo-secure-store';
-import { getEnvironment } from '@/utils/tokens';
+import { getEnvironment } from './tokens';
 
 const { baseUrl } = getEnvironment();
 

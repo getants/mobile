@@ -1,9 +1,9 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Login, Signup } from '@/screens';
-import { AuthStackEnum } from '@/utils/enums';
-import { makeNavigationOptions } from '@/utils/navigations';
-import type { AuthStackParams } from '@/utils/types';
+import { LoginScreen, SignupScreen } from '../screens';
+import { AuthStackEnum } from '../utils/enums';
+import { makeNavigationOptions } from '../utils/navigations';
+import type { AuthStackParams } from '../utils/types';
 
 const { Navigator, Screen } = createStackNavigator<AuthStackParams>();
 
@@ -13,12 +13,12 @@ const AuthStack = () => (
   <Navigator screenOptions={{ headerShown: false }}>
     <Screen
       name={AuthStackEnum.Login}
-      component={Login}
+      component={LoginScreen}
       options={customOptions}
     />
     <Screen
       name={AuthStackEnum.Signup}
-      component={Signup}
+      component={SignupScreen}
       options={customOptions}
     />
   </Navigator>

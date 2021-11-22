@@ -4,7 +4,7 @@ import {
   Input as TextInput,
   Text as Title,
 } from 'react-native-elements';
-import { style as s } from '@/utils/tokens';
+import { style as s } from '../../utils/tokens';
 import { Flex } from '../Flex';
 
 export type SignupFormInput = {
@@ -54,9 +54,7 @@ const SignupForm = (props: SignupFormProps) => {
 
   return (
     <Flex>
-      <Title style={{ textAlign: 'center' }}>
-        Signup
-      </Title>
+      <Title style={{ textAlign: 'center' }}>Signup</Title>
 
       <TextInput
         autoFocus
@@ -67,8 +65,8 @@ const SignupForm = (props: SignupFormProps) => {
 
       <TextInput
         placeholder="Email"
-        value={input.email}
-        onChangeText={(value) => changeInput('email', value)}
+        value={input.email.toLowerCase()}
+        onChangeText={(value) => changeInput('email', value.toLowerCase())}
       />
 
       <TextInput

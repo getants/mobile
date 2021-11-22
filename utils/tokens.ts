@@ -95,7 +95,10 @@ export const style = (input: string) => {
   const tokensMap = tokens.reduce<Record<string, any>>((acc, token) => {
     const [property, value] = token.split('-');
     const parsedValue = parseInt(value, 10);
-    acc[token] = makeProperty(property, Number.isNaN(parsedValue) ? value : parsedValue);
+    acc[token] = makeProperty(
+      property,
+      Number.isNaN(parsedValue) ? value : parsedValue
+    );
     return acc;
   }, {});
 
@@ -107,7 +110,8 @@ export const style = (input: string) => {
 export const getStatusBarHeight = () => {
   if (Platform.OS === 'ios') {
     return isIphoneX() ? 44 : 20;
-  } if (Platform.OS === 'android') {
+  }
+  if (Platform.OS === 'android') {
     return StatusBar.currentHeight;
   }
   return 0;
@@ -128,4 +132,3 @@ export const space = (multiplier: number): Spacing => {
   }
   throw new Error('Multiplier needs to be a positive integer');
 };
-
