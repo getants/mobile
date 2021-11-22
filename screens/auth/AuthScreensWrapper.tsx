@@ -19,11 +19,10 @@ export type Props = {
   children: React.ReactNode;
 };
 
-const LoginScreen = (props: Props) => {
+export const AuthScreensWrapper: React.FC<Props> = (props) => {
   const { children } = props;
-
   /* eslint-disable-next-line global-require */
-  const [assets, error] = useAssets([require('../../assets/logo-curve.png')]);
+  const [assets, error] = useAssets([require('@/assets/logo-curve.png')]);
 
   if (!assets || error) {
     return <SmallHeader>Please wait...</SmallHeader>;
@@ -51,5 +50,3 @@ const LoginScreen = (props: Props) => {
     </KeyboardAvoidingView>
   );
 };
-
-export default LoginScreen;

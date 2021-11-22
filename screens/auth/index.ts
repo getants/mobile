@@ -1,2 +1,2 @@
-export { default as Login } from './Login';
-export { default as Signup } from './Signup';
+export { LoginScreen } from './LoginScreen';
+export { SignupScreen } from './SignupScreen';

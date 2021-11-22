@@ -1,15 +1,15 @@
 import React from 'react';
 import * as ErrorRecovery from 'expo-error-recovery';
-import { LoginForm } from '@/components';
-import { AuthStackEnum } from '@/utils/enums';
-import type { LoginScreenNavigationProp } from '@/utils/types';
-import Wrapper from './Wrapper';
+import { LoginForm } from '../../components';
+import { AuthStackEnum } from '../../utils/enums';
+import type { LoginScreenNavigationProp } from '../../utils/types';
+import { AuthScreensWrapper } from './AuthScreensWrapper';
 
 export type Props = {
   navigation: LoginScreenNavigationProp;
 };
 
-const LoginScreen = (props: Props) => {
+export const LoginScreen = (props: Props) => {
   const { navigation } = props;
 
   const handleLogin = async () => {
@@ -28,13 +28,8 @@ const LoginScreen = (props: Props) => {
   };
 
   return (
-    <Wrapper>
-      <LoginForm
-        onSubmit={handleLogin}
-        onSwitchView={goToSignup}
-      />
-    </Wrapper>
+    <AuthScreensWrapper>
+      <LoginForm onSubmit={handleLogin} onSwitchView={goToSignup} />
+    </AuthScreensWrapper>
   );
 };
-
-export default LoginScreen;
