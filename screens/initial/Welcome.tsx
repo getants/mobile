@@ -1,31 +1,20 @@
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components/native';
-import {
-  LinearProgress,
-  Text,
-  Flex,
-} from '@/components';
-import {
-  INSERT_RESUME,
-  RESUME_AGGREGATE,
-} from '@/graphqls';
+import { LinearProgress, Text, Flex } from '../../components';
+import { INSERT_RESUME, RESUME_AGGREGATE } from '../../graphqls';
 import {
   // useAuth,
   useFocusEffect,
   useQuery,
   useMutation,
   useTimeoutFn,
-} from '@/utils/hooks';
-import { style as s, space } from '@/utils/tokens';
-import { RootStackEnum, MainStackEnum } from '@/utils/enums';
+} from '../../utils/hooks';
+import { style as s, space } from '../../utils/tokens';
+// import { RootStackEnum, MainStackEnum } from '../../utils/enums';
 import type {
   ResumeAggregateData,
-  WelcomeScreenNavigationProp,
-} from '@/utils/types';
+  // WelcomeScreenNavigationProp,
+} from '../../utils/types';
 
 const StyledBackground = styled.ImageBackground`
   width: 100%;
@@ -40,17 +29,15 @@ const TinyMessage = styled(Text)`
 `;
 
 type Props = {
-  navigation: WelcomeScreenNavigationProp;
+  // navigation: WelcomeScreenNavigationProp;
 };
 
-const WelcomeScreen = (props: Props) => {
-  const { navigation } = props;
+const WelcomeScreen: React.FC<Props> = () => {
+  // const { navigation } = props;
   // const { session: { jwt, user } } = useAuth();
   const [message, setMessage] = useState<string>('Setup, please wait...');
 
-  const {
-    data: aggregateResume,
-  } = useQuery<ResumeAggregateData>(
+  const { data: aggregateResume } = useQuery<ResumeAggregateData>(
     RESUME_AGGREGATE,
     {
       variables: {
@@ -63,7 +50,7 @@ const WelcomeScreen = (props: Props) => {
       },
       fetchPolicy: 'cache-and-network',
       notifyOnNetworkStatusChange: true,
-    },
+    }
   );
 
   const [createResume] = useMutation(INSERT_RESUME);
@@ -84,11 +71,11 @@ const WelcomeScreen = (props: Props) => {
         },
       });
       setMessage('Redirect...');
-      navigation.navigate(RootStackEnum.MainStack, {
-        screen: MainStackEnum.ProfileStack,
-      });
+      // navigation.navigate(RootStackEnum.MainStack, {
+      //   screen: MainStackEnum.ProfileStack,
+      // });
     } else {
-      navigation.navigate(RootStackEnum.MainStack);
+      // navigation.navigate(RootStackEnum.MainStack);
     }
   }, 1000);
 
@@ -96,7 +83,7 @@ const WelcomeScreen = (props: Props) => {
     useCallback(() => {
       resetTimer();
       return () => cancelTimer();
-    }, [resetTimer, cancelTimer]),
+    }, [resetTimer, cancelTimer])
   );
 
   // useEffect(() => {
@@ -106,12 +93,10 @@ const WelcomeScreen = (props: Props) => {
   // }, [jwt, user, navigation]);
 
   return (
-    <StyledBackground source={require('assets/splash.png') /* eslint-disable-line */}>
-      <Flex
-        direction="column"
-        justify="space-between"
-        height="100%"
-      >
+    <StyledBackground
+      source={require('assets/splash.png') /* eslint-disable-line */}
+    >
+      <Flex direction="column" justify="space-between" height="100%">
         <Flex padding={10} />
 
         <Flex paddingBottom={180}>

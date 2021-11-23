@@ -9,15 +9,15 @@ const { Navigator, Screen } = createStackNavigator<AuthStackParams>();
 
 const customOptions = makeNavigationOptions({ effectStyle: 'fade' });
 
-const AuthStack = () => (
+export const AuthStack = () => (
   <Navigator screenOptions={{ headerShown: false }}>
     <Screen
-      name={AuthStackEnum.Login}
+      name={AuthStackEnum.LoginScreen}
       component={LoginScreen}
       options={customOptions}
     />
     <Screen
-      name={AuthStackEnum.Signup}
+      name={AuthStackEnum.SignupScreen}
       component={SignupScreen}
       options={customOptions}
     />

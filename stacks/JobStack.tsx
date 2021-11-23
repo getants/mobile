@@ -5,24 +5,32 @@ import {
   SingleJob as SingleJobView,
   JobList as JobListView,
 } from '../screens/jobs';
-import defaultOptions from './helpers/navigations';
-import { renderHeaderLeft } from './helpers/customComponents';
-import type { JobStackParams } from './Types';
+import { makeNavigationOptions, renderHeaderLeft } from '../utils/navigations';
+import { JobStackEnum } from '../utils/enums';
+import type { JobStackParams } from '../utils/types';
 
-const screens = {
-  JobList: JobListView,
-  SingleJob: SingleJobView,
-};
+const defaultOptions = makeNavigationOptions({});
+
+const screens = [
+  {
+    name: JobStackEnum.JobList,
+    component: JobListView,
+  },
+  {
+    name: JobStackEnum.SingleJob,
+    component: SingleJobView,
+  },
+];
 
 const { Navigator, Screen } = createStackNavigator<JobStackParams>();
 
-const JobStack = () => (
+export const JobStack = () => (
   <Navigator screenOptions={defaultOptions}>
-    {Object.keys(screens).map((k: keyof JobStackParams) => (
+    {screens.map((screen) => (
       <Screen
-        key={k}
-        name={k}
-        component={screens[k]}
+        key={screen.name}
+        name={screen.name}
+        component={screen.component}
         options={({ route }) => ({
           headerLeft: (props) => renderHeaderLeft(route, props),
         })}
@@ -30,5 +38,3 @@ const JobStack = () => (
     ))}
   </Navigator>
 );
-
-export default JobStack;

@@ -1,19 +1,14 @@
 import React, { ReactNode } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
-import { Icon } from '@/components';
+import { Icon } from '../components';
 // import { i18n } from '@hooks/useTranslate';
 // import { MainStackStyles } from '@styles/global';
 // import Colors from '@styles/colors';
 
-import {
-  // JobStack,
-  // InboxStack,
-  // CalendarStack,
-  // ProfileStack,
-} from '@/stacks';
-import { MainStackEnum } from '@/utils/enums';
-import type { MainStackParams } from '@/utils/types';
+import { JobStack } from './JobStack';
+import { MainStackEnum } from '../utils/enums';
+import type { MainStackParams } from '../utils/types';
 
 const tabBarOptions = {
   // tabBarActiveTintColor: Colors.primary,
@@ -40,32 +35,33 @@ type ScreenItemType = {
   component: ReactNode;
 };
 
-const screens = {
-  JobStack: {
-    icon: 'briefcase-outline',
-    focusedIcon: 'briefcase-search',
+const screens = [
+  {
+    name: MainStackEnum.JobStack,
+    icon: 'work-outline',
+    focusedIcon: 'work',
     labelId: 'jobs',
-    // component: JobStack,
+    component: JobStack,
   },
-  InboxStack: {
-    icon: 'inbox-outline',
-    focusedIcon: 'inbox',
-    labelId: 'inbox',
-    // component: InboxStack,
-  },
-  CalendarStack: {
-    icon: 'calendar-check-outline',
-    focusedIcon: 'calendar',
-    labelId: 'calendar',
-    // component: CalendarStack,
-  },
-  ProfileStack: {
-    icon: 'account-circle-outline',
-    focusedIcon: 'account-circle',
-    labelId: 'account',
-    // component: ProfileStack,
-  },
-};
+  // InboxStack: {
+  //   icon: 'inbox-outline',
+  //   focusedIcon: 'inbox',
+  //   labelId: 'inbox',
+  //   // component: InboxStack,
+  // },
+  // CalendarStack: {
+  //   icon: 'calendar-check-outline',
+  //   focusedIcon: 'calendar',
+  //   labelId: 'calendar',
+  //   // component: CalendarStack,
+  // },
+  // ProfileStack: {
+  //   icon: 'account-circle-outline',
+  //   focusedIcon: 'account-circle',
+  //   labelId: 'account',
+  //   // component: ProfileStack,
+  // },
+];
 
 const makeIcon = (focused: boolean, screen: ScreenItemType) => {
   const { icon, focusedIcon } = screen;
@@ -77,10 +73,11 @@ const makeIcon = (focused: boolean, screen: ScreenItemType) => {
 
   return (
     <Icon
+      type="material"
       name={focused ? focusedIcon : icon}
       // color={focused ? Colors.primary : Colors.grey10}
-      style={resetStyle}
-      size={25}
+      // style={resetStyle}
+      // size={25}
     />
   );
 };
@@ -90,12 +87,11 @@ const baseOptions = {
   // headerTintColor: Colors.white,
 };
 
-const { Navigator, Screen } = createBottomTabNavigator<
-  MainStackParams
->();
+const { Navigator, Screen } = createBottomTabNavigator<MainStackParams>();
 
 const shouldShowTabBar = (route: any) => {
   const routeName = getFocusedRouteNameFromRoute(route) ?? '';
+
   switch (routeName) {
   case 'SingleJob':
   case 'SingleConversation':
@@ -105,26 +101,24 @@ const shouldShowTabBar = (route: any) => {
   }
 };
 
-const MainStack = () => (
-  <Navigator
-    initialRouteName={MainStackEnum.JobStack}
-    backBehavior="history"
-  >
-    {/* {Object.keys(screens).map((k: keyof MainStackParams) => ( */}
-    {/*   <Screen */}
-    {/*     key={k} */}
-    {/*     name={k} */}
-    {/*     component={screens[k].component} */}
-    {/*     options={({ route }) => ({ */}
-    {/*       ...baseOptions, */}
-    {/*       ...tabBarOptions, */}
-    {/*       tabBarLabel: i18n.t(screens[k].labelId), */}
-    {/*       tabBarIcon: ({ focused }: IconProps) => makeIcon(focused, screens[k]), */}
-    {/*       tabBarVisible: shouldShowTabBar(route), */}
-    {/*       headerShown: false, */}
-    {/*     })} */}
-    {/*   /> */}
-    {/* ))} */}
+export const MainStack = () => (
+  <Navigator initialRouteName={MainStackEnum.JobStack} backBehavior="history">
+    {screens.map((screen) => (
+      <Screen
+        key={screen.name}
+        name={screen.name}
+        component={screen.component}
+        options={({ route }) => ({
+          ...baseOptions,
+          ...tabBarOptions,
+          tabBarLabel: screen.labelId,
+          tabBarIcon: ({ focused }: IconProps) => makeIcon(focused, screen),
+          tabBarVisible: shouldShowTabBar(route),
+          headerShown: false,
+        })}
+      />
+    ))}
   </Navigator>
 );
+
 export default MainStack;

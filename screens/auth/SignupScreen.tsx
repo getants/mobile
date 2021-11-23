@@ -1,9 +1,12 @@
 import React from 'react';
 import * as ErrorRecovery from 'expo-error-recovery';
-import { SignupForm, SignupFormInput } from '../../components';
+import { nhost } from '../../utils/nhost';
+import { SignupForm } from '../../components';
 import { AuthStackEnum } from '../../utils/enums';
 import type { LoginScreenNavigationProp } from '../../utils/types';
 import { AuthScreensWrapper } from './AuthScreensWrapper';
+
+type SubmitCallback = React.ComponentProps<typeof SignupForm>['onSubmit'];
 
 export type Props = {
   navigation: LoginScreenNavigationProp;
@@ -12,17 +15,19 @@ export type Props = {
 export const SignupScreen = (props: Props) => {
   const { navigation } = props;
 
-  const handleSignup = async (data: SignupFormInput) => {
+  const handleSignup: SubmitCallback = async (input) => {
     try {
-      // const test = await auth.login({ email, password });
+      await nhost.auth.signUp(input);
       // props?.navigation?.navigate('AppScreen')
     } catch (e) {
-      ErrorRecovery.setRecoveryProps({ currentScreen: AuthStackEnum.Signup });
+      ErrorRecovery.setRecoveryProps({
+        currentScreen: AuthStackEnum.SignupScreen,
+      });
     }
   };
 
   const goToLogin = () => {
-    navigation.navigate(AuthStackEnum.Login);
+    navigation.navigate(AuthStackEnum.LoginScreen);
   };
 
   return (

@@ -5,10 +5,7 @@ export {
   useQuery,
   useSubscription,
 } from '@apollo/client';
-export {
-  useIsFocused,
-  useFocusEffect,
-} from '@react-navigation/native';
+export { useIsFocused, useFocusEffect } from '@react-navigation/native';
 
 export { useWindowDimensions } from 'react-native';
 export { useNavigation } from '@react-navigation/native';
@@ -18,6 +15,6 @@ export { default as useTimeoutFn } from 'react-use/lib/useTimeoutFn';
 export { default as useAsync } from 'react-use/lib/useAsync';
 export { default as usePrevious } from 'react-use/lib/usePrevious';
 
-export { useAuth } from '../states';
 // export * from './useCollapsibleHeader';
+export { useAuth } from '../nhost';
 export * from './useComputedWidth';

@@ -21,15 +21,14 @@ import {
 } from './enums';
 
 // Only stacks have screens, not composite stack
-export type StackScreens = 
+export type StackScreens =
   | InitialStackEnum
   | AuthStackEnum
   | JobStackEnum
   | InboxStackEnum
   | CalendarStackEnum
-  | ProfileStackEnum
-;
-// NOTE: These are composite stacks, so it does not have real screens
+  | ProfileStackEnum;
+// These are composite stacks, so it does not have real screens
 export type RootStackParams = {
   [RootStackEnum.AuthStack]: NavigatorScreenParams<AuthStackParams>;
   [RootStackEnum.InitialStack]: NavigatorScreenParams<InitialStackParams>;
@@ -40,8 +39,8 @@ export type InitialStackParams = {
   [InitialStackEnum.SetupScreen]: undefined;
 };
 export type AuthStackParams = {
-  [AuthStackEnum.Login]: undefined;
-  [AuthStackEnum.Signup]: undefined;
+  [AuthStackEnum.LoginScreen]: undefined;
+  [AuthStackEnum.SignupScreen]: undefined;
 };
 export type MainStackParams = {
   [MainStackEnum.JobStack]: NavigatorScreenParams<JobStackParams>;
@@ -49,21 +48,22 @@ export type MainStackParams = {
   [MainStackEnum.CalendarStack]: NavigatorScreenParams<CalendarStackParams>;
   [MainStackEnum.ProfileStack]: NavigatorScreenParams<ProfileStackParams>;
 };
-export type JobStackParams = { // These stacks live inside the Bottom Navigation
+export type JobStackParams = {
+  // These stacks live inside the Bottom Navigation
   [JobStackEnum.JobList]: undefined;
   [JobStackEnum.SingleJob]: {
-    jobId: string,
-    jobTitle?: string,
-    companyName?: string,
+    jobId: string;
+    jobTitle?: string;
+    companyName?: string;
   };
 };
 export type InboxStackParams = {
   [InboxStackEnum.Inbox]: undefined;
   [InboxStackEnum.Conversations]: undefined;
   [InboxStackEnum.SingleConversation]: {
-    conversationId: string,
-    userId: string,
-    jobId?: string | undefined,
+    conversationId: string;
+    userId: string;
+    jobId?: string | undefined;
   };
 };
 export type CalendarStackParams = {
@@ -79,7 +79,7 @@ export type WelcomeScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<RootStackParams>
 >;
 export type LoginScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<AuthStackParams, AuthStackEnum.Login>,
+  StackNavigationProp<AuthStackParams, AuthStackEnum.LoginScreen>,
   StackNavigationProp<RootStackParams>
 >;
 // Abstract for root and main stacks
@@ -225,8 +225,7 @@ export type ShortProperty = // TODO: Make use of this
   | 'px'
   | 'py'
   | 'w'
-  | 'h'
-;
+  | 'h';
 export type RichProperty = `${ShortProperty}-${number}`;
 export type StyleObject = Record<string, string | number>;
 export type EnvironmentType = {
@@ -335,16 +334,35 @@ export type FocusAtomInput<T> = {
   source: PrimitiveAtom<T>;
   key: string | (keyof T)[];
 };
-export type ReturningValue<T> = { returning: T[]; };
-export type AggregateValue<T> = { nodes: T[], aggregate: { count: number } };
+export type ReturningValue<T> = { returning: T[] };
+export type AggregateValue<T> = { nodes: T[]; aggregate: { count: number } };
 export type QueryData<T, K extends Entity> = Record<`${Lowercase<K>}`, T[]>;
-export type AggregateData<T, K extends Entity> = Record<`${Lowercase<K>}_aggregate`, AggregateValue<T>>;
-export type SingleData<T, K extends Entity> = Record<`${Lowercase<K>}_by_pk`, T>;
-export type InsertedOneData<T, K extends Entity> = Record<`insert_${Lowercase<K>}_one`, T>;
-export type InsertedData<T, K extends Entity> = Record<`insert_${Lowercase<K>}`, ReturningValue<T>>;
-export type DeletedData<T, K extends Entity> = Record<`delete_${Lowercase<K>}_by_pk`, T>;
-export type UpdatedData<T, K extends Entity> = Record<`update_${Lowercase<K>}`, ReturningValue<T>>;
-export type PaginatedData<T, K extends Entity> = AggregateData<T, K> & QueryData<T, K>;
+export type AggregateData<T, K extends Entity> = Record<
+  `${Lowercase<K>}_aggregate`,
+  AggregateValue<T>
+>;
+export type SingleData<T, K extends Entity> = Record<
+  `${Lowercase<K>}_by_pk`,
+  T
+>;
+export type InsertedOneData<T, K extends Entity> = Record<
+  `insert_${Lowercase<K>}_one`,
+  T
+>;
+export type InsertedData<T, K extends Entity> = Record<
+  `insert_${Lowercase<K>}`,
+  ReturningValue<T>
+>;
+export type DeletedData<T, K extends Entity> = Record<
+  `delete_${Lowercase<K>}_by_pk`,
+  T
+>;
+export type UpdatedData<T, K extends Entity> = Record<
+  `update_${Lowercase<K>}`,
+  ReturningValue<T>
+>;
+export type PaginatedData<T, K extends Entity> = AggregateData<T, K> &
+QueryData<T, K>;
 // Specified type for each entity below
 export type ResumeAggregateData = AggregateData<Resume, Entity.Resume>;
 export type Conversation = {
@@ -372,8 +390,14 @@ export type Message = {
 };
 
 export type MessageAggregateData = AggregateData<Message, Entity.Message>;
-export type ConversationAggregateData = AggregateData<Conversation, Entity.Conversation>;
-export type SingleConversationData = SingleData<Conversation, Entity.Conversation>;
+export type ConversationAggregateData = AggregateData<
+  Conversation,
+  Entity.Conversation
+>;
+export type SingleConversationData = SingleData<
+  Conversation,
+  Entity.Conversation
+>;
 
 export type ChatRequest = {
   conversation: Partial<Conversation>;

@@ -1,34 +1,27 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { SystemProps, FlexboxProps } from '@/utils/types';
+import type { SystemProps, FlexboxProps } from '../../utils/types';
 
-export type FlexOptions = {
-  align?: SystemProps['alignItems']
-  justify?: SystemProps['justifyContent']
-  wrap?: SystemProps['flexWrap']
-  direction?: SystemProps['flexDirection']
-  basis?: SystemProps['flexBasis']
-  grow?: SystemProps['flexGrow']
-  shrink?: SystemProps['flexShrink']
-}
+export type FlexAliasOptions = {
+  align?: SystemProps['alignItems'];
+  justify?: SystemProps['justifyContent'];
+  wrap?: SystemProps['flexWrap'];
+  direction?: SystemProps['flexDirection'];
+  basis?: SystemProps['flexBasis'];
+  grow?: SystemProps['flexGrow'];
+  shrink?: SystemProps['flexShrink'];
+};
 
 const StyledView = styled.View<{ options: FlexboxProps }>`
   ${(p) => ({ ...p.options })}
 `;
 
-export type FlexProps = React.ComponentProps<typeof StyledView> & FlexOptions;
+export type FlexProps = React.ComponentProps<typeof StyledView> &
+  FlexAliasOptions;
 
 export const Flex = (props: FlexProps) => {
-  const {
-    direction,
-    align,
-    justify,
-    wrap,
-    basis,
-    grow,
-    shrink,
-    ...rest
-  } = props;
+  const { direction, align, justify, wrap, basis, grow, shrink, ...rest } =
+    props;
 
   const styles = {
     display: 'flex',
@@ -45,5 +38,5 @@ export const Flex = (props: FlexProps) => {
 };
 
 if (__DEV__) {
-  Flex.displayName = 'FlexBox';
+  Flex.displayName = 'Flex';
 }

@@ -8,8 +8,8 @@ export enum InitialStackEnum {
   SetupScreen = 'SetupScreen',
 }
 export enum AuthStackEnum {
-  Login = 'Login',
-  Signup = 'Signup',
+  LoginScreen = 'LoginScreen',
+  SignupScreen = 'SignupScreen',
 }
 export enum MainStackEnum {
   JobStack = 'JobStack',

@@ -1,10 +1,7 @@
 import React from 'react';
 import deepmerge from 'deepmerge';
 import { HeaderBackButton } from '@react-navigation/elements';
-import { StackNavigationOptions } from '@react-navigation/stack';
-
-// import globalStyles from '@styles/global';
-// import Colors from '@styles/colors';
+import type { StackNavigationOptions } from '@react-navigation/stack';
 
 const defaultOptions: StackNavigationOptions = {
   // headerStyle: globalStyles.defaultHeaderStyle,
@@ -43,6 +40,7 @@ export const renderHeaderLeft = <T extends { name: string }>(
   props: React.ComponentProps<typeof HeaderBackButton>,
 ) => {
   const routeName = route?.name ?? '';
+
   switch (routeName) {
   case 'JobList':
   case 'Inbox':

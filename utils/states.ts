@@ -14,17 +14,11 @@ export const initialState: AppState = {
 
 export const globalState = atom<AppState | null>(initialState);
 
-export const useAuth = () => {
+export const useScreen = () => {
   const [currentScreen, setCurrentScreen] = useAtom(currentScreenAtom);
-  const [isLoggedIn, setLoggedIn] = useAtom(isLoggedInAtom);
-  const [me, setMe] = useAtom(meAtom);
-  
-  useEffect(() => {
-    setLoggedIn(!!me);
-  }, [me]);
 
   return useMemo(
-    () =>({ currentScreen, setCurrentScreen, isLoggedIn, me, setMe }),
-    [currentScreen, setCurrentScreen, isLoggedIn, me, setMe],
+    () => ({ currentScreen, setCurrentScreen }),
+    [currentScreen, setCurrentScreen]
   );
 };
