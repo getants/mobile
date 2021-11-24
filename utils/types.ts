@@ -230,12 +230,11 @@ export type RichProperty = `${ShortProperty}-${number}`;
 export type StyleObject = Record<string, string | number>;
 export type EnvironmentType = {
   tenantId: string;
-  env: string;
   apiUrl: string;
   baseUrl: string;
   wsUrl: string;
-  syncUrl: string;
   chatUrl: string;
+  // syncUrl: string;
 };
 export type EnvType = 'dev' | 'stage' | 'prod';
 export interface LayoutProps {
@@ -398,6 +397,13 @@ export type SingleConversationData = SingleData<
   Conversation,
   Entity.Conversation
 >;
+export type SingleJobData = SingleData<Job, Entity.Job>;
+export type JobAggregateData = AggregateData<Job, Entity.Job>;
+export type JobsNearbyAggregateData = {
+  jobs_nearby_aggregate: {
+    nodes: Job[];
+  };
+};
 
 export type ChatRequest = {
   conversation: Partial<Conversation>;

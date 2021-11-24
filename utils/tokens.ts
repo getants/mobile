@@ -2,7 +2,7 @@ import Constants from 'expo-constants';
 import { Platform, StatusBar, StyleSheet } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { ENV_VARS, SPACE_MULTIPLIER } from './constants';
-import { EnvironmentType, Spacing } from './types';
+import type { EnvironmentType, Spacing } from './types';
 
 export const propertyMap: Record<string, string> = {
   mt: 'marginTop',
@@ -19,68 +19,68 @@ export const propertyMap: Record<string, string> = {
 
 export const makeProperty = (key: string, value: number | string) => {
   switch (key) {
-    case 'mt':
-      return {
-        marginTop: value,
-      };
-    case 'mr':
-      return {
-        marginRight: value,
-      };
-    case 'mb':
-      return {
-        marginBottom: value,
-      };
-    case 'ml':
-      return {
-        marginLeft: value,
-      };
-    case 'mx':
-      return {
-        marginLeft: value,
-        marginRight: value,
-      };
-    case 'my':
-      return {
-        marginTop: value,
-        marginBottom: value,
-      };
-    case 'pt':
-      return {
-        paddingTop: value,
-      };
-    case 'pr':
-      return {
-        paddingRight: value,
-      };
-    case 'pb':
-      return {
-        paddingBottom: value,
-      };
-    case 'pl':
-      return {
-        paddingLeft: value,
-      };
-    case 'px':
-      return {
-        paddingLeft: value,
-        paddingRight: value,
-      };
-    case 'py':
-      return {
-        paddingTop: value,
-        paddingBottom: value,
-      };
-    case 'w':
-      return {
-        width: value,
-      };
-    case 'h':
-      return {
-        height: value,
-      };
-    default:
-      throw new Error('Wrong property name for style tokens');
+  case 'mt':
+    return {
+      marginTop: value,
+    };
+  case 'mr':
+    return {
+      marginRight: value,
+    };
+  case 'mb':
+    return {
+      marginBottom: value,
+    };
+  case 'ml':
+    return {
+      marginLeft: value,
+    };
+  case 'mx':
+    return {
+      marginLeft: value,
+      marginRight: value,
+    };
+  case 'my':
+    return {
+      marginTop: value,
+      marginBottom: value,
+    };
+  case 'pt':
+    return {
+      paddingTop: value,
+    };
+  case 'pr':
+    return {
+      paddingRight: value,
+    };
+  case 'pb':
+    return {
+      paddingBottom: value,
+    };
+  case 'pl':
+    return {
+      paddingLeft: value,
+    };
+  case 'px':
+    return {
+      paddingLeft: value,
+      paddingRight: value,
+    };
+  case 'py':
+    return {
+      paddingTop: value,
+      paddingBottom: value,
+    };
+  case 'w':
+    return {
+      width: value,
+    };
+  case 'h':
+    return {
+      height: value,
+    };
+  default:
+    throw new Error('Wrong property name for style tokens');
   }
 };
 
@@ -97,7 +97,7 @@ export const style = (input: string) => {
     const parsedValue = parseInt(value, 10);
     acc[token] = makeProperty(
       property,
-      Number.isNaN(parsedValue) ? value : parsedValue
+      Number.isNaN(parsedValue) ? value : parsedValue,
     );
     return acc;
   }, {});
@@ -112,7 +112,7 @@ export const getStatusBarHeight = () => {
     return isIphoneX() ? 44 : 20;
   }
   if (Platform.OS === 'android') {
-    return StatusBar.currentHeight;
+    return StatusBar.currentHeight ?? 0;
   }
   return 0;
 };

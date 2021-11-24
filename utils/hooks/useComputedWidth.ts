@@ -1,6 +1,6 @@
 import { useWindowDimensions } from 'react-native';
 
-const useComputedWidth = (width: number | string): number => {
+export const useComputedWidth = (width: number | string): number => {
   const { width: deviceWidth } = useWindowDimensions();
 
   if (typeof width === 'string' && width.endsWith('%')) {
@@ -12,6 +12,3 @@ const useComputedWidth = (width: number | string): number => {
   }
   return 0;
 };
-
-export { useComputedWidth };
-export default useComputedWidth;

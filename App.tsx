@@ -16,7 +16,7 @@ import type { NavigationState } from '@react-navigation/native';
 
 import { RootStack } from './stacks';
 import { Flex, Text } from './components';
-import { NAVIGATION_STATE, SENTRY_DSN, customTheme } from './utils/constants';
+import { NAVIGATION_STATE, SENTRY_DSN, OUR_THEME } from './utils/constants';
 import { globalState, initialState as initialJotaiState } from './utils/states';
 import { nhost } from './utils/nhost';
 
@@ -91,7 +91,7 @@ const App = () => {
             initialState={initialState}
             onStateChange={handleOnStateChange}
           >
-            <ThemeProvider theme={customTheme} useDark={colorScheme === 'dark'}>
+            <ThemeProvider theme={OUR_THEME} useDark={colorScheme === 'dark'}>
               <RootStack />
             </ThemeProvider>
           </NavigationContainer>

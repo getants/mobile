@@ -13,8 +13,8 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 // import Colors from '@styles/colors';
-import { SafeBounceHeight, HEADER_HEIGHT } from '@/utils/constants';
-import { getStatusBarHeight } from '@/utils/tokens';
+import { SAFE_BOUNCE_HEIGHT, HEADER_HEIGHT, OUR_THEME } from '../constants';
+import { getStatusBarHeight } from '../tokens';
 import { createHeaderBackground } from './createHeaderBackground';
 
 export type Collapsible = {
@@ -61,7 +61,7 @@ export const useCollapsibleHeader = (
 
   const [headerStyle, setHeaderStyle] = useState(userHeaderStyle);
 
-  const backgroundColor = headerStyle?.backgroundColor ?? Colors.primary;
+  const backgroundColor = headerStyle?.backgroundColor ?? OUR_THEME.colors.primary;
 
   useEffect(() => {
     if (!isEqual(headerStyle, userHeaderStyle)) {
@@ -86,15 +86,16 @@ export const useCollapsibleHeader = (
   );
 
   const headerHeight = (headerStyle.height ?? HEADER_HEIGHT) - Constants.statusBarHeight;
+  const safeBounceHeightWithHeader = SAFE_BOUNCE_HEIGHT + headerHeight;
 
   const animatedDiffClampY = Animated.diffClamp(
     positionY,
     0,
-    SafeBounceHeight + headerHeight,
+    safeBounceHeightWithHeader,
   );
 
   const progress = animatedDiffClampY.interpolate({
-    inputRange: [SafeBounceHeight, SafeBounceHeight + headerHeight],
+    inputRange: [SAFE_BOUNCE_HEIGHT, safeBounceHeightWithHeader],
     outputRange: [0, 1],
     extrapolate: 'clamp',
   });

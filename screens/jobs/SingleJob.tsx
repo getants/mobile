@@ -2,41 +2,38 @@ import React, {
   useLayoutEffect,
   useMemo,
 } from 'react';
+import styled from 'styled-components/native';
 import {
-  FloatingButton,
-  SafeAreaView,
-  ScrollView,
-  Caption,
-  Card,
-  Paragraph,
-  ProgressBar,
-  Title,
-} from '@components';
+  MainStackEnum,
+  InboxStackEnum,
+} from '../../utils/enums';
+import type {
+  Job,
+  // Conversation,
+  ConversationAggregateData,
+  SingleJobScreenRouteProp,
+  SingleJobScreenNavigationProp,
+} from '../../utils/types';
+import { SINGLE_JOB } from '../../graphqls/jobs';
 import {
   useAuth,
   useLazyQuery,
   useQuery,
   useMutation,
   useTimeoutFn,
-  useTranslate,
-} from '@hooks';
+} from '../../utils/hooks';
 import {
   CONVERSATION_AGGREGATE,
   INSERT_CONVERSATION,
-} from '@graphqls/inbox';
-import styled from 'styled-components/native';
-import { SINGLE_JOB } from '@graphqls/jobs';
-import { defaultImage } from '@lib/constants';
-import { MainStackEnum, InboxStackEnum } from '@stacks/Types';
-import type {
-  SingleJobScreenRouteProp,
-  SingleJobScreenNavigationProp,
-} from '@stacks/Types';
-import type {
-  Conversation,
-  ConversationAggregateData,
-} from '@components/Conversations';
-import type { Job } from './types';
+} from '../../graphqls/inbox';
+import {
+  FAB,
+  SafeAreaView,
+  ScrollView,
+  Card,
+  LinearProgress,
+  Text,
+} from '../../components';
 
 export const ActionSection = styled.View`
   display: flex;
@@ -50,11 +47,10 @@ export type Props = {
   navigation: SingleJobScreenNavigationProp;
 };
 
-const SingleJob = (props: Props) => {
+export const SingleJob = (props: Props) => {
   const { navigation, route } = props;
-  const { t } = useTranslate();
-  const { session } = useAuth();
-  const userId = session?.user?.id ?? '';
+  const { user } = useAuth();
+  const userId = user?.id ?? '';
 
   const { jobId, jobTitle, companyName } = route.params;
 
@@ -101,8 +97,8 @@ const SingleJob = (props: Props) => {
 
   const [, , reset] = useTimeoutFn(() => findConversation(), 100);
 
-  const conversation = useMemo<Conversation>(
-    () => aggregateData?.conversation_aggregate?.nodes[0],
+  const conversation = useMemo(
+    () => aggregateData?.conversations_aggregate?.nodes[0],
     [aggregateData],
   );
 
@@ -148,30 +144,25 @@ const SingleJob = (props: Props) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {(loading || !data) && <ProgressBar />}
+      {(loading || !data) && <LinearProgress />}
 
       <ScrollView>
         <Card>
-          <Title style={{ padding: 20 }}>{job.title || ''}</Title>
+          <Text h2 style={{ padding: 20 }}>{job.title || ''}</Text>
 
-          <Card.Cover source={{ uri: job.image || defaultImage }} />
+          <Card.Image source={{ uri: job.image }} />
+          <Text>{job.address?.unstructured_value ?? ''}</Text>
 
-          <Card.Content>
-            <Paragraph>{job.address?.unstructured_value ?? ''}</Paragraph>
-
-            <Caption>{t('description')}</Caption>
-            <Paragraph>{job.description} / Company: {job?.company?.name}</Paragraph>
-          </Card.Content>
+          <Text>Description</Text>
+          <Text>{job.description} / Company: {job?.company?.name}</Text>
         </Card>
       </ScrollView>
 
-      <FloatingButton
-        label="Apply"
+      <FAB
+        title="Apply"
         onPress={handleApply}
-        width="80%"
+        // width="80%"
       />
     </SafeAreaView>
   );
 };
-
-export default SingleJob;

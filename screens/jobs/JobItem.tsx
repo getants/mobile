@@ -1,39 +1,23 @@
 import React from 'react';
-import styled from 'styled-components/native';
+// import styled from 'styled-components/native';
 import {
   Card,
-  Paragraph,
   Button,
-  IconButton,
+  Flex,
+  Text,
   Pressable,
-} from '@components';
+} from '../../components';
 
-import type { Job } from './types';
+import type { Job } from '../../utils/types';
 
 type Props = {
-  job: Job | null;
+  job: Job;
   onPress: (job: Job) => void;
   onApply: (job: Job) => void;
   onSave: (job: Job) => void;
 };
 
-const StyledCard = styled(Card)`
-  width: 100%;
-  margin-bottom: 20px;
-  border-radius: 0;
-`;
-
-const CardActions = styled(Card.Actions)`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const Title = styled.Text`
-  font-size: 17px;
-`;
-
-const JobItem = (props: Props) => {
+export const JobItem = (props: Props) => {
   const {
     onApply,
     onSave,
@@ -41,38 +25,32 @@ const JobItem = (props: Props) => {
     onPress,
   } = props;
 
-  const jobTitle = <Title>{job.title}</Title>;
+  const jobTitle = <Text h4>{job.title}</Text>;
 
   return (
-    <StyledCard testID="JobItem-Card">
+    <Card>
       <Pressable onPress={() => onPress(job)}>
-        <Card.Cover
+        <Card.Image
           source={{ uri: job?.image ?? 'https://via.placeholder.com/90x60' }}
         />
-        <Card.Title
-          title={jobTitle}
-          subtitle={job.description}
-        />
-        <Card.Content>
-          <Paragraph>
-            {job?.address?.unstructured_value}
-          </Paragraph>
+        <Card.Title>
+          {jobTitle}
+        </Card.Title>
+        <Text>
+          {job?.address?.unstructured_value}
+        </Text>
 
-        </Card.Content>
       </Pressable>
-      <CardActions>
-        <Button onPress={() => onApply(job)}>
-          Apply
-        </Button>
-        <IconButton
-          icon="bookmark-outline"
-          testID="JobItem-Button"
-          size={20}
+      <Flex>
+        <Button
+          title="Apply now"
+          onPress={() => onApply(job)}
+        />
+        <Button
+          title="Save now"
           onPress={() => onSave(job)}
         />
-      </CardActions>
-    </StyledCard>
+      </Flex>
+    </Card>
   );
 };
-
-export default JobItem;

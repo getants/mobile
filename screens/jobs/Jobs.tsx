@@ -3,31 +3,33 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import {
-  useQuery,
-  useTimeoutFn,
-  useCollapsibleHeader,
-} from '@hooks';
 import Constants from 'expo-constants';
+import type { ListRenderItem } from 'react-native';
+import type {
+  JobListScreenRouteProp,
+  JobListScreenNavigationProp,
+  Job,
+  JobsNearbyAggregateData,
+} from '../../utils/types';
+import { JOBS_NEARBY_AGGREGATE } from '../../graphqls/jobs';
+import { JobStackEnum } from '../../utils/enums';
 import {
   Animated,
   SafeAreaView,
   Placeholder,
   Text,
   View,
-} from '@components';
-import { JOBS_NEARBY_AGGREGATE } from '@graphqls/jobs';
-import { TENANT_ID } from '@lib/constants';
-import { JobStackEnum } from '@stacks/Types';
-import type { ListRenderItem } from 'react-native';
-import type {
-  JobListScreenRouteProp,
-  JobListScreenNavigationProp,
-} from '@stacks/Types';
-import Colors from '@styles/colors';
+} from '../../components';
+import {
+  useQuery,
+  useTimeoutFn,
+  useCollapsibleHeader,
+  useTheme,
+} from '../../utils/hooks';
+import { getEnvironment } from '../../utils/tokens';
+import { JobItem } from './JobItem';
 
-import JobItem from './JobItem';
-import type { Job, JobsNearbyAggregateData } from './types';
+const { tenantId } = getEnvironment();
 
 const NumberJobsBatch = 10;
 const MaxRadiusSearch = 9000; // For dev
@@ -39,8 +41,9 @@ export type Props = {
   navigation: JobListScreenNavigationProp;
 };
 
-const JobList = (props: Props) => {
+export const JobList = (props: Props) => {
   const { navigation } = props;
+  const { theme } = useTheme();
 
   const [retry, setRetry] = useState<number>(0);
   const [distance, setDistance] = useState<number>(10);
@@ -56,7 +59,7 @@ const JobList = (props: Props) => {
     limit: NumberJobsBatch,
     offset: 0,
     where: {
-      tenant_id: { _eq: TENANT_ID.FINLAND },
+      tenant_id: { _eq: tenantId },
       location: { _is_null: false },
     },
   }), [distance]);
@@ -225,7 +228,7 @@ const JobList = (props: Props) => {
             transform: [{ translateY }],
             top: containerPaddingTop,
             position: 'absolute',
-            backgroundColor: Colors.white,
+            backgroundColor: theme.colors?.white ?? '#FFF',
             height: StickyHeaderHeight,
             width: '100%',
           }}
@@ -238,12 +241,10 @@ const JobList = (props: Props) => {
               alignItems: 'center',
             }}
           >
-            <Text style={{ fontSize: 14, color: '#333' }}>Sticky</Text>
+            <Text style={{ fontSize: 14, color: theme.colors?.grey0 }}>Sticky</Text>
           </View>
         </Animated.View>
       </>
     </SafeAreaView>
   );
 };
-
-export default JobList;

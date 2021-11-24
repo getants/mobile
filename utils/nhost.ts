@@ -16,12 +16,9 @@ export const useAuth = () => {
   const { isAuthenticated, isLoading } = useNhostAuth();
   const user = nhost.auth.getUser();
 
-  return useMemo(
-    () => ({
-      user,
-      isAuthenticated,
-      isLoading,
-    }),
-    [isAuthenticated, isLoading, user]
-  );
+  return useMemo(() => ({
+    user,
+    isAuthenticated,
+    isLoading,
+  }), [isAuthenticated, isLoading, user]);
 };
