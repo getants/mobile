@@ -23,5 +23,3 @@ export const AuthStack = () => (
     />
   </Navigator>
 );
-
-export default AuthStack;

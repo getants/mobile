@@ -2,9 +2,9 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useAuth } from '../utils/hooks';
 
-import AuthStack from './AuthStack';
-import InitialStack from './InitialStack';
-import MainStack from './MainStack';
+import { AuthStack } from './AuthStack';
+import { InitialStack } from './InitialStack';
+import { MainStack } from './MainStack';
 import { RootStackEnum } from '../utils/enums';
 import type { RootStackParams } from '../utils/types';
 

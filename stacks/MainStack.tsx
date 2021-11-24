@@ -1,10 +1,7 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
-import { Icon } from '../components';
-// import { i18n } from '@hooks/useTranslate';
-// import { MainStackStyles } from '@styles/global';
-// import Colors from '@styles/colors';
+// import { Icon } from '../components';
 
 import { JobStack } from './JobStack';
 import { MainStackEnum } from '../utils/enums';
@@ -20,20 +17,20 @@ const tabBarOptions = {
   },
 };
 
-type IconProps = {
-  focused: boolean;
-  color?: string;
-  size?: number;
-  horizontal?: boolean | undefined;
-  tintColor?: string | undefined;
-};
+// type IconProps = {
+//   focused: boolean;
+//   color?: string;
+//   size?: number;
+//   horizontal?: boolean | undefined;
+//   tintColor?: string | undefined;
+// };
 
-type ScreenItemType = {
-  icon: string;
-  focusedIcon: string;
-  labelId: string;
-  component: ReactNode;
-};
+// type ScreenItemType = {
+//   icon: string;
+//   focusedIcon: string;
+//   labelId: string;
+//   component: ReactNode;
+// };
 
 const screens = [
   {
@@ -63,24 +60,24 @@ const screens = [
   // },
 ];
 
-const makeIcon = (focused: boolean, screen: ScreenItemType) => {
-  const { icon, focusedIcon } = screen;
-  const resetStyle = {
-    marginTop: 0,
-    marginBottom: 0,
-    paddingBottom: 10,
-  };
+// const makeIcon = (focused: boolean, screen: ScreenItemType) => {
+//   const { icon, focusedIcon } = screen;
+//   const resetStyle = {
+//     marginTop: 0,
+//     marginBottom: 0,
+//     paddingBottom: 10,
+//   };
 
-  return (
-    <Icon
-      type="material"
-      name={focused ? focusedIcon : icon}
-      // color={focused ? Colors.primary : Colors.grey10}
-      // style={resetStyle}
-      // size={25}
-    />
-  );
-};
+//   return (
+//     <Icon
+//       type="material"
+//       name={focused ? focusedIcon : icon}
+//       // color={focused ? Colors.primary : Colors.grey10}
+//       // style={resetStyle}
+//       // size={25}
+//     />
+//   );
+// };
 
 const baseOptions = {
   // headerStyle: MainStackStyles.screenOptions,
@@ -112,7 +109,7 @@ export const MainStack = () => (
           ...baseOptions,
           ...tabBarOptions,
           tabBarLabel: screen.labelId,
-          tabBarIcon: ({ focused }: IconProps) => makeIcon(focused, screen),
+          // tabBarIcon: ({ focused }: IconProps) => makeIcon(focused, screen),
           tabBarVisible: shouldShowTabBar(route),
           headerShown: false,
         })}
@@ -120,5 +117,3 @@ export const MainStack = () => (
     ))}
   </Navigator>
 );
-
-export default MainStack;

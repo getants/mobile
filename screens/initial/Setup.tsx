@@ -7,10 +7,10 @@ import { ScrollView, Text, Flex } from '../../components';
 //   { label: 'Care', value: 'care', disabled: true },
 // ];
 
-const SetupScreen = () => {
-  // const [industries, setIndustries] = useState([]);
+const SetupScreen = () =>
+// const [industries, setIndustries] = useState([]);
 
-  return (
+  (
     <ScrollView keyboardShouldPersistTaps="always">
       <Flex>
         <Text>Picker</Text>
@@ -35,6 +35,4 @@ const SetupScreen = () => {
       </Flex>
     </ScrollView>
   );
-};
-
 export default SetupScreen;

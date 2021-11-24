@@ -18,7 +18,7 @@ export const LoginScreen = (props: Props) => {
   const handleLogin: SubmitCallback = async (input) => {
     try {
       await nhost.auth.signIn(input);
-      // navigation?.navigate('AppScreen');
+      navigation?.navigate('AppScreen');
     } catch (err) {
       ErrorRecovery.setRecoveryProps({
         currentScreen: AuthStackEnum.SignupScreen,

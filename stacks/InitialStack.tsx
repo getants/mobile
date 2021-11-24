@@ -10,7 +10,7 @@ const { Navigator, Screen } = createStackNavigator<InitialStackParams>();
 
 const customOptions = makeNavigationOptions({});
 
-const InitialStack = () => (
+export const InitialStack = () => (
   <Navigator screenOptions={customOptions}>
     <Screen
       name={InitialStackEnum.WelcomeScreen}
@@ -30,5 +30,3 @@ const InitialStack = () => (
     {/* /> */}
   </Navigator>
 );
-
-export default InitialStack;
