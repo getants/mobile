@@ -1,2 +1,2 @@
-export { default } from './Inbox';
-export { default as SingleConversation } from './SingleConversation';
+export { InboxScreen } from './InboxScreen';
+export { ConversationScreen } from './ConversationScreen';

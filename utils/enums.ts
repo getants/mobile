@@ -18,13 +18,12 @@ export enum MainStackEnum {
   ProfileStack = 'ProfileStack',
 }
 export enum JobStackEnum {
-  JobList = 'JobList',
-  SingleJob = 'SingleJob',
+  JobListScreen = 'JobListScreen',
+  SingleJobScreen = 'SingleJobScreen',
 }
 export enum InboxStackEnum {
-  Inbox = 'Inbox',
-  Conversations = 'Conversations',
-  SingleConversation = 'SingleConversation',
+  InboxScreen = 'InboxScreen',
+  ConversationScreen = 'ConversationScreen',
 }
 export enum CalendarStackEnum {
   Calendar = 'Calendar',

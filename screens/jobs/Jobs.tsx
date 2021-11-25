@@ -41,7 +41,7 @@ export type Props = {
   navigation: JobListScreenNavigationProp;
 };
 
-export const JobList = (props: Props) => {
+export const JobListScreen = (props: Props) => {
   const { navigation } = props;
   const { theme } = useTheme();
 

@@ -2,12 +2,12 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { LoginScreen, SignupScreen } from '../screens';
 import { AuthStackEnum } from '../utils/enums';
-import { makeNavigationOptions } from '../utils/navigations';
+import { createOptions } from '../utils/navigations';
 import type { AuthStackParams } from '../utils/types';
 
 const { Navigator, Screen } = createStackNavigator<AuthStackParams>();
 
-const customOptions = makeNavigationOptions({ effectStyle: 'fade' });
+const customOptions = createOptions({ effectStyle: 'fade' });
 
 export const AuthStack = () => (
   <Navigator screenOptions={{ headerShown: false }}>

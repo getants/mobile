@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
-import { useAuth, useQuery } from '@hooks';
-import { CONVERSATION_AGGREGATE } from '@graphqls/inbox';
-import { Conversations } from '@components';
-import { InboxStackEnum } from '@stacks/Types';
-import type { Conversation } from '@components/Conversations/types';
-import type { InboxScreenRouteProp, InboxScreenNavigationProp } from '@stacks/Types';
+import { useAuth, useQuery } from '../../utils/hooks';
+import { CONVERSATION_AGGREGATE } from '../../graphqls/inbox';
+import { Conversations } from '../../components';
+import { InboxStackEnum } from '../../utils/enums';
+import type {
+  Conversation,
+  InboxScreenRouteProp,
+  InboxScreenNavigationProp,
+} from '../../utils/types';
 
 export type Props = {
   route: InboxScreenRouteProp;
   navigation: InboxScreenNavigationProp;
 };
 
-const Inbox = (props: Props) => {
+export const InboxScreen = (props: Props) => {
   const { navigation } = props;
 
   const [offset, setOffset] = useState<number>(0);
 
-  const { session } = useAuth();
+  const { user } = useAuth();
 
   const {
     data: aggregateData,
@@ -33,7 +36,7 @@ const Inbox = (props: Props) => {
       },
       where: {
         users: {
-          user_id: { _eq: session?.user?.id ?? '' },
+          user_id: { _eq: user?.id ?? '' },
         },
       },
     },
@@ -44,9 +47,9 @@ const Inbox = (props: Props) => {
   const conversations = aggregateData?.conversation_aggregate.nodes ?? [];
 
   const onPressSingle = (conversation: Conversation) => {
-    navigation.navigate(InboxStackEnum.SingleConversation, {
+    navigation.navigate(InboxStackEnum.ConversationScreen, {
       conversationId: conversation.id,
-      userId: session?.user?.id,
+      userId: user?.id ?? '',
     });
   };
 
@@ -69,5 +72,3 @@ const Inbox = (props: Props) => {
     />
   );
 };
-
-export default Inbox;

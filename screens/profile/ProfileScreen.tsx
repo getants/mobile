@@ -1,7 +1,4 @@
-import React, {
-  useState,
-  useLayoutEffect,
-} from 'react';
+import React, { useLayoutEffect } from 'react';
 import styled from 'styled-components/native';
 import {
   Avatar,
@@ -12,15 +9,15 @@ import {
   StyleSheet,
   Text,
   View,
-} from '@components';
-import { useAuth, useNavigation } from '@hooks';
-import type { ProfileScreenNavigationProp } from '@stacks/Types';
-import { space, Colors } from '@styles/helpers';
+} from '../../components';
+import { space } from '../../utils/tokens';
+import { useAuth, useNavigation } from '../../utils/hooks';
+import type { ProfileScreenNavigationProp } from '../../utils/types';
 
 import Name from './Name';
 
 const ScrollView = styled.ScrollView`
-  background-color: ${Colors.white};
+  background-color: #FFFFFF;
 `;
 const NameSection = styled.View`
   display: flex;
@@ -48,7 +45,7 @@ export type Props = {
   navigation: ProfileScreenNavigationProp;
 };
 
-const Profile = () => {
+export const ProfileScreen = () => {
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -57,44 +54,41 @@ const Profile = () => {
     });
   }, [navigation]);
 
-  const { loading, session, logout } = useAuth();
-  const [visible, setVisible] = useState(false);
+  const { user, isLoading } = useAuth();
 
-  const imageUrl = session?.user?.picture ?? '';
-  const fullName = session?.user?.full_name ?? '';
+  const imageUrl = user?.avatarUrl ?? '';
+  const fullName = user?.displayName ?? '';
 
   return (
     <SafeAreaView style={{ flex: 1, paddingTop: 20 }}>
       <ScrollView contentContainerStyle={styles.scroll}>
         <NameSection>
           <Avatar
-            isLoading={loading}
-            name={fullName}
+            size="medium"
+            title={fullName}
             source={{ uri: imageUrl }}
           />
           <TitleWrapper>
-            <Name isLoading={loading}>{fullName}</Name>
+            <Name isLoading={isLoading}>{fullName}</Name>
           </TitleWrapper>
         </NameSection>
 
         <Divider />
 
-        <View width="100%" paddingH-20 paddingV-10>
-          <Text text65>Personal Information</Text>
+        <View paddingH-20 paddingV-10>
+          <Text h1>Personal Information</Text>
 
-          <Pressable onPress={() => setVisible(true)}>
-            <View height={32}><Text>{session?.user?.email}</Text></View>
+          <Pressable>
+            <View><Text>{user?.email}</Text></View>
           </Pressable>
         </View>
 
         <Divider />
 
-        <Button width="80%" onPress={logout}>
+        <Button>
           Logout
         </Button>
       </ScrollView>
     </SafeAreaView>
   );
 };
-
-export default Profile;

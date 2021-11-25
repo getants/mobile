@@ -1,2 +1,2 @@
-export { JobList } from './Jobs';
-export { SingleJob } from './SingleJob';
+export { JobListScreen } from './Jobs';
+export { SingleJobScreen } from './SingleJob';

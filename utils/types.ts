@@ -2,7 +2,7 @@ import * as CSS from 'csstype';
 // import type { SetStateAction, WritableAtom } from 'jotai';
 import type { PrimitiveAtom } from 'jotai';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp, StackNavigationOptions } from '@react-navigation/stack';
 import {
   CompositeNavigationProp,
   NavigatorScreenParams,
@@ -20,6 +20,12 @@ import {
   AuthStackEnum,
 } from './enums';
 
+// Re-export just in case
+export type {
+  StackNavigationProp,
+  StackNavigationOptions,
+};
+
 // Only stacks have screens, not composite stack
 export type StackScreens =
   | InitialStackEnum
@@ -32,35 +38,34 @@ export type StackScreens =
 export type RootStackParams = {
   [RootStackEnum.AuthStack]: NavigatorScreenParams<AuthStackParams>;
   [RootStackEnum.InitialStack]: NavigatorScreenParams<InitialStackParams>;
-  [RootStackEnum.MainStack]: NavigatorScreenParams<MainStackParams>;
+  [RootStackEnum.MainStack]: NavigatorScreenParams<MainStackParams> & { name: string };
 };
 export type InitialStackParams = {
-  [InitialStackEnum.WelcomeScreen]: undefined;
-  [InitialStackEnum.SetupScreen]: undefined;
+  [InitialStackEnum.WelcomeScreen]?: undefined;
+  [InitialStackEnum.SetupScreen]?: undefined;
 };
 export type AuthStackParams = {
-  [AuthStackEnum.LoginScreen]: undefined;
-  [AuthStackEnum.SignupScreen]: undefined;
+  [AuthStackEnum.LoginScreen]?: undefined;
+  [AuthStackEnum.SignupScreen]?: undefined;
 };
 export type MainStackParams = {
-  [MainStackEnum.JobStack]: NavigatorScreenParams<JobStackParams>;
-  [MainStackEnum.InboxStack]: NavigatorScreenParams<InboxStackParams>;
-  [MainStackEnum.CalendarStack]: NavigatorScreenParams<CalendarStackParams>;
-  [MainStackEnum.ProfileStack]: NavigatorScreenParams<ProfileStackParams>;
+  [MainStackEnum.JobStack]?: NavigatorScreenParams<JobStackParams>;
+  [MainStackEnum.InboxStack]?: NavigatorScreenParams<InboxStackParams>;
+  [MainStackEnum.CalendarStack]?: NavigatorScreenParams<CalendarStackParams>;
+  [MainStackEnum.ProfileStack]?: NavigatorScreenParams<ProfileStackParams>;
 };
 export type JobStackParams = {
   // These stacks live inside the Bottom Navigation
-  [JobStackEnum.JobList]: undefined;
-  [JobStackEnum.SingleJob]: {
+  [JobStackEnum.JobListScreen]: undefined;
+  [JobStackEnum.SingleJobScreen]: {
     jobId: string;
     jobTitle?: string;
     companyName?: string;
   };
 };
 export type InboxStackParams = {
-  [InboxStackEnum.Inbox]: undefined;
-  [InboxStackEnum.Conversations]: undefined;
-  [InboxStackEnum.SingleConversation]: {
+  [InboxStackEnum.InboxScreen]: undefined;
+  [InboxStackEnum.ConversationScreen]: {
     conversationId: string;
     userId: string;
     jobId?: string | undefined;
@@ -89,20 +94,20 @@ export type AbstractCompositeNavigationProps = CompositeNavigationProp<
 >;
 // Job screens props
 export type JobListScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<JobStackParams, JobStackEnum.JobList>,
+  StackNavigationProp<JobStackParams, JobStackEnum.JobListScreen>,
   AbstractCompositeNavigationProps
 >;
 export type SingleJobScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<JobStackParams, JobStackEnum.SingleJob>,
+  StackNavigationProp<JobStackParams, JobStackEnum.SingleJobScreen>,
   AbstractCompositeNavigationProps
 >;
 // Inbox and conversation props
 export type InboxScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<InboxStackParams, InboxStackEnum.Inbox>,
+  StackNavigationProp<InboxStackParams, InboxStackEnum.InboxScreen>,
   AbstractCompositeNavigationProps
 >;
 export type SingleConversationScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<InboxStackParams, InboxStackEnum.SingleConversation>,
+  StackNavigationProp<InboxStackParams, InboxStackEnum.ConversationScreen>,
   AbstractCompositeNavigationProps
 >;
 
@@ -123,20 +128,20 @@ export type CameraRollScreenNavigationProp = CompositeNavigationProp<
 // Job route props
 export type JobListScreenRouteProp = RouteProp<
   JobStackParams,
-  JobStackEnum.JobList
+  JobStackEnum.JobListScreen
 >;
 export type SingleJobScreenRouteProp = RouteProp<
   JobStackParams,
-  JobStackEnum.SingleJob
+  JobStackEnum.SingleJobScreen
 >;
 // Inbox route props
 export type SingleConversationScreenRouteProp = RouteProp<
   InboxStackParams,
-  InboxStackEnum.SingleConversation
+  InboxStackEnum.ConversationScreen
 >;
 export type InboxScreenRouteProp = RouteProp<
   InboxStackParams,
-  InboxStackEnum.Inbox
+  InboxStackEnum.InboxScreen
 >;
 // export type RecursivePartial<T> = { [P in keyof T]?: RecursivePartial<T[P]> };
 export type RecursivePartial<T> = {
@@ -306,7 +311,7 @@ export type UserType = {
   email: string;
   is_available: boolean;
   is_hirable: boolean;
-  full_name?: string | null;
+  full_name: string;
   source?: string;
   tenant_id?: string;
   last_seen?: Date;
@@ -314,7 +319,7 @@ export type UserType = {
   location: Location | null;
   settings?: string | null;
   user_role: string;
-  picture?: string | null;
+  avatar_url?: string;
 };
 export type Resume = {
   id: string;
@@ -376,7 +381,7 @@ export type Conversation = {
 
 export type Message = {
   id: string;
-  created_at?: Date | number;
+  created_at: Date | number;
   updated_at?: Date | number;
   conversation_id: string;
   user_id: string;
@@ -416,4 +421,9 @@ export type ChatRequest = {
 
 export type ChatResponse = {
   message: Partial<Message>;
+};
+
+export type NavigationOptionParams = {
+  effectStyle?: 'slide' | 'fade';
+  options?: StackNavigationOptions;
 };

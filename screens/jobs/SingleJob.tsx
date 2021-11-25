@@ -47,7 +47,7 @@ export type Props = {
   navigation: SingleJobScreenNavigationProp;
 };
 
-export const SingleJob = (props: Props) => {
+export const SingleJobScreen = (props: Props) => {
   const { navigation, route } = props;
   const { user } = useAuth();
   const userId = user?.id ?? '';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Placeholder, Text } from '@components';
+import { Placeholder, Text } from '../../components';
 
 type Props = {
   isLoading?: boolean;
@@ -16,7 +16,7 @@ const Name = (props: Props) => {
   }
 
   return (
-    <Text text40 grey30>
+    <Text h2>
       {children}
     </Text>
   );

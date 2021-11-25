@@ -1,10 +1,35 @@
 import React, {
   useCallback,
   useEffect,
-  useLayoutEffect,
+  // useLayoutEffect,
   useMemo,
   useState,
 } from 'react';
+import { CommonActions } from '@react-navigation/native';
+// import * as Localization from 'expo-localization';
+import {
+  // GiftedChat,
+  IMessage as ChatMessage,
+} from 'react-native-gifted-chat';
+// import { chatbot } from '@lib/helpers';
+import type {
+  SingleConversationScreenNavigationProp,
+  SingleConversationScreenRouteProp,
+  SingleConversationData,
+  Message,
+  MessageAggregateData,
+} from '../../utils/types';
+import {
+  CustomHeader,
+  ChatWrapper,
+} from '../../components';
+import {
+  MESSAGES_AGGREGATE,
+  MESSAGE_SUBSCRIPTION,
+  SINGLE_CONVERSATION,
+  INSERT_MESSAGE,
+} from '../../graphqls/inbox';
+import { BOT_KEYWORDS, MESSAGE_QUERY_LIMIT } from '../../utils/constants';
 import {
   useAuth,
   useFocusEffect,
@@ -13,34 +38,7 @@ import {
   useQuery,
   useSubscription,
   useTimeoutFn,
-} from '@hooks';
-import { CommonActions } from '@react-navigation/native';
-import * as Localization from 'expo-localization';
-import {
-  GiftedChat,
-  IMessage as ChatMessage,
-} from 'react-native-gifted-chat';
-import {
-  CustomHeader,
-  ChatWrapper,
-} from '@components';
-import {
-  MESSAGE_AGGREGATE,
-  MESSAGE_SUBSCRIPTION,
-  SINGLE_CONVERSATION,
-  INSERT_MESSAGE,
-} from '@graphqls/inbox';
-import { chatbot } from '@lib/helpers';
-import { BOT_KEYWORDS, MESSAGE_QUERY_LIMIT } from '@lib/constants';
-import type {
-  SingleConversationScreenNavigationProp,
-  SingleConversationScreenRouteProp,
-} from '@stacks/Types';
-import type {
-  SingleConversationData,
-  Message,
-  MessageAggregateData,
-} from '@components/Conversations/types';
+} from '../../utils/hooks';
 
 const convertMessage = (m: Message) => ({
   ...m,
@@ -50,7 +48,7 @@ const convertMessage = (m: Message) => ({
   user: {
     _id: m.user.id,
     name: m.user.full_name,
-    avatar: m.user.picture,
+    avatar: m.user.avatar_url,
   },
   image: m.image,
   video: m.video,
@@ -67,18 +65,19 @@ export type Props = {
   navigation: SingleConversationScreenNavigationProp;
 };
 
-const SingleConversation = (props: Props) => {
-  const { route, navigation } = props;
-  const { conversationId, userId, jobId } = route?.params;
+export const ConversationScreen: React.FC<Props> = ({
+  route, navigation,
+}) => {
+  const { conversationId, userId, jobId } = route?.params ?? {};
 
-  const { session: { user } } = useAuth();
+  const { user } = useAuth();
   const isFocused = useIsFocused();
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   const {
     loading: conversationLoading,
-    data: conversationData,
+    // data: conversationData,
   } = useQuery<SingleConversationData>(SINGLE_CONVERSATION, {
     variables: { id: conversationId },
     fetchPolicy: 'cache-and-network',
@@ -112,7 +111,7 @@ const SingleConversation = (props: Props) => {
     },
   });
 
-  const lastMessage = subscriptionData?.message_aggregate.nodes[0];
+  const lastMessage = subscriptionData?.messages_aggregate.nodes[0];
 
   // the lastMessage given wrong data thus making the oldMessages wrong.
   // We need to find a better wwwway to detect the last message first
@@ -121,7 +120,7 @@ const SingleConversation = (props: Props) => {
     data: aggregateData,
     // error: aggregateError,
     fetchMore,
-  } = useQuery<MessageAggregateData>(MESSAGE_AGGREGATE, {
+  } = useQuery<MessageAggregateData>(MESSAGES_AGGREGATE, {
     variables: {
       limit: 20,
       offset: 0,
@@ -135,7 +134,7 @@ const SingleConversation = (props: Props) => {
   });
 
   const olderMessages = useMemo(
-    () => aggregateData?.message_aggregate.nodes ?? [],
+    () => aggregateData?.messages_aggregate.nodes ?? [],
     [aggregateData],
   );
 
@@ -160,26 +159,26 @@ const SingleConversation = (props: Props) => {
     const isBotMentioned = BOT_KEYWORDS.some((s) => lastInput.includes(s));
 
     if (shouldStartFirst || isBotMentioned) {
-      const botResponse = await chatbot({
-        content: isBotMentioned ? lastInput : 'Initial from mobile',
-        conversation: conversationData.conversation_by_pk,
-        locale: Localization.locale,
-        jobId,
-        user,
-      });
+      // const botResponse = await chatbot({
+      //   content: isBotMentioned ? lastInput : 'Initial from mobile',
+      //   conversation: conversationData.conversation_by_pk,
+      //   locale: Localization.locale,
+      //   jobId,
+      //   user,
+      // });
 
-      if (botResponse?.fulfillmentText.length > 0) {
-        console.log('### botResponse:', botResponse.fulfillmentText); // eslint-disable-line
+      // if (botResponse?.fulfillmentText.length > 0) {
+      //   console.log('### botResponse:', botResponse.fulfillmentText); // eslint-disable-line
 
-        setMessages((prevState) => GiftedChat.append(prevState, [{
-          text: botResponse.fulfillmentText,
-          _id: `this-is-bot-message-1${Date.now()}`,
-          createdAt: new Date(),
-          user: {
-            _id: 'this-is-bot',
-          },
-        }]));
-      }
+      //   setMessages((prevState) => GiftedChat.append(prevState, [{
+      //     text: botResponse.fulfillmentText,
+      //     _id: `this-is-bot-message-1${Date.now()}`,
+      //     createdAt: new Date(),
+      //     user: {
+      //       _id: 'this-is-bot',
+      //     },
+      //   }]));
+      // }
     }
   };
 
@@ -189,20 +188,20 @@ const SingleConversation = (props: Props) => {
   );
 
   const updateMessages = useCallback(() => {
-    setMessages(olderMessages.map(convertMessage));
+    // setMessages(olderMessages.map(convertMessage));
   }, [olderMessages]);
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: conversationData?.conversation_by_pk?.name ?? '...',
-      header: () => (
-        <CustomHeader
-          goBack={handleGoBack}
-          title={conversationData?.conversation_by_pk?.name ?? '...'}
-        />
-      ),
-    });
-  }, [conversationData, navigation, handleGoBack]);
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     title: conversationData?.conversation_by_pk?.name ?? '...',
+  //     header: () => (
+  //       <CustomHeader
+  //         goBack={handleGoBack}
+  //         title={conversationData?.conversation_by_pk?.name ?? '...'}
+  //       />
+  //     ),
+  //   });
+  // }, [conversationData, navigation, handleGoBack]);
 
   useEffect(() => {
     if (isFocused && !isLoading) {
@@ -261,5 +260,3 @@ const SingleConversation = (props: Props) => {
     />
   );
 };
-
-export default SingleConversation;

@@ -1,7 +1,11 @@
 import React from 'react';
 import deepmerge from 'deepmerge';
 import { HeaderBackButton } from '@react-navigation/elements';
-import type { StackNavigationOptions } from '@react-navigation/stack';
+import type {
+  StackNavigationOptions,
+  NavigationOptionParams,
+  StackScreens,
+} from './types';
 
 const defaultOptions: StackNavigationOptions = {
   // headerStyle: globalStyles.defaultHeaderStyle,
@@ -19,14 +23,9 @@ const forFade = ({ current }: any) => ({
   },
 });
 
-export const makeNavigationOptions = ({
-  effectStyle = 'slide',
-  options = {},
-}: {
-  effectStyle?: 'slide' | 'fade';
-  options?: StackNavigationOptions;
-}): StackNavigationOptions => {
-  const tempOptions = { ...options };
+export const createOptions = (params?: NavigationOptionParams) => {
+  const { options = {}, effectStyle = 'slide' } = params ?? {};
+  const tempOptions: Partial<StackNavigationOptions> = { ...options };
 
   if (effectStyle === 'fade') {
     tempOptions.cardStyleInterpolator = forFade;
@@ -35,14 +34,14 @@ export const makeNavigationOptions = ({
   return deepmerge(defaultOptions, tempOptions);
 };
 
-export const renderHeaderLeft = <T extends { name: string }>(
+export const renderHeaderLeft = <T extends { name: StackScreens }>(
   route: T,
   props: React.ComponentProps<typeof HeaderBackButton>,
 ) => {
   const routeName = route?.name ?? '';
 
   switch (routeName) {
-  case 'JobList':
+  case 'JobListScreen':
   case 'Inbox':
   case 'Calendar':
   case 'Profile':

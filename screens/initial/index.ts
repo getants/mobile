@@ -1,2 +1,2 @@
-export { default as WelcomeScreen } from './Welcome';
-export { default as SetupScreen } from './Setup';
+export { WelcomeScreen } from './WelcomeScreen';
+export { SetupScreen } from './SetupScreen';

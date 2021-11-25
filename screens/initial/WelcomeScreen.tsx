@@ -32,7 +32,7 @@ type Props = {
   navigation: WelcomeScreenNavigationProp;
 };
 
-const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
+export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
   const { user, isAuthenticated } = useAuth();
   const [times, setTimes] = useState(0);
   const [message, setMessage] = useState<string>('Setup, please wait...');
@@ -56,8 +56,8 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
   const [createResume] = useMutation(INSERT_RESUME);
 
   const [, cancelTimer, resetTimer] = useTimeoutFn(async () => {
-    if (aggregateResume === undefined && times < 3) {
-      setMessage('New profile setup...');
+    if (aggregateResume === undefined && times < 2) {
+      setMessage(`New profile setup... (${times + 1}/2)`);
       setTimes((t) => t + 1);
       resetTimer();
     } else if (user && aggregateResume?.resumes_aggregate?.nodes?.length === 0) {
@@ -89,7 +89,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     if (!user || !isAuthenticated) {
-      navigation.navigate(RootStackEnum.AuthStack);
+      navigation.navigate({ key: RootStackEnum.AuthStack });
     }
   }, [isAuthenticated, user, navigation]);
 
@@ -108,5 +108,3 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
     </StyledBackground>
   );
 };
-
-export default WelcomeScreen;

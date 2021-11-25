@@ -26,6 +26,7 @@ export {
 export { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 export {
+  Avatar,
   Button,
   Card,
   CheckBox,
@@ -44,3 +45,5 @@ export * from './LoginForm';
 export * from './SignupForm';
 export * from './Flex';
 export * from './Placeholder';
+export * from './ChatWrapper';
+export * from './Conversations';

@@ -1,4 +1,5 @@
-import 'react-native-gesture-handler'; // This one must be on top
+import 'react-native-gesture-handler'; // NOTE: This one must be on top
+
 import React, { useState, useEffect } from 'react';
 import * as Sentry from 'sentry-expo';
 import * as Linking from 'expo-linking';

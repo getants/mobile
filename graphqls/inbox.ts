@@ -54,14 +54,14 @@ export const INSERT_CONVERSATION = gql`
   }
 `;
 
-export const MESSAGE_AGGREGATE = gql`
-  query MESSAGE_AGGREGATE(
+export const MESSAGES_AGGREGATE = gql`
+  query MESSAGES_AGGREGATE(
     $limit: Int!,
     $offset: Int!,
     $order_by: [message_order_by!]!,
     $where: message_bool_exp!
   ) {
-    message_aggregate(
+    messages_aggregate(
       limit: $limit,
       offset: $offset,
       order_by: $order_by,
@@ -85,12 +85,12 @@ export const MESSAGE_AGGREGATE = gql`
 // Subscription for new messages only
 // order_by: { created_at: asc }
 export const MESSAGE_SUBSCRIPTION = gql`
-  subscription MESSAGE_AGGREGATE(
+  subscription MESSAGES_AGGREGATE(
     $limit: Int!,
     $order_by: [message_order_by!]!,
     $where: message_bool_exp!
   ) {
-    message_aggregate(
+    messages_aggregate(
       limit: $limit,
       order_by: $order_by,
       where: $where

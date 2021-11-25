@@ -1,31 +1,24 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import ProfileView from '@screens/profile';
-import CameraRollView from '@screens/camera-roll';
-import defaultOptions from './helpers/navigations';
-import type { ProfileStackParams } from './Types';
-import { renderHeaderLeft } from './helpers/customComponents';
-
-const screens = {
-  Profile: ProfileView,
-  CameraRoll: CameraRollView,
-};
+import { ProfileScreen } from '../screens';
+import { createOptions, renderHeaderLeft } from '../utils/navigations';
+import { ProfileStackEnum } from '../utils/enums';
+import type { ProfileStackParams } from '../utils/types';
 
 const { Navigator, Screen } = createStackNavigator<ProfileStackParams>();
 
+const customOptions = createOptions({});
+
 const ProfileStack = () => (
-  <Navigator screenOptions={defaultOptions}>
-    {Object.keys(screens).map((k: keyof ProfileStackParams) => (
-      <Screen
-        key={k}
-        name={k}
-        component={screens[k]}
-        options={({ route }) => ({
-          headerLeft: (props) => renderHeaderLeft(route, props),
-        })}
-      />
-    ))}
+  <Navigator screenOptions={customOptions}>
+    <Screen
+      name={ProfileStackEnum.Profile}
+      component={ProfileScreen}
+      options={({ route }) => ({
+        headerLeft: (props) => renderHeaderLeft(route, props),
+      })}
+    />
   </Navigator>
 );
 
