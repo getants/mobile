@@ -29,17 +29,17 @@ export {
   Avatar,
   Button,
   Card,
-  CheckBox,
+  Checkbox,
   Chip,
-  Divider,
-  FAB,
+  Dividers,
   Icon,
-  Input,
-  LinearProgress,
   ListItem,
   Text,
+  TextArea,
+  TextField,
   Overlay,
-} from 'react-native-elements';
+  ProgressBar,
+} from 'react-native-ui-lib';
 
 export * from './LoginForm';
 export * from './SignupForm';

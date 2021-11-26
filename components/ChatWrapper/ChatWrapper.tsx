@@ -1,10 +1,10 @@
 import React from 'react';
-import { SafeAreaView } from 'react-native';
 import type { UIEvent } from 'react';
+import { SafeAreaView } from 'react-native';
 import { GiftedChat, IMessage as ChatMessage } from 'react-native-gifted-chat';
-// import { LoaderScreen } from 'react-native-ui-lib';
-import type { UserType } from '../../utils/types';
+import { LoaderScreen } from 'react-native-ui-lib';
 import { convertUser, isCloseToTop } from './helpers';
+import type { UserType } from '../../utils/types';
 
 type Props = {
   isLoading: boolean;
@@ -15,16 +15,14 @@ type Props = {
   user: UserType;
 };
 
-export const ChatWrapper = (props: Props) => {
-  const {
-    isLoading,
-    loadEarlier,
-    messages,
-    setMessages,
-    user,
-    onSend,
-  } = props;
-
+export const ChatWrapper: React.FC<Props> = ({
+  isLoading,
+  loadEarlier,
+  messages,
+  setMessages,
+  user,
+  onSend,
+}) => {
   const currentUser = convertUser(user);
 
   const handleOnSend = async (m: ChatMessage[]) => {
@@ -40,13 +38,13 @@ export const ChatWrapper = (props: Props) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {/* isLoading && (
+      {isLoading && (
         <LoaderScreen
           overlay
-          color={Colors.black}
           message="Loading..."
+          // color={Colors.black}
         />
-      ) */}
+      )}
 
       <GiftedChat
         loadEarlier

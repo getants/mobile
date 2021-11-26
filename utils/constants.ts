@@ -72,16 +72,10 @@ export const SPACE_MULTIPLIER = 4;
 export const JOB_IMAGE_FRAME_RATIO = 8 / 3;
 export const MESSAGE_QUERY_LIMIT = 20;
 export const OUR_THEME = {
-  colors: {
-    primary: '#D97B1E',
-    secondary: '#1e7bd9',
-    black: '#111111',
-    grayOutline: '#CCCCCC',
-    // grey0;
-    // grey1;
-    // grey2;
-    // grey3;
-    // grey4;
-    // grey5;
-  },
+  primaryColor: '#D97B1E',
+  secondaryColor: '#1e7bd9',
+  textColor: '#221D23',
+  errorColor: '#E63B2E',
+  successColor: '#ADC76F',
+  warnColor: '#FF963C',
 };

@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  Card,
-  Text,
-} from '../index';
+import { Card, Text } from '../index';
 
 import type { Conversation } from '../../utils/types';
 
@@ -17,7 +14,7 @@ export const ConversationItem = (props: Props) => {
 
   return (
     <Card>
-      <Text h2>{conversationTitle}</Text>
+      <Text>{conversationTitle}</Text>
       <Text>
         {data?.updated_at}
       </Text>

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import { LinearProgress, Text, Flex } from '../../components';
+import { ProgressBar, Text, Flex } from '../../components';
 import { INSERT_RESUME, RESUME_AGGREGATE } from '../../graphqls';
 import {
   useAuth,
@@ -95,13 +95,16 @@ export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <StyledBackground
-      source={require('assets/splash.png') /* eslint-disable-line */}
+      // source={require('assets/splash.png') /* eslint-disable-line */}
     >
       <Flex direction="column" justify="space-between" height="100%">
         <Flex padding={10} />
 
         <Flex paddingBottom={180}>
-          <LinearProgress color="primary" style={s('h-1 w-180 mx-auto')} />
+          <ProgressBar
+            progressColor="#333333"
+            style={s('h-1 w-180 mx-auto')}
+          />
           <TinyMessage>{message}</TinyMessage>
         </Flex>
       </Flex>

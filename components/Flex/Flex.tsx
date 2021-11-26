@@ -17,11 +17,12 @@ const StyledView = styled.View<{ options: FlexboxProps }>`
 `;
 
 export type FlexProps = React.ComponentProps<typeof StyledView> &
-  FlexAliasOptions;
+FlexAliasOptions;
 
 export const Flex = (props: FlexProps) => {
-  const { direction, align, justify, wrap, basis, grow, shrink, ...rest } =
-    props;
+  const {
+    direction, align, justify, wrap, basis, grow, shrink, ...rest
+  } = props;
 
   const styles = {
     display: 'flex',

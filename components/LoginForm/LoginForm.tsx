@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Input, Text as Title } from 'react-native-elements';
+import { Button, TextField, Text as Title } from '../index';
 import { style as s } from '../../utils/tokens';
 import { Flex } from '../Flex';
 
@@ -48,30 +48,30 @@ const LoginForm = (props: LoginFormProps) => {
     <Flex>
       <Title style={{ textAlign: 'center' }}>Login</Title>
 
-      <Input
+      <TextField
         autoFocus
         placeholder="Email"
         value={input.email.toLowerCase()}
-        onChangeText={(value) => changeInput('email', value.toLowerCase())}
+        onChangeText={(v: string) => changeInput('email', v.toLowerCase())}
       />
 
-      <Input
+      <TextField
         secureTextEntry
         placeholder="Password"
         value={input.password}
-        onChangeText={(value) => changeInput('password', value)}
+        onChangeText={(v: string) => changeInput('password', v)}
       />
 
       <Button
         style={s('mb-5')}
-        title="Login"
+        label="Login"
         titleStyle={s('py-10')}
         onPress={handleSubmit}
       />
 
       <Button
-        type="clear"
-        title="Signup"
+        outline
+        label="Signup"
         titleStyle={s('py-5')}
         onPress={handleSwitchView}
       />

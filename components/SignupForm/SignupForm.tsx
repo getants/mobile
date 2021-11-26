@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {
   Button,
-  Input as TextInput,
+  TextField,
   Text as Title,
-} from 'react-native-elements';
+  Flex,
+} from '../index';
 import { style as s } from '../../utils/tokens';
-import { Flex } from '../Flex';
 
 export type SignupFormInput = {
   displayName: string;
@@ -56,36 +56,36 @@ const SignupForm = (props: SignupFormProps) => {
     <Flex>
       <Title style={{ textAlign: 'center' }}>Signup</Title>
 
-      <TextInput
+      <TextField
         autoFocus
         placeholder="Full name"
         value={input.displayName}
-        onChangeText={(value) => changeInput('displayName', value)}
+        onChangeText={(v: string) => changeInput('displayName', v)}
       />
 
-      <TextInput
+      <TextField
         placeholder="Email"
         value={input.email.toLowerCase()}
-        onChangeText={(value) => changeInput('email', value.toLowerCase())}
+        onChangeText={(v: string) => changeInput('email', v.toLowerCase())}
       />
 
-      <TextInput
+      <TextField
         secureTextEntry
         placeholder="Password"
         value={input.password}
-        onChangeText={(value) => changeInput('password', value)}
+        onChangeText={(v: string) => changeInput('password', v)}
       />
 
       <Button
         style={s('mb-5')}
-        title="Signup"
+        label="Signup"
         titleStyle={s('py-10')}
         onPress={handleSubmit}
       />
 
       <Button
-        type="clear"
-        title="Login"
+        outline
+        label="Login"
         titleStyle={s('py-5')}
         onPress={handleSwitchView}
       />

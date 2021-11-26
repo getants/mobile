@@ -1,6 +1,6 @@
 import React from 'react';
 import ContentLoader, { Rect } from 'react-content-loader/native';
-import { useWindowDimensions, useTheme } from '../../utils/hooks';
+import { useWindowDimensions } from '../../utils/hooks';
 
 import { getRandom } from './helpers';
 
@@ -18,7 +18,7 @@ const ConversationItem: React.FC<Props> = ({
   randomWidth = false,
   speed = 1,
 }) => {
-  const { theme } = useTheme();
+  // const { theme } = useTheme();
   const { width: deviceWidth } = useWindowDimensions();
 
   const titleMin = randomWidth ? getRandom(6) : 8;
@@ -32,8 +32,8 @@ const ConversationItem: React.FC<Props> = ({
   return (
     <ContentLoader
       speed={speed}
-      backgroundColor={theme.colors?.grey4}
-      foregroundColor={theme.colors?.grey5}
+      // backgroundColor={theme.colors?.grey4}
+      // foregroundColor={theme.colors?.grey5}
       width={deviceWidth}
       height={itemHeight}
       viewBox={`0 0 ${deviceWidth} ${itemHeight}`}

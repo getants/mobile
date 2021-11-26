@@ -7,8 +7,6 @@ import * as WebBrowser from 'expo-web-browser';
 import { Provider as JotaiProvider } from 'jotai';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LogBox, Platform } from 'react-native';
-import { ThemeProvider } from 'react-native-elements';
-import { useColorScheme } from 'react-native-appearance';
 import { NhostAuthProvider } from '@nhost/react-auth';
 import { NhostApolloProvider } from '@nhost/react-apollo';
 import { enableScreens } from 'react-native-screens';
@@ -17,8 +15,8 @@ import type { NavigationState } from '@react-navigation/native';
 
 import { RootStack } from './stacks';
 import { Flex, Text } from './components';
-import { NAVIGATION_STATE, SENTRY_DSN, OUR_THEME } from './utils/constants';
-import { globalState, initialState as initialJotaiState } from './utils/states';
+import { NAVIGATION_STATE, SENTRY_DSN } from './utils/constants';
+import { globalState, initialState } from './utils/states';
 import { nhost } from './utils/nhost';
 
 // There are warnings that we can't have resource to fix, ignore now
@@ -33,10 +31,8 @@ Sentry.init({
 enableScreens();
 
 const App = () => {
-  const colorScheme = useColorScheme();
-
   const [isReady, setIsReady] = useState(false);
-  const [initialState, setInitialState] = useState();
+  const [navigationState, setNavigationState] = useState();
 
   // Warming the browser to speed up the login
   useEffect(() => {
@@ -59,7 +55,7 @@ const App = () => {
             : undefined;
 
           if (state !== undefined) {
-            setInitialState(state);
+            setNavigationState(state);
           }
         }
       } finally {
@@ -72,7 +68,7 @@ const App = () => {
     }
   }, [isReady]);
 
-  const handleOnStateChange = (state: NavigationState | undefined) => {
+  const handleNavigationStateChange = (state: NavigationState | undefined) => {
     AsyncStorage.setItem(NAVIGATION_STATE, JSON.stringify(state ?? {}));
   };
 
@@ -85,16 +81,14 @@ const App = () => {
   }
 
   return (
-    <JotaiProvider initialValues={[[globalState, initialJotaiState]]}>
+    <JotaiProvider initialValues={[[globalState, initialState]]}>
       <NhostAuthProvider nhost={nhost}>
         <NhostApolloProvider nhost={nhost}>
           <NavigationContainer
-            initialState={initialState}
-            onStateChange={handleOnStateChange}
+            initialState={navigationState}
+            onStateChange={handleNavigationStateChange}
           >
-            <ThemeProvider theme={OUR_THEME} useDark={colorScheme === 'dark'}>
-              <RootStack />
-            </ThemeProvider>
+            <RootStack />
           </NavigationContainer>
         </NhostApolloProvider>
       </NhostAuthProvider>
