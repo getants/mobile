@@ -1,2 +1,2 @@
-export { default } from './ChatWrapper';
-export { default as ChatWrapper } from './ChatWrapper';
+export { ChatWrapper } from './ChatWrapper';
+export * from './helpers';

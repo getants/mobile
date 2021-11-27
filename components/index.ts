@@ -25,21 +25,6 @@ export {
 
 export { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
-export {
-  Avatar,
-  Card,
-  Checkbox,
-  Chip,
-  Dividers,
-  Icon,
-  ListItem,
-  Text,
-  TextArea,
-  TextField,
-  Overlay,
-  ProgressBar,
-} from 'react-native-ui-lib';
-
 export * from './Button';
 export * from './Input';
 export * from './Flex';
@@ -47,3 +32,4 @@ export * from './Layout';
 export * from './Placeholder';
 export * from './ChatWrapper';
 export * from './Conversations';
+export * from './Text';

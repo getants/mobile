@@ -7,7 +7,7 @@ import * as Linking from 'expo-linking';
 import * as WebBrowser from 'expo-web-browser';
 import * as eva from '@eva-design/eva';
 import { Provider as JotaiProvider } from 'jotai';
-import { LogBox, Platform } from 'react-native';
+import { LogBox, Platform, Text } from 'react-native';
 import { NhostAuthProvider } from '@nhost/react-auth';
 import { NhostApolloProvider } from '@nhost/react-apollo';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
@@ -17,7 +17,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import type { NavigationState } from '@react-navigation/native';
 
 import { RootStack } from './stacks';
-import { Flex, Text } from './components';
+import { Flex } from './components';
 import { NAVIGATION_STATE, SENTRY_DSN } from './utils/constants';
 import { globalState, initialState } from './utils/states';
 import { theme } from './utils/theme';

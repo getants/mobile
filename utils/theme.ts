@@ -1,4 +1,4 @@
-import DefaultTheme from '@eva-design/eva';
+import * as DefaultTheme from '@eva-design/eva';
 
 export const theme = {
   ...DefaultTheme,
