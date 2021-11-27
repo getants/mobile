@@ -1,30 +1,27 @@
-import React, {
-  useCallback,
-  useMemo,
-  useState,
-} from 'react';
-import Constants from 'expo-constants';
+import React, { useCallback, useMemo, useState } from 'react';
 import type { ListRenderItem } from 'react-native';
-import type {
-  JobListScreenRouteProp,
-  JobListScreenNavigationProp,
-  Job,
-  JobsNearbyAggregateData,
-} from '../../utils/types';
+import Constants from 'expo-constants';
+import { StyleSheet } from 'react-native';
 import { JOBS_NEARBY_AGGREGATE } from '../../graphqls/jobs';
 import { JobStackEnum } from '../../utils/enums';
+import type {
+  Job,
+  JobListScreenNavigationProp,
+  JobListScreenRouteProp,
+  JobsNearbyAggregateData,
+} from '../../utils/types';
 import {
   Animated,
   SafeAreaView,
   Placeholder,
-  Text,
+  TitleSmall,
   View,
 } from '../../components';
 import {
   useQuery,
   useTimeoutFn,
   useCollapsibleHeader,
-  useTheme,
+  // useTheme,
 } from '../../utils/hooks';
 import { getEnvironment } from '../../utils/tokens';
 import { JobItem } from './JobItem';
@@ -41,9 +38,21 @@ export type Props = {
   navigation: JobListScreenNavigationProp;
 };
 
+const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
+  inner: {
+    flex: 1,
+    margin: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
 export const JobListScreen = (props: Props) => {
   const { navigation } = props;
-  const { theme } = useTheme();
+  // const theme = useTheme();
 
   const [retry, setRetry] = useState<number>(0);
   const [distance, setDistance] = useState<number>(10);
@@ -154,7 +163,7 @@ export const JobListScreen = (props: Props) => {
   }, [refetch, resetTimer]);
 
   const onPressSingle = (job: Job) => {
-    navigation.navigate(JobStackEnum.SingleJob, {
+    navigation.navigate(JobStackEnum.SingleJobScreen, {
       jobId: job.id,
       jobTitle: job.title,
       companyName: job.company?.name,
@@ -206,7 +215,7 @@ export const JobListScreen = (props: Props) => {
   const top = scrollIndicatorInsetTop + StickyHeaderHeight;
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.wrapper}>
       <>
         <Animated.FlatList
           data={jobs}
@@ -228,20 +237,13 @@ export const JobListScreen = (props: Props) => {
             transform: [{ translateY }],
             top: containerPaddingTop,
             position: 'absolute',
-            backgroundColor: theme.colors?.white ?? '#FFF',
+            backgroundColor: '#FFFFFF',
             height: StickyHeaderHeight,
             width: '100%',
           }}
         >
-          <View
-            style={{
-              flex: 1,
-              margin: 10,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <Text style={{ fontSize: 14, color: theme.colors?.grey0 }}>Sticky</Text>
+          <View style={styles.inner}>
+            <TitleSmall>Sticky</TitleSmall>
           </View>
         </Animated.View>
       </>

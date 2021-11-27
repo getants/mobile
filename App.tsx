@@ -5,22 +5,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Sentry from 'sentry-expo';
 import * as Linking from 'expo-linking';
 import * as WebBrowser from 'expo-web-browser';
-import * as eva from '@eva-design/eva';
 import { Provider as JotaiProvider } from 'jotai';
 import { LogBox, Platform, Text } from 'react-native';
 import { NhostAuthProvider } from '@nhost/react-auth';
 import { NhostApolloProvider } from '@nhost/react-apollo';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
-import { ApplicationProvider as KittenProvider, IconRegistry } from '@ui-kitten/components';
+import { IconRegistry } from '@ui-kitten/components';
 import { enableScreens } from 'react-native-screens';
 import { NavigationContainer } from '@react-navigation/native';
 import type { NavigationState } from '@react-navigation/native';
 
 import { RootStack } from './stacks';
-import { Flex } from './components';
+import { Flex, ThemeProvider } from './components';
 import { NAVIGATION_STATE, SENTRY_DSN } from './utils/constants';
 import { globalState, initialState } from './utils/states';
-import { theme } from './utils/theme';
 import { nhost } from './utils/nhost';
 
 // There are warnings that we can't have resource to fix, ignore now
@@ -98,9 +96,9 @@ const App = () => {
             onStateChange={handleNavigationStateChange}
           >
             <IconRegistry icons={EvaIconsPack} />
-            <KittenProvider {...eva} theme={{ ...eva.light, ...theme }}>
+            <ThemeProvider>
               <RootStack />
-            </KittenProvider>
+            </ThemeProvider>
           </NavigationContainer>
         </NhostApolloProvider>
       </NhostAuthProvider>

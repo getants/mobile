@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 // import Colors from '@styles/colors';
-import { SAFE_BOUNCE_HEIGHT, HEADER_HEIGHT, OUR_THEME } from '../constants';
+import { SAFE_BOUNCE_HEIGHT, HEADER_HEIGHT, OUR_COLORS } from '../constants';
 import { getStatusBarHeight } from '../tokens';
 import { createHeaderBackground } from './createHeaderBackground';
 
@@ -61,7 +61,7 @@ export const useCollapsibleHeader = (
 
   const [headerStyle, setHeaderStyle] = useState(userHeaderStyle);
 
-  const backgroundColor = headerStyle?.backgroundColor ?? OUR_THEME.colors.primary;
+  const backgroundColor = headerStyle?.backgroundColor ?? OUR_COLORS.primaryColor;
 
   useEffect(() => {
     if (!isEqual(headerStyle, userHeaderStyle)) {

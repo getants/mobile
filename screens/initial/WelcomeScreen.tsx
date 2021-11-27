@@ -94,17 +94,12 @@ export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
   }, [isAuthenticated, user, navigation]);
 
   return (
-    <StyledBackground
-      // source={require('assets/splash.png') /* eslint-disable-line */}
-    >
+    <StyledBackground>
       <Flex direction="column" justify="space-between" height="100%">
         <Flex padding={10} />
 
         <Flex paddingBottom={180}>
-          <ProgressBar
-            progressColor="#333333"
-            style={s('h-1 w-180 mx-auto')}
-          />
+          <ProgressBar />
           <TinyMessage>{message}</TinyMessage>
         </Flex>
       </Flex>

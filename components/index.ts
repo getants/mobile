@@ -26,10 +26,12 @@ export {
 export { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 export * from './Button';
-export * from './Input';
-export * from './Flex';
-export * from './Layout';
-export * from './Placeholder';
 export * from './ChatWrapper';
 export * from './Conversations';
+export * from './Flex';
+export * from './Input';
+export * from './Layout';
+export * from './Placeholder';
+export * from './ProgressBar';
 export * from './Text';
+export * from './ThemeProvider';
