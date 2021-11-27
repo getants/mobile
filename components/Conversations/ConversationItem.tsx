@@ -1,6 +1,5 @@
 import React from 'react';
-import { Card, Text } from '../index';
-
+import { Card, Text } from 'react-native-ui-lib';
 import type { Conversation } from '../../utils/types';
 
 type Props = {
