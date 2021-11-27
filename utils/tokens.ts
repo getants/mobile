@@ -1,7 +1,14 @@
 import Constants from 'expo-constants';
+import {
+  Button,
+  Colors,
+  Typography,
+  Spacings,
+  ThemeManager,
+} from 'react-native-ui-lib';
 import { Platform, StatusBar, StyleSheet } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
-import { ENV_VARS, SPACE_MULTIPLIER } from './constants';
+import { ENV_VARS, SPACE_MULTIPLIER, OUR_COLORS } from './constants';
 import type { EnvironmentType, Spacing } from './types';
 
 export const propertyMap: Record<string, string> = {
@@ -117,7 +124,7 @@ export const getStatusBarHeight = () => {
   return 0;
 };
 
-// Release Channel must has this form: env-country
+// Release Channel must has this form: environment-country
 // E.g: dev-finland, prod-finland, stage-thailand
 export const getEnvironment = (): EnvironmentType => {
   const { manifest } = Constants;
@@ -131,4 +138,20 @@ export const space = (multiplier: number): Spacing => {
     return `${multiplier * SPACE_MULTIPLIER}px` as Spacing;
   }
   throw new Error('Multiplier needs to be a positive integer');
+};
+
+export const loadFoundationConfigs = () => {
+  Colors.loadColors(OUR_COLORS);
+
+  Typography.loadTypographies({
+    heading: { fontSize: 36, fontWeight: '600' },
+    subheading: { fontSize: 28, fontWeight: '500' },
+    body: { fontSize: 14, fontWeight: '400' },
+  });
+
+  Spacings.loadSpacings({
+    page: 20,
+    card: 12,
+    gridGutter: 16,
+  });
 };

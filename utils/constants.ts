@@ -71,7 +71,7 @@ export const HEADER_HEIGHT = 91;
 export const SPACE_MULTIPLIER = 4;
 export const JOB_IMAGE_FRAME_RATIO = 8 / 3;
 export const MESSAGE_QUERY_LIMIT = 20;
-export const OUR_THEME = {
+export const OUR_COLORS = {
   primaryColor: '#D97B1E',
   secondaryColor: '#1e7bd9',
   textColor: '#221D23',

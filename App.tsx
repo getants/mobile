@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler'; // NOTE: This one must be on top
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import * as Sentry from 'sentry-expo';
 import * as Linking from 'expo-linking';
 import * as WebBrowser from 'expo-web-browser';
@@ -17,6 +17,7 @@ import { RootStack } from './stacks';
 import { Flex, Text } from './components';
 import { NAVIGATION_STATE, SENTRY_DSN } from './utils/constants';
 import { globalState, initialState } from './utils/states';
+import { loadFoundationConfigs, loadComponentConfigs } from './utils/tokens';
 import { nhost } from './utils/nhost';
 
 // There are warnings that we can't have resource to fix, ignore now
@@ -31,8 +32,13 @@ Sentry.init({
 enableScreens();
 
 const App = () => {
-  const [isReady, setIsReady] = useState(false);
+  const [isReady, setReady] = useState(false);
   const [navigationState, setNavigationState] = useState();
+
+  useLayoutEffect(() => {
+    loadFoundationConfigs();
+    loadComponentConfigs();
+  }, []);
 
   // Warming the browser to speed up the login
   useEffect(() => {
@@ -47,8 +53,8 @@ const App = () => {
       try {
         const initialUrl = await Linking.getInitialURL();
 
+        // Only restore state if there's no deep link and we're not on web
         if (Platform.OS !== 'web' && initialUrl == null) {
-          // Only restore state if there's no deep link and we're not on web
           const savedStateString = await AsyncStorage.getItem(NAVIGATION_STATE);
           const state = savedStateString
             ? JSON.parse(savedStateString)
@@ -59,7 +65,7 @@ const App = () => {
           }
         }
       } finally {
-        setIsReady(true);
+        setReady(true);
       }
     };
 
