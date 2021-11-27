@@ -43,3 +43,8 @@ export enum Entity {
   Resume = 'Resumes',
   Tenant = 'Tenants',
 }
+
+export enum Direction {
+  Column = 'column',
+  Row = 'row',
+}

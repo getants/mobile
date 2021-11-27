@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { Button, TextField, Text } from 'react-native-ui-lib';
-import { Flex } from '../Flex';
-import { style as s } from '../../utils/tokens';
+import {
+  Button,
+  Layout,
+  Input,
+  Text,
+} from '../../../components';
 
 export type LoginFormInput = {
   email: string;
@@ -45,36 +48,30 @@ export const LoginForm = (props: LoginFormProps) => {
   };
 
   return (
-    <Flex>
+    <Layout>
       <Text style={{ textAlign: 'center' }}>Login</Text>
 
-      <TextField
+      <Input
         autoFocus
         placeholder="Email"
         value={input.email.toLowerCase()}
         onChangeText={(v: string) => changeInput('email', v.toLowerCase())}
       />
 
-      <TextField
+      <Input
         secureTextEntry
         placeholder="Password"
         value={input.password}
         onChangeText={(v: string) => changeInput('password', v)}
       />
 
-      <Button
-        style={s('mb-5')}
-        label="Login"
-        titleStyle={s('py-10')}
-        onPress={handleSubmit}
-      />
+      <Button onPress={handleSubmit}>
+        Login
+      </Button>
 
-      <Button
-        outline
-        label="Signup"
-        titleStyle={s('py-5')}
-        onPress={handleSwitchView}
-      />
-    </Flex>
+      <Button ghost onPress={handleSwitchView}>
+        Signup
+      </Button>
+    </Layout>
   );
 };

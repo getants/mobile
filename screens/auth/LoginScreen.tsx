@@ -1,7 +1,7 @@
 import React from 'react';
 import * as ErrorRecovery from 'expo-error-recovery';
 import { nhost } from '../../utils/nhost';
-import { LoginForm } from '../../components';
+import { LoginForm } from './LoginForm';
 import { AuthStackEnum } from '../../utils/enums';
 import type { LoginScreenNavigationProp } from '../../utils/types';
 import { AuthScreensWrapper } from './AuthScreensWrapper';

@@ -9,6 +9,7 @@ export { useIsFocused, useFocusEffect } from '@react-navigation/native';
 
 export { useWindowDimensions } from 'react-native';
 export { useNavigation } from '@react-navigation/native';
+export { useTheme } from '@ui-kitten/components';
 
 export { default as useTimeout } from 'react-use/lib/useTimeout';
 export { default as useTimeoutFn } from 'react-use/lib/useTimeoutFn';

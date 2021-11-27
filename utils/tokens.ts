@@ -1,11 +1,5 @@
 import Constants from 'expo-constants';
-import {
-  Button,
-  Colors,
-  Typography,
-  Spacings,
-  ThemeManager,
-} from 'react-native-ui-lib';
+import { Colors, Typography, Spacings } from 'react-native-ui-lib';
 import { Platform, StatusBar, StyleSheet } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { ENV_VARS, SPACE_MULTIPLIER, OUR_COLORS } from './constants';
@@ -154,4 +148,17 @@ export const loadFoundationConfigs = () => {
     card: 12,
     gridGutter: 16,
   });
+};
+
+export const halfValue = (input?: number | string | null) => {
+  if (typeof input === 'number') {
+    return Math.floor(input / 2);
+  }
+  if (typeof input === 'string' && input.includes('%')) {
+    const value = parseFloat(input);
+    if (!Number.isNaN(value) || value < 0 || value > 100) {
+      return `${Math.floor(value / 2)}%`;
+    }
+  }
+  return undefined;
 };

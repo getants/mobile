@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import {
   Button,
-  TextField,
+  Input,
   Text,
-} from 'react-native-ui-lib';
-import { Flex } from '../Flex';
-import { style as s } from '../../utils/tokens';
+  Flex,
+} from '../../../components';
 
 export type SignupFormInput = {
   displayName: string;
@@ -56,39 +55,33 @@ export const SignupForm = (props: SignupFormProps) => {
     <Flex>
       <Text style={{ textAlign: 'center' }}>Signup</Text>
 
-      <TextField
+      <Input
         autoFocus
         placeholder="Full name"
         value={input.displayName}
         onChangeText={(v: string) => changeInput('displayName', v)}
       />
 
-      <TextField
+      <Input
         placeholder="Email"
         value={input.email.toLowerCase()}
         onChangeText={(v: string) => changeInput('email', v.toLowerCase())}
       />
 
-      <TextField
+      <Input
         secureTextEntry
         placeholder="Password"
         value={input.password}
         onChangeText={(v: string) => changeInput('password', v)}
       />
 
-      <Button
-        style={s('mb-5')}
-        label="Signup"
-        titleStyle={s('py-10')}
-        onPress={handleSubmit}
-      />
+      <Button onPress={handleSubmit}>
+        Signup
+      </Button>
 
-      <Button
-        outline
-        label="Login"
-        titleStyle={s('py-5')}
-        onPress={handleSwitchView}
-      />
+      <Button ghost onPress={handleSwitchView}>
+        Login
+      </Button>
     </Flex>
   );
 };
