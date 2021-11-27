@@ -3,7 +3,7 @@ import {
   Button,
   Input,
   Text,
-  Flex,
+  Layout,
 } from '../../../components';
 
 export type SignupFormInput = {
@@ -52,7 +52,7 @@ export const SignupForm = (props: SignupFormProps) => {
   };
 
   return (
-    <Flex>
+    <Layout>
       <Text style={{ textAlign: 'center' }}>Signup</Text>
 
       <Input
@@ -82,6 +82,6 @@ export const SignupForm = (props: SignupFormProps) => {
       <Button ghost onPress={handleSwitchView}>
         Login
       </Button>
-    </Flex>
+    </Layout>
   );
 };

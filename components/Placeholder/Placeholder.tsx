@@ -1,8 +1,8 @@
 import React from 'react';
-import Circle from './Circle';
-import ConversationItem from './ConversationItem';
-import JobItem from './JobItem';
-import Rect from './Rect';
+import { Circle } from './Circle';
+import { ConversationItem } from './ConversationItem';
+import { JobItem } from './JobItem';
+import { Rect } from './Rect';
 
 type Props = {
   repeat?: number;

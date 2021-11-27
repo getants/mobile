@@ -43,8 +43,22 @@ export enum Entity {
   Resume = 'Resumes',
   Tenant = 'Tenants',
 }
-
 export enum Direction {
-  Column = 'column',
+  Column = 'column', // Default
   Row = 'row',
+}
+export enum JustifyContent {
+  FlexStart = 'flex-start', // Default
+  FlexEnd = 'flex-end',
+  Center = 'center',
+  SpaceBetween = 'space-between',
+  SpaceAround = 'space-around',
+  SpaceEvenly = 'space-evenly',
+}
+export enum AlignItems {
+  FlexStart = 'flex-start',
+  FlexEnd = 'flex-end',
+  Center = 'center',
+  Baseline = 'baseline',
+  Stretch = 'stretch', // Default
 }
