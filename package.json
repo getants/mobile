@@ -15,7 +15,7 @@
     "publish:prod": "expo publish --release-channel prod"
   },
   "dependencies": {
-    "@apollo/client": "3.4.18",
+    "@apollo/client": "3.4.17",
     "@nhost/nhost-js": "0.2.4",
     "@nhost/react-apollo": "2.0.5",
     "@nhost/react-auth": "2.0.3",

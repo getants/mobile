@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import {
   Button,
   TextField,
-  Text as Title,
-  Flex,
-} from '../index';
+  Text,
+} from 'react-native-ui-lib';
+import { Flex } from '../Flex';
 import { style as s } from '../../utils/tokens';
 
 export type SignupFormInput = {
@@ -25,7 +25,7 @@ const initialInput: SignupFormInput = {
   password: '',
 };
 
-const SignupForm = (props: SignupFormProps) => {
+export const SignupForm = (props: SignupFormProps) => {
   const { onChange, onSubmit, onSwitchView } = props;
   const [input, setInput] = useState<SignupFormInput>(initialInput);
 
@@ -54,7 +54,7 @@ const SignupForm = (props: SignupFormProps) => {
 
   return (
     <Flex>
-      <Title style={{ textAlign: 'center' }}>Signup</Title>
+      <Text style={{ textAlign: 'center' }}>Signup</Text>
 
       <TextField
         autoFocus
@@ -92,5 +92,3 @@ const SignupForm = (props: SignupFormProps) => {
     </Flex>
   );
 };
-
-export default SignupForm;

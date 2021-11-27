@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Button, TextField, Text as Title } from '../index';
-import { style as s } from '../../utils/tokens';
+import { Button, TextField, Text } from 'react-native-ui-lib';
 import { Flex } from '../Flex';
+import { style as s } from '../../utils/tokens';
 
 export type LoginFormInput = {
   email: string;
@@ -14,7 +14,7 @@ export type LoginFormProps = {
   onSwitchView?: () => void;
 };
 
-const LoginForm = (props: LoginFormProps) => {
+export const LoginForm = (props: LoginFormProps) => {
   const { onChange, onSubmit, onSwitchView } = props;
   const [input, setInput] = useState<LoginFormInput>({
     email: '',
@@ -46,7 +46,7 @@ const LoginForm = (props: LoginFormProps) => {
 
   return (
     <Flex>
-      <Title style={{ textAlign: 'center' }}>Login</Title>
+      <Text style={{ textAlign: 'center' }}>Login</Text>
 
       <TextField
         autoFocus
@@ -78,5 +78,3 @@ const LoginForm = (props: LoginFormProps) => {
     </Flex>
   );
 };
-
-export default LoginForm;
