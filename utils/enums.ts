@@ -171,4 +171,13 @@ export enum ColorMap {
   Grey900 = 'color-basic-900',
   Grey1000 = 'color-basic-1000',
   Grey1100 = 'color-basic-1100',
+  Background1 = 'background-basic-color-1',
+  Background2 = 'background-basic-color-2',
+  Background3 = 'background-basic-color-3',
+  Background4 = 'background-basic-color-4',
+  Border1 = 'border-basic-color-1',
+  Border2 = 'border-basic-color-2',
+  Border3 = 'border-basic-color-3',
+  Border4 = 'border-basic-color-4',
+  Border5 = 'border-basic-color-5',
 }
