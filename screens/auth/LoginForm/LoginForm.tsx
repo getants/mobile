@@ -23,7 +23,6 @@ export const LoginForm = (props: LoginFormProps) => {
     email: '',
     password: '',
   });
-
   const changeInput = (key: keyof LoginFormInput, value: string) => {
     const newInputValue = {
       ...input,
