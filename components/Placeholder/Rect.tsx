@@ -1,7 +1,6 @@
 import React from 'react';
 import ContentLoader, { Rect as RCLRect } from 'react-content-loader/native';
 import { useTheme } from '../../utils/hooks';
-import { colorKey } from './helpers';
 
 export type RectProps = {
   borderRadius?: number;
@@ -16,11 +15,11 @@ export const Rect: React.FC<RectProps> = ({
   width,
   height,
 }) => {
-  const theme = useTheme();
+  const { colors } = useTheme();
   return (
     <ContentLoader
-      backgroundColor={theme[colorKey.basic200]}
-      foregroundColor={theme[colorKey.basic400]}
+      backgroundColor={colors.basic400}
+      foregroundColor={colors.basic500}
       speed={speed}
       width={width}
       height={height}

@@ -15,7 +15,7 @@ export const ProgressBar = (props: Props) => {
     height = 2,
     ...restProps
   } = props;
-  const theme = useTheme();
+  const { colors } = useTheme();
 
   const computedWidth = useComputedWidth(width);
 
@@ -25,8 +25,8 @@ export const ProgressBar = (props: Props) => {
       width={computedWidth}
       height={height}
       viewBox={`0 0 ${computedWidth} ${height}`}
-      backgroundColor={theme['color-basic-400']}
-      foregroundColor={theme['color-primary-500']}
+      backgroundColor={colors.basic300}
+      foregroundColor={colors.primary500}
       {...restProps}
     >
       <Rect x="0" y="0" rx="0" ry="0" width={computedWidth} height={height} />

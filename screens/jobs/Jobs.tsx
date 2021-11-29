@@ -14,6 +14,7 @@ import {
   Animated,
   SafeAreaView,
   Placeholder,
+  JobItem as JobItemPlaceholder,
   TitleSmall,
   View,
 } from '../../components';
@@ -225,7 +226,7 @@ export const JobListScreen = (props: Props) => {
           initialNumToRender={NumberJobsBatch}
           onEndReached={handleLoadMore}
           onEndReachedThreshold={1}
-          ListEmptyComponent={<Placeholder component={<Placeholder.JobItem />} />}
+          ListEmptyComponent={<Placeholder component={<JobItemPlaceholder />} />}
           renderItem={renderItem}
           scrollEventThrottle={8}
           onScroll={onScroll}

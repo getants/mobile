@@ -3,15 +3,18 @@ import { useTheme as useKittenTheme } from '@ui-kitten/components';
 import { ThemeContext } from '../../components/ThemeProvider';
 import { ColorMap } from '../constants';
 
+type ColorKey = keyof typeof ColorMap;
+
 export const mapColors = (
   themeObj: Record<string, string>,
-) => (Object.keys(ColorMap) as Array<keyof typeof ColorMap>).reduce((colors, key) => {
-  const colorId: string = ColorMap[key];
-  return {
-    ...colors,
-    [key]: themeObj[colorId],
-  };
-}, {} as Record<keyof typeof ColorMap, string>);
+) => (Object.keys(ColorMap) as Array<ColorKey>)
+  .reduce((colors, key) => {
+    const colorId: string = ColorMap[key];
+    return {
+      ...colors,
+      [key]: themeObj[colorId],
+    };
+  }, {} as Record<ColorKey, string>);
 
 export const useTheme = () => {
   const theme = useKittenTheme();

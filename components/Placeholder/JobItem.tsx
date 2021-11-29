@@ -2,7 +2,6 @@ import React from 'react';
 import ContentLoader, { Rect } from 'react-content-loader/native';
 import { useWindowDimensions, useTheme } from '../../utils/hooks';
 import { JOB_IMAGE_FRAME_RATIO } from '../../utils/constants';
-import { colorKey } from './helpers';
 
 type Props = {
   speed?: number;
@@ -13,7 +12,7 @@ const itemHeight = 280;
 const titleHeight = 20;
 
 export const JobItem: React.FC<Props> = ({ speed = 1 }) => {
-  const theme = useTheme();
+  const { colors } = useTheme();
   const { width: deviceWidth } = useWindowDimensions();
   const imageHeight = deviceWidth / JOB_IMAGE_FRAME_RATIO;
 
@@ -27,8 +26,8 @@ export const JobItem: React.FC<Props> = ({ speed = 1 }) => {
   return (
     <ContentLoader
       speed={speed}
-      backgroundColor={theme[colorKey.basic200]}
-      foregroundColor={theme[colorKey.basic400]}
+      backgroundColor={colors.basic400}
+      foregroundColor={colors.basic500}
       width={deviceWidth}
       height={itemHeight}
       viewBox={`0 0 ${deviceWidth} ${itemHeight}`}

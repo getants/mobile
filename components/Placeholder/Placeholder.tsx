@@ -33,4 +33,10 @@ Placeholder.Circle = Circle;
 Placeholder.JobItem = JobItem;
 Placeholder.Rect = Rect;
 
-export default Placeholder;
+export {
+  Placeholder,
+  Circle,
+  Rect,
+  ConversationItem,
+  JobItem,
+};

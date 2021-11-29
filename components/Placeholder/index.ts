@@ -1,4 +1,7 @@
-import Placeholder from './Placeholder';
-
-export { Placeholder };
-export default Placeholder;
+export {
+  Placeholder,
+  Circle,
+  Rect,
+  JobItem,
+  ConversationItem,
+} from './Placeholder';
