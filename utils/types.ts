@@ -181,10 +181,10 @@ export type Job = {
   id: string;
   address: Address; // Address registerd with company
   company: Company;
-  created_at: Date;
-  updated_at?: Date;
+  created_at: string;
+  updated_at?: string;
   description: string;
-  end?: Date;
+  end?: string;
   title: string;
   image?: string;
   quantity: number;

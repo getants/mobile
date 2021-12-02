@@ -19,10 +19,10 @@ import {
   View,
 } from '../../components';
 import {
+  useAuth,
   useQuery,
   useTimeoutFn,
   useCollapsibleHeader,
-  // useTheme,
 } from '../../utils/hooks';
 import { getEnvironment } from '../../utils/tokens';
 import { JobItem } from './JobItem';
@@ -53,26 +53,24 @@ const styles = StyleSheet.create({
 
 export const JobListScreen = (props: Props) => {
   const { navigation } = props;
-  // const theme = useTheme();
+  const { user } = useAuth();
 
   const [retry, setRetry] = useState<number>(0);
-  const [distance, setDistance] = useState<number>(10);
-  // const { session } = useAuth();
-  // const userId = session?.user?.id ?? '';
+  const [distance, setDistance] = useState<number>(999);
 
   const aggregateJobsVars = useMemo(() => ({
     args: {
       distance,
-      lat: 60.333,
-      long: 25.023,
+      user_id: user?.id ?? '',
     },
     limit: NumberJobsBatch,
     offset: 0,
     where: {
-      tenant_id: { _eq: tenantId },
-      location: { _is_null: false },
+      company: {
+        tenant_id: { _eq: tenantId },
+      },
     },
-  }), [distance]);
+  }), [distance, user]);
 
   const {
     data: aggregateJobs,
@@ -87,7 +85,7 @@ export const JobListScreen = (props: Props) => {
   });
 
   if (aggregateError) {
-    console.log('### Jobs aggregateError: ', aggregateError); // eslint-disable-line
+    console.log('### Jobs aggregateError: ', aggregateError, aggregateJobsVars); // eslint-disable-line
   }
 
   const jobs = useMemo<Job[]>(() => {
