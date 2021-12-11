@@ -19,6 +19,7 @@
     "import"
   ],
   "rules": {
+    "global-require": "off",
     "no-plusplus": "off",
     "no-underscore-dangle": "off",
     "import/no-unresolved": "off",

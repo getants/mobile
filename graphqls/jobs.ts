@@ -1,5 +1,16 @@
 import gql from 'graphql-tag';
 
+export const JOBS = gql`
+query JOBS {
+  jobs {
+    id
+    title
+    description
+    location    
+  }
+}
+`;
+
 export const SINGLE_JOB = gql`
   query SINGLE_JOB ($id: uuid!) {
     jobs_by_pk(id: $id) {
@@ -42,17 +53,41 @@ export const SINGLE_JOB = gql`
   }
 `;
 
+//  export const JOBS_NEARBY_AGGREGATE = gql`
+//    query JOBS_NEARBY_AGGREGATE (
+// $args: jobs_nearby_args!, $limit: Int!, $offset: Int!, $where: jobs_bool_exp!) {
+//      jobs_nearby_aggregate(args: $args, limit: $limit, offset: $offset, where: $where) {
+//        __typename
+//        nodes {
+//          id
+//          created_at
+//          description
+//          expiration_date
+//          quantity
+//          title
+//          updated_at
+//        }
+//      }
+//    }
+//  `;
+
 export const JOBS_NEARBY_AGGREGATE = gql`
-  query jobs_nearby_aggregate ($args: jobs_nearby_args!, $limit: Int!, $offset: Int!, $where: jobs_bool_exp!) {
+  query JOBS_NEARBY_AGGREGATE (
+    $args: jobs_nearby_args!,
+    $limit: Int!,
+    $offset: Int!,
+    $where: jobs_bool_exp!
+  ) {
     jobs_nearby_aggregate(args: $args, limit: $limit, offset: $offset, where: $where) {
+      __typename
       nodes {
         id
         created_at
-        updated_at
-        title
         description
-        quantity
         expiration_date
+        quantity
+        title
+        updated_at
         address {
           id
           unstructured_value

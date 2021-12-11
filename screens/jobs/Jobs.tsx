@@ -80,12 +80,13 @@ export const JobListScreen = (props: Props) => {
     refetch,
   } = useQuery<JobsNearbyAggregateData>(JOBS_NEARBY_AGGREGATE, {
     variables: aggregateJobsVars,
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: 'no-cache',
     notifyOnNetworkStatusChange: true,
   });
 
   if (aggregateError) {
     console.log('### Jobs aggregateError: ', aggregateError, aggregateJobsVars); // eslint-disable-line
+    // nhost.auth.signOut();
   }
 
   const jobs = useMemo<Job[]>(() => {

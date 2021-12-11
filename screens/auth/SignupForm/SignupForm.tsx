@@ -7,7 +7,9 @@ import {
 } from '../../../components';
 
 export type SignupFormInput = {
-  displayName: string;
+  options?: {
+    displayName?: string;
+  };
   email: string;
   password: string;
 };
@@ -18,30 +20,20 @@ export type SignupFormProps = {
   onSwitchView?: () => void;
 };
 
-const initialInput: SignupFormInput = {
-  displayName: '',
-  email: '',
-  password: '',
-};
-
 export const SignupForm = (props: SignupFormProps) => {
-  const { onChange, onSubmit, onSwitchView } = props;
-  const [input, setInput] = useState<SignupFormInput>(initialInput);
+  const { onSubmit, onSwitchView } = props;
 
-  const changeInput = (key: keyof SignupFormInput, value: string) => {
-    const newInputValue = {
-      ...input,
-      [key]: value,
-    };
-    if (typeof onChange === 'function') {
-      onChange(newInputValue);
-    }
-    setInput(newInputValue);
-  };
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
 
   const handleSubmit = () => {
     if (typeof onSubmit === 'function') {
-      onSubmit(input);
+      onSubmit({
+        email,
+        password,
+        options: { displayName: name },
+      });
     }
   };
 
@@ -58,21 +50,21 @@ export const SignupForm = (props: SignupFormProps) => {
       <Input
         autoFocus
         placeholder="Full name"
-        value={input.displayName}
-        onChangeText={(v: string) => changeInput('displayName', v)}
+        value={name}
+        onChangeText={setName}
       />
 
       <Input
         placeholder="Email"
-        value={input.email.toLowerCase()}
-        onChangeText={(v: string) => changeInput('email', v.toLowerCase())}
+        value={email.toLowerCase()}
+        onChangeText={(v) => setEmail(v.toLowerCase())}
       />
 
       <Input
         secureTextEntry
         placeholder="Password"
-        value={input.password}
-        onChangeText={(v: string) => changeInput('password', v)}
+        value={password}
+        onChangeText={setPassword}
       />
 
       <Button onPress={handleSubmit}>

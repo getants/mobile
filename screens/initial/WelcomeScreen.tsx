@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { ProgressBar, Text, Flex } from '../../components';
-import { INSERT_RESUME, RESUME_AGGREGATE } from '../../graphqls';
+import { INSERT_RESUME, RESUMES_AGGREGATE, JOBS_NEARBY_AGGREGATE } from '../../graphqls';
 import {
   useAuth,
   useFocusEffect,
@@ -10,7 +10,11 @@ import {
   useTimeoutFn,
 } from '../../utils/hooks';
 import { style as s, space } from '../../utils/tokens';
-import { RootStackEnum, MainStackEnum } from '../../utils/enums';
+import {
+  RootStackEnum,
+  MainStackEnum,
+  InitialStackEnum,
+} from '../../utils/enums';
 import type {
   ResumeAggregateData,
   WelcomeScreenNavigationProp,
@@ -34,11 +38,11 @@ type Props = {
 
 export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
   const { user, isAuthenticated } = useAuth();
-  const [times, setTimes] = useState(0);
+  const [retries, setRetries] = useState(0);
   const [message, setMessage] = useState<string>('Setup, please wait...');
 
-  const { data: aggregateResume, error: queryError } = useQuery<ResumeAggregateData>(
-    RESUME_AGGREGATE,
+  const { data: aggregateResume } = useQuery<ResumeAggregateData>(
+    RESUMES_AGGREGATE,
     {
       variables: {
         limit: 1,
@@ -50,33 +54,65 @@ export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
       },
       fetchPolicy: 'cache-and-network',
       notifyOnNetworkStatusChange: true,
+      errorPolicy: 'all',
     },
   );
+
+  const { data, error } = useQuery(JOBS_NEARBY_AGGREGATE, {
+    variables: {
+      args: {
+        distance: 9999,
+        user_id: user?.id ?? '',
+      },
+      limit: 10,
+      offset: 0,
+      where: {
+        company: {
+          tenant_id: { _eq: '3ad7aaec-1ba8-476c-b378-d1257f212a94' },
+        },
+      },
+    },
+    // context: {
+    //   headers: {
+    //     'Sec-Websocket-Protocol': 'graphql-ws',
+    //   },
+    // },
+    fetchPolicy: 'network-only',
+    errorPolicy: 'all',
+  });
+
+  console.log('WelcomeScreen', {
+    isAuthenticated,
+    data,
+    error,
+  });
 
   const [createResume] = useMutation(INSERT_RESUME);
 
   const [, cancelTimer, resetTimer] = useTimeoutFn(async () => {
-    if (aggregateResume === undefined && times < 2) {
-      setMessage(`New profile setup... (${times + 1}/2)`);
-      setTimes((t) => t + 1);
-      resetTimer();
-    } else if (user && aggregateResume?.resumes_aggregate?.nodes?.length === 0) {
-      setMessage('Creating nessesary data...');
-      await createResume({
-        variables: {
-          object: {
-            user_id: user.id,
-            name: 'default',
-            summary: 'Auto-generated',
+    if (isAuthenticated) {
+      // Can not find profile, will try again
+      if (aggregateResume === undefined && retries < 2) {
+        setMessage(`New profile setup... (${retries + 1}/2)`);
+        setRetries((t) => t + 1);
+        resetTimer();
+      } else if (user && aggregateResume?.resumes_aggregate?.nodes?.length === 0) {
+        setMessage('Creating nessesary data...');
+        await createResume({
+          variables: {
+            object: {
+              user_id: user.id,
+              name: 'default',
+              summary: 'Auto-generated',
+            },
           },
-        },
-      });
-      setMessage('Redirect...');
-      navigation.navigate(RootStackEnum.MainStack, {
-        screen: MainStackEnum.ProfileStack,
-      });
-    } else {
-      navigation.navigate(RootStackEnum.MainStack);
+        });
+        setMessage('Redirect...');
+        navigation.navigate({ key: RootStackEnum.MainStack });
+      // TODO: Create setup screen and let user confirm before moving next
+      // } else {
+      //   navigation.navigate(InitialStackEnum.SetupScreen);
+      }
     }
   }, 1000);
 
@@ -88,17 +124,17 @@ export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
   );
 
   useEffect(() => {
-    if (!user || !isAuthenticated) {
-      navigation.navigate({ key: RootStackEnum.AuthStack });
+    if (!isAuthenticated) {
+      navigation.navigate(RootStackEnum.AuthStack);
     }
-  }, [isAuthenticated, user, navigation]);
+  }, [isAuthenticated, navigation]);
 
   return (
-    <StyledBackground>
+    <StyledBackground source={require('../../assets/splash.png')}>
       <Flex direction="column" justify="space-between" height="100%">
         <Flex padding={10} />
 
-        <Flex paddingBottom={180}>
+        <Flex paddingBottom={180} align="center">
           <ProgressBar />
           <TinyMessage>{message}</TinyMessage>
         </Flex>

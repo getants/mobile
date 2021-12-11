@@ -10,7 +10,7 @@ export const SENTRY_DSN = 'https://b1aebc40dd134a2985d322a95cf0fed6@o333769.inge
 export const ENV_VARS: Record<string, Record<string, EnvironmentType>> = {
   dev: {
     finland: {
-      tenantId: '12cd2a35-541a-4020-b2b4-5fd3c5f19a93',
+      tenantId: '3ad7aaec-1ba8-476c-b378-d1257f212a94',
       apiUrl: 'http://localhost:8080',
       baseUrl: 'http://localhost:1337',
       wsUrl: 'wss://localhost:8080',

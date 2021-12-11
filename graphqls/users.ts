@@ -36,14 +36,14 @@ export const UPSERT_MY_LOCATION = gql`
   }
 `;
 
-export const RESUME_AGGREGATE = gql`
-  query RESUME_AGGREGATE(
-      $limit: Int!,
-      $offset: Int!,
-      $order_by: [resume_order_by!]!,
-      $where: resume_bool_exp!
+export const RESUMES_AGGREGATE = gql`
+  query RESUMES_AGGREGATE(
+      $limit: Int,
+      $offset: Int,
+      $order_by: [resumes_order_by!],
+      $where: resumes_bool_exp
     ) {
-    resume_aggregate(
+    resumes_aggregate(
       limit: $limit,
       offset: $offset,
       order_by: $order_by,
@@ -54,33 +54,33 @@ export const RESUME_AGGREGATE = gql`
         name
         summary
         certifications(order_by: {updated_at: desc}) {
+          id
+          updated_at
           created_at
           credential_url
           expiration_date
-          id
           issue_date
           organization
-          updated_at
         }
         educations(order_by: {updated_at: desc}) {
+          id
+          updated_at
           created_at
           degree
           description
           education_level
           end_date
           field
-          id
           school_name
           start_date
-          updated_at
         }
         experiences(order_by: {updated_at: desc}) {
-          company_id
-          created_at
+          id
           updated_at
+          created_at
+          company_id
           description
           end_date
-          id
           name
           start_date
         }

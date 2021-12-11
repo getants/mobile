@@ -38,7 +38,7 @@ export type StackScreens =
 export type RootStackParams = {
   [RootStackEnum.AuthStack]: NavigatorScreenParams<AuthStackParams>;
   [RootStackEnum.InitialStack]: NavigatorScreenParams<InitialStackParams>;
-  [RootStackEnum.MainStack]: NavigatorScreenParams<MainStackParams> & { name: string };
+  [RootStackEnum.MainStack]: NavigatorScreenParams<MainStackParams> & { name?: string };
 };
 export type InitialStackParams = {
   [InitialStackEnum.WelcomeScreen]?: undefined;
