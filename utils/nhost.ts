@@ -7,7 +7,7 @@ import { getEnvironment } from './tokens';
 const { baseUrl } = getEnvironment();
 
 export const nhost = new NhostClient({
-  backendUrl: 'https://hasura-0e13c389.nhost.app',
+  backendUrl: baseUrl,
   clientStorage: SecureStore,
   clientStorageType: 'expo-secure-storage',
 });

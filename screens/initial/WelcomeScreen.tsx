@@ -9,7 +9,7 @@ import {
   useMutation,
   useTimeoutFn,
 } from '../../utils/hooks';
-import { style as s, space } from '../../utils/tokens';
+import { space } from '../../utils/tokens';
 import {
   RootStackEnum,
   MainStackEnum,
@@ -68,15 +68,10 @@ export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
       offset: 0,
       where: {
         company: {
-          tenant_id: { _eq: '3ad7aaec-1ba8-476c-b378-d1257f212a94' },
+          tenant_id: { _eq: '29fd709e-1b05-4f26-8510-e91d62acc3df' },
         },
       },
     },
-    // context: {
-    //   headers: {
-    //     'Sec-Websocket-Protocol': 'graphql-ws',
-    //   },
-    // },
     fetchPolicy: 'network-only',
     errorPolicy: 'all',
   });
