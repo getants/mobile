@@ -235,11 +235,9 @@ export type RichProperty = `${ShortProperty}-${number}`;
 export type StyleObject = Record<string, string | number>;
 export type EnvironmentType = {
   tenantId: string;
-  apiUrl: string;
   baseUrl: string;
   wsUrl: string;
   chatUrl: string;
-  // syncUrl: string;
 };
 export type EnvType = 'dev' | 'stage' | 'prod';
 export interface LayoutProps {

@@ -21,6 +21,7 @@ export const Button: React.FC<ButtonProps> = ({
   const mappedProps = {
     ...(outline && { appearance: 'outline' }),
     ...(ghost && { appearance: 'ghost' }),
+    size: 'large',
     accessoryLeft: leftIcon,
     accessoryRight: rightIcon,
   };

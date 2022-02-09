@@ -15,6 +15,7 @@ export const Input: React.FC<InputProps> = ({
   ...restProps
 }) => {
   const mappedProps = {
+    size: 'large',
     accessoryLeft: leftIcon,
     accessoryRight: rightIcon,
   };

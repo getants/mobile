@@ -122,6 +122,7 @@ export const getStatusBarHeight = () => {
 // E.g: dev-finland, prod-finland, stage-thailand
 export const getEnvironment = (): EnvironmentType => {
   const { manifest } = Constants;
+  console.log({ manifest });
   const { releaseChannel = 'dev-finland' } = manifest ?? {};
   const [env, country] = releaseChannel.split('-');
   return ENV_VARS[env][country];

@@ -1,4 +1,5 @@
 import { Platform } from 'react-native';
+import * as Device from 'expo-device';
 import type { EnvironmentType } from './types';
 
 export const APP_NAME = 'GetAnts';
@@ -7,34 +8,35 @@ export const FACEBOOK_PROFILE_URL = 'https://graph.facebook.com/me?fields=email,
 export const SENTRY_DSN = 'https://b1aebc40dd134a2985d322a95cf0fed6@o333769.ingest.sentry.io/5568983';
 // export const defaultImage = 'https://template-api.s3-ap-southeast-1.amazonaws.com/image/default.png';
 
+// NOTE: Sometimes the machine's IP will be changed, run the script in folder
+// ./scripts/dev.sh to get the IP. Suggest open the wifi because most of the time
+// the phone will use wifi, with this way we can connect using LAN option in metro.
+const hostUri = __DEV__ && Device.isDevice ? '192.168.100.22' : 'localhost';
+
 export const ENV_VARS: Record<string, Record<string, EnvironmentType>> = {
   dev: {
     finland: {
       tenantId: '3ad7aaec-1ba8-476c-b378-d1257f212a94',
-      apiUrl: 'http://localhost:8080',
-      baseUrl: 'http://localhost:1337',
-      wsUrl: 'wss://localhost:8080',
-      chatUrl: 'http://localhost:8080',
+      baseUrl: `http://${hostUri}:1337`,
+      wsUrl: `wss://${hostUri}:8080`,
+      chatUrl: `http://${hostUri}:1337`,
     },
     thailand: {
       tenantId: '14e694d2-84e1-4531-bc10-fd3b11c62882',
-      apiUrl: 'http://localhost:8080',
-      baseUrl: 'http://localhost:1337',
-      wsUrl: 'wss://localhost:8080',
-      chatUrl: 'http://localhost:8080',
+      baseUrl: `http://${hostUri}:1337`,
+      wsUrl: `wss://${hostUri}:8080`,
+      chatUrl: `http://${hostUri}:1337`,
     },
   },
   stage: {
     finland: {
       tenantId: '12cd2a35-541a-4020-b2b4-5fd3c5f19a93',
-      apiUrl: 'https://ants-dev.hasura.app',
       baseUrl: 'https://ants-dev.hasura.app',
       wsUrl: 'wss://ants-dev.hasura.app',
       chatUrl: 'https://us-central1-getants.cloudfunctions.net/chatbot',
     },
     thailand: {
       tenantId: '14e694d2-84e1-4531-bc10-fd3b11c62882',
-      apiUrl: 'https://ants-dev.hasura.app',
       baseUrl: 'https://ants-dev.hasura.app',
       wsUrl: 'wss://ants-dev.hasura.app',
       chatUrl: 'https://us-central1-getants.cloudfunctions.net/chatbot',
@@ -43,14 +45,12 @@ export const ENV_VARS: Record<string, Record<string, EnvironmentType>> = {
   prod: {
     finland: {
       tenantId: '87726cee-e54c-4b49-8947-1be04faceda9',
-      apiUrl: 'https://hasura-123d85d5.nhost.app',
       baseUrl: 'https://backend-123d85d5.nhost.app',
       wsUrl: 'wss://ants-prod.hasura.app',
       chatUrl: 'https://us-central1-getants.cloudfunctions.net/chatbot',
     },
     thailand: {
       tenantId: '450bb906-7885-4dbc-a77a-db1ac48d9be9',
-      apiUrl: 'https://hasura-123d85d5.nhost.app',
       baseUrl: 'https://backend-123d85d5.nhost.app',
       wsUrl: 'wss://ants-prod.hasura.app',
       chatUrl: 'https://us-central1-getants.cloudfunctions.net/chatbot',

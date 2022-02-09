@@ -19,6 +19,6 @@ export const useScreen = () => {
 
   return useMemo(
     () => ({ currentScreen, setCurrentScreen }),
-    [currentScreen, setCurrentScreen]
+    [currentScreen, setCurrentScreen],
   );
 };
