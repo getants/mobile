@@ -1,9 +1,4 @@
-import {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import isEqual from 'fast-deep-equal';
 import Constants from 'expo-constants';
 import {
@@ -20,7 +15,7 @@ import { createHeaderBackground } from './createHeaderBackground';
 export type Collapsible = {
   onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   onScrollWithListener: (
-    listener: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
+    listener: (event: NativeSyntheticEvent<NativeScrollEvent>) => void,
   ) => (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   containerPaddingTop: number;
   scrollIndicatorInsetTop: number;
@@ -45,23 +40,16 @@ export type UseCollapsibleOptions = {
 export const useCollapsibleHeader = (
   collapsibleOptions?: UseCollapsibleOptions,
 ): Collapsible => {
-  const {
-    navigationOptions = {},
-    config = {},
-  } = collapsibleOptions || {};
+  const { navigationOptions = {}, config = {} } = collapsibleOptions || {};
 
-  const {
-    headerStyle: userHeaderStyle = {},
-  } = navigationOptions;
+  const { headerStyle: userHeaderStyle = {} } = navigationOptions;
 
-  const {
-    collapsedColor,
-    useNativeDriver = true,
-  } = config;
+  const { collapsedColor, useNativeDriver = true } = config;
 
   const [headerStyle, setHeaderStyle] = useState(userHeaderStyle);
 
-  const backgroundColor = headerStyle?.backgroundColor ?? OUR_COLORS.primaryColor;
+  const backgroundColor =
+    headerStyle?.backgroundColor ?? OUR_COLORS.primaryColor;
 
   useEffect(() => {
     if (!isEqual(headerStyle, userHeaderStyle)) {
@@ -80,12 +68,14 @@ export const useCollapsibleHeader = (
 
   const onScrollWithListener = (
     listener: (event: NativeSyntheticEvent<NativeScrollEvent>) => void,
-  ) => Animated.event(
-    [{ nativeEvent: { contentOffset: { y: positionY } } }],
-    { useNativeDriver, listener },
-  );
+  ) =>
+    Animated.event([{ nativeEvent: { contentOffset: { y: positionY } } }], {
+      useNativeDriver,
+      listener,
+    });
 
-  const headerHeight = (headerStyle.height ?? HEADER_HEIGHT) - Constants.statusBarHeight;
+  const headerHeight =
+    (headerStyle.height ?? HEADER_HEIGHT) - Constants.statusBarHeight;
   const safeBounceHeightWithHeader = SAFE_BOUNCE_HEIGHT + headerHeight;
 
   const animatedDiffClampY = Animated.diffClamp(

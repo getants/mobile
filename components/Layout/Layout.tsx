@@ -4,11 +4,7 @@ import {
   Layout as KittenLayout,
   LayoutProps as KittenLayoutProps,
 } from '@ui-kitten/components';
-import {
-  Direction,
-  JustifyContent,
-  AlignItems,
-} from '../../utils/enums';
+import { Direction, JustifyContent, AlignItems } from '../../utils/enums';
 import { halfValue } from '../../utils/tokens';
 
 export type LayoutProps = {

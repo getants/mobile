@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Layout,
-  Input,
-  Text,
-} from '../../../components';
+import { Button, Layout, Input, Text } from '../../../components';
 
 export type LoginFormInput = {
   email: string;
@@ -64,9 +59,7 @@ export const LoginForm = (props: LoginFormProps) => {
         onChangeText={(v: string) => changeInput('password', v)}
       />
 
-      <Button onPress={handleSubmit}>
-        Login
-      </Button>
+      <Button onPress={handleSubmit}>Login</Button>
 
       <Button ghost onPress={handleSwitchView}>
         Signup

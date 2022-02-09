@@ -1,8 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Asset } from 'expo-media-library';
@@ -79,7 +75,9 @@ const CameraRoll = (props: Props) => {
   }, [assets, endCursor, hasNextPage]);
 
   const handleUpload = useCallback(async (uri: string) => {
-    const { id, ext } = uri.split('?')[1].split('&')
+    const { id, ext } = uri
+      .split('?')[1]
+      .split('&')
       .reduce<{ [k: string]: any }>((a, c) => {
         const [key, value] = c.split('=');
         /* eslint-disable no-param-reassign */
@@ -104,11 +102,7 @@ const CameraRoll = (props: Props) => {
     };
 
     setLoading(true);
-    const { data } = await axios.post(
-      `${endpoint}/upload`,
-      formData,
-      options,
-    );
+    const { data } = await axios.post(`${endpoint}/upload`, formData, options);
 
     if (data && data.success) {
       setLoading(false);
@@ -140,13 +134,7 @@ const CameraRoll = (props: Props) => {
 
   return (
     <SafeAreaView>
-
-      {(loading) && (
-        <ActivityIndicator
-          color={Colors.primary}
-          size="large"
-        />
-      )}
+      {loading && <ActivityIndicator color={Colors.primary} size="large" />}
 
       <FlatList
         data={assets}

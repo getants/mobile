@@ -1,5 +1,20 @@
 {
-  "singleQuote": true,
-  "tabWidth": 2,
-  "semi": true
+  "overrides": [
+    {
+      "files": ["*.yaml", "*.json"],
+      "options": {
+        "singleQuote": false
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "options": {
+        "singleQuote": true,
+        "tabWidth": 2,
+        "semi": true,
+        "trailingComma": "all",
+        "bracketSpacing": true
+      }
+    }
+  ]
 }

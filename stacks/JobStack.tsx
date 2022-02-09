@@ -1,9 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import {
-  SingleJobScreen,
-  JobListScreen,
-} from '../screens/jobs';
+import { SingleJobScreen, JobListScreen } from '../screens/jobs';
 import { createOptions, renderHeaderLeft } from '../utils/navigations';
 import { JobStackEnum } from '../utils/enums';
 import type { JobStackParams } from '../utils/types';

@@ -1,7 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { ProgressBar, Text, Flex } from '../../components';
-import { INSERT_RESUME, RESUMES_AGGREGATE, JOBS_NEARBY_AGGREGATE } from '../../graphqls';
+import {
+  INSERT_RESUME,
+  RESUMES_AGGREGATE,
+  JOBS_NEARBY_AGGREGATE,
+} from '../../graphqls';
 import {
   useAuth,
   useFocusEffect,
@@ -91,7 +95,10 @@ export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
         setMessage(`New profile setup... (${retries + 1}/2)`);
         setRetries((t) => t + 1);
         resetTimer();
-      } else if (user && aggregateResume?.resumes_aggregate?.nodes?.length === 0) {
+      } else if (
+        user &&
+        aggregateResume?.resumes_aggregate?.nodes?.length === 0
+      ) {
         setMessage('Creating nessesary data...');
         await createResume({
           variables: {
@@ -104,9 +111,9 @@ export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
         });
         setMessage('Redirect...');
         navigation.navigate({ key: RootStackEnum.MainStack });
-      // TODO: Create setup screen and let user confirm before moving next
-      // } else {
-      //   navigation.navigate(InitialStackEnum.SetupScreen);
+        // TODO: Create setup screen and let user confirm before moving next
+        // } else {
+        //   navigation.navigate(InitialStackEnum.SetupScreen);
       }
     }
   }, 1000);

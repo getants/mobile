@@ -9,12 +9,7 @@ type Props = {
 };
 
 export const ProgressBar = (props: Props) => {
-  const {
-    speed = 0.8,
-    width = '80%',
-    height = 2,
-    ...restProps
-  } = props;
+  const { speed = 0.8, width = '80%', height = 2, ...restProps } = props;
   const { colors } = useTheme();
 
   const computedWidth = useComputedWidth(width);

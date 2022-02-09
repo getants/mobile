@@ -16,16 +16,8 @@ type PlaceholderType = React.FC<Props> & {
   Rect: typeof Rect;
 };
 
-const Placeholder: PlaceholderType = ({
-  repeat = 3,
-  component,
-}: Props) => (
-  <>
-    {Array.from(
-      { length: repeat },
-      () => component,
-    )}
-  </>
+const Placeholder: PlaceholderType = ({ repeat = 3, component }: Props) => (
+  <>{Array.from({ length: repeat }, () => component)}</>
 );
 
 Placeholder.ConversationItem = ConversationItem;
@@ -33,10 +25,4 @@ Placeholder.Circle = Circle;
 Placeholder.JobItem = JobItem;
 Placeholder.Rect = Rect;
 
-export {
-  Placeholder,
-  Circle,
-  Rect,
-  ConversationItem,
-  JobItem,
-};
+export { Placeholder, Circle, Rect, ConversationItem, JobItem };

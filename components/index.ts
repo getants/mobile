@@ -1,8 +1,6 @@
 import * as MediaLibrary from 'expo-media-library';
 
-export {
-  MediaLibrary,
-};
+export { MediaLibrary };
 export {
   Animated,
   AsyncStorage as AsyncStorageNative,
@@ -23,18 +21,8 @@ export {
   ViewStyle,
   View,
 } from 'react-native';
-export {
-  Calendar,
-  CalendarList,
-  Agenda,
-} from 'react-native-calendars';
-export {
-  Text,
-  TitleLarge,
-  TitleSmall,
-  BodyText,
-  Description,
-} from './Text';
+export { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+export { Text, TitleLarge, TitleSmall, BodyText, Description } from './Text';
 export { Button } from './Button';
 export { ChatWrapper } from './ChatWrapper';
 export { Conversations } from './Conversations';

@@ -90,11 +90,11 @@ const shouldShowTabBar = (route: any) => {
   const routeName = getFocusedRouteNameFromRoute(route) ?? '';
 
   switch (routeName) {
-  case 'SingleJob':
-  case 'SingleConversation':
-    return false;
-  default:
-    return true;
+    case 'SingleJob':
+    case 'SingleConversation':
+      return false;
+    default:
+      return true;
   }
 };
 

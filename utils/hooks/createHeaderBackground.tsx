@@ -11,34 +11,37 @@ export type Params = {
   headerBackground?: React.ReactNode;
 };
 
-const createHeaderBackground = ({
-  translateY,
-  opacity,
-  backgroundColor,
-  collapsedColor,
-  headerBackground,
-}: Params) => () => (
-  <Animated.View style={{ flex: 1, transform: [{ translateY }] }}>
-    <View
-      style={[
-        {
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          backgroundColor: collapsedColor ?? backgroundColor,
-        },
-      ]}
-    />
-    <Animated.View
-      style={{
-        backgroundColor,
-        flex: 1,
-        opacity,
-      }}
-    >
-      {headerBackground}
-    </Animated.View>
-  </Animated.View>
-);
+const createHeaderBackground =
+  ({
+    translateY,
+    opacity,
+    backgroundColor,
+    collapsedColor,
+    headerBackground,
+  }: Params) =>
+  () =>
+    (
+      <Animated.View style={{ flex: 1, transform: [{ translateY }] }}>
+        <View
+          style={[
+            {
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              backgroundColor: collapsedColor ?? backgroundColor,
+            },
+          ]}
+        />
+        <Animated.View
+          style={{
+            backgroundColor,
+            flex: 1,
+            opacity,
+          }}
+        >
+          {headerBackground}
+        </Animated.View>
+      </Animated.View>
+    );
 
 export { createHeaderBackground };

@@ -17,7 +17,7 @@ const StyledView = styled.View<{ options: FlexboxProps }>`
 `;
 
 export type FlexProps = React.ComponentProps<typeof StyledView> &
-FlexAliasOptions;
+  FlexAliasOptions;
 
 export const Flex: React.FC<FlexProps> = ({
   direction,

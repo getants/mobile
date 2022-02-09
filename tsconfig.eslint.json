@@ -5,8 +5,9 @@
     ".expo-shared",
     ".github",
     "coverage",
-    "languages.ts",
-    "node_modules"
+    "node_modules",
+    "*.yaml",
+    "graphqls/index.ts"
   ],
   "include": [
     "declarations.d.ts",

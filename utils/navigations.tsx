@@ -41,12 +41,12 @@ export const renderHeaderLeft = <T extends { name: StackScreens }>(
   const routeName = route?.name ?? '';
 
   switch (routeName) {
-  case 'JobListScreen':
-  case 'Inbox':
-  case 'Calendar':
-  case 'Profile':
-    return null;
-  default:
-    return <HeaderBackButton {...props} />;
+    case 'JobListScreen':
+    case 'Inbox':
+    case 'Calendar':
+    case 'Profile':
+      return null;
+    default:
+      return <HeaderBackButton {...props} />;
   }
 };

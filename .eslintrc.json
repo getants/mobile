@@ -1,47 +1,88 @@
 {
-  "extends": [
-    "airbnb",
-    "airbnb-typescript",
-    "airbnb/hooks"
-  ],
-  "parserOptions": {
-    "project": "./tsconfig.eslint.json",
-    "tsconfigRootDir": "./",
-    "ecmaFeatures": {
-      "jsx": true
+  "overrides": [
+    {
+      "files": ["*.graphql"],
+      "parser": "@graphql-eslint/eslint-plugin",
+      "plugins": ["@graphql-eslint"],
+      "rules": {
+        "@graphql-eslint/known-type-names": "error"
+      },
+      "parserOptions": {
+        "schema": "./graphqls/schema.json"
+      }
     },
-    "ecmaVersion": 2018,
-    "sourceType": "module"
-  },
-  "plugins": [
-    "@typescript-eslint",
-    "react-hooks",
-    "import"
-  ],
-  "rules": {
-    "global-require": "off",
-    "no-plusplus": "off",
-    "no-underscore-dangle": "off",
-    "import/no-unresolved": "off",
-    "import/no-extraneous-dependencies": "off",
-    "import/prefer-default-export": "off",
-    "react/jsx-one-expression-per-line": "off",
-    "react/jsx-props-no-spreading": "off",
-    "react/require-default-props": "off",
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
-    "react/no-unused-prop-types": "warn",
-    "@typescript-eslint/camelcase": "off",
-    "@typescript-eslint/no-unused-vars": "warn",
-    "@typescript-eslint/indent": [
-      "error",
-      2,
-      {
-        "ignoredNodes": [
-          "TSTypeParameterInstantiation"
+    {
+      "files": ["*.ts", "*.tsx", "*.js"],
+      "parser": "@typescript-eslint/parser",
+      "extends": [
+        "airbnb",
+        "airbnb/hooks",
+        "airbnb-typescript",
+        "plugin:@next/next/recommended",
+        "plugin:prettier/recommended"
+      ],
+      "parserOptions": {
+        "project": "./tsconfig.eslint.json"
+      },
+      "env": {
+        "browser": true,
+        "node": true,
+        "jasmine": true
+      },
+      "rules": {
+        "no-plusplus": "off",
+        "always-multiline": "off",
+        "func-names": "off",
+        "react/display-name": "off",
+        "react/react-in-jsx-scope": "off",
+        "react/prop-types": "off",
+        "react/require-default-props": "off",
+        "react/jsx-props-no-spreading": "off",
+        "react/no-unused-prop-types": "off",
+        "react/function-component-definition": "off",
+        "react/no-unstable-nested-components": "off",
+        "max-len": [
+          "error",
+          {
+            "code": 80,
+            "ignoreComments": true,
+            "ignoreTrailingComments": true,
+            "ignoreUrls": true,
+            "ignoreRegExpLiterals": true,
+            "ignoreStrings": true
+          }
+        ],
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          {
+            "argsIgnorePattern": "^_",
+            "varsIgnorePattern": "^_"
+          }
+        ],
+        "indent": "off",
+        "@typescript-eslint/indent": "off",
+        "import/no-anonymous-default-export": [
+          2,
+          {
+            "allowArrowFunction": true
+          }
+        ],
+        "import/no-extraneous-dependencies": [
+          "error",
+          {
+            "devDependencies": true
+          }
+        ],
+        "import/prefer-default-export": "off",
+        "jsx-a11y/anchor-is-valid": [
+          "error",
+          {
+            "components": ["Link"],
+            "specialLink": ["hrefLeft", "hrefRight"],
+            "aspects": ["invalidHref", "preferButton"]
+          }
         ]
       }
-    ],
-    "react/function-component-definition": "off"
-  }
+    }
+  ]
 }

@@ -14,9 +14,7 @@ export const ConversationItem = (props: Props) => {
   return (
     <Card>
       <Text>{conversationTitle}</Text>
-      <Text>
-        {data?.updated_at}
-      </Text>
+      <Text>{data?.updated_at}</Text>
     </Card>
   );
 };

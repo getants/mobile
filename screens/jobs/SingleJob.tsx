@@ -1,12 +1,6 @@
-import React, {
-  useLayoutEffect,
-  useMemo,
-} from 'react';
+import React, { useLayoutEffect, useMemo } from 'react';
 import styled from 'styled-components/native';
-import {
-  MainStackEnum,
-  InboxStackEnum,
-} from '../../utils/enums';
+import { MainStackEnum, InboxStackEnum } from '../../utils/enums';
 import type {
   Job,
   // Conversation,
@@ -14,7 +8,6 @@ import type {
   SingleJobScreenRouteProp,
   SingleJobScreenNavigationProp,
 } from '../../utils/types';
-import { SINGLE_JOB } from '../../graphqls/jobs';
 import {
   useAuth,
   useLazyQuery,
@@ -23,9 +16,11 @@ import {
   useTimeoutFn,
 } from '../../utils/hooks';
 import {
-  CONVERSATION_AGGREGATE,
-  INSERT_CONVERSATION,
-} from '../../graphqls/inbox';
+  ConversationsAggregateDocument,
+  InsertConversationsDocument,
+  JobsByPkDocument,
+  // InsertConversationsMutation,
+} from '../../graphqls';
 import {
   FAB,
   SafeAreaView,
@@ -54,10 +49,7 @@ export const SingleJobScreen = (props: Props) => {
 
   const { jobId, jobTitle, companyName } = route.params;
 
-  const {
-    loading,
-    data,
-  } = useQuery(SINGLE_JOB, {
+  const { loading, data } = useQuery(JobsByPkDocument, {
     variables: { id: jobId },
     notifyOnNetworkStatusChange: true,
   });
@@ -72,24 +64,30 @@ export const SingleJobScreen = (props: Props) => {
 
   // One customer can have only ONE conversation with ONE company only.
   // For different jobs, we notify with another signal over time.
-  const findConversationVars = useMemo(() => ({
-    limit: 1,
-    offset: 0,
-    where: {
-      _and: {
-        company_id: { _eq: job?.company?.id ?? '' },
-        users: { user_id: { _eq: userId } },
+  const findConversationVars = useMemo(
+    () => ({
+      limit: 1,
+      offset: 0,
+      where: {
+        _and: {
+          company_id: { _eq: job?.company?.id ?? '' },
+          users: { user_id: { _eq: userId } },
+        },
       },
-    },
-  }), [userId, job]);
+    }),
+    [userId, job],
+  );
 
-  const [findConversation, {
-    data: aggregateData,
-    // error: aggregateError,
-    // loading: aggregateLoading,
-    // fetchMore: aggregateMore,
-    // refetch,
-  }] = useLazyQuery<ConversationAggregateData>(CONVERSATION_AGGREGATE, {
+  const [
+    findConversation,
+    {
+      data: aggregateData,
+      // error: aggregateError,
+      // loading: aggregateLoading,
+      // fetchMore: aggregateMore,
+      // refetch,
+    },
+  ] = useLazyQuery<ConversationAggregateData>(ConversationsAggregateDocument, {
     variables: findConversationVars,
     fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
@@ -102,9 +100,9 @@ export const SingleJobScreen = (props: Props) => {
     [aggregateData],
   );
 
-  const [addConversation, {
-    data: newConversation,
-  }] = useMutation(INSERT_CONVERSATION);
+  const [addConversation, { data: newConversation }] = useMutation(
+    InsertConversationsDocument,
+  );
 
   const navigateToConversation = (id: string) => {
     navigation.navigate(MainStackEnum.InboxStack, {
@@ -148,13 +146,17 @@ export const SingleJobScreen = (props: Props) => {
 
       <ScrollView>
         <Card>
-          <Text h2 style={{ padding: 20 }}>{job.title || ''}</Text>
+          <Text h2 style={{ padding: 20 }}>
+            {job.title || ''}
+          </Text>
 
           <Card.Image source={{ uri: job.image }} />
           <Text>{job.address?.unstructured_value ?? ''}</Text>
 
           <Text>Description</Text>
-          <Text>{job.description} / Company: {job?.company?.name}</Text>
+          <Text>
+            {job.description} / Company: {job?.company?.name}
+          </Text>
         </Card>
       </ScrollView>
 

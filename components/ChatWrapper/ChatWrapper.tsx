@@ -44,7 +44,6 @@ export const ChatWrapper: React.FC<Props> = ({
   // )}
   return (
     <SafeAreaView style={{ flex: 1 }}>
-
       <GiftedChat
         loadEarlier
         infiniteScroll

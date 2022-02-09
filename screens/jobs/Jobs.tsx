@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import type { ListRenderItem } from 'react-native';
 import Constants from 'expo-constants';
 import { StyleSheet } from 'react-native';
-import { JOBS_NEARBY_AGGREGATE } from '../../graphqls/jobs';
+import { JobsNearbyAggregateDocument } from '../../graphqls';
 import { JobStackEnum } from '../../utils/enums';
 import type {
   Job,
@@ -58,19 +58,22 @@ export const JobListScreen = (props: Props) => {
   const [retry, setRetry] = useState<number>(0);
   const [distance, setDistance] = useState<number>(999);
 
-  const aggregateJobsVars = useMemo(() => ({
-    args: {
-      distance,
-      user_id: user?.id ?? '',
-    },
-    limit: NumberJobsBatch,
-    offset: 0,
-    where: {
-      company: {
-        tenant_id: { _eq: tenantId },
+  const aggregateJobsVars = useMemo(
+    () => ({
+      args: {
+        distance,
+        user_id: user?.id ?? '',
       },
-    },
-  }), [distance, user]);
+      limit: NumberJobsBatch,
+      offset: 0,
+      where: {
+        company: {
+          tenant_id: { _eq: tenantId },
+        },
+      },
+    }),
+    [distance, user],
+  );
 
   const {
     data: aggregateJobs,
@@ -78,7 +81,7 @@ export const JobListScreen = (props: Props) => {
     loading,
     fetchMore,
     refetch,
-  } = useQuery<JobsNearbyAggregateData>(JOBS_NEARBY_AGGREGATE, {
+  } = useQuery<JobsNearbyAggregateData>(JobsNearbyAggregateDocument, {
     variables: aggregateJobsVars,
     fetchPolicy: 'no-cache',
     notifyOnNetworkStatusChange: true,
@@ -134,13 +137,7 @@ export const JobListScreen = (props: Props) => {
       increaseSearchRange();
       resetTimer();
     });
-  }, [
-    distance,
-    fetchMore,
-    increaseSearchRange,
-    jobs.length,
-    resetTimer,
-  ]);
+  }, [distance, fetchMore, increaseSearchRange, jobs.length, resetTimer]);
 
   // Making the useApply() which expose the need methods better
   // so in the future we can go to chat faster from any where
@@ -191,27 +188,27 @@ export const JobListScreen = (props: Props) => {
     />
   );
 
-  const options = useMemo(() => ({
-    navigationOptions: {
-      // header: () => <Text>test</Text>,
-      headerStyle: {
-        // backgroundColor: 'green',
+  const options = useMemo(
+    () => ({
+      navigationOptions: {
+        // header: () => <Text>test</Text>,
+        headerStyle: {
+          // backgroundColor: 'green',
+        },
       },
-    },
-    config: {
-      // collapsedColor: 'black',
-      useNativeDriver: true,
-    },
-  }), []);
+      config: {
+        // collapsedColor: 'black',
+        useNativeDriver: true,
+      },
+    }),
+    [],
+  );
 
-  const {
-    onScroll,
-    containerPaddingTop,
-    scrollIndicatorInsetTop,
-    translateY,
-  } = useCollapsibleHeader(options);
+  const { onScroll, containerPaddingTop, scrollIndicatorInsetTop, translateY } =
+    useCollapsibleHeader(options);
 
-  const paddingTop = containerPaddingTop + StickyHeaderHeight - Constants.statusBarHeight;
+  const paddingTop =
+    containerPaddingTop + StickyHeaderHeight - Constants.statusBarHeight;
   const top = scrollIndicatorInsetTop + StickyHeaderHeight;
 
   return (
@@ -225,7 +222,9 @@ export const JobListScreen = (props: Props) => {
           initialNumToRender={NumberJobsBatch}
           onEndReached={handleLoadMore}
           onEndReachedThreshold={1}
-          ListEmptyComponent={<Placeholder component={<JobItemPlaceholder />} />}
+          ListEmptyComponent={
+            <Placeholder component={<JobItemPlaceholder />} />
+          }
           renderItem={renderItem}
           scrollEventThrottle={8}
           onScroll={onScroll}

@@ -5,10 +5,8 @@ import { ColorMap } from '../constants';
 
 type ColorKey = keyof typeof ColorMap;
 
-export const mapColors = (
-  themeObj: Record<string, string>,
-) => (Object.keys(ColorMap) as Array<ColorKey>)
-  .reduce((colors, key) => {
+export const mapColors = (themeObj: Record<string, string>) =>
+  (Object.keys(ColorMap) as Array<ColorKey>).reduce((colors, key) => {
     const colorId: string = ColorMap[key];
     return {
       ...colors,

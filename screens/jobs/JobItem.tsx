@@ -1,12 +1,6 @@
 import React from 'react';
 // import styled from 'styled-components/native';
-import {
-  Card,
-  Button,
-  Flex,
-  Text,
-  Pressable,
-} from '../../components';
+import { Card, Button, Flex, Text, Pressable } from '../../components';
 
 import type { Job } from '../../utils/types';
 
@@ -18,12 +12,7 @@ type Props = {
 };
 
 export const JobItem = (props: Props) => {
-  const {
-    onApply,
-    onSave,
-    job,
-    onPress,
-  } = props;
+  const { onApply, onSave, job, onPress } = props;
 
   const jobTitle = <Text h4>{job.title}</Text>;
 
@@ -33,23 +22,12 @@ export const JobItem = (props: Props) => {
         <Card.Image
           source={{ uri: job?.image ?? 'https://via.placeholder.com/90x60' }}
         />
-        <Card.Title>
-          {jobTitle}
-        </Card.Title>
-        <Text>
-          {job?.address?.unstructured_value}
-        </Text>
-
+        <Card.Title>{jobTitle}</Card.Title>
+        <Text>{job?.address?.unstructured_value}</Text>
       </Pressable>
       <Flex>
-        <Button
-          title="Apply now"
-          onPress={() => onApply(job)}
-        />
-        <Button
-          title="Save now"
-          onPress={() => onSave(job)}
-        />
+        <Button title="Apply now" onPress={() => onApply(job)} />
+        <Button title="Save now" onPress={() => onSave(job)} />
       </Flex>
     </Card>
   );

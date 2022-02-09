@@ -21,13 +21,7 @@ const PlaceholderItems = () => (
 );
 
 export const Conversations = (props: Props) => {
-  const {
-    data,
-    isLoading,
-    onLoadMore,
-    onPressSingle,
-    onRefresh,
-  } = props;
+  const { data, isLoading, onLoadMore, onPressSingle, onRefresh } = props;
 
   const renderItem: ListRenderItem<Conversation> = ({ item }) => (
     <Pressable onPress={() => onPressSingle && onPressSingle(item)}>

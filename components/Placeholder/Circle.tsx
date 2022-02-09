@@ -1,5 +1,7 @@
 import React from 'react';
-import ContentLoader, { Circle as RCLCircle } from 'react-content-loader/native';
+import ContentLoader, {
+  Circle as RCLCircle,
+} from 'react-content-loader/native';
 import { useTheme } from '../../utils/hooks';
 
 export type CircleProps = {

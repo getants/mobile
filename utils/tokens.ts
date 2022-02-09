@@ -20,68 +20,68 @@ export const propertyMap: Record<string, string> = {
 
 export const makeProperty = (key: string, value: number | string) => {
   switch (key) {
-  case 'mt':
-    return {
-      marginTop: value,
-    };
-  case 'mr':
-    return {
-      marginRight: value,
-    };
-  case 'mb':
-    return {
-      marginBottom: value,
-    };
-  case 'ml':
-    return {
-      marginLeft: value,
-    };
-  case 'mx':
-    return {
-      marginLeft: value,
-      marginRight: value,
-    };
-  case 'my':
-    return {
-      marginTop: value,
-      marginBottom: value,
-    };
-  case 'pt':
-    return {
-      paddingTop: value,
-    };
-  case 'pr':
-    return {
-      paddingRight: value,
-    };
-  case 'pb':
-    return {
-      paddingBottom: value,
-    };
-  case 'pl':
-    return {
-      paddingLeft: value,
-    };
-  case 'px':
-    return {
-      paddingLeft: value,
-      paddingRight: value,
-    };
-  case 'py':
-    return {
-      paddingTop: value,
-      paddingBottom: value,
-    };
-  case 'w':
-    return {
-      width: value,
-    };
-  case 'h':
-    return {
-      height: value,
-    };
-  default:
-    throw new Error('Wrong property name for style tokens');
+    case 'mt':
+      return {
+        marginTop: value,
+      };
+    case 'mr':
+      return {
+        marginRight: value,
+      };
+    case 'mb':
+      return {
+        marginBottom: value,
+      };
+    case 'ml':
+      return {
+        marginLeft: value,
+      };
+    case 'mx':
+      return {
+        marginLeft: value,
+        marginRight: value,
+      };
+    case 'my':
+      return {
+        marginTop: value,
+        marginBottom: value,
+      };
+    case 'pt':
+      return {
+        paddingTop: value,
+      };
+    case 'pr':
+      return {
+        paddingRight: value,
+      };
+    case 'pb':
+      return {
+        paddingBottom: value,
+      };
+    case 'pl':
+      return {
+        paddingLeft: value,
+      };
+    case 'px':
+      return {
+        paddingLeft: value,
+        paddingRight: value,
+      };
+    case 'py':
+      return {
+        paddingTop: value,
+        paddingBottom: value,
+      };
+    case 'w':
+      return {
+        width: value,
+      };
+    case 'h':
+      return {
+        height: value,
+      };
+    default:
+      throw new Error('Wrong property name for style tokens');
   }
 };
 

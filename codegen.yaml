@@ -1,0 +1,33 @@
+overwrite: true
+watch: true
+schema:
+  - http://localhost:1337/v1/graphql:
+      headers:
+        x-hasura-admin-secret: "nhost-admin-secret"
+documents: "graphqls/**/*.graphql"
+generates:
+  ./graphqls/index.ts:
+    hooks:
+      afterOneFileWrite:
+        - "eslint --config .eslintrc.json --fix"
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+    config:
+      withHooks: false
+      useTypeImports: true
+      namingConvention:
+        typeNames: "change-case#pascalCase"
+        enumValues: "change-case#pascalCase"
+        transformUnderscore: true
+      scalars:
+        uuid: string
+        timestamptz: string
+        geography: "utils/types#Geography"
+
+  ./graphqls/schema.json:
+    plugins:
+      - "introspection"
+    config:
+      minify: true

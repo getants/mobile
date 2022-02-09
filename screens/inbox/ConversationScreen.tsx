@@ -19,10 +19,7 @@ import type {
   Message,
   MessageAggregateData,
 } from '../../utils/types';
-import {
-  CustomHeader,
-  ChatWrapper,
-} from '../../components';
+import { CustomHeader, ChatWrapper } from '../../components';
 import {
   MESSAGES_AGGREGATE,
   MESSAGE_SUBSCRIPTION,
@@ -65,9 +62,7 @@ export type Props = {
   navigation: SingleConversationScreenNavigationProp;
 };
 
-export const ConversationScreen: React.FC<Props> = ({
-  route, navigation,
-}) => {
+export const ConversationScreen: React.FC<Props> = ({ route, navigation }) => {
   const { conversationId, userId, jobId } = route?.params ?? {};
 
   const { user } = useAuth();
@@ -88,7 +83,9 @@ export const ConversationScreen: React.FC<Props> = ({
     if (jobId) {
       navigation.dispatch(
         CommonActions.reset({
-          routes: [{ name: 'MainStack', params: { conversationId: undefined } }],
+          routes: [
+            { name: 'MainStack', params: { conversationId: undefined } },
+          ],
         }),
       );
     } else {
@@ -147,7 +144,8 @@ export const ConversationScreen: React.FC<Props> = ({
     });
   };
 
-  const isLoading = conversationLoading || subscriptionLoading || aggregateLoading;
+  const isLoading =
+    conversationLoading || subscriptionLoading || aggregateLoading;
 
   const [insertMessage, { data: insertData }] = useMutation(INSERT_MESSAGE, {
     notifyOnNetworkStatusChange: true,
@@ -166,10 +164,8 @@ export const ConversationScreen: React.FC<Props> = ({
       //   jobId,
       //   user,
       // });
-
       // if (botResponse?.fulfillmentText.length > 0) {
       //   console.log('### botResponse:', botResponse.fulfillmentText); // eslint-disable-line
-
       //   setMessages((prevState) => GiftedChat.append(prevState, [{
       //     text: botResponse.fulfillmentText,
       //     _id: `this-is-bot-message-1${Date.now()}`,
@@ -213,15 +209,10 @@ export const ConversationScreen: React.FC<Props> = ({
   // TODO: make proper checking with the other person status / bot
   useEffect(() => {
     if (insertData && messages.length > 0 && !messages[0].sent) {
-      setMessages(
-        (prevState) => {
-          const [last, ...rest] = prevState;
-          return [
-            { ...last, sent: true, received: true },
-            ...rest,
-          ];
-        },
-      );
+      setMessages((prevState) => {
+        const [last, ...rest] = prevState;
+        return [{ ...last, sent: true, received: true }, ...rest];
+      });
     }
   }, [insertData, messages]);
 

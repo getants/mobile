@@ -56,7 +56,8 @@ export const InboxScreen = (props: Props) => {
   const handleRefetch = () => console.log('Refresh'); // eslint-disable-line
 
   const handleLoadMore = () => {
-    if (conversations.length >= 10) { // prevent loadmore at 1 item
+    if (conversations.length >= 10) {
+      // prevent loadmore at 1 item
       setOffset(() => offset + 10);
       console.log('Load more...'); // eslint-disable-line
     }

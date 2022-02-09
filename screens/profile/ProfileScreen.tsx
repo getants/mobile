@@ -17,7 +17,7 @@ import type { ProfileScreenNavigationProp } from '../../utils/types';
 import Name from './Name';
 
 const ScrollView = styled.ScrollView`
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 `;
 const NameSection = styled.View`
   display: flex;
@@ -63,11 +63,7 @@ export const ProfileScreen = () => {
     <SafeAreaView style={{ flex: 1, paddingTop: 20 }}>
       <ScrollView contentContainerStyle={styles.scroll}>
         <NameSection>
-          <Avatar
-            size="medium"
-            title={fullName}
-            source={{ uri: imageUrl }}
-          />
+          <Avatar size="medium" title={fullName} source={{ uri: imageUrl }} />
           <TitleWrapper>
             <Name isLoading={isLoading}>{fullName}</Name>
           </TitleWrapper>
@@ -79,15 +75,15 @@ export const ProfileScreen = () => {
           <Text h1>Personal Information</Text>
 
           <Pressable>
-            <View><Text>{user?.email}</Text></View>
+            <View>
+              <Text>{user?.email}</Text>
+            </View>
           </Pressable>
         </View>
 
         <Divider />
 
-        <Button>
-          Logout
-        </Button>
+        <Button>Logout</Button>
       </ScrollView>
     </SafeAreaView>
   );

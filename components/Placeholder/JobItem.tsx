@@ -50,7 +50,7 @@ export const JobItem: React.FC<Props> = ({ speed = 1 }) => {
       />
       <Rect
         x={padding}
-        y={smallerY + (padding * 1)}
+        y={smallerY + padding * 1}
         rx="4"
         ry="4"
         width={smallerWidth}
@@ -58,7 +58,7 @@ export const JobItem: React.FC<Props> = ({ speed = 1 }) => {
       />
       <Rect
         x={padding}
-        y={smallerY + (padding * 2)}
+        y={smallerY + padding * 2}
         rx="4"
         ry="4"
         width={smallerWidth}

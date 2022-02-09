@@ -43,7 +43,9 @@ const CustomHeader = (props: Props) => {
       <Appbar.BackAction onPress={handleGoBack} color="white" />
       <Appbar.Content color="white" title={title} subtitle={subTitle} />
       {handleSearch && <Appbar.Action icon="magnify" onPress={handleSearch} />}
-      {handleMore && <Appbar.Action icon="dots-vertical" onPress={handleMore} />}
+      {handleMore && (
+        <Appbar.Action icon="dots-vertical" onPress={handleMore} />
+      )}
     </Appbar.Header>
   );
 };

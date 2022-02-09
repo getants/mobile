@@ -67,18 +67,12 @@ const Calendar = () => {
     setSelected(day.dateString);
   };
 
-  const {
-    onScroll,
-    containerPaddingTop,
-    scrollIndicatorInsetTop,
-  } = useCollapsibleHeader();
+  const { onScroll, containerPaddingTop, scrollIndicatorInsetTop } =
+    useCollapsibleHeader();
 
   const paddingTop = containerPaddingTop - 30;
   const refreshControl = (
-    <RefreshControl
-      refreshing={refreshing}
-      onRefresh={onRefresh}
-    />
+    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
   );
 
   return (

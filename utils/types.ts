@@ -2,7 +2,10 @@ import * as CSS from 'csstype';
 // import type { SetStateAction, WritableAtom } from 'jotai';
 import type { PrimitiveAtom } from 'jotai';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { StackNavigationProp, StackNavigationOptions } from '@react-navigation/stack';
+import {
+  StackNavigationProp,
+  StackNavigationOptions,
+} from '@react-navigation/stack';
 import {
   CompositeNavigationProp,
   NavigatorScreenParams,
@@ -21,10 +24,7 @@ import {
 } from './enums';
 
 // Re-export just in case
-export type {
-  StackNavigationProp,
-  StackNavigationOptions,
-};
+export type { StackNavigationProp, StackNavigationOptions };
 
 // Only stacks have screens, not composite stack
 export type StackScreens =
@@ -38,7 +38,9 @@ export type StackScreens =
 export type RootStackParams = {
   [RootStackEnum.AuthStack]: NavigatorScreenParams<AuthStackParams>;
   [RootStackEnum.InitialStack]: NavigatorScreenParams<InitialStackParams>;
-  [RootStackEnum.MainStack]: NavigatorScreenParams<MainStackParams> & { name?: string };
+  [RootStackEnum.MainStack]: NavigatorScreenParams<MainStackParams> & {
+    name?: string;
+  };
 };
 export type InitialStackParams = {
   [InitialStackEnum.WelcomeScreen]?: undefined;
@@ -148,8 +150,8 @@ export type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
     : T[P] extends Record<string, unknown>
-      ? RecursivePartial<T[P]>
-      : T[P];
+    ? RecursivePartial<T[P]>
+    : T[P];
 }; // TODO: Which one is correct?
 export type Location = {
   coordinates: [number, number];
@@ -159,6 +161,17 @@ export type Location = {
  * be different from the real working place. We use the Address
  * only for company entity, and Location to track with the job.
  */
+export type Crs = {
+  type: string;
+  properties: {
+    name: string;
+  };
+};
+export type Geography = {
+  type: string;
+  crs: Crs;
+  coordinates: [number, number]; // [long, lat]
+};
 export type Address = {
   id?: string;
   data_usage?: string;
@@ -216,7 +229,7 @@ export type Spacing =
   | '20px'
   | '24px'
   | '32px';
-export type ShortProperty = // TODO: Make use of this
+export type ShortProperty =  // TODO: Make use of this
   | 'mt'
   | 'mr'
   | 'mb'
@@ -364,7 +377,7 @@ export type UpdatedData<T, K extends Entity> = Record<
   ReturningValue<T>
 >;
 export type PaginatedData<T, K extends Entity> = AggregateData<T, K> &
-QueryData<T, K>;
+  QueryData<T, K>;
 // Specified type for each entity below
 export type ResumeAggregateData = AggregateData<Resume, Entity.Resume>;
 export type Conversation = {

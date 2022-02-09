@@ -47,7 +47,7 @@ export const ConversationItem: React.FC<Props> = ({
       />
       <Rect
         x={padding}
-        y={smallerY + (padding * 1)}
+        y={smallerY + padding * 1}
         rx="4"
         ry="4"
         width={smallerWidth}
