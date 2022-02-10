@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { useAuth, useQuery } from '../../utils/hooks';
 import { ConversationsAggregateDocument } from '../../graphqls';
-import { ConversationList } from '../../components';
+import {
+  FlatList,
+  Pressable,
+  ConversationItem,
+  Placeholder,
+} from '../../components';
 import { InboxStackEnum, OrderBy } from '../../utils/enums';
 import type {
   Conversations,
@@ -16,10 +21,17 @@ export type Props = {
   navigation: InboxScreenNavigationProp;
 };
 
+const PlaceholderItems = () => (
+  <Placeholder
+    repeat={5}
+    component={<Placeholder.ConversationItem randomWidth />}
+  />
+);
+
 export const InboxScreen = (props: Props) => {
   const { navigation } = props;
 
-  const [offset, setOffset] = useState<number>(0);
+  const [offset, setOffset] = useState(0);
 
   const { user } = useAuth();
 
@@ -51,11 +63,11 @@ export const InboxScreen = (props: Props) => {
     notifyOnNetworkStatusChange: true,
   });
 
-  const conversations = aggregateData?.conversations_aggregate.nodes;
+  const conversations = aggregateData?.conversations_aggregate.nodes ?? [];
 
-  const onPressSingle = (conversation: Conversations) => {
+  const onPressSingle = (conversation: Partial<Conversations>) => {
     navigation.navigate(InboxStackEnum.ConversationScreen, {
-      conversationId: conversation.id,
+      conversationId: conversation.id ?? '',
       userId: user?.id ?? '',
     });
   };
@@ -70,13 +82,27 @@ export const InboxScreen = (props: Props) => {
     }
   };
 
+  const renderItem = ({
+    item,
+  }: {
+    item: Pick<Conversations, 'name' | 'updated_at'>;
+  }) => (
+    <Pressable onPress={() => onPressSingle && onPressSingle(item)}>
+      <ConversationItem data={item} />
+    </Pressable>
+  );
+
   return (
-    <ConversationList
+    <FlatList
       data={conversations}
-      isLoading={aggregateLoading}
-      onPressSingle={onPressSingle}
+      keyExtractor={({ id }) => id ?? ''}
       onRefresh={handleRefetch}
-      onLoadMore={handleLoadMore}
+      refreshing={aggregateLoading}
+      initialNumToRender={10}
+      onEndReached={handleLoadMore}
+      onEndReachedThreshold={1}
+      renderItem={renderItem}
+      ListEmptyComponent={PlaceholderItems}
     />
   );
 };

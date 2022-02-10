@@ -175,21 +175,18 @@ export type InboxScreenRouteProp = RouteProp<
   InboxStackParams,
   InboxStackEnum.InboxScreen
 >;
-// export type RecursivePartial<T> = { [P in keyof T]?: RecursivePartial<T[P]> };
+
 export type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
     : T[P] extends Record<string, unknown>
     ? RecursivePartial<T[P]>
     : T[P];
-}; // TODO: Which one is correct?
-export type Location = {
-  coordinates: [number, number];
-  type: string;
 };
+
 /* Address is the place company registered, it might
  * be different from the real working place. We use the Address
- * only for company entity, and Location to track with the job.
+ * only for company entity, and location to track with the job.
  */
 export type Crs = {
   type: string;
@@ -207,7 +204,7 @@ export type Address = {
   data_usage?: string;
   unstructured_value?: string;
   structured_value?: string;
-  location?: Location;
+  location?: Geography;
   created_at?: Date | string;
   updated_at?: Date | string;
 };
@@ -280,7 +277,7 @@ export type UserType = {
   tenant_id?: string;
   last_seen?: Date;
   education_level?: string;
-  location: Location | null;
+  location: Geography | null;
   settings?: string | null;
   user_role: string;
   avatar_url?: string;

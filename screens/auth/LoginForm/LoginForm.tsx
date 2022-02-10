@@ -61,7 +61,7 @@ export const LoginForm = (props: LoginFormProps) => {
 
       <Button onPress={handleSubmit}>Login</Button>
 
-      <Button variant="ghost" onPress={handleSwitchView}>
+      <Button appearance="ghost" onPress={handleSwitchView}>
         Signup
       </Button>
     </Layout>

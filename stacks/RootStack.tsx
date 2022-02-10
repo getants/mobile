@@ -18,7 +18,6 @@ const { Navigator, Screen } = createStackNavigator<RootStackParams>();
 
 export const RootStack = () => {
   const { isAuthenticated } = useAuth();
-  console.log({ isAuthenticated });
 
   return (
     <Navigator screenOptions={{ headerShown: false }}>

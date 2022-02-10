@@ -4,14 +4,14 @@ import { Card, Button, Image, Text, Pressable } from '../../components';
 
 import type { Jobs } from '../../utils/types';
 
-type Props = {
-  job: Jobs;
-  onPress: (job: Jobs) => void;
-  onApply: (job: Jobs) => void;
-  onSave: (job: Jobs) => void;
+type JobItemProps = {
+  job: Partial<Jobs>;
+  onPress: (job: Partial<Jobs>) => void;
+  onApply: (job: Partial<Jobs>) => void;
+  onSave: (job: Partial<Jobs>) => void;
 };
 
-export const JobItem = (props: Props) => {
+export const JobItem = (props: JobItemProps) => {
   const { onApply, onSave, job, onPress } = props;
 
   return (
@@ -20,7 +20,7 @@ export const JobItem = (props: Props) => {
         <Image
           source={{ uri: job?.image ?? 'https://via.placeholder.com/90x60' }}
         />
-        <Text size="lg">{job.title}</Text>
+        <Text category="h3">{job.title}</Text>
         <Text>{job?.address?.unstructured_value ?? ''}</Text>
       </Pressable>
       <Card>

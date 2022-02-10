@@ -21,8 +21,6 @@ import { NAVIGATION_STATE, SENTRY_DSN } from './utils/constants';
 import { globalState, initialState } from './utils/states';
 import { nhost } from './utils/nhost';
 
-// global.XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest;
-
 // There are warnings that we can't have resource to fix, ignore now
 LogBox.ignoreLogs(['Warning:', 'Constants.deviceYearClass']);
 

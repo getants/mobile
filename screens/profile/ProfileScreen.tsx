@@ -4,6 +4,7 @@ import {
   Avatar,
   Button,
   Divider,
+  Placeholder,
   Pressable,
   SafeAreaView,
   StyleSheet,
@@ -13,8 +14,6 @@ import {
 import { space } from '../../utils/tokens';
 import { useAuth, useNavigation } from '../../utils/hooks';
 import type { ProfileScreenNavigationProp } from '../../utils/types';
-
-import Name from './Name';
 
 const ScrollView = styled.ScrollView`
   background-color: #ffffff;
@@ -69,14 +68,18 @@ export const ProfileScreen = () => {
             source={{ uri: imageUrl }}
           />
           <TitleWrapper>
-            <Name isLoading={isLoading}>{fullName}</Name>
+            {isLoading ? (
+              <Placeholder.Rect width={160} height={40} />
+            ) : (
+              <Text category="h2">{fullName}</Text>
+            )}
           </TitleWrapper>
         </NameSection>
 
         <Divider />
 
         <View paddingH-20 paddingV-10>
-          <Text size="lg">Personal Information</Text>
+          <Text category="h2">Personal Information</Text>
 
           <Pressable>
             <View>

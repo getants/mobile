@@ -2,7 +2,11 @@ import React from 'react';
 import * as ErrorRecovery from 'expo-error-recovery';
 import { nhost } from '../../utils/nhost';
 import { LoginForm } from './LoginForm';
-import { AuthStackEnum, MainStackEnum, RootStackEnum } from '../../utils/enums';
+import {
+  AuthStackEnum,
+  // MainStackEnum,
+  // RootStackEnum
+} from '../../utils/enums';
 import type { LoginScreenNavigationProp } from '../../utils/types';
 import { AuthScreensWrapper } from './AuthScreensWrapper';
 
@@ -17,8 +21,8 @@ export const LoginScreen = (props: Props) => {
 
   const handleLogin: SubmitCallback = async (input) => {
     try {
-      const res = await nhost.auth.signIn(input);
-      console.log({ res });
+      await nhost.auth.signIn(input);
+      // console.log({ res });
 
       // navigation.navigate(RootStackEnum.MainStack, {
       //   screen: MainStackEnum.JobStack,

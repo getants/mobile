@@ -1,0 +1,83 @@
+mutation INSERT_COMPANIES($objects: [companies_insert_input!]!) {
+  insert_companies(objects: $objects) {
+    returning {
+      id
+      created_at
+      updated_at
+      establish_date
+      image
+      name
+      size
+      status
+      summary
+      suspended
+      tenant_id
+    }
+  }
+}
+
+query COMPANIES_AGGREGATE(
+  $limit: Int
+  $offset: Int
+  $order_by: [companies_order_by!]
+  $where: companies_bool_exp
+) {
+  companies_aggregate(
+    limit: $limit
+    offset: $offset
+    order_by: $order_by
+    where: $where
+  ) {
+    nodes {
+      id
+      created_at
+      updated_at
+      establish_date
+      image
+      name
+      size
+      status
+      summary
+      suspended
+      tenant_id
+    }
+  }
+}
+
+mutation UPDATE_COMPANIES(
+  $where: companies_bool_exp!
+  $_set: companies_set_input!
+) {
+  update_companies(where: $where, _set: $_set) {
+    returning {
+      id
+      name
+      updated_at
+    }
+  }
+}
+
+mutation DELETE_COMPANIES_BY_PK($id: uuid!) {
+  delete_companies_by_pk(id: $id) {
+    id
+    name
+    status
+    summary
+  }
+}
+
+query COMPANIES_BY_PK($id: uuid!) {
+  companies_by_pk(id: $id) {
+    id
+    created_at
+    updated_at
+    establish_date
+    image
+    name
+    size
+    status
+    summary
+    suspended
+    tenant_id
+  }
+}

@@ -42,9 +42,9 @@ query JOBS_BY_PK($id: uuid!) {
 
 query JOBS_NEARBY_AGGREGATE(
   $args: jobs_nearby_args!
-  $limit: Int!
-  $offset: Int!
-  $where: jobs_bool_exp!
+  $limit: Int
+  $offset: Int
+  $where: jobs_bool_exp
 ) {
   jobs_nearby_aggregate(
     args: $args
@@ -52,7 +52,6 @@ query JOBS_NEARBY_AGGREGATE(
     offset: $offset
     where: $where
   ) {
-    __typename
     nodes {
       id
       created_at
@@ -61,11 +60,65 @@ query JOBS_NEARBY_AGGREGATE(
       quantity
       title
       updated_at
+      status
       address {
         id
         location
         unstructured_value
       }
     }
+  }
+}
+
+mutation INSERT_JOBS($objects: [jobs_insert_input!]!) {
+  insert_jobs(objects: $objects) {
+    returning {
+      id
+      created_at
+      title
+      description
+    }
+  }
+}
+
+query JOBS_AGGREGATE(
+  $limit: Int
+  $offset: Int
+  $order_by: [jobs_order_by!]
+  $where: jobs_bool_exp
+) {
+  jobs_aggregate(
+    limit: $limit
+    offset: $offset
+    order_by: $order_by
+    where: $where
+  ) {
+    nodes {
+      id
+      created_at
+      updated_at
+      title
+      description
+      expiration_date
+      location
+      quantity
+    }
+  }
+}
+
+mutation UPDATE_JOBS($where: jobs_bool_exp!, $_set: jobs_set_input!) {
+  update_jobs(where: $where, _set: $_set) {
+    returning {
+      id
+      title
+      updated_at
+    }
+  }
+}
+
+mutation DELETE_JOBS_BY_PK($id: uuid!) {
+  delete_jobs_by_pk(id: $id) {
+    id
+    title
   }
 }

@@ -1,0 +1,78 @@
+query SEARCH(
+  $limit: Int
+  $offset: Int
+  $tenant_id: uuid_comparison_exp
+  $keywords: String
+) {
+  companies_aggregate(
+    limit: $limit
+    offset: $offset
+    where: {
+      _and: [
+        {
+          _or: [
+            { name: { _ilike: $keywords } }
+            { summary: { _ilike: $keywords } }
+          ]
+        }
+        { tenant_id: $tenant_id }
+      ]
+    }
+  ) {
+    aggregate {
+      count
+    }
+    nodes {
+      id
+      name
+      summary
+    }
+  }
+
+  jobs_aggregate(
+    limit: $limit
+    offset: $offset
+    where: {
+      _and: [
+        {
+          _or: [
+            { title: { _ilike: $keywords } }
+            { description: { _ilike: $keywords } }
+          ]
+        }
+        { company: { tenant_id: $tenant_id } }
+      ]
+    }
+  ) {
+    aggregate {
+      count
+    }
+    nodes {
+      id
+      title
+      description
+    }
+  }
+
+  profiles_aggregate(
+    limit: $limit
+    offset: $offset
+    where: {
+      _and: [
+        { user: { _or: [{ displayName: { _ilike: $keywords } }] } }
+        { tenant_id: $tenant_id }
+      ]
+    }
+  ) {
+    aggregate {
+      count
+    }
+    nodes {
+      user {
+        id
+        displayName
+        email
+      }
+    }
+  }
+}

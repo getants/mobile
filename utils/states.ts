@@ -1,10 +1,10 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { atom, useAtom } from 'jotai';
-import type { AppState, StackScreens, UserType } from '@/utils/types';
+import type { AppState, StackScreens, Users } from './types';
 
 export const currentScreenAtom = atom<StackScreens | null>(null);
 export const isLoggedInAtom = atom<boolean>(false);
-export const meAtom = atom<Partial<UserType> | null>(null);
+export const meAtom = atom<Partial<Users> | null>(null);
 
 export const initialState: AppState = {
   currentScreen: currentScreenAtom,

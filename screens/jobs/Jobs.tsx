@@ -2,13 +2,19 @@ import React, { useCallback, useMemo, useState } from 'react';
 import type { ListRenderItem } from 'react-native';
 import Constants from 'expo-constants';
 import { StyleSheet } from 'react-native';
-import { JobsNearbyAggregateDocument } from '../../graphqls';
+import {
+  JobsNearbyAggregateDocument,
+  JobsAggregateDocument,
+} from '../../graphqls';
 import { JobStackEnum } from '../../utils/enums';
 import type {
   Jobs,
   JobListScreenNavigationProp,
   JobListScreenRouteProp,
   JobsNearbyAggregateQuery,
+  JobsNearbyAggregateQueryVariables,
+  JobsAggregateQuery,
+  JobsAggregateQueryVariables,
 } from '../../utils/types';
 import {
   Animated,
@@ -53,27 +59,10 @@ const styles = StyleSheet.create({
 
 export const JobListScreen = (props: Props) => {
   const { navigation } = props;
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   const [retry, setRetry] = useState<number>(0);
   const [distance, setDistance] = useState<number>(999);
-
-  const aggregateJobsVars = useMemo(
-    () => ({
-      args: {
-        distance,
-        user_id: user?.id ?? '',
-      },
-      limit: NumberJobsBatch,
-      offset: 0,
-      where: {
-        company: {
-          tenant_id: { _eq: tenantId },
-        },
-      },
-    }),
-    [distance, user],
-  );
 
   const {
     data: jobsData,
@@ -81,18 +70,34 @@ export const JobListScreen = (props: Props) => {
     loading,
     fetchMore,
     refetch,
-  } = useQuery<JobsNearbyAggregateQuery>(JobsNearbyAggregateDocument, {
-    variables: aggregateJobsVars,
-    fetchPolicy: 'cache-and-network',
-    notifyOnNetworkStatusChange: true,
-  });
+  } = useQuery<JobsAggregateQuery, JobsAggregateQueryVariables>(
+    JobsAggregateDocument,
+    {
+      variables: {
+        // args: {
+        //   distance,
+        //   user_id: user?.id ?? '',
+        // },
+        limit: NumberJobsBatch,
+        offset: 0,
+        where: {
+          company: {
+            tenant_id: { _eq: tenantId },
+          },
+        },
+      },
+      fetchPolicy: 'cache-and-network',
+      notifyOnNetworkStatusChange: true,
+    },
+  );
 
   if (aggregateError) {
-    console.log('### Jobs aggregateError: ', aggregateError, aggregateJobsVars); // eslint-disable-line
+    // console.log('### Jobs aggregateError: ', aggregateError, aggregateJobsVars); // eslint-disable-line
     // nhost.auth.signOut();
   }
 
-  const jobs = jobsData?.jobs_nearby_aggregate.nodes ?? [];
+  const jobs = jobsData?.jobs_aggregate.nodes ?? [];
+
   // const jobs = useMemo<Jobs[]>(() => {
   //   if (aggregateJobs?.jobs_nearby_aggregate?.nodes) {
   //     return aggregateJobs.jobs_nearby_aggregate.nodes.map((job: Jobs) => {
@@ -160,15 +165,17 @@ export const JobListScreen = (props: Props) => {
     resetTimer();
   }, [refetch, resetTimer]);
 
-  const onPressSingle = (job: Jobs) => {
-    navigation.navigate(JobStackEnum.SingleJobScreen, {
-      jobId: job.id,
-      jobTitle: job.title,
-      companyName: job.company?.name,
-    });
+  const onPressSingle = (job: Partial<Jobs>) => {
+    if (job.id) {
+      navigation.navigate(JobStackEnum.SingleJobScreen, {
+        jobId: job.id,
+        jobTitle: job.title,
+        companyName: job.company?.name,
+      });
+    }
   };
 
-  const handleOnApply = (job: Jobs) => {
+  const handleOnApply = (job: Partial<Jobs>) => {
     console.log('### job: ', job); // eslint-disable-line
     // navigation.navigate(MainStackEnum.InboxStack, {
     //   screen: InboxStackEnum.SingleConversation,
@@ -180,7 +187,7 @@ export const JobListScreen = (props: Props) => {
     // });
   };
 
-  const renderItem: ListRenderItem<Jobs> = ({ item }) => (
+  const renderItem = ({ item }: { item: Partial<Jobs> }) => (
     <JobItem
       job={item}
       onPress={onPressSingle}
@@ -217,7 +224,7 @@ export const JobListScreen = (props: Props) => {
       <>
         <Animated.FlatList
           data={jobs}
-          keyExtractor={({ id }) => id}
+          keyExtractor={({ id }) => id ?? ''}
           onRefresh={handleRefetch}
           refreshing={loading || jobs.length < 10}
           initialNumToRender={NumberJobsBatch}
@@ -243,7 +250,7 @@ export const JobListScreen = (props: Props) => {
           }}
         >
           <View style={styles.inner}>
-            <Text size="sm">Sticky</Text>
+            <Text category="h5">Sticky</Text>
           </View>
         </Animated.View>
       </>

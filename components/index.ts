@@ -22,13 +22,18 @@ export {
   View,
 } from 'react-native';
 export { Calendar, CalendarList, Agenda } from 'react-native-calendars';
-export { Avatar, Card, Divider, Spinner } from '@ui-kitten/components';
+export {
+  Avatar,
+  Button,
+  Card,
+  Divider,
+  Input,
+  Spinner,
+  Text,
+} from '@ui-kitten/components';
 
-export { Text } from './Text';
-export { Button } from './Button';
 export { ChatWrapper } from './ChatWrapper';
-export { ConversationList } from './Conversations';
-export { Input } from './Input';
+export { ConversationList, ConversationItem } from './Conversations';
 export { Layout } from './Layout';
 export { Placeholder, JobItem } from './Placeholder';
 export { ProgressBar } from './ProgressBar';

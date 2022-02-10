@@ -148,7 +148,7 @@ export const SingleJobScreen = (props: Props) => {
 
       <ScrollView>
         <Card>
-          <Text size="lg">{job?.title ?? ''}</Text>
+          <Text category="h2">{job?.title ?? ''}</Text>
 
           <Image source={{ uri: job?.image ?? 'no name' }} />
           <Text>{job?.address?.unstructured_value ?? ''}</Text>

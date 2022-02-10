@@ -11421,6 +11421,188 @@ export enum VolunteersUpdateColumn {
   UserId = 'user_id',
 }
 
+export type ApplicationsAggregateQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ApplicationsOrderBy> | ApplicationsOrderBy>;
+  where?: InputMaybe<ApplicationsBoolExp>;
+}>;
+
+export type ApplicationsAggregateQuery = {
+  __typename?: 'query_root';
+  applications_aggregate: {
+    __typename?: 'applications_aggregate';
+    nodes: Array<{
+      __typename?: 'applications';
+      id: string;
+      created_at: string;
+      updated_at: string;
+      user: { __typename?: 'users'; id: string; displayName: string };
+      resume?: {
+        __typename?: 'resumes';
+        id: string;
+        summary?: string | null;
+      } | null;
+      job?: {
+        __typename?: 'jobs';
+        id: string;
+        company?: { __typename?: 'companies'; name: string } | null;
+      } | null;
+    }>;
+  };
+};
+
+export type UpdateApplicationsMutationVariables = Exact<{
+  where: ApplicationsBoolExp;
+  _set: ApplicationsSetInput;
+}>;
+
+export type UpdateApplicationsMutation = {
+  __typename?: 'mutation_root';
+  update_applications?: {
+    __typename?: 'applications_mutation_response';
+    returning: Array<{
+      __typename?: 'applications';
+      id: string;
+      updated_at: string;
+    }>;
+  } | null;
+};
+
+export type DeleteApplicationsByPkMutationVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+export type DeleteApplicationsByPkMutation = {
+  __typename?: 'mutation_root';
+  delete_applications_by_pk?: {
+    __typename?: 'applications';
+    id: string;
+  } | null;
+};
+
+export type ApplicationsByPkQueryVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+export type ApplicationsByPkQuery = {
+  __typename?: 'query_root';
+  applications_by_pk?: {
+    __typename?: 'applications';
+    id: string;
+    created_at: string;
+    updated_at: string;
+  } | null;
+};
+
+export type InsertCompaniesMutationVariables = Exact<{
+  objects: Array<CompaniesInsertInput> | CompaniesInsertInput;
+}>;
+
+export type InsertCompaniesMutation = {
+  __typename?: 'mutation_root';
+  insert_companies?: {
+    __typename?: 'companies_mutation_response';
+    returning: Array<{
+      __typename?: 'companies';
+      id: string;
+      created_at: string;
+      updated_at: string;
+      establish_date?: string | null;
+      image?: string | null;
+      name: string;
+      size?: string | null;
+      status: string;
+      summary?: string | null;
+      suspended: boolean;
+      tenant_id: string;
+    }>;
+  } | null;
+};
+
+export type CompaniesAggregateQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<CompaniesOrderBy> | CompaniesOrderBy>;
+  where?: InputMaybe<CompaniesBoolExp>;
+}>;
+
+export type CompaniesAggregateQuery = {
+  __typename?: 'query_root';
+  companies_aggregate: {
+    __typename?: 'companies_aggregate';
+    nodes: Array<{
+      __typename?: 'companies';
+      id: string;
+      created_at: string;
+      updated_at: string;
+      establish_date?: string | null;
+      image?: string | null;
+      name: string;
+      size?: string | null;
+      status: string;
+      summary?: string | null;
+      suspended: boolean;
+      tenant_id: string;
+    }>;
+  };
+};
+
+export type UpdateCompaniesMutationVariables = Exact<{
+  where: CompaniesBoolExp;
+  _set: CompaniesSetInput;
+}>;
+
+export type UpdateCompaniesMutation = {
+  __typename?: 'mutation_root';
+  update_companies?: {
+    __typename?: 'companies_mutation_response';
+    returning: Array<{
+      __typename?: 'companies';
+      id: string;
+      name: string;
+      updated_at: string;
+    }>;
+  } | null;
+};
+
+export type DeleteCompaniesByPkMutationVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+export type DeleteCompaniesByPkMutation = {
+  __typename?: 'mutation_root';
+  delete_companies_by_pk?: {
+    __typename?: 'companies';
+    id: string;
+    name: string;
+    status: string;
+    summary?: string | null;
+  } | null;
+};
+
+export type CompaniesByPkQueryVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+export type CompaniesByPkQuery = {
+  __typename?: 'query_root';
+  companies_by_pk?: {
+    __typename?: 'companies';
+    id: string;
+    created_at: string;
+    updated_at: string;
+    establish_date?: string | null;
+    image?: string | null;
+    name: string;
+    size?: string | null;
+    status: string;
+    summary?: string | null;
+    suspended: boolean;
+    tenant_id: string;
+  } | null;
+};
+
 export type ConversationsByPkQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -11547,6 +11729,56 @@ export type InsertMessagesOneMutation = {
   } | null;
 };
 
+export type SearchQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  tenant_id?: InputMaybe<UuidComparisonExp>;
+  keywords?: InputMaybe<Scalars['String']>;
+}>;
+
+export type SearchQuery = {
+  __typename?: 'query_root';
+  companies_aggregate: {
+    __typename?: 'companies_aggregate';
+    aggregate?: {
+      __typename?: 'companies_aggregate_fields';
+      count: number;
+    } | null;
+    nodes: Array<{
+      __typename?: 'companies';
+      id: string;
+      name: string;
+      summary?: string | null;
+    }>;
+  };
+  jobs_aggregate: {
+    __typename?: 'jobs_aggregate';
+    aggregate?: { __typename?: 'jobs_aggregate_fields'; count: number } | null;
+    nodes: Array<{
+      __typename?: 'jobs';
+      id: string;
+      title: string;
+      description?: string | null;
+    }>;
+  };
+  profiles_aggregate: {
+    __typename?: 'profiles_aggregate';
+    aggregate?: {
+      __typename?: 'profiles_aggregate_fields';
+      count: number;
+    } | null;
+    nodes: Array<{
+      __typename?: 'profiles';
+      user: {
+        __typename?: 'users';
+        id: string;
+        displayName: string;
+        email?: any | null;
+      };
+    }>;
+  };
+};
+
 export type JobsByPkQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -11599,15 +11831,15 @@ export type JobsByPkQuery = {
 
 export type JobsNearbyAggregateQueryVariables = Exact<{
   args: JobsNearbyArgs;
-  limit: Scalars['Int'];
-  offset: Scalars['Int'];
-  where: JobsBoolExp;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<JobsBoolExp>;
 }>;
 
 export type JobsNearbyAggregateQuery = {
   __typename?: 'query_root';
   jobs_nearby_aggregate: {
-    __typename: 'jobs_aggregate';
+    __typename?: 'jobs_aggregate';
     nodes: Array<{
       __typename?: 'jobs';
       id: string;
@@ -11617,6 +11849,7 @@ export type JobsNearbyAggregateQuery = {
       quantity: number;
       title: string;
       updated_at: string;
+      status: string;
       address?: {
         __typename?: 'addresses';
         id: string;
@@ -11625,6 +11858,76 @@ export type JobsNearbyAggregateQuery = {
       } | null;
     }>;
   };
+};
+
+export type InsertJobsMutationVariables = Exact<{
+  objects: Array<JobsInsertInput> | JobsInsertInput;
+}>;
+
+export type InsertJobsMutation = {
+  __typename?: 'mutation_root';
+  insert_jobs?: {
+    __typename?: 'jobs_mutation_response';
+    returning: Array<{
+      __typename?: 'jobs';
+      id: string;
+      created_at: string;
+      title: string;
+      description?: string | null;
+    }>;
+  } | null;
+};
+
+export type JobsAggregateQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<JobsOrderBy> | JobsOrderBy>;
+  where?: InputMaybe<JobsBoolExp>;
+}>;
+
+export type JobsAggregateQuery = {
+  __typename?: 'query_root';
+  jobs_aggregate: {
+    __typename?: 'jobs_aggregate';
+    nodes: Array<{
+      __typename?: 'jobs';
+      id: string;
+      created_at: string;
+      updated_at: string;
+      title: string;
+      description?: string | null;
+      expiration_date?: string | null;
+      location?: Geography | null;
+      quantity: number;
+    }>;
+  };
+};
+
+export type UpdateJobsMutationVariables = Exact<{
+  where: JobsBoolExp;
+  _set: JobsSetInput;
+}>;
+
+export type UpdateJobsMutation = {
+  __typename?: 'mutation_root';
+  update_jobs?: {
+    __typename?: 'jobs_mutation_response';
+    returning: Array<{
+      __typename?: 'jobs';
+      id: string;
+      title: string;
+      updated_at: string;
+    }>;
+  } | null;
+};
+
+export type DeleteJobsByPkMutationVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+export type DeleteJobsByPkMutation = {
+  __typename?: 'mutation_root';
+  delete_jobs_by_pk?: { __typename?: 'jobs'; id: string; title: string } | null;
 };
 
 export type ResumesQueryVariables = Exact<{
@@ -11729,6 +12032,133 @@ export type InsertResumeMutation = {
   } | null;
 };
 
+export type TenantsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TenantsQuery = {
+  __typename?: 'query_root';
+  tenants: Array<{
+    __typename?: 'tenants';
+    id: string;
+    name: string;
+    description?: string | null;
+    created_at: string;
+    updated_at: string;
+    data_usage: string;
+  }>;
+};
+
+export type TenantsAggregateQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  offset: Scalars['Int'];
+  order_by?: InputMaybe<Array<TenantsOrderBy> | TenantsOrderBy>;
+  where?: InputMaybe<TenantsBoolExp>;
+}>;
+
+export type TenantsAggregateQuery = {
+  __typename?: 'query_root';
+  tenants_aggregate: {
+    __typename?: 'tenants_aggregate';
+    nodes: Array<{
+      __typename?: 'tenants';
+      id: string;
+      created_at: string;
+      updated_at: string;
+      name: string;
+      description?: string | null;
+      data_usage: string;
+    }>;
+    aggregate?: {
+      __typename?: 'tenants_aggregate_fields';
+      count: number;
+    } | null;
+  };
+};
+
+export type InsertTenantsMutationVariables = Exact<{
+  objects: Array<TenantsInsertInput> | TenantsInsertInput;
+}>;
+
+export type InsertTenantsMutation = {
+  __typename?: 'mutation_root';
+  insert_tenants?: {
+    __typename?: 'tenants_mutation_response';
+    returning: Array<{
+      __typename?: 'tenants';
+      id: string;
+      created_at: string;
+    }>;
+  } | null;
+};
+
+export type TenantsByPkQueryVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+export type TenantsByPkQuery = {
+  __typename?: 'query_root';
+  tenants_by_pk?: {
+    __typename?: 'tenants';
+    id: string;
+    created_at: string;
+    updated_at: string;
+    name: string;
+    description?: string | null;
+    data_usage: string;
+    status: string;
+  } | null;
+};
+
+export type UpdateTenantsMutationVariables = Exact<{
+  where: TenantsBoolExp;
+  _set: TenantsSetInput;
+}>;
+
+export type UpdateTenantsMutation = {
+  __typename?: 'mutation_root';
+  update_tenants?: {
+    __typename?: 'tenants_mutation_response';
+    returning: Array<{
+      __typename?: 'tenants';
+      id: string;
+      created_at: string;
+      updated_at: string;
+      name: string;
+      description?: string | null;
+      data_usage: string;
+      status: string;
+    }>;
+  } | null;
+};
+
+export type UpdateTenantsByPkMutationVariables = Exact<{
+  pk_columns: TenantsPkColumnsInput;
+  _set: TenantsSetInput;
+}>;
+
+export type UpdateTenantsByPkMutation = {
+  __typename?: 'mutation_root';
+  update_tenants_by_pk?: {
+    __typename?: 'tenants';
+    id: string;
+    name: string;
+    description?: string | null;
+  } | null;
+};
+
+export type DeleteTenantsByPkMutationVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+export type DeleteTenantsByPkMutation = {
+  __typename?: 'mutation_root';
+  delete_tenants_by_pk?: {
+    __typename?: 'tenants';
+    id: string;
+    name: string;
+    description?: string | null;
+  } | null;
+};
+
 export type UpsertMyLocationMutationVariables = Exact<{
   objects: Array<UserLocationInsertInput> | UserLocationInsertInput;
 }>;
@@ -11746,6 +12176,225 @@ export type UpsertMyLocationMutation = {
   } | null;
 };
 
+export const ApplicationsAggregateDocument = gql`
+  query APPLICATIONS_AGGREGATE(
+    $limit: Int
+    $offset: Int
+    $order_by: [applications_order_by!]
+    $where: applications_bool_exp
+  ) {
+    applications_aggregate(
+      limit: $limit
+      offset: $offset
+      order_by: $order_by
+      where: $where
+    ) {
+      nodes {
+        id
+        created_at
+        updated_at
+        user {
+          id
+          displayName
+        }
+        resume {
+          id
+          summary
+        }
+        job {
+          id
+          company {
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+export type ApplicationsAggregateQueryResult = Apollo.QueryResult<
+  ApplicationsAggregateQuery,
+  ApplicationsAggregateQueryVariables
+>;
+export const UpdateApplicationsDocument = gql`
+  mutation UPDATE_APPLICATIONS(
+    $where: applications_bool_exp!
+    $_set: applications_set_input!
+  ) {
+    update_applications(where: $where, _set: $_set) {
+      returning {
+        id
+        updated_at
+      }
+    }
+  }
+`;
+export type UpdateApplicationsMutationFn = Apollo.MutationFunction<
+  UpdateApplicationsMutation,
+  UpdateApplicationsMutationVariables
+>;
+export type UpdateApplicationsMutationResult =
+  Apollo.MutationResult<UpdateApplicationsMutation>;
+export type UpdateApplicationsMutationOptions = Apollo.BaseMutationOptions<
+  UpdateApplicationsMutation,
+  UpdateApplicationsMutationVariables
+>;
+export const DeleteApplicationsByPkDocument = gql`
+  mutation DELETE_APPLICATIONS_BY_PK($id: uuid!) {
+    delete_applications_by_pk(id: $id) {
+      id
+    }
+  }
+`;
+export type DeleteApplicationsByPkMutationFn = Apollo.MutationFunction<
+  DeleteApplicationsByPkMutation,
+  DeleteApplicationsByPkMutationVariables
+>;
+export type DeleteApplicationsByPkMutationResult =
+  Apollo.MutationResult<DeleteApplicationsByPkMutation>;
+export type DeleteApplicationsByPkMutationOptions = Apollo.BaseMutationOptions<
+  DeleteApplicationsByPkMutation,
+  DeleteApplicationsByPkMutationVariables
+>;
+export const ApplicationsByPkDocument = gql`
+  query APPLICATIONS_BY_PK($id: uuid!) {
+    applications_by_pk(id: $id) {
+      id
+      created_at
+      updated_at
+    }
+  }
+`;
+export type ApplicationsByPkQueryResult = Apollo.QueryResult<
+  ApplicationsByPkQuery,
+  ApplicationsByPkQueryVariables
+>;
+export const InsertCompaniesDocument = gql`
+  mutation INSERT_COMPANIES($objects: [companies_insert_input!]!) {
+    insert_companies(objects: $objects) {
+      returning {
+        id
+        created_at
+        updated_at
+        establish_date
+        image
+        name
+        size
+        status
+        summary
+        suspended
+        tenant_id
+      }
+    }
+  }
+`;
+export type InsertCompaniesMutationFn = Apollo.MutationFunction<
+  InsertCompaniesMutation,
+  InsertCompaniesMutationVariables
+>;
+export type InsertCompaniesMutationResult =
+  Apollo.MutationResult<InsertCompaniesMutation>;
+export type InsertCompaniesMutationOptions = Apollo.BaseMutationOptions<
+  InsertCompaniesMutation,
+  InsertCompaniesMutationVariables
+>;
+export const CompaniesAggregateDocument = gql`
+  query COMPANIES_AGGREGATE(
+    $limit: Int
+    $offset: Int
+    $order_by: [companies_order_by!]
+    $where: companies_bool_exp
+  ) {
+    companies_aggregate(
+      limit: $limit
+      offset: $offset
+      order_by: $order_by
+      where: $where
+    ) {
+      nodes {
+        id
+        created_at
+        updated_at
+        establish_date
+        image
+        name
+        size
+        status
+        summary
+        suspended
+        tenant_id
+      }
+    }
+  }
+`;
+export type CompaniesAggregateQueryResult = Apollo.QueryResult<
+  CompaniesAggregateQuery,
+  CompaniesAggregateQueryVariables
+>;
+export const UpdateCompaniesDocument = gql`
+  mutation UPDATE_COMPANIES(
+    $where: companies_bool_exp!
+    $_set: companies_set_input!
+  ) {
+    update_companies(where: $where, _set: $_set) {
+      returning {
+        id
+        name
+        updated_at
+      }
+    }
+  }
+`;
+export type UpdateCompaniesMutationFn = Apollo.MutationFunction<
+  UpdateCompaniesMutation,
+  UpdateCompaniesMutationVariables
+>;
+export type UpdateCompaniesMutationResult =
+  Apollo.MutationResult<UpdateCompaniesMutation>;
+export type UpdateCompaniesMutationOptions = Apollo.BaseMutationOptions<
+  UpdateCompaniesMutation,
+  UpdateCompaniesMutationVariables
+>;
+export const DeleteCompaniesByPkDocument = gql`
+  mutation DELETE_COMPANIES_BY_PK($id: uuid!) {
+    delete_companies_by_pk(id: $id) {
+      id
+      name
+      status
+      summary
+    }
+  }
+`;
+export type DeleteCompaniesByPkMutationFn = Apollo.MutationFunction<
+  DeleteCompaniesByPkMutation,
+  DeleteCompaniesByPkMutationVariables
+>;
+export type DeleteCompaniesByPkMutationResult =
+  Apollo.MutationResult<DeleteCompaniesByPkMutation>;
+export type DeleteCompaniesByPkMutationOptions = Apollo.BaseMutationOptions<
+  DeleteCompaniesByPkMutation,
+  DeleteCompaniesByPkMutationVariables
+>;
+export const CompaniesByPkDocument = gql`
+  query COMPANIES_BY_PK($id: uuid!) {
+    companies_by_pk(id: $id) {
+      id
+      created_at
+      updated_at
+      establish_date
+      image
+      name
+      size
+      status
+      summary
+      suspended
+      tenant_id
+    }
+  }
+`;
+export type CompaniesByPkQueryResult = Apollo.QueryResult<
+  CompaniesByPkQuery,
+  CompaniesByPkQueryVariables
+>;
 export const ConversationsByPkDocument = gql`
   query CONVERSATIONS_BY_PK($id: uuid!) {
     conversations_by_pk(id: $id) {
@@ -11895,6 +12544,88 @@ export type InsertMessagesOneMutationOptions = Apollo.BaseMutationOptions<
   InsertMessagesOneMutation,
   InsertMessagesOneMutationVariables
 >;
+export const SearchDocument = gql`
+  query SEARCH(
+    $limit: Int
+    $offset: Int
+    $tenant_id: uuid_comparison_exp
+    $keywords: String
+  ) {
+    companies_aggregate(
+      limit: $limit
+      offset: $offset
+      where: {
+        _and: [
+          {
+            _or: [
+              { name: { _ilike: $keywords } }
+              { summary: { _ilike: $keywords } }
+            ]
+          }
+          { tenant_id: $tenant_id }
+        ]
+      }
+    ) {
+      aggregate {
+        count
+      }
+      nodes {
+        id
+        name
+        summary
+      }
+    }
+    jobs_aggregate(
+      limit: $limit
+      offset: $offset
+      where: {
+        _and: [
+          {
+            _or: [
+              { title: { _ilike: $keywords } }
+              { description: { _ilike: $keywords } }
+            ]
+          }
+          { company: { tenant_id: $tenant_id } }
+        ]
+      }
+    ) {
+      aggregate {
+        count
+      }
+      nodes {
+        id
+        title
+        description
+      }
+    }
+    profiles_aggregate(
+      limit: $limit
+      offset: $offset
+      where: {
+        _and: [
+          { user: { _or: [{ displayName: { _ilike: $keywords } }] } }
+          { tenant_id: $tenant_id }
+        ]
+      }
+    ) {
+      aggregate {
+        count
+      }
+      nodes {
+        user {
+          id
+          displayName
+          email
+        }
+      }
+    }
+  }
+`;
+export type SearchQueryResult = Apollo.QueryResult<
+  SearchQuery,
+  SearchQueryVariables
+>;
 export const JobsByPkDocument = gql`
   query JOBS_BY_PK($id: uuid!) {
     jobs_by_pk(id: $id) {
@@ -11945,9 +12676,9 @@ export type JobsByPkQueryResult = Apollo.QueryResult<
 export const JobsNearbyAggregateDocument = gql`
   query JOBS_NEARBY_AGGREGATE(
     $args: jobs_nearby_args!
-    $limit: Int!
-    $offset: Int!
-    $where: jobs_bool_exp!
+    $limit: Int
+    $offset: Int
+    $where: jobs_bool_exp
   ) {
     jobs_nearby_aggregate(
       args: $args
@@ -11955,7 +12686,6 @@ export const JobsNearbyAggregateDocument = gql`
       offset: $offset
       where: $where
     ) {
-      __typename
       nodes {
         id
         created_at
@@ -11964,6 +12694,7 @@ export const JobsNearbyAggregateDocument = gql`
         quantity
         title
         updated_at
+        status
         address {
           id
           location
@@ -11976,6 +12707,97 @@ export const JobsNearbyAggregateDocument = gql`
 export type JobsNearbyAggregateQueryResult = Apollo.QueryResult<
   JobsNearbyAggregateQuery,
   JobsNearbyAggregateQueryVariables
+>;
+export const InsertJobsDocument = gql`
+  mutation INSERT_JOBS($objects: [jobs_insert_input!]!) {
+    insert_jobs(objects: $objects) {
+      returning {
+        id
+        created_at
+        title
+        description
+      }
+    }
+  }
+`;
+export type InsertJobsMutationFn = Apollo.MutationFunction<
+  InsertJobsMutation,
+  InsertJobsMutationVariables
+>;
+export type InsertJobsMutationResult =
+  Apollo.MutationResult<InsertJobsMutation>;
+export type InsertJobsMutationOptions = Apollo.BaseMutationOptions<
+  InsertJobsMutation,
+  InsertJobsMutationVariables
+>;
+export const JobsAggregateDocument = gql`
+  query JOBS_AGGREGATE(
+    $limit: Int
+    $offset: Int
+    $order_by: [jobs_order_by!]
+    $where: jobs_bool_exp
+  ) {
+    jobs_aggregate(
+      limit: $limit
+      offset: $offset
+      order_by: $order_by
+      where: $where
+    ) {
+      nodes {
+        id
+        created_at
+        updated_at
+        title
+        description
+        expiration_date
+        location
+        quantity
+      }
+    }
+  }
+`;
+export type JobsAggregateQueryResult = Apollo.QueryResult<
+  JobsAggregateQuery,
+  JobsAggregateQueryVariables
+>;
+export const UpdateJobsDocument = gql`
+  mutation UPDATE_JOBS($where: jobs_bool_exp!, $_set: jobs_set_input!) {
+    update_jobs(where: $where, _set: $_set) {
+      returning {
+        id
+        title
+        updated_at
+      }
+    }
+  }
+`;
+export type UpdateJobsMutationFn = Apollo.MutationFunction<
+  UpdateJobsMutation,
+  UpdateJobsMutationVariables
+>;
+export type UpdateJobsMutationResult =
+  Apollo.MutationResult<UpdateJobsMutation>;
+export type UpdateJobsMutationOptions = Apollo.BaseMutationOptions<
+  UpdateJobsMutation,
+  UpdateJobsMutationVariables
+>;
+export const DeleteJobsByPkDocument = gql`
+  mutation DELETE_JOBS_BY_PK($id: uuid!) {
+    delete_jobs_by_pk(id: $id) {
+      id
+      title
+    }
+  }
+`;
+export type DeleteJobsByPkMutationFn = Apollo.MutationFunction<
+  DeleteJobsByPkMutation,
+  DeleteJobsByPkMutationVariables
+>;
+export type DeleteJobsByPkMutationResult =
+  Apollo.MutationResult<DeleteJobsByPkMutation>;
+export type DeleteJobsByPkMutationOptions = Apollo.BaseMutationOptions<
+  DeleteJobsByPkMutation,
+  DeleteJobsByPkMutationVariables
 >;
 export const ResumesDocument = gql`
   query RESUMES(
@@ -12096,6 +12918,159 @@ export type InsertResumeMutationResult =
 export type InsertResumeMutationOptions = Apollo.BaseMutationOptions<
   InsertResumeMutation,
   InsertResumeMutationVariables
+>;
+export const TenantsDocument = gql`
+  query TENANTS {
+    tenants {
+      id
+      name
+      description
+      created_at
+      updated_at
+      data_usage
+    }
+  }
+`;
+export type TenantsQueryResult = Apollo.QueryResult<
+  TenantsQuery,
+  TenantsQueryVariables
+>;
+export const TenantsAggregateDocument = gql`
+  query TENANTS_AGGREGATE(
+    $limit: Int!
+    $offset: Int!
+    $order_by: [tenants_order_by!]
+    $where: tenants_bool_exp
+  ) {
+    tenants_aggregate(
+      limit: $limit
+      offset: $offset
+      order_by: $order_by
+      where: $where
+    ) {
+      nodes {
+        id
+        created_at
+        updated_at
+        name
+        description
+        data_usage
+      }
+      aggregate {
+        count
+      }
+    }
+  }
+`;
+export type TenantsAggregateQueryResult = Apollo.QueryResult<
+  TenantsAggregateQuery,
+  TenantsAggregateQueryVariables
+>;
+export const InsertTenantsDocument = gql`
+  mutation INSERT_TENANTS($objects: [tenants_insert_input!]!) {
+    insert_tenants(objects: $objects) {
+      returning {
+        id
+        created_at
+      }
+    }
+  }
+`;
+export type InsertTenantsMutationFn = Apollo.MutationFunction<
+  InsertTenantsMutation,
+  InsertTenantsMutationVariables
+>;
+export type InsertTenantsMutationResult =
+  Apollo.MutationResult<InsertTenantsMutation>;
+export type InsertTenantsMutationOptions = Apollo.BaseMutationOptions<
+  InsertTenantsMutation,
+  InsertTenantsMutationVariables
+>;
+export const TenantsByPkDocument = gql`
+  query TENANTS_BY_PK($id: uuid!) {
+    tenants_by_pk(id: $id) {
+      id
+      created_at
+      updated_at
+      name
+      description
+      data_usage
+      status
+    }
+  }
+`;
+export type TenantsByPkQueryResult = Apollo.QueryResult<
+  TenantsByPkQuery,
+  TenantsByPkQueryVariables
+>;
+export const UpdateTenantsDocument = gql`
+  mutation UPDATE_TENANTS(
+    $where: tenants_bool_exp!
+    $_set: tenants_set_input!
+  ) {
+    update_tenants(where: $where, _set: $_set) {
+      returning {
+        id
+        created_at
+        updated_at
+        name
+        description
+        data_usage
+        status
+      }
+    }
+  }
+`;
+export type UpdateTenantsMutationFn = Apollo.MutationFunction<
+  UpdateTenantsMutation,
+  UpdateTenantsMutationVariables
+>;
+export type UpdateTenantsMutationResult =
+  Apollo.MutationResult<UpdateTenantsMutation>;
+export type UpdateTenantsMutationOptions = Apollo.BaseMutationOptions<
+  UpdateTenantsMutation,
+  UpdateTenantsMutationVariables
+>;
+export const UpdateTenantsByPkDocument = gql`
+  mutation UPDATE_TENANTS_BY_PK(
+    $pk_columns: tenants_pk_columns_input!
+    $_set: tenants_set_input!
+  ) {
+    update_tenants_by_pk(pk_columns: $pk_columns, _set: $_set) {
+      id
+      name
+      description
+    }
+  }
+`;
+export type UpdateTenantsByPkMutationFn = Apollo.MutationFunction<
+  UpdateTenantsByPkMutation,
+  UpdateTenantsByPkMutationVariables
+>;
+export type UpdateTenantsByPkMutationResult =
+  Apollo.MutationResult<UpdateTenantsByPkMutation>;
+export type UpdateTenantsByPkMutationOptions = Apollo.BaseMutationOptions<
+  UpdateTenantsByPkMutation,
+  UpdateTenantsByPkMutationVariables
+>;
+export const DeleteTenantsByPkDocument = gql`
+  mutation DELETE_TENANTS_BY_PK($id: uuid!) {
+    delete_tenants_by_pk(id: $id) {
+      id
+      name
+      description
+    }
+  }
+`;
+export type DeleteTenantsByPkMutationFn = Apollo.MutationFunction<
+  DeleteTenantsByPkMutation,
+  DeleteTenantsByPkMutationVariables
+>;
+export type DeleteTenantsByPkMutationResult =
+  Apollo.MutationResult<DeleteTenantsByPkMutation>;
+export type DeleteTenantsByPkMutationOptions = Apollo.BaseMutationOptions<
+  DeleteTenantsByPkMutation,
+  DeleteTenantsByPkMutationVariables
 >;
 export const UpsertMyLocationDocument = gql`
   mutation UPSERT_MY_LOCATION($objects: [user_location_insert_input!]!) {

@@ -7,26 +7,6 @@
     "esModuleInterop": true,
     "noImplicitAny": true,
     "resolveJsonModule": true,
-    "paths": {
-      "@/assets": [
-        "assets"
-      ],
-      "@/components": [
-        "components"
-      ],
-      "@/graphqls": [
-        "graphqls"
-      ],
-      "@/screens": [
-        "screens"
-      ],
-      "@/stacks": [
-        "stacks"
-      ],
-      "@/utils/*": [
-        "utils/*"
-      ]
-    },
     "plugins": [
       {
         "name": "typescript-styled-plugin",
@@ -58,10 +38,5 @@
     "*.skiptest.tsx",
     "node_modules"
   ],
-  "include": [
-    "./**/*.ts",
-    "./**/*.tsx",
-    "**/*.ts",
-    "**/*.tsx"
-  ]
+  "include": ["**/*.ts", "**/*.tsx"]
 }

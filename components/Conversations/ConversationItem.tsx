@@ -1,9 +1,9 @@
 import React from 'react';
-import { Card, Text } from 'react-native-ui-lib';
+import { Card, Text } from '@ui-kitten/components';
 import type { Conversations } from '../../utils/types';
 
 type ConversationItemProps = {
-  data: Conversations;
+  data: Partial<Conversations>;
 };
 
 export const ConversationItem = (props: ConversationItemProps) => {
