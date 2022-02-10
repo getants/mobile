@@ -5290,8 +5290,8 @@ export type Messages = {
   audio?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
   /** An object relationship */
-  conversation: Conversations;
-  conversation_id: Scalars['uuid'];
+  conversation?: Maybe<Conversations>;
+  conversation_id?: Maybe<Scalars['uuid']>;
   created_at: Scalars['timestamptz'];
   id: Scalars['uuid'];
   image?: Maybe<Scalars['String']>;
@@ -11678,13 +11678,17 @@ export type MessagesAggregateQuery = {
       created_at: string;
       audio?: string | null;
       content?: string | null;
-      conversation_id: string;
+      conversation_id?: string | null;
       image?: string | null;
       is_bot: boolean;
       status: string;
       user_id?: string | null;
       video?: string | null;
-      conversation: { __typename?: 'conversations'; id: string; name: string };
+      conversation?: {
+        __typename?: 'conversations';
+        id: string;
+        name: string;
+      } | null;
       user?: {
         __typename?: 'users';
         id: string;

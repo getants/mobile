@@ -85,7 +85,11 @@ export const InboxScreen = (props: Props) => {
   const renderItem = ({
     item,
   }: {
-    item: Pick<Conversations, 'name' | 'updated_at'>;
+    // TODO: I don't know why the fuck Partial<Conversations> does not work here
+    item: Pick<
+      Conversations,
+      'name' | 'updated_at' | 'id' | 'created_at' | 'status'
+    >;
   }) => (
     <Pressable onPress={() => onPressSingle && onPressSingle(item)}>
       <ConversationItem data={item} />

@@ -1,9 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import type { ListRenderItem } from 'react-native';
 import Constants from 'expo-constants';
 import { StyleSheet } from 'react-native';
 import {
-  JobsNearbyAggregateDocument,
+  // JobsNearbyAggregateDocument,
   JobsAggregateDocument,
 } from '../../graphqls';
 import { JobStackEnum } from '../../utils/enums';
@@ -11,8 +10,8 @@ import type {
   Jobs,
   JobListScreenNavigationProp,
   JobListScreenRouteProp,
-  JobsNearbyAggregateQuery,
-  JobsNearbyAggregateQueryVariables,
+  // JobsNearbyAggregateQuery,
+  // JobsNearbyAggregateQueryVariables,
   JobsAggregateQuery,
   JobsAggregateQueryVariables,
 } from '../../utils/types';
@@ -25,7 +24,7 @@ import {
   View,
 } from '../../components';
 import {
-  useAuth,
+  // useAuth,
   useQuery,
   useTimeoutFn,
   useCollapsibleHeader,
