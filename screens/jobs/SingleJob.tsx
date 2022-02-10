@@ -2,9 +2,8 @@ import React, { useLayoutEffect, useMemo } from 'react';
 import styled from 'styled-components/native';
 import { MainStackEnum, InboxStackEnum } from '../../utils/enums';
 import type {
-  Job,
-  // Conversation,
-  ConversationAggregateData,
+  JobsByPkQuery,
+  ConversationsAggregateQuery,
   SingleJobScreenRouteProp,
   SingleJobScreenNavigationProp,
 } from '../../utils/types';
@@ -17,16 +16,16 @@ import {
 } from '../../utils/hooks';
 import {
   ConversationsAggregateDocument,
-  InsertConversationsDocument,
   JobsByPkDocument,
-  // InsertConversationsMutation,
+  InsertConversationsOneDocument,
 } from '../../graphqls';
 import {
-  FAB,
+  Button,
+  Card,
+  Image,
   SafeAreaView,
   ScrollView,
-  Card,
-  LinearProgress,
+  Spinner,
   Text,
 } from '../../components';
 
@@ -49,12 +48,15 @@ export const SingleJobScreen = (props: Props) => {
 
   const { jobId, jobTitle, companyName } = route.params;
 
-  const { loading, data } = useQuery(JobsByPkDocument, {
-    variables: { id: jobId },
-    notifyOnNetworkStatusChange: true,
-  });
+  const { loading, data: singleJobData } = useQuery<JobsByPkQuery>(
+    JobsByPkDocument,
+    {
+      variables: { id: jobId },
+      notifyOnNetworkStatusChange: true,
+    },
+  );
 
-  const job = useMemo<Job>(() => data?.job_by_pk || {}, [data]);
+  const job = singleJobData?.jobs_by_pk;
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -64,19 +66,16 @@ export const SingleJobScreen = (props: Props) => {
 
   // One customer can have only ONE conversation with ONE company only.
   // For different jobs, we notify with another signal over time.
-  const findConversationVars = useMemo(
-    () => ({
-      limit: 1,
-      offset: 0,
-      where: {
-        _and: {
-          company_id: { _eq: job?.company?.id ?? '' },
-          users: { user_id: { _eq: userId } },
-        },
+  const findConversationVars = {
+    limit: 1,
+    offset: 0,
+    where: {
+      _and: {
+        company_id: { _eq: job?.company?.id ?? '' },
+        users: { user_id: { _eq: userId } },
       },
-    }),
-    [userId, job],
-  );
+    },
+  };
 
   const [
     findConversation,
@@ -87,11 +86,14 @@ export const SingleJobScreen = (props: Props) => {
       // fetchMore: aggregateMore,
       // refetch,
     },
-  ] = useLazyQuery<ConversationAggregateData>(ConversationsAggregateDocument, {
-    variables: findConversationVars,
-    fetchPolicy: 'cache-and-network',
-    notifyOnNetworkStatusChange: true,
-  });
+  ] = useLazyQuery<ConversationsAggregateQuery>(
+    ConversationsAggregateDocument,
+    {
+      variables: findConversationVars,
+      fetchPolicy: 'cache-and-network',
+      notifyOnNetworkStatusChange: true,
+    },
+  );
 
   const [, , reset] = useTimeoutFn(() => findConversation(), 100);
 
@@ -101,12 +103,12 @@ export const SingleJobScreen = (props: Props) => {
   );
 
   const [addConversation, { data: newConversation }] = useMutation(
-    InsertConversationsDocument,
+    InsertConversationsOneDocument,
   );
 
   const navigateToConversation = (id: string) => {
     navigation.navigate(MainStackEnum.InboxStack, {
-      screen: InboxStackEnum.SingleConversation,
+      screen: InboxStackEnum.ConversationScreen,
       params: {
         conversationId: id,
         userId,
@@ -142,29 +144,23 @@ export const SingleJobScreen = (props: Props) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {(loading || !data) && <LinearProgress />}
+      {loading && !singleJobData && <Spinner />}
 
       <ScrollView>
         <Card>
-          <Text h2 style={{ padding: 20 }}>
-            {job.title || ''}
-          </Text>
+          <Text size="lg">{job?.title ?? ''}</Text>
 
-          <Card.Image source={{ uri: job.image }} />
-          <Text>{job.address?.unstructured_value ?? ''}</Text>
+          <Image source={{ uri: job?.image ?? 'no name' }} />
+          <Text>{job?.address?.unstructured_value ?? ''}</Text>
 
           <Text>Description</Text>
           <Text>
-            {job.description} / Company: {job?.company?.name}
+            {job?.description ?? ''} / Company: {job?.company?.name ?? ''}
           </Text>
         </Card>
       </ScrollView>
 
-      <FAB
-        title="Apply"
-        onPress={handleApply}
-        // width="80%"
-      />
+      <Button onPress={handleApply}>Apply</Button>
     </SafeAreaView>
   );
 };

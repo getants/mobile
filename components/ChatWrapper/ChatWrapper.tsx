@@ -1,29 +1,28 @@
 import React from 'react';
 import type { UIEvent } from 'react';
 import { SafeAreaView } from 'react-native';
-import { GiftedChat, IMessage as ChatMessage } from 'react-native-gifted-chat';
+import { GiftedChat } from 'react-native-gifted-chat';
+import type { IMessage as ChatMessage } from 'react-native-gifted-chat';
 import { convertUser, isCloseToTop } from './helpers';
-import type { UserType } from '../../utils/types';
+import type { NhostUser } from '../../utils/types';
 
-type Props = {
+type ChatWrapperProps = {
   isLoading: boolean;
   loadEarlier: () => Promise<void>;
   messages: ChatMessage[];
   onSend: (m: ChatMessage[]) => Promise<void>;
   setMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
-  user: UserType;
+  user: NhostUser;
 };
 
-export const ChatWrapper: React.FC<Props> = ({
+export const ChatWrapper = ({
   isLoading,
   loadEarlier,
   messages,
   setMessages,
   user,
   onSend,
-}) => {
-  const currentUser = convertUser(user);
-
+}: ChatWrapperProps) => {
   const handleOnSend = async (m: ChatMessage[]) => {
     setMessages((prevState) => GiftedChat.append(prevState, m));
     await onSend(m);
@@ -35,6 +34,10 @@ export const ChatWrapper: React.FC<Props> = ({
     }
   };
 
+  if (!user) {
+    return null;
+  }
+
   // {isLoading && (
   //   <LoaderScreen
   //     overlay
@@ -42,6 +45,9 @@ export const ChatWrapper: React.FC<Props> = ({
   //     // color={Colors.black}
   //   />
   // )}
+
+  const currentUser = convertUser(user);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <GiftedChat

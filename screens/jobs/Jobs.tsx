@@ -5,17 +5,17 @@ import { StyleSheet } from 'react-native';
 import { JobsNearbyAggregateDocument } from '../../graphqls';
 import { JobStackEnum } from '../../utils/enums';
 import type {
-  Job,
+  Jobs,
   JobListScreenNavigationProp,
   JobListScreenRouteProp,
-  JobsNearbyAggregateData,
+  JobsNearbyAggregateQuery,
 } from '../../utils/types';
 import {
   Animated,
   SafeAreaView,
   Placeholder,
   JobItem as JobItemPlaceholder,
-  TitleSmall,
+  Text,
   View,
 } from '../../components';
 import {
@@ -76,14 +76,14 @@ export const JobListScreen = (props: Props) => {
   );
 
   const {
-    data: aggregateJobs,
+    data: jobsData,
     error: aggregateError,
     loading,
     fetchMore,
     refetch,
-  } = useQuery<JobsNearbyAggregateData>(JobsNearbyAggregateDocument, {
+  } = useQuery<JobsNearbyAggregateQuery>(JobsNearbyAggregateDocument, {
     variables: aggregateJobsVars,
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
   });
 
@@ -92,21 +92,22 @@ export const JobListScreen = (props: Props) => {
     // nhost.auth.signOut();
   }
 
-  const jobs = useMemo<Job[]>(() => {
-    if (aggregateJobs?.jobs_nearby_aggregate?.nodes) {
-      return aggregateJobs.jobs_nearby_aggregate.nodes.map((job: Job) => {
-        const reducedAddress = job?.address?.unstructured_value?.trim();
-        return {
-          ...job,
-          address: {
-            ...job.address,
-            unstructured_value: reducedAddress,
-          },
-        };
-      });
-    }
-    return [];
-  }, [aggregateJobs]);
+  const jobs = jobsData?.jobs_nearby_aggregate.nodes ?? [];
+  // const jobs = useMemo<Jobs[]>(() => {
+  //   if (aggregateJobs?.jobs_nearby_aggregate?.nodes) {
+  //     return aggregateJobs.jobs_nearby_aggregate.nodes.map((job: Jobs) => {
+  //       // const reducedAddress = job?.address?.unstructured_value?.trim();
+  //       return {
+  //         ...job,
+  //         address: {
+  //           ...job.address,
+  //           // unstructured_value: reducedAddress,
+  //         },
+  //       };
+  //     });
+  //   }
+  //   return [];
+  // }, [aggregateJobs]);
 
   const increaseSearchRange = useCallback(() => {
     setRetry(() => retry + 1);
@@ -159,7 +160,7 @@ export const JobListScreen = (props: Props) => {
     resetTimer();
   }, [refetch, resetTimer]);
 
-  const onPressSingle = (job: Job) => {
+  const onPressSingle = (job: Jobs) => {
     navigation.navigate(JobStackEnum.SingleJobScreen, {
       jobId: job.id,
       jobTitle: job.title,
@@ -167,7 +168,7 @@ export const JobListScreen = (props: Props) => {
     });
   };
 
-  const handleOnApply = (job: Job) => {
+  const handleOnApply = (job: Jobs) => {
     console.log('### job: ', job); // eslint-disable-line
     // navigation.navigate(MainStackEnum.InboxStack, {
     //   screen: InboxStackEnum.SingleConversation,
@@ -179,7 +180,7 @@ export const JobListScreen = (props: Props) => {
     // });
   };
 
-  const renderItem: ListRenderItem<Job> = ({ item }) => (
+  const renderItem: ListRenderItem<Jobs> = ({ item }) => (
     <JobItem
       job={item}
       onPress={onPressSingle}
@@ -242,7 +243,7 @@ export const JobListScreen = (props: Props) => {
           }}
         >
           <View style={styles.inner}>
-            <TitleSmall>Sticky</TitleSmall>
+            <Text size="sm">Sticky</Text>
           </View>
         </Animated.View>
       </>

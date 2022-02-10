@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import styled from 'styled-components/native';
+import { format } from 'date-fns';
 import {
   Animated,
   Calendar as CalendarComponent,
@@ -6,38 +8,37 @@ import {
   RefreshControl,
   SafeAreaView,
   StyleSheet,
-} from '@components';
-import { format } from 'date-fns';
-import styled from 'styled-components/native';
-import { useCollapsibleHeader } from '@hooks';
-import { Colors } from '@styles/helpers';
-import type { CalendarScreenNavigationProp } from '@stacks/Types';
+} from '../../components';
+import { useCollapsibleHeader } from '../../utils/hooks';
+import type { CalendarScreenNavigationProp } from '../../utils/types';
+
+type CalendarTheme = React.ComponentProps<typeof CalendarComponent>['theme'];
 
 const ScrollView = styled.ScrollView`
-  background-color: ${Colors.white};
+  background-color: #ffffff;
 `;
 
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
 
 const styles = StyleSheet.create({
   calendar: {
-    backgroundColor: Colors.white,
+    backgroundColor: '#ffffff',
     marginBottom: 10,
   },
 });
-const calendarTheme = {
+const calendarTheme: CalendarTheme = {
   textSectionTitleColor: '#b6c1cd',
   textSectionTitleDisabledColor: '#d9e1e8',
   selectedDayBackgroundColor: '#00adf5',
   selectedDayTextColor: '#ffffff',
-  todayTextColor: Colors.primary,
+  todayTextColor: '#d97b1e',
   dayTextColor: '#2d4150',
   textDisabledColor: '#d9e1e8',
   dotColor: '#00adf5',
   selectedDotColor: '#ffffff',
   arrowColor: 'orange',
   disabledArrowColor: '#d9e1e8',
-  monthTextColor: Colors.grey,
+  monthTextColor: '#333333',
   indicatorColor: 'blue',
   textDayFontWeight: '300',
   textMonthFontWeight: 'bold',
@@ -47,11 +48,11 @@ const calendarTheme = {
   textDayHeaderFontSize: 16,
 };
 
-export type Props = {
+export type CalendarSreenProps = {
   navigation: CalendarScreenNavigationProp;
 };
 
-const Calendar = () => {
+export const CalendarScreen = () => {
   const today = format(new Date(), 'yyyy-MM-dd');
 
   const [refreshing, setRefreshing] = useState<boolean>(false);
@@ -95,8 +96,8 @@ const Calendar = () => {
             [selected]: {
               // @ts-ignore the @types/react-native-calendars is wrong
               selected: true,
-              selectedColor: Colors.primary,
-              selectedTextColor: Colors.white,
+              selectedColor: '#d07b1e', // Colors.primary,
+              selectedTextColor: '#ffffff', // Colors.white,
             },
           }}
         />
@@ -105,5 +106,3 @@ const Calendar = () => {
     </SafeAreaView>
   );
 };
-
-export default Calendar;

@@ -5,28 +5,35 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { CommonActions } from '@react-navigation/native';
+// import { CommonActions } from '@react-navigation/native';
 // import * as Localization from 'expo-localization';
 import {
   // GiftedChat,
   IMessage as ChatMessage,
 } from 'react-native-gifted-chat';
 // import { chatbot } from '@lib/helpers';
+import { ChatWrapper } from '../../components';
+import {
+  ConversationsByPkDocument,
+  InsertMessagesOneDocument,
+  MessagesAggregateDocument,
+  MessagesSubscriptionDocument,
+} from '../../graphqls';
 import type {
+  ConversationsByPkQuery,
+  ConversationsByPkQueryVariables,
+  InsertMessagesOneMutation,
+  InsertMessagesOneMutationVariables,
+  // Messages,
+  MessagesAggregateQuery,
+  MessagesAggregateQueryVariables,
+  MessagesSubscriptionSubscription,
+  MessagesSubscriptionSubscriptionVariables,
   SingleConversationScreenNavigationProp,
   SingleConversationScreenRouteProp,
-  SingleConversationData,
-  Message,
-  MessageAggregateData,
 } from '../../utils/types';
-import { CustomHeader, ChatWrapper } from '../../components';
-import {
-  MESSAGES_AGGREGATE,
-  MESSAGE_SUBSCRIPTION,
-  SINGLE_CONVERSATION,
-  INSERT_MESSAGE,
-} from '../../graphqls/inbox';
 import { BOT_KEYWORDS, MESSAGE_QUERY_LIMIT } from '../../utils/constants';
+import { OrderBy } from '../../utils/enums';
 import {
   useAuth,
   useFocusEffect,
@@ -37,33 +44,37 @@ import {
   useTimeoutFn,
 } from '../../utils/hooks';
 
-const convertMessage = (m: Message) => ({
-  ...m,
-  _id: m.id,
-  text: m.content,
-  createdAt: m.created_at,
-  user: {
-    _id: m.user.id,
-    name: m.user.full_name,
-    avatar: m.user.avatar_url,
-  },
-  image: m.image,
-  video: m.video,
-  audio: m.audio,
-  system: m.system,
-  sent: true, // do it later
-  received: true,
-  pending: false,
-  // quickReplies: QuickReplies
-});
+// const convertMessage = (m: Messages) => ({
+//   ...m,
+//   _id: m.id,
+//   text: m.content,
+//   createdAt: m.created_at,
+//   user: {
+//     _id: m.user?.id,
+//     name: m.user?.displayName,
+//     avatar: m.user?.avatarUrl,
+//   },
+//   image: m.image,
+//   video: m.video,
+//   audio: m.audio,
+//   // system: m.is_bot,
+//   sent: true, // do it later
+//   received: true,
+//   pending: false,
+//   // quickReplies: QuickReplies
+// });
 
 export type Props = {
   route: SingleConversationScreenRouteProp;
   navigation: SingleConversationScreenNavigationProp;
 };
 
-export const ConversationScreen: React.FC<Props> = ({ route, navigation }) => {
-  const { conversationId, userId, jobId } = route?.params ?? {};
+export const ConversationScreen: React.FC<Props> = ({ route }) => {
+  const {
+    conversationId,
+    userId,
+    // jobId
+  } = route?.params ?? {};
 
   const { user } = useAuth();
   const isFocused = useIsFocused();
@@ -73,35 +84,41 @@ export const ConversationScreen: React.FC<Props> = ({ route, navigation }) => {
   const {
     loading: conversationLoading,
     // data: conversationData,
-  } = useQuery<SingleConversationData>(SINGLE_CONVERSATION, {
-    variables: { id: conversationId },
-    fetchPolicy: 'cache-and-network',
-    notifyOnNetworkStatusChange: true,
-  });
+  } = useQuery<ConversationsByPkQuery, ConversationsByPkQueryVariables>(
+    ConversationsByPkDocument,
+    {
+      variables: { id: conversationId },
+      fetchPolicy: 'cache-and-network',
+      notifyOnNetworkStatusChange: true,
+    },
+  );
 
-  const handleGoBack = useCallback(() => {
-    if (jobId) {
-      navigation.dispatch(
-        CommonActions.reset({
-          routes: [
-            { name: 'MainStack', params: { conversationId: undefined } },
-          ],
-        }),
-      );
-    } else {
-      navigation.dispatch(CommonActions.goBack());
-    }
-  }, [jobId, navigation]);
+  // const handleGoBack = useCallback(() => {
+  //   if (jobId) {
+  //     navigation.dispatch(
+  //       CommonActions.reset({
+  //         routes: [
+  //           { name: 'MainStack', params: { conversationId: undefined } },
+  //         ],
+  //       }),
+  //     );
+  //   } else {
+  //     navigation.dispatch(CommonActions.goBack());
+  //   }
+  // }, [jobId, navigation]);
 
   // This is used for getting the last message
   const {
     loading: subscriptionLoading,
     data: subscriptionData,
     // error: subscriptionError,
-  } = useSubscription<MessageAggregateData>(MESSAGE_SUBSCRIPTION, {
+  } = useSubscription<
+    MessagesSubscriptionSubscription,
+    MessagesSubscriptionSubscriptionVariables
+  >(MessagesSubscriptionDocument, {
     variables: {
       limit: 1,
-      order_by: { created_at: 'desc' },
+      order_by: [{ created_at: OrderBy.Desc }],
       where: {
         conversation_id: { _eq: conversationId },
       },
@@ -117,18 +134,21 @@ export const ConversationScreen: React.FC<Props> = ({ route, navigation }) => {
     data: aggregateData,
     // error: aggregateError,
     fetchMore,
-  } = useQuery<MessageAggregateData>(MESSAGES_AGGREGATE, {
-    variables: {
-      limit: 20,
-      offset: 0,
-      order_by: { created_at: 'desc' },
-      where: {
-        conversation_id: { _eq: conversationId },
+  } = useQuery<MessagesAggregateQuery, MessagesAggregateQueryVariables>(
+    MessagesAggregateDocument,
+    {
+      variables: {
+        limit: 20,
+        offset: 0,
+        order_by: [{ created_at: OrderBy.Desc }],
+        where: {
+          conversation_id: { _eq: conversationId },
+        },
       },
+      fetchPolicy: 'cache-and-network',
+      notifyOnNetworkStatusChange: true,
     },
-    fetchPolicy: 'cache-and-network',
-    notifyOnNetworkStatusChange: true,
-  });
+  );
 
   const olderMessages = useMemo(
     () => aggregateData?.messages_aggregate.nodes ?? [],
@@ -147,7 +167,10 @@ export const ConversationScreen: React.FC<Props> = ({ route, navigation }) => {
   const isLoading =
     conversationLoading || subscriptionLoading || aggregateLoading;
 
-  const [insertMessage, { data: insertData }] = useMutation(INSERT_MESSAGE, {
+  const [insertMessage, { data: insertData }] = useMutation<
+    InsertMessagesOneMutation,
+    InsertMessagesOneMutationVariables
+  >(InsertMessagesOneDocument, {
     notifyOnNetworkStatusChange: true,
   });
 
@@ -185,7 +208,7 @@ export const ConversationScreen: React.FC<Props> = ({ route, navigation }) => {
 
   const updateMessages = useCallback(() => {
     // setMessages(olderMessages.map(convertMessage));
-  }, [olderMessages]);
+  }, []);
 
   // useLayoutEffect(() => {
   //   navigation.setOptions({

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useAuth, useQuery } from '../../utils/hooks';
-import { CONVERSATION_AGGREGATE } from '../../graphqls/inbox';
-import { Conversations } from '../../components';
-import { InboxStackEnum } from '../../utils/enums';
+import { ConversationsAggregateDocument } from '../../graphqls';
+import { ConversationList } from '../../components';
+import { InboxStackEnum, OrderBy } from '../../utils/enums';
 import type {
-  Conversation,
+  Conversations,
+  ConversationsAggregateQuery,
+  ConversationsAggregateQueryVariables,
   InboxScreenRouteProp,
   InboxScreenNavigationProp,
 } from '../../utils/types';
@@ -27,13 +29,18 @@ export const InboxScreen = (props: Props) => {
     loading: aggregateLoading,
     // fetchMore: aggregateMore,
     // refetch,
-  } = useQuery(CONVERSATION_AGGREGATE, {
+  } = useQuery<
+    ConversationsAggregateQuery,
+    ConversationsAggregateQueryVariables
+  >(ConversationsAggregateDocument, {
     variables: {
       limit: 10,
       offset,
-      order_by: {
-        updated_at: 'asc',
-      },
+      order_by: [
+        {
+          updated_at: OrderBy.Asc,
+        },
+      ],
       where: {
         users: {
           user_id: { _eq: user?.id ?? '' },
@@ -44,9 +51,9 @@ export const InboxScreen = (props: Props) => {
     notifyOnNetworkStatusChange: true,
   });
 
-  const conversations = aggregateData?.conversation_aggregate.nodes ?? [];
+  const conversations = aggregateData?.conversations_aggregate.nodes;
 
-  const onPressSingle = (conversation: Conversation) => {
+  const onPressSingle = (conversation: Conversations) => {
     navigation.navigate(InboxStackEnum.ConversationScreen, {
       conversationId: conversation.id,
       userId: user?.id ?? '',
@@ -56,7 +63,7 @@ export const InboxScreen = (props: Props) => {
   const handleRefetch = () => console.log('Refresh'); // eslint-disable-line
 
   const handleLoadMore = () => {
-    if (conversations.length >= 10) {
+    if (conversations && conversations.length >= 10) {
       // prevent loadmore at 1 item
       setOffset(() => offset + 10);
       console.log('Load more...'); // eslint-disable-line
@@ -64,7 +71,7 @@ export const InboxScreen = (props: Props) => {
   };
 
   return (
-    <Conversations
+    <ConversationList
       data={conversations}
       isLoading={aggregateLoading}
       onPressSingle={onPressSingle}

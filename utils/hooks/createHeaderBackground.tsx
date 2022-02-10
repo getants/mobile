@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Animated, View } from 'react-native';
+import type { ColorValue } from 'react-native';
 // import { getElevationStyle } from './utils';
 
 export type Params = {
   translateY: Animated.AnimatedInterpolation;
   opacity: Animated.AnimatedInterpolation;
-  backgroundColor: string | null;
+  backgroundColor?: ColorValue;
   collapsedColor: string | null;
-  elevation?: number;
   headerBackground?: React.ReactNode;
 };
 

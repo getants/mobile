@@ -1,19 +1,17 @@
 import React from 'react';
 import { Placeholder, Text } from '../../components';
+import type { TextProps } from '../../components/Text';
 
-type Props = {
+type NameProps = {
   isLoading?: boolean;
-  children?: React.ReactNode;
-};
+} & TextProps;
 
-const Name = (props: Props) => {
-  const { isLoading, children = '' } = props;
-
+const Name: React.FC<NameProps> = ({ isLoading, children }) => {
   if (isLoading) {
     return <Placeholder.Rect width={160} height={40} />;
   }
 
-  return <Text h2>{children}</Text>;
+  return <Text category="h2">{children}</Text>;
 };
 
 export default Name;

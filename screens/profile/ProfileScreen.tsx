@@ -63,7 +63,11 @@ export const ProfileScreen = () => {
     <SafeAreaView style={{ flex: 1, paddingTop: 20 }}>
       <ScrollView contentContainerStyle={styles.scroll}>
         <NameSection>
-          <Avatar size="medium" title={fullName} source={{ uri: imageUrl }} />
+          <Avatar
+            size="medium"
+            accessibilityLabel={fullName}
+            source={{ uri: imageUrl }}
+          />
           <TitleWrapper>
             <Name isLoading={isLoading}>{fullName}</Name>
           </TitleWrapper>
@@ -72,7 +76,7 @@ export const ProfileScreen = () => {
         <Divider />
 
         <View paddingH-20 paddingV-10>
-          <Text h1>Personal Information</Text>
+          <Text size="lg">Personal Information</Text>
 
           <Pressable>
             <View>

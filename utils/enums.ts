@@ -1,3 +1,5 @@
+export { OrderBy } from '../graphqls';
+
 export enum RootStackEnum {
   AuthStack = 'AuthStack',
   InitialStack = 'InitialStack',
@@ -32,7 +34,7 @@ export enum ProfileStackEnum {
   Profile = 'Profile',
   CameraRoll = 'CameraRoll',
 }
-// TODO: Bring this to shared-common package
+// Bring this to shared-common package
 // Entity value should match with the Postgres table name
 export enum Entity {
   Address = 'Addresses',
@@ -43,11 +45,11 @@ export enum Entity {
   Resume = 'Resumes',
   Tenant = 'Tenants',
 }
-export enum Direction {
+export enum DirectionEnum {
   Column = 'column', // Default
   Row = 'row',
 }
-export enum JustifyContent {
+export enum JustifyContentEnum {
   FlexStart = 'flex-start', // Default
   FlexEnd = 'flex-end',
   Center = 'center',
@@ -55,7 +57,7 @@ export enum JustifyContent {
   SpaceAround = 'space-around',
   SpaceEvenly = 'space-evenly',
 }
-export enum AlignItems {
+export enum AlignItemsEnum {
   FlexStart = 'flex-start',
   FlexEnd = 'flex-end',
   Center = 'center',

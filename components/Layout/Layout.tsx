@@ -4,10 +4,12 @@ import {
   Layout as KittenLayout,
   LayoutProps as KittenLayoutProps,
 } from '@ui-kitten/components';
-import { Direction, JustifyContent, AlignItems } from '../../utils/enums';
+import { Direction, JustifyContent, AlignItems } from '../../utils/types';
 import { halfValue } from '../../utils/tokens';
 
 export type LayoutProps = {
+  height?: number | string;
+  backgroundColor?: string;
   gap?: number | string;
   direction?: Direction;
   justify?: JustifyContent;
@@ -17,13 +19,17 @@ export type LayoutProps = {
 export const Layout: React.FC<LayoutProps> = ({
   children,
   style,
+  height,
+  backgroundColor,
   gap = 8,
-  align = AlignItems.Stretch,
-  direction = Direction.Column,
-  justify = JustifyContent.FlexStart,
+  align = 'stretch',
+  direction = 'column',
+  justify = 'flex-start',
   ...restProps
 }) => {
   const flexStyles = {
+    height,
+    backgroundColor,
     flexDirection: direction,
     justifyContent: justify,
     alignItems: align,

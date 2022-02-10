@@ -101,7 +101,7 @@ export type Addresses = {
   jobs: Array<Jobs>;
   /** An aggregate relationship */
   jobs_aggregate: JobsAggregate;
-  location: Scalars['String'];
+  location?: Maybe<Scalars['geography']>;
   status: Scalars['String'];
   structured_value?: Maybe<Scalars['String']>;
   /** An object relationship */
@@ -214,7 +214,7 @@ export type AddressesBoolExp = {
   data_usage?: InputMaybe<StringComparisonExp>;
   id?: InputMaybe<UuidComparisonExp>;
   jobs?: InputMaybe<JobsBoolExp>;
-  location?: InputMaybe<StringComparisonExp>;
+  location?: InputMaybe<GeographyComparisonExp>;
   status?: InputMaybe<StringComparisonExp>;
   structured_value?: InputMaybe<StringComparisonExp>;
   tenant?: InputMaybe<TenantsBoolExp>;
@@ -237,7 +237,7 @@ export type AddressesInsertInput = {
   data_usage?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   jobs?: InputMaybe<JobsArrRelInsertInput>;
-  location?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['geography']>;
   status?: InputMaybe<Scalars['String']>;
   structured_value?: InputMaybe<Scalars['String']>;
   tenant?: InputMaybe<TenantsObjRelInsertInput>;
@@ -253,7 +253,6 @@ export type AddressesMaxFields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   data_usage?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
-  location?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
   structured_value?: Maybe<Scalars['String']>;
   tenant_id?: Maybe<Scalars['uuid']>;
@@ -266,7 +265,6 @@ export type AddressesMaxOrderBy = {
   created_at?: InputMaybe<OrderBy>;
   data_usage?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
-  location?: InputMaybe<OrderBy>;
   status?: InputMaybe<OrderBy>;
   structured_value?: InputMaybe<OrderBy>;
   tenant_id?: InputMaybe<OrderBy>;
@@ -280,7 +278,6 @@ export type AddressesMinFields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   data_usage?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
-  location?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
   structured_value?: Maybe<Scalars['String']>;
   tenant_id?: Maybe<Scalars['uuid']>;
@@ -293,7 +290,6 @@ export type AddressesMinOrderBy = {
   created_at?: InputMaybe<OrderBy>;
   data_usage?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
-  location?: InputMaybe<OrderBy>;
   status?: InputMaybe<OrderBy>;
   structured_value?: InputMaybe<OrderBy>;
   tenant_id?: InputMaybe<OrderBy>;
@@ -373,7 +369,7 @@ export type AddressesSetInput = {
   created_at?: InputMaybe<Scalars['timestamptz']>;
   data_usage?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
-  location?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['geography']>;
   status?: InputMaybe<Scalars['String']>;
   structured_value?: InputMaybe<Scalars['String']>;
   tenant_id?: InputMaybe<Scalars['uuid']>;
@@ -11425,28 +11421,30 @@ export enum VolunteersUpdateColumn {
   UserId = 'user_id',
 }
 
-export type SingleConversationQueryVariables = Exact<{
+export type ConversationsByPkQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
-export type SingleConversationQuery = {
+export type ConversationsByPkQuery = {
   __typename?: 'query_root';
   conversations_by_pk?: {
     __typename?: 'conversations';
     id: string;
+    created_at: string;
+    updated_at: string;
     name: string;
     description?: string | null;
     status: string;
     company_id?: string | null;
-    created_at: string;
-    updated_at: string;
+    company?: { __typename?: 'companies'; id: string; name: string } | null;
   } | null;
 };
 
 export type ConversationsAggregateQueryVariables = Exact<{
-  limit: Scalars['Int'];
-  offset: Scalars['Int'];
-  where: ConversationsBoolExp;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ConversationsOrderBy> | ConversationsOrderBy>;
+  where?: InputMaybe<ConversationsBoolExp>;
 }>;
 
 export type ConversationsAggregateQuery = {
@@ -11456,21 +11454,21 @@ export type ConversationsAggregateQuery = {
     nodes: Array<{
       __typename?: 'conversations';
       id: string;
+      created_at: string;
+      updated_at: string;
       name: string;
       description?: string | null;
       status: string;
-      created_at: string;
-      updated_at: string;
       company?: { __typename?: 'companies'; id: string; name: string } | null;
     }>;
   };
 };
 
-export type InsertConversationsMutationVariables = Exact<{
+export type InsertConversationsOneMutationVariables = Exact<{
   object: ConversationsInsertInput;
 }>;
 
-export type InsertConversationsMutation = {
+export type InsertConversationsOneMutation = {
   __typename?: 'mutation_root';
   insert_conversations_one?: {
     __typename?: 'conversations';
@@ -11482,10 +11480,10 @@ export type InsertConversationsMutation = {
 };
 
 export type MessagesAggregateQueryVariables = Exact<{
-  limit: Scalars['Int'];
-  offset: Scalars['Int'];
-  order_by: Array<MessagesOrderBy> | MessagesOrderBy;
-  where: MessagesBoolExp;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<MessagesOrderBy> | MessagesOrderBy>;
+  where?: InputMaybe<MessagesBoolExp>;
 }>;
 
 export type MessagesAggregateQuery = {
@@ -11496,17 +11494,29 @@ export type MessagesAggregateQuery = {
       __typename?: 'messages';
       id: string;
       created_at: string;
+      audio?: string | null;
       content?: string | null;
       conversation_id: string;
-      user?: { __typename?: 'users'; id: string; displayName: string } | null;
+      image?: string | null;
+      is_bot: boolean;
+      status: string;
+      user_id?: string | null;
+      video?: string | null;
+      conversation: { __typename?: 'conversations'; id: string; name: string };
+      user?: {
+        __typename?: 'users';
+        id: string;
+        displayName: string;
+        email?: any | null;
+      } | null;
     }>;
   };
 };
 
 export type MessagesSubscriptionSubscriptionVariables = Exact<{
-  limit: Scalars['Int'];
-  order_by: Array<MessagesOrderBy> | MessagesOrderBy;
-  where: MessagesBoolExp;
+  limit?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<MessagesOrderBy> | MessagesOrderBy>;
+  where?: InputMaybe<MessagesBoolExp>;
 }>;
 
 export type MessagesSubscriptionSubscription = {
@@ -11523,11 +11533,11 @@ export type MessagesSubscriptionSubscription = {
   };
 };
 
-export type InsertMessagesMutationVariables = Exact<{
+export type InsertMessagesOneMutationVariables = Exact<{
   object: MessagesInsertInput;
 }>;
 
-export type InsertMessagesMutation = {
+export type InsertMessagesOneMutation = {
   __typename?: 'mutation_root';
   insert_messages_one?: {
     __typename?: 'messages';
@@ -11545,22 +11555,34 @@ export type JobsByPkQuery = {
   __typename?: 'query_root';
   jobs_by_pk?: {
     __typename?: 'jobs';
-    compensations?: string | null;
     created_at: string;
+    updated_at: string;
+    compensations?: string | null;
+    degree_type?: string | null;
+    description?: string | null;
+    employment_type?: string | null;
+    start_time?: string | null;
+    end_time?: string | null;
+    expiration_date?: string | null;
     image?: string | null;
     level?: string | null;
     location?: Geography | null;
-    quantity: number;
-    title: string;
-    description?: string | null;
-    degree_type?: string | null;
-    employment_type?: string | null;
-    end_time?: string | null;
-    expiration_date?: string | null;
     qualifications?: string | null;
-    start_time?: string | null;
+    quantity: number;
     responsibilities?: string | null;
-    updated_at: string;
+    status: string;
+    title: string;
+    address?: {
+      __typename?: 'addresses';
+      id: string;
+      created_at: string;
+      updated_at: string;
+      data_usage?: string | null;
+      location?: Geography | null;
+      unstructured_value?: string | null;
+      structured_value?: string | null;
+      status: string;
+    } | null;
     company?: {
       __typename?: 'companies';
       id: string;
@@ -11568,18 +11590,9 @@ export type JobsByPkQuery = {
       establish_date?: string | null;
       image?: string | null;
       name: string;
+      size?: string | null;
       summary?: string | null;
       updated_at: string;
-    } | null;
-    address?: {
-      __typename?: 'addresses';
-      created_at: string;
-      data_usage?: string | null;
-      id: string;
-      location: string;
-      updated_at: string;
-      unstructured_value?: string | null;
-      structured_value?: string | null;
     } | null;
   } | null;
 };
@@ -11607,27 +11620,45 @@ export type JobsNearbyAggregateQuery = {
       address?: {
         __typename?: 'addresses';
         id: string;
+        location?: Geography | null;
         unstructured_value?: string | null;
-        location: string;
       } | null;
     }>;
   };
 };
 
-export type UpsertMyLocationMutationVariables = Exact<{
-  objects: Array<UserLocationInsertInput> | UserLocationInsertInput;
+export type ResumesQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ResumesOrderBy> | ResumesOrderBy>;
+  where?: InputMaybe<ResumesBoolExp>;
 }>;
 
-export type UpsertMyLocationMutation = {
+export type ResumesQuery = {
+  __typename?: 'query_root';
+  resumes: Array<{
+    __typename?: 'resumes';
+    id: string;
+    created_at: string;
+    updated_at: string;
+    summary?: string | null;
+    status: string;
+  }>;
+};
+
+export type InsertResumesOneMutationVariables = Exact<{
+  object: ResumesInsertInput;
+}>;
+
+export type InsertResumesOneMutation = {
   __typename?: 'mutation_root';
-  insert_user_location?: {
-    __typename?: 'user_location_mutation_response';
-    affected_rows: number;
-    returning: Array<{
-      __typename?: 'user_location';
-      user_id: string;
-      location: Geography;
-    }>;
+  insert_resumes_one?: {
+    __typename?: 'resumes';
+    id: string;
+    created_at: string;
+    updated_at: string;
+    summary?: string | null;
+    status: string;
   } | null;
 };
 
@@ -11698,37 +11729,59 @@ export type InsertResumeMutation = {
   } | null;
 };
 
-export const SingleConversationDocument = gql`
-  query SINGLE_CONVERSATION($id: uuid!) {
+export type UpsertMyLocationMutationVariables = Exact<{
+  objects: Array<UserLocationInsertInput> | UserLocationInsertInput;
+}>;
+
+export type UpsertMyLocationMutation = {
+  __typename?: 'mutation_root';
+  insert_user_location?: {
+    __typename?: 'user_location_mutation_response';
+    affected_rows: number;
+    returning: Array<{
+      __typename?: 'user_location';
+      user_id: string;
+      location: Geography;
+    }>;
+  } | null;
+};
+
+export const ConversationsByPkDocument = gql`
+  query CONVERSATIONS_BY_PK($id: uuid!) {
     conversations_by_pk(id: $id) {
       id
+      created_at
+      updated_at
       name
       description
       status
       company_id
-      created_at
-      updated_at
+      company {
+        id
+        name
+      }
     }
   }
 `;
-export type SingleConversationQueryResult = Apollo.QueryResult<
-  SingleConversationQuery,
-  SingleConversationQueryVariables
+export type ConversationsByPkQueryResult = Apollo.QueryResult<
+  ConversationsByPkQuery,
+  ConversationsByPkQueryVariables
 >;
 export const ConversationsAggregateDocument = gql`
   query CONVERSATIONS_AGGREGATE(
-    $limit: Int!
-    $offset: Int!
-    $where: conversations_bool_exp!
+    $limit: Int
+    $offset: Int
+    $order_by: [conversations_order_by!]
+    $where: conversations_bool_exp
   ) {
     conversations_aggregate(limit: $limit, offset: $offset, where: $where) {
       nodes {
         id
+        created_at
+        updated_at
         name
         description
         status
-        created_at
-        updated_at
         company {
           id
           name
@@ -11741,8 +11794,8 @@ export type ConversationsAggregateQueryResult = Apollo.QueryResult<
   ConversationsAggregateQuery,
   ConversationsAggregateQueryVariables
 >;
-export const InsertConversationsDocument = gql`
-  mutation INSERT_CONVERSATIONS($object: conversations_insert_input!) {
+export const InsertConversationsOneDocument = gql`
+  mutation INSERT_CONVERSATIONS_ONE($object: conversations_insert_input!) {
     insert_conversations_one(object: $object) {
       id
       name
@@ -11751,22 +11804,22 @@ export const InsertConversationsDocument = gql`
     }
   }
 `;
-export type InsertConversationsMutationFn = Apollo.MutationFunction<
-  InsertConversationsMutation,
-  InsertConversationsMutationVariables
+export type InsertConversationsOneMutationFn = Apollo.MutationFunction<
+  InsertConversationsOneMutation,
+  InsertConversationsOneMutationVariables
 >;
-export type InsertConversationsMutationResult =
-  Apollo.MutationResult<InsertConversationsMutation>;
-export type InsertConversationsMutationOptions = Apollo.BaseMutationOptions<
-  InsertConversationsMutation,
-  InsertConversationsMutationVariables
+export type InsertConversationsOneMutationResult =
+  Apollo.MutationResult<InsertConversationsOneMutation>;
+export type InsertConversationsOneMutationOptions = Apollo.BaseMutationOptions<
+  InsertConversationsOneMutation,
+  InsertConversationsOneMutationVariables
 >;
 export const MessagesAggregateDocument = gql`
   query MESSAGES_AGGREGATE(
-    $limit: Int!
-    $offset: Int!
-    $order_by: [messages_order_by!]!
-    $where: messages_bool_exp!
+    $limit: Int
+    $offset: Int
+    $order_by: [messages_order_by!]
+    $where: messages_bool_exp
   ) {
     messages_aggregate(
       limit: $limit
@@ -11777,11 +11830,22 @@ export const MessagesAggregateDocument = gql`
       nodes {
         id
         created_at
+        audio
         content
         conversation_id
+        image
+        is_bot
+        status
+        user_id
+        video
+        conversation {
+          id
+          name
+        }
         user {
           id
           displayName
+          email
         }
       }
     }
@@ -11793,9 +11857,9 @@ export type MessagesAggregateQueryResult = Apollo.QueryResult<
 >;
 export const MessagesSubscriptionDocument = gql`
   subscription MESSAGES_SUBSCRIPTION(
-    $limit: Int!
-    $order_by: [messages_order_by!]!
-    $where: messages_bool_exp!
+    $limit: Int
+    $order_by: [messages_order_by!]
+    $where: messages_bool_exp
   ) {
     messages_aggregate(limit: $limit, order_by: $order_by, where: $where) {
       nodes {
@@ -11812,8 +11876,8 @@ export const MessagesSubscriptionDocument = gql`
 `;
 export type MessagesSubscriptionSubscriptionResult =
   Apollo.SubscriptionResult<MessagesSubscriptionSubscription>;
-export const InsertMessagesDocument = gql`
-  mutation INSERT_MESSAGES($object: messages_insert_input!) {
+export const InsertMessagesOneDocument = gql`
+  mutation INSERT_MESSAGES_ONE($object: messages_insert_input!) {
     insert_messages_one(object: $object) {
       id
       created_at
@@ -11821,53 +11885,56 @@ export const InsertMessagesDocument = gql`
     }
   }
 `;
-export type InsertMessagesMutationFn = Apollo.MutationFunction<
-  InsertMessagesMutation,
-  InsertMessagesMutationVariables
+export type InsertMessagesOneMutationFn = Apollo.MutationFunction<
+  InsertMessagesOneMutation,
+  InsertMessagesOneMutationVariables
 >;
-export type InsertMessagesMutationResult =
-  Apollo.MutationResult<InsertMessagesMutation>;
-export type InsertMessagesMutationOptions = Apollo.BaseMutationOptions<
-  InsertMessagesMutation,
-  InsertMessagesMutationVariables
+export type InsertMessagesOneMutationResult =
+  Apollo.MutationResult<InsertMessagesOneMutation>;
+export type InsertMessagesOneMutationOptions = Apollo.BaseMutationOptions<
+  InsertMessagesOneMutation,
+  InsertMessagesOneMutationVariables
 >;
 export const JobsByPkDocument = gql`
   query JOBS_BY_PK($id: uuid!) {
     jobs_by_pk(id: $id) {
+      created_at
+      updated_at
+      compensations
+      degree_type
+      description
+      employment_type
+      start_time
+      end_time
+      expiration_date
+      image
+      level
+      location
+      qualifications
+      quantity
+      responsibilities
+      status
+      title
+      address {
+        id
+        created_at
+        updated_at
+        data_usage
+        location
+        unstructured_value
+        structured_value
+        status
+      }
       company {
         id
         created_at
         establish_date
         image
         name
+        size
         summary
         updated_at
       }
-      compensations
-      created_at
-      image
-      level
-      location
-      quantity
-      title
-      description
-      address {
-        created_at
-        data_usage
-        id
-        location
-        updated_at
-        unstructured_value
-        structured_value
-      }
-      degree_type
-      employment_type
-      end_time
-      expiration_date
-      qualifications
-      start_time
-      responsibilities
-      updated_at
     }
   }
 `;
@@ -11899,8 +11966,8 @@ export const JobsNearbyAggregateDocument = gql`
         updated_at
         address {
           id
-          unstructured_value
           location
+          unstructured_value
         }
       }
     }
@@ -11910,29 +11977,51 @@ export type JobsNearbyAggregateQueryResult = Apollo.QueryResult<
   JobsNearbyAggregateQuery,
   JobsNearbyAggregateQueryVariables
 >;
-export const UpsertMyLocationDocument = gql`
-  mutation UPSERT_MY_LOCATION($objects: [user_location_insert_input!]!) {
-    insert_user_location(
-      objects: $objects
-      on_conflict: { constraint: user_location_pkey, update_columns: location }
+export const ResumesDocument = gql`
+  query RESUMES(
+    $limit: Int
+    $offset: Int
+    $order_by: [resumes_order_by!]
+    $where: resumes_bool_exp
+  ) {
+    resumes(
+      limit: $limit
+      offset: $offset
+      order_by: $order_by
+      where: $where
     ) {
-      returning {
-        user_id
-        location
-      }
-      affected_rows
+      id
+      created_at
+      updated_at
+      summary
+      status
     }
   }
 `;
-export type UpsertMyLocationMutationFn = Apollo.MutationFunction<
-  UpsertMyLocationMutation,
-  UpsertMyLocationMutationVariables
+export type ResumesQueryResult = Apollo.QueryResult<
+  ResumesQuery,
+  ResumesQueryVariables
 >;
-export type UpsertMyLocationMutationResult =
-  Apollo.MutationResult<UpsertMyLocationMutation>;
-export type UpsertMyLocationMutationOptions = Apollo.BaseMutationOptions<
-  UpsertMyLocationMutation,
-  UpsertMyLocationMutationVariables
+export const InsertResumesOneDocument = gql`
+  mutation INSERT_RESUMES_ONE($object: resumes_insert_input!) {
+    insert_resumes_one(object: $object) {
+      id
+      created_at
+      updated_at
+      summary
+      status
+    }
+  }
+`;
+export type InsertResumesOneMutationFn = Apollo.MutationFunction<
+  InsertResumesOneMutation,
+  InsertResumesOneMutationVariables
+>;
+export type InsertResumesOneMutationResult =
+  Apollo.MutationResult<InsertResumesOneMutation>;
+export type InsertResumesOneMutationOptions = Apollo.BaseMutationOptions<
+  InsertResumesOneMutation,
+  InsertResumesOneMutationVariables
 >;
 export const ResumesAggregateDocument = gql`
   query RESUMES_AGGREGATE(
@@ -12007,4 +12096,28 @@ export type InsertResumeMutationResult =
 export type InsertResumeMutationOptions = Apollo.BaseMutationOptions<
   InsertResumeMutation,
   InsertResumeMutationVariables
+>;
+export const UpsertMyLocationDocument = gql`
+  mutation UPSERT_MY_LOCATION($objects: [user_location_insert_input!]!) {
+    insert_user_location(
+      objects: $objects
+      on_conflict: { constraint: user_location_pkey, update_columns: location }
+    ) {
+      returning {
+        user_id
+        location
+      }
+      affected_rows
+    }
+  }
+`;
+export type UpsertMyLocationMutationFn = Apollo.MutationFunction<
+  UpsertMyLocationMutation,
+  UpsertMyLocationMutationVariables
+>;
+export type UpsertMyLocationMutationResult =
+  Apollo.MutationResult<UpsertMyLocationMutation>;
+export type UpsertMyLocationMutationOptions = Apollo.BaseMutationOptions<
+  UpsertMyLocationMutation,
+  UpsertMyLocationMutationVariables
 >;

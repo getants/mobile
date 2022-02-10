@@ -1,12 +1,12 @@
 import React from 'react';
 import { Card, Text } from 'react-native-ui-lib';
-import type { Conversation } from '../../utils/types';
+import type { Conversations } from '../../utils/types';
 
-type Props = {
-  data: Conversation;
+type ConversationItemProps = {
+  data: Conversations;
 };
 
-export const ConversationItem = (props: Props) => {
+export const ConversationItem = (props: ConversationItemProps) => {
   const { data } = props;
 
   const conversationTitle = <Text>{data.name}</Text>;

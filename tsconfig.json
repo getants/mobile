@@ -54,6 +54,8 @@
     ".expo-shared",
     ".github",
     "coverage",
+    "*.testskip.tsx",
+    "*.skiptest.tsx",
     "node_modules"
   ],
   "include": [

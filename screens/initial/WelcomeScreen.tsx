@@ -1,10 +1,12 @@
+/* eslint-disable global-require */
+// I already paid 1000euro to use this line, jk, I don't know how to fix this
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import { ProgressBar, Text, Flex } from '../../components';
+import { ProgressBar, Text, Layout, View } from '../../components';
 import {
-  INSERT_RESUME,
-  RESUMES_AGGREGATE,
-  JOBS_NEARBY_AGGREGATE,
+  InsertResumesOneDocument,
+  ResumesDocument,
+  // JobsNearbyAggregateDocument,
 } from '../../graphqls';
 import {
   useAuth,
@@ -15,12 +17,18 @@ import {
 } from '../../utils/hooks';
 import { space } from '../../utils/tokens';
 import {
+  OrderBy,
   RootStackEnum,
-  MainStackEnum,
-  InitialStackEnum,
+  // MainStackEnum,
+  // InitialStackEnum,
 } from '../../utils/enums';
 import type {
-  ResumeAggregateData,
+  InsertResumesOneMutation,
+  InsertResumesOneMutationVariables,
+  // JobsNearbyAggregateQuery,
+  // JobsNearbyAggregateQueryVariables,
+  ResumesQuery,
+  ResumesQueryVariables,
   WelcomeScreenNavigationProp,
 } from '../../utils/types';
 
@@ -45,48 +53,54 @@ export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
   const [retries, setRetries] = useState(0);
   const [message, setMessage] = useState<string>('Setup, please wait...');
 
-  const { data: aggregateResume } = useQuery<ResumeAggregateData>(
-    RESUMES_AGGREGATE,
-    {
-      variables: {
-        limit: 1,
-        offset: 0,
-        order_by: { created_at: 'desc' },
-        where: {
-          user_id: { _eq: user?.id },
-        },
-      },
-      fetchPolicy: 'cache-and-network',
-      notifyOnNetworkStatusChange: true,
-      errorPolicy: 'all',
-    },
-  );
-
-  const { data, error } = useQuery(JOBS_NEARBY_AGGREGATE, {
+  const { data: aggregateResume } = useQuery<
+    ResumesQuery,
+    ResumesQueryVariables
+  >(ResumesDocument, {
     variables: {
-      args: {
-        distance: 9999,
-        user_id: user?.id ?? '',
-      },
-      limit: 10,
+      limit: 1,
       offset: 0,
+      order_by: [{ created_at: OrderBy.Desc }],
       where: {
-        company: {
-          tenant_id: { _eq: '29fd709e-1b05-4f26-8510-e91d62acc3df' },
-        },
+        user_id: { _eq: user?.id },
       },
     },
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
+    notifyOnNetworkStatusChange: true,
     errorPolicy: 'all',
   });
 
-  console.log('WelcomeScreen', {
-    isAuthenticated,
-    data,
-    error,
-  });
+  // const { data } = useQuery<
+  //   JobsNearbyAggregateQuery,
+  //   JobsNearbyAggregateQueryVariables
+  // >(JobsNearbyAggregateDocument, {
+  //   variables: {
+  //     args: {
+  //       distance: 9999,
+  //       user_id: user?.id ?? '',
+  //     },
+  //     limit: 10,
+  //     offset: 0,
+  //     where: {
+  //       company: {
+  //         tenant_id: { _eq: '29fd709e-1b05-4f26-8510-e91d62acc3df' },
+  //       },
+  //     },
+  //   },
+  //   fetchPolicy: 'network-only',
+  //   // errorPolicy: 'all',
+  // });
 
-  const [createResume] = useMutation(INSERT_RESUME);
+  // console.log('WelcomeScreen', {
+  //   isAuthenticated,
+  //   data,
+  //   error,
+  // });
+
+  const [createResume] = useMutation<
+    InsertResumesOneMutation,
+    InsertResumesOneMutationVariables
+  >(InsertResumesOneDocument);
 
   const [, cancelTimer, resetTimer] = useTimeoutFn(async () => {
     if (isAuthenticated) {
@@ -95,17 +109,13 @@ export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
         setMessage(`New profile setup... (${retries + 1}/2)`);
         setRetries((t) => t + 1);
         resetTimer();
-      } else if (
-        user &&
-        aggregateResume?.resumes_aggregate?.nodes?.length === 0
-      ) {
+      } else if (user && aggregateResume?.resumes.length === 0) {
         setMessage('Creating nessesary data...');
         await createResume({
           variables: {
             object: {
               user_id: user.id,
-              name: 'default',
-              summary: 'Auto-generated',
+              summary: `Auto-generated: ${Date.now()}`,
             },
           },
         });
@@ -133,14 +143,14 @@ export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <StyledBackground source={require('../../assets/splash.png')}>
-      <Flex direction="column" justify="space-between" height="100%">
-        <Flex padding={10} />
+      <Layout direction="column" justify="space-between" height="100%" gap={20}>
+        <View />
 
-        <Flex paddingBottom={180} align="center">
+        <View>
           <ProgressBar />
           <TinyMessage>{message}</TinyMessage>
-        </Flex>
-      </Flex>
+        </View>
+      </Layout>
     </StyledBackground>
   );
 };

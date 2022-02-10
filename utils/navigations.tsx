@@ -42,7 +42,7 @@ export const renderHeaderLeft = <T extends { name: StackScreens }>(
 
   switch (routeName) {
     case 'JobListScreen':
-    case 'Inbox':
+    case 'InboxScreen':
     case 'Calendar':
     case 'Profile':
       return null;

@@ -16,7 +16,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import type { NavigationState } from '@react-navigation/native';
 
 import { RootStack } from './stacks';
-import { Flex, ThemeProvider } from './components';
+import { View, ThemeProvider } from './components';
 import { NAVIGATION_STATE, SENTRY_DSN } from './utils/constants';
 import { globalState, initialState } from './utils/states';
 import { nhost } from './utils/nhost';
@@ -78,9 +78,9 @@ const App = () => {
 
   if (!isReady) {
     return (
-      <Flex align="center" justify="center" height="100%">
+      <View>
         <Text>Loading...</Text>
-      </Flex>
+      </View>
     );
   }
 

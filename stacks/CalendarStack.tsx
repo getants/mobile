@@ -1,29 +1,24 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import CalendarView from '../screens/calendar';
-import defaultOptions from './helpers/navigations';
-import { renderHeaderLeft } from './helpers/customComponents';
-import type { CalendarStackParams } from './Types';
+import { CalendarScreen } from '../screens';
+import { renderHeaderLeft, createOptions } from '../utils/navigations';
+import { CalendarStackEnum } from '../utils/enums';
+import type { CalendarStackParams } from '../utils/types';
 
-const screens = {
-  Calendar: CalendarView,
-};
+const customOptions = createOptions();
 
 const { Navigator, Screen } = createStackNavigator<CalendarStackParams>();
 
-const CalendarStack = () => (
-  <Navigator screenOptions={defaultOptions}>
-    {Object.keys(screens).map((k: keyof CalendarStackParams) => (
-      <Screen
-        name={k}
-        component={screens[k]}
-        options={({ route }) => ({
-          headerLeft: (props) => renderHeaderLeft(route, props),
-        })}
-      />
-    ))}
+export const CalendarStack = () => (
+  <Navigator>
+    <Screen
+      name={CalendarStackEnum.Calendar}
+      component={CalendarScreen}
+      options={({ route }) => ({
+        ...customOptions,
+        headerLeft: (props) => renderHeaderLeft(route, props),
+      })}
+    />
   </Navigator>
 );
-
-export default CalendarStack;

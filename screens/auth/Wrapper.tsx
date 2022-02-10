@@ -2,7 +2,7 @@ import React from 'react';
 import { useAssets } from 'expo-asset';
 import styled from 'styled-components/native';
 import { KeyboardAvoidingView, Platform } from 'react-native';
-import { Flex } from '../../components';
+import { Layout, View } from '../../components';
 
 const LogoBackground = styled.Image`
   width: 100%;
@@ -35,19 +35,19 @@ const LoginScreen = (props: Props) => {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <Flex height="100%" justify="space-between" backgroundColor="white">
+      <Layout height="100%" justify="space-between" backgroundColor="white">
         <LogoBackground source={imageUri} />
 
-        <Flex
-          width="100%"
-          justify="space-around"
-          paddingLeft={20}
-          paddingRight={20}
-          marginBottom={5}
+        <View
+        // width="100%"
+        // justify="space-around"
+        // paddingLeft={20}
+        // paddingRight={20}
+        // marginBottom={5}
         >
           {children}
-        </Flex>
-      </Flex>
+        </View>
+      </Layout>
     </KeyboardAvoidingView>
   );
 };

@@ -1,0 +1,82 @@
+query RESUMES(
+  $limit: Int
+  $offset: Int
+  $order_by: [resumes_order_by!]
+  $where: resumes_bool_exp
+) {
+  resumes(limit: $limit, offset: $offset, order_by: $order_by, where: $where) {
+    id
+    created_at
+    updated_at
+    summary
+    status
+  }
+}
+
+mutation INSERT_RESUMES_ONE($object: resumes_insert_input!) {
+  insert_resumes_one(object: $object) {
+    id
+    created_at
+    updated_at
+    summary
+    status
+  }
+}
+
+query RESUMES_AGGREGATE(
+  $limit: Int
+  $offset: Int
+  $order_by: [resumes_order_by!]
+  $where: resumes_bool_exp
+) {
+  resumes_aggregate(
+    limit: $limit
+    offset: $offset
+    order_by: $order_by
+    where: $where
+  ) {
+    nodes {
+      id
+      summary
+      certifications(order_by: { updated_at: desc }) {
+        id
+        updated_at
+        created_at
+        credential_url
+        expiration_date
+        issue_date
+        organization
+      }
+      educations(order_by: { updated_at: desc }) {
+        id
+        updated_at
+        created_at
+        degree
+        description
+        education_level
+        end_date
+        field
+        school_name
+        start_date
+      }
+      experiences(order_by: { updated_at: desc }) {
+        id
+        updated_at
+        created_at
+        company_id
+        description
+        end_date
+        name
+        start_date
+      }
+    }
+  }
+}
+
+mutation INSERT_RESUME($object: resumes_insert_input!) {
+  insert_resumes_one(object: $object) {
+    id
+    summary
+    created_at
+  }
+}

@@ -1,19 +1,18 @@
-import * as CSS from 'csstype';
 // import type { SetStateAction, WritableAtom } from 'jotai';
 import type { PrimitiveAtom } from 'jotai';
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import {
+import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import type {
   StackNavigationProp,
   StackNavigationOptions,
 } from '@react-navigation/stack';
-import {
+import type {
   CompositeNavigationProp,
   NavigatorScreenParams,
   RouteProp,
 } from '@react-navigation/native';
-import {
+import type {
   CalendarStackEnum,
-  Entity,
+  // EntityKey,
   InboxStackEnum,
   InitialStackEnum,
   JobStackEnum,
@@ -21,9 +20,40 @@ import {
   ProfileStackEnum,
   RootStackEnum,
   AuthStackEnum,
+  JustifyContentEnum,
+  AlignItemsEnum,
+  DirectionEnum,
 } from './enums';
 
-// Re-export just in case
+// Import for using in Chat
+import type { Conversations, Messages } from '../graphqls';
+
+export type { NhostUser } from './nhost';
+
+export * from '../graphqls';
+
+export type Size = 'lg' | 'md' | 'sm' | 'xs';
+
+export type JustifyContent =
+  | JustifyContentEnum
+  | 'flex-start'
+  | 'flex-end'
+  | 'center'
+  | 'space-between'
+  | 'space-around'
+  | 'space-evenly';
+
+export type AlignItems =
+  | AlignItemsEnum
+  | 'flex-start'
+  | 'flex-end'
+  | 'center'
+  | 'baseline'
+  | 'stretch';
+
+export type Direction = DirectionEnum | 'row' | 'column';
+
+// Re-export some of the imports
 export type { StackNavigationProp, StackNavigationOptions };
 
 // Only stacks have screens, not composite stack
@@ -190,21 +220,6 @@ export type Company = {
   name?: string;
   summary?: string;
 };
-export type Job = {
-  id: string;
-  address: Address; // Address registerd with company
-  company: Company;
-  created_at: string;
-  updated_at?: string;
-  description: string;
-  end?: string;
-  title: string;
-  image?: string;
-  quantity: number;
-  slug?: string;
-  start?: Date;
-  location?: Location; // Actually location of the job
-};
 export type FacebookProfilePicture = {
   data?: {
     height?: number;
@@ -253,68 +268,6 @@ export type EnvironmentType = {
   chatUrl: string;
 };
 export type EnvType = 'dev' | 'stage' | 'prod';
-export interface LayoutProps {
-  display?: CSS.Property.Display;
-  d?: CSS.Property.Display;
-  width?: CSS.Property.Width | number;
-  w?: CSS.Property.Width | number;
-  inlineSize?: CSS.Property.InlineSize | number;
-  boxSize?: CSS.Property.Width | number;
-  maxWidth?: CSS.Property.MaxWidth | number;
-  maxW?: CSS.Property.MaxWidth | number;
-  maxInlineSize?: CSS.Property.MaxInlineSize | number;
-  minWidth?: CSS.Property.MinWidth | number;
-  minW?: CSS.Property.MinWidth | number;
-  minInlineSize?: CSS.Property.MinInlineSize | number;
-  height?: CSS.Property.Height | number;
-  h?: CSS.Property.Height | number;
-  blockSize?: CSS.Property.BlockSize | number;
-  maxHeight?: CSS.Property.MaxHeight | number;
-  maxH?: CSS.Property.MaxHeight | number;
-  maxBlockSize?: CSS.Property.MaxBlockSize | number;
-  minHeight?: CSS.Property.MinHeight | number;
-  minH?: CSS.Property.MinHeight | number;
-  minBlockSize?: CSS.Property.MinBlockSize | number;
-  verticalAlign?: CSS.Property.VerticalAlign<any>;
-  overflow?: CSS.Property.Overflow;
-  overflowX?: CSS.Property.OverflowX;
-  overflowY?: CSS.Property.OverflowY;
-  boxSizing?: CSS.Property.BoxSizing;
-  boxDecorationBreak?: CSS.Property.BoxDecorationBreak;
-  float?: CSS.Property.Float;
-  objectFit?: CSS.Property.ObjectFit;
-  objectPosition?: CSS.Property.ObjectPosition<any>;
-  overscrollBehavior?: CSS.Property.OverscrollBehavior;
-  overscroll?: CSS.Property.OverscrollBehavior;
-  overscrollBehaviorX?: CSS.Property.OverscrollBehaviorX;
-  overscrollX?: CSS.Property.OverscrollBehaviorX;
-  overscrollBehaviorY?: CSS.Property.OverscrollBehaviorY;
-  overscrollY?: CSS.Property.OverscrollBehaviorY;
-  visibility?: CSS.Property.Visibility;
-  isolation?: CSS.Property.Isolation;
-}
-export interface FlexboxProps {
-  alignItems?: CSS.Property.AlignItems;
-  alignContent?: CSS.Property.AlignContent;
-  justifyItems?: CSS.Property.JustifyItems;
-  justifyContent?: CSS.Property.JustifyContent;
-  flexWrap?: CSS.Property.FlexWrap;
-  flexFlow?: CSS.Property.FlexFlow;
-  flexBasis?: CSS.Property.FlexBasis<any>;
-  flexDirection?: CSS.Property.FlexDirection;
-  flexDir?: CSS.Property.FlexDirection;
-  flex?: CSS.Property.Flex<any>;
-  justifySelf?: CSS.Property.JustifySelf;
-  alignSelf?: CSS.Property.AlignSelf;
-  order?: CSS.Property.Order;
-  flexGrow?: CSS.Property.FlexGrow | (string & number);
-  flexShrink?: CSS.Property.FlexShrink | (string & number);
-  placeItems?: CSS.Property.PlaceItems;
-  placeContent?: CSS.Property.PlaceContent;
-  placeSelf?: CSS.Property.PlaceSelf;
-}
-export interface StyleProps extends FlexboxProps, LayoutProps {}
-export interface SystemProps extends StyleProps {}
 export type UserType = {
   id: string;
   created_at: Date;
@@ -349,89 +302,18 @@ export type FocusAtomInput<T> = {
   source: PrimitiveAtom<T>;
   key: string | (keyof T)[];
 };
-export type ReturningValue<T> = { returning: T[] };
-export type AggregateValue<T> = { nodes: T[]; aggregate: { count: number } };
-export type QueryData<T, K extends Entity> = Record<`${Lowercase<K>}`, T[]>;
-export type AggregateData<T, K extends Entity> = Record<
-  `${Lowercase<K>}_aggregate`,
-  AggregateValue<T>
->;
-export type SingleData<T, K extends Entity> = Record<
-  `${Lowercase<K>}_by_pk`,
-  T
->;
-export type InsertedOneData<T, K extends Entity> = Record<
-  `insert_${Lowercase<K>}_one`,
-  T
->;
-export type InsertedData<T, K extends Entity> = Record<
-  `insert_${Lowercase<K>}`,
-  ReturningValue<T>
->;
-export type DeletedData<T, K extends Entity> = Record<
-  `delete_${Lowercase<K>}_by_pk`,
-  T
->;
-export type UpdatedData<T, K extends Entity> = Record<
-  `update_${Lowercase<K>}`,
-  ReturningValue<T>
->;
-export type PaginatedData<T, K extends Entity> = AggregateData<T, K> &
-  QueryData<T, K>;
-// Specified type for each entity below
-export type ResumeAggregateData = AggregateData<Resume, Entity.Resume>;
-export type Conversation = {
-  id: string;
-  company_id: string;
-  created_at?: Date | number;
-  updated_at?: Date | number;
-  name?: string;
-  description?: string;
-  status?: string;
-};
-
-export type Message = {
-  id: string;
-  created_at: Date | number;
-  updated_at?: Date | number;
-  conversation_id: string;
-  user_id: string;
-  user: UserType;
-  content: string;
-  image?: string;
-  video?: string;
-  audio?: string;
-  system?: boolean;
-};
-
-export type MessageAggregateData = AggregateData<Message, Entity.Message>;
-export type ConversationAggregateData = AggregateData<
-  Conversation,
-  Entity.Conversation
->;
-export type SingleConversationData = SingleData<
-  Conversation,
-  Entity.Conversation
->;
-export type SingleJobData = SingleData<Job, Entity.Job>;
-export type JobAggregateData = AggregateData<Job, Entity.Job>;
-export type JobsNearbyAggregateData = {
-  jobs_nearby_aggregate: {
-    nodes: Job[];
-  };
-};
 
 export type ChatRequest = {
-  conversation: Partial<Conversation>;
+  conversation: Partial<Conversations>;
   user: Partial<UserType>;
   content: string;
-  message?: Partial<Message>;
+  message?: Partial<Messages>;
   locale?: string;
   jobId?: string;
 };
 
 export type ChatResponse = {
-  message: Partial<Message>;
+  message: Partial<Messages>;
 };
 
 export type NavigationOptionParams = {

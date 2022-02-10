@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Text, Flex } from '../../components';
+import { ScrollView, Text, View } from '../../components';
 
 // const industryOptions = [
 //   { label: 'Collecting, Picking', value: 'collect-pick' },
@@ -9,7 +9,7 @@ import { ScrollView, Text, Flex } from '../../components';
 
 export const SetupScreen = () => (
   <ScrollView keyboardShouldPersistTaps="always">
-    <Flex>
+    <View>
       <Text>Picker</Text>
       {/* <Picker */}
       {/*   marginT-120 */}
@@ -29,6 +29,6 @@ export const SetupScreen = () => (
       {/*     /> */}
       {/*   ))} */}
       {/* </Picker> */}
-    </Flex>
+    </View>
   </ScrollView>
 );

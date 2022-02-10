@@ -1,2 +1,2 @@
-export { Text, TitleLarge, TitleSmall, BodyText, Description } from './Text';
+export { Text } from './Text';
 export type { TextProps } from './Text';

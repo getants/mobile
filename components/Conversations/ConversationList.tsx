@@ -3,11 +3,11 @@ import { Pressable, SafeAreaView, FlatList } from 'react-native';
 import type { ListRenderItem } from 'react-native';
 import { Placeholder } from '../Placeholder';
 import { ConversationItem } from './ConversationItem';
-import type { Conversation } from '../../utils/types';
+import type { Conversations } from '../../utils/types';
 
 export type Props = {
-  data: Conversation[];
-  onPressSingle?: (c: Conversation) => void;
+  data?: Conversations[];
+  onPressSingle?: (c: Conversations) => void;
   onLoadMore?: () => void;
   onRefresh?: () => void;
   isLoading?: boolean;
@@ -20,14 +20,18 @@ const PlaceholderItems = () => (
   />
 );
 
-export const Conversations = (props: Props) => {
+export const ConversationList = (props: Props) => {
   const { data, isLoading, onLoadMore, onPressSingle, onRefresh } = props;
 
-  const renderItem: ListRenderItem<Conversation> = ({ item }) => (
+  const renderItem: ListRenderItem<Conversations> = ({ item }) => (
     <Pressable onPress={() => onPressSingle && onPressSingle(item)}>
       <ConversationItem data={item} />
     </Pressable>
   );
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
