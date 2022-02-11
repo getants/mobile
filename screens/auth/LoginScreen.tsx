@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as ErrorRecovery from 'expo-error-recovery';
 import { nhost } from '../../utils/nhost';
 import { LoginForm } from './LoginForm';
@@ -38,6 +38,15 @@ export const LoginScreen = (props: Props) => {
   const goToSignup = () => {
     navigation.navigate(AuthStackEnum.SignupScreen);
   };
+
+  // Prevent go back to initial stack
+  useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        e.preventDefault();
+      }),
+    [navigation],
+  );
 
   return (
     <AuthScreensWrapper>

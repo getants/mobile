@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Keyboard } from 'react-native';
 import styled from 'styled-components/native';
 import { Button, Input, Layout, Text } from '../../../components';
 
@@ -42,6 +43,7 @@ export const LoginForm = (props: LoginFormProps) => {
   };
 
   const handleSwitchView = () => {
+    Keyboard.dismiss();
     if (typeof onSwitchView === 'function') {
       onSwitchView();
     }

@@ -10,7 +10,7 @@ export const KeyboardAvoidingView: React.FC<NativeKeyboardAvoidingProps> = ({
 }) => {
   const behavior = Platform.OS === 'ios' ? 'padding' : 'height';
   return (
-    <NativeKeyboardAvoiding behavior={behavior} keyboardVerticalOffset={1}>
+    <NativeKeyboardAvoiding behavior={behavior}>
       {children}
     </NativeKeyboardAvoiding>
   );

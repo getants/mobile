@@ -1,5 +1,6 @@
 import React from 'react';
 import * as ErrorRecovery from 'expo-error-recovery';
+import { Keyboard } from 'react-native';
 import { nhost } from '../../utils/nhost';
 import { AuthStackEnum } from '../../utils/enums';
 import type { LoginScreenNavigationProp } from '../../utils/types';
@@ -26,6 +27,7 @@ export const SignupScreen = (props: Props) => {
   };
 
   const goToLogin = () => {
+    Keyboard.dismiss();
     navigation.navigate(AuthStackEnum.LoginScreen);
   };
 
