@@ -133,6 +133,16 @@ export const space = (multiplier: number): Spacing => {
   throw new Error('Multiplier needs to be a positive integer');
 };
 
+/**
+ * Received a string or number then return a half of its value
+ * String value accept percentage only.
+ *
+ * @example
+ * ```tsx
+ * halfValue(20)    // return 10;
+ * halfValue("20%") // return "10%";
+ * ```
+ */
 export const halfValue = (input?: number | string | null) => {
   if (typeof input === 'number') {
     return Math.floor(input / 2);

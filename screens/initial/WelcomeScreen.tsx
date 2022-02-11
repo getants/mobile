@@ -2,12 +2,7 @@
 // I already paid 1000euro to use this line, jk, I don't know how to fix this
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import { ProgressBar, Text, Layout, View } from '../../components';
-import {
-  InsertResumesOneDocument,
-  ResumesDocument,
-  // JobsNearbyAggregateDocument,
-} from '../../graphqls';
+import { Button, ProgressBar, StyleSheet, Text, View } from '../../components';
 import {
   useAuth,
   useFocusEffect,
@@ -15,13 +10,18 @@ import {
   useMutation,
   useTimeoutFn,
 } from '../../utils/hooks';
-import { space } from '../../utils/tokens';
+import { nhost } from '../../utils/nhost';
 import {
   OrderBy,
   RootStackEnum,
   // MainStackEnum,
   // InitialStackEnum,
 } from '../../utils/enums';
+import {
+  InsertResumesOneDocument,
+  ResumesDocument,
+  // JobsNearbyAggregateDocument,
+} from '../../graphqls';
 import type {
   InsertResumesOneMutation,
   InsertResumesOneMutationVariables,
@@ -36,13 +36,24 @@ const StyledBackground = styled.ImageBackground`
   width: 100%;
   height: 100%;
 `;
+
 const TinyMessage = styled(Text)`
   text-align: center;
-  font-size: 12px;
   font-weight: 300;
-  line-height: ${space(4)};
-  margin-top: ${space(2)};
+  margin-top: 3%;
 `;
+
+const StyledView = styled(View)`
+  align-items: center;
+`;
+
+const styles = StyleSheet.create({
+  wrapper: {
+    backgroundColor: 'transparent',
+    height: '100%',
+    justifyContent: 'space-between',
+  },
+});
 
 type Props = {
   navigation: WelcomeScreenNavigationProp;
@@ -143,14 +154,19 @@ export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <StyledBackground source={require('../../assets/splash.png')}>
-      <Layout direction="column" justify="space-between" height="100%" gap={20}>
+      <View style={styles.wrapper}>
         <View />
 
-        <View>
+        <StyledView>
           <ProgressBar />
+
           <TinyMessage>{message}</TinyMessage>
-        </View>
-      </Layout>
+
+          {__DEV__ && (
+            <Button onPress={() => nhost.auth.signOut()}>Signout</Button>
+          )}
+        </StyledView>
+      </View>
     </StyledBackground>
   );
 };

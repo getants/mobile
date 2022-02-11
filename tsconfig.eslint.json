@@ -10,8 +10,8 @@
   ],
   "include": [
     "declarations.d.ts",
-    "*.config.js",
-    "**/**/*.spec.ts",
+    "babel.config.js",
+    "metro.config.js",
     "**/*.ts",
     "**/*.tsx"
   ]

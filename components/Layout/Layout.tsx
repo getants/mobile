@@ -1,5 +1,11 @@
-import React, { Children } from 'react';
-import { StyleSheet, View } from 'react-native';
+/*
+ * This component still cant not work correctly.
+ * Let find a time to do it later.
+ * For now, use normal View with custom StyleSheet
+ * Idea of this Layout is make it works like the FlexBox in Chakra
+ */
+import React, { Children, isValidElement, cloneElement } from 'react';
+import { StyleSheet } from 'react-native';
 import {
   Layout as KittenLayout,
   LayoutProps as KittenLayoutProps,
@@ -8,47 +14,57 @@ import { Direction, JustifyContent, AlignItems } from '../../utils/types';
 import { halfValue } from '../../utils/tokens';
 
 export type LayoutProps = {
+  transparent?: boolean;
   height?: number | string;
-  backgroundColor?: string;
+  width?: number | string;
   gap?: number | string;
-  direction?: Direction;
-  justify?: JustifyContent;
-  align?: AlignItems;
+  flexDirection?: Direction;
+  justifyContent?: JustifyContent;
+  alignItems?: AlignItems;
 } & KittenLayoutProps;
 
 export const Layout: React.FC<LayoutProps> = ({
+  transparent,
   children,
   style,
-  height,
-  backgroundColor,
   gap = 8,
-  align = 'stretch',
-  direction = 'column',
-  justify = 'flex-start',
+  width = '100%',
+  height = '100%',
+  alignItems = 'stretch',
+  flexDirection = 'column',
+  justifyContent = 'flex-start',
   ...restProps
 }) => {
-  const flexStyles = {
+  const gapSpace = halfValue(gap);
+
+  const wrapperMappedStyles = {
+    width,
     height,
-    backgroundColor,
-    flexDirection: direction,
-    justifyContent: justify,
-    alignItems: align,
+    flexDirection,
+    justifyContent,
+    alignItems,
+    padding: gapSpace,
+    ...(transparent && { backgroundColor: 'transparent' }),
   };
 
-  const styles = StyleSheet.create({ child: { margin: halfValue(gap) } });
-  const wrapperStyles = StyleSheet.flatten([flexStyles, style]);
+  const overrideStyles = StyleSheet.create({
+    child: {
+      margin: gapSpace,
+    },
+  });
 
-  const mappedProps = {};
+  const wrapperStyles = StyleSheet.flatten([wrapperMappedStyles, style]);
 
   return (
-    <KittenLayout {...restProps} {...mappedProps} style={wrapperStyles}>
-      {Children.map(children, (child, index) => {
-        const key = React.isValidElement(child) ? child.key : index;
-        return (
-          <View key={key} style={styles.child}>
-            {child}
-          </View>
-        );
+    <KittenLayout {...restProps} style={wrapperStyles}>
+      {Children.map(children, (child) => {
+        if (isValidElement(child)) {
+          return cloneElement(child, {
+            key: child.key,
+            style: [child.props.style, overrideStyles.child],
+          });
+        }
+        return null;
       })}
     </KittenLayout>
   );

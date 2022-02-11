@@ -19,7 +19,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@apollo/client": "3.5.6",
+    "@apollo/client": "3.5.8",
     "@eva-design/eva": "2.1.1",
     "@nhost/nhost-js": "0.2.4",
     "@nhost/react-apollo": "2.0.5",

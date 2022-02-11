@@ -1,43 +1,32 @@
 import React from 'react';
-import { useAssets } from 'expo-asset';
-import styled from 'styled-components/native';
-import { KeyboardAvoidingView, Platform } from 'react-native';
-import { Layout, View } from '../../components';
+import {
+  KeyboardAvoidingView,
+  Layout,
+  Logo,
+  View,
+  StyleSheet,
+} from '../../components';
 
-const LogoBackground = styled.Image`
-  width: 100%;
-  height: 15%;
-  min-height: 150px;
-`;
-const SmallHeader = styled.Text`
-  font-size: 16px;
-  color: #999999;
-  padding: 10px 0;
-`;
+const styles = StyleSheet.create({
+  logo: {
+    flex: 4,
+    justifyContent: 'space-around',
+  },
+  forms: {
+    flex: 3,
+  },
+});
 
-export type Props = {
-  children: React.ReactNode;
-};
-
-export const AuthScreensWrapper: React.FC<Props> = (props) => {
-  const { children } = props;
-  /* eslint-disable-next-line global-require */
-  const [assets, error] = useAssets([require('../../assets/logo-curve.png')]);
-
-  if (!assets || error) {
-    return <SmallHeader>Please wait...</SmallHeader>;
-  }
-
-  const imageUri = { uri: assets[0]?.uri ?? 'fallback-uri' };
-
+export const AuthScreensWrapper: React.FC = ({ children }) => {
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <Layout height="100%" justify="space-between" backgroundColor="white">
-        <LogoBackground source={imageUri} />
+    <KeyboardAvoidingView>
+      <Layout gap={16}>
+        <View style={styles.logo}>
+          <View />
+          <Logo size="lg" />
+        </View>
 
-        <View>{children}</View>
+        <View style={styles.forms}>{children}</View>
       </Layout>
     </KeyboardAvoidingView>
   );

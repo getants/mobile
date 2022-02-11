@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Input, Text, Layout } from '../../../components';
+import styled from 'styled-components/native';
+import { Button, Input, Layout, Text } from '../../../components';
+
+const SmallHeader = styled(Text)`
+  font-weight: bold;
+  text-align: center;
+`;
 
 export type SignupFormInput = {
   options?: {
@@ -39,24 +45,30 @@ export const SignupForm = (props: SignupFormProps) => {
   };
 
   return (
-    <Layout>
-      <Text style={{ textAlign: 'center' }}>Signup</Text>
+    <Layout transparent>
+      <SmallHeader category="h5">Signup</SmallHeader>
 
       <Input
         autoFocus
+        size="large"
         placeholder="Full name"
         value={name}
         onChangeText={setName}
       />
 
       <Input
+        size="large"
+        textContentType="emailAddress"
+        keyboardType="email-address"
         placeholder="Email"
-        value={email.toLowerCase()}
-        onChangeText={(v) => setEmail(v.toLowerCase())}
+        value={email}
+        onChangeText={(v) => setEmail(v)}
       />
 
       <Input
         secureTextEntry
+        size="large"
+        textContentType="password"
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
