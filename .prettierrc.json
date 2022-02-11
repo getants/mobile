@@ -7,7 +7,7 @@
       }
     },
     {
-      "files": ["*.ts", "*.tsx"],
+      "files": ["*.js", "*.ts", "*.tsx"],
       "options": {
         "singleQuote": true,
         "tabWidth": 2,

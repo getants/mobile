@@ -16,9 +16,8 @@
       "parser": "@typescript-eslint/parser",
       "extends": [
         "airbnb",
-        "airbnb/hooks",
         "airbnb-typescript",
-        "plugin:@next/next/recommended",
+        "airbnb/hooks",
         "plugin:prettier/recommended"
       ],
       "parserOptions": {

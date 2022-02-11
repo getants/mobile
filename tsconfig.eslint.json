@@ -6,8 +6,7 @@
     ".github",
     "coverage",
     "node_modules",
-    "*.yaml",
-    "graphqls/index.ts"
+    "*.yaml"
   ],
   "include": [
     "declarations.d.ts",

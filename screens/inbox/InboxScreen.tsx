@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
 import { useAuth, useQuery } from '../../utils/hooks';
 import { ConversationsAggregateDocument } from '../../graphqls';
-import {
-  FlatList,
-  Pressable,
-  ConversationItem,
-  Placeholder,
-} from '../../components';
+import { ConversationList } from '../../components';
 import { InboxStackEnum, OrderBy } from '../../utils/enums';
 import type {
-  Conversations,
   ConversationsAggregateQuery,
   ConversationsAggregateQueryVariables,
   InboxScreenRouteProp,
@@ -21,17 +15,10 @@ export type Props = {
   navigation: InboxScreenNavigationProp;
 };
 
-const PlaceholderItems = () => (
-  <Placeholder
-    repeat={5}
-    component={<Placeholder.ConversationItem randomWidth />}
-  />
-);
-
 export const InboxScreen = (props: Props) => {
   const { navigation } = props;
 
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState<number>(0);
 
   const { user } = useAuth();
 
@@ -65,11 +52,13 @@ export const InboxScreen = (props: Props) => {
 
   const conversations = aggregateData?.conversations_aggregate.nodes ?? [];
 
-  const onPressSingle = (conversation: Partial<Conversations>) => {
-    navigation.navigate(InboxStackEnum.ConversationScreen, {
-      conversationId: conversation.id ?? '',
-      userId: user?.id ?? '',
-    });
+  const onPressSingle = ({ id }: { id: string }) => {
+    if (id) {
+      navigation.navigate(InboxStackEnum.ConversationScreen, {
+        conversationId: id ?? '',
+        userId: user?.id ?? '',
+      });
+    }
   };
 
   const handleRefetch = () => console.log('Refresh'); // eslint-disable-line
@@ -82,31 +71,13 @@ export const InboxScreen = (props: Props) => {
     }
   };
 
-  const renderItem = ({
-    item,
-  }: {
-    // TODO: I don't know why the fuck Partial<Conversations> does not work here
-    item: Pick<
-      Conversations,
-      'name' | 'updated_at' | 'id' | 'created_at' | 'status'
-    >;
-  }) => (
-    <Pressable onPress={() => onPressSingle && onPressSingle(item)}>
-      <ConversationItem data={item} />
-    </Pressable>
-  );
-
   return (
-    <FlatList
+    <ConversationList
       data={conversations}
-      keyExtractor={({ id }) => id ?? ''}
+      isLoading={aggregateLoading}
+      onPressSingle={onPressSingle}
       onRefresh={handleRefetch}
-      refreshing={aggregateLoading}
-      initialNumToRender={10}
-      onEndReached={handleLoadMore}
-      onEndReachedThreshold={1}
-      renderItem={renderItem}
-      ListEmptyComponent={PlaceholderItems}
+      onLoadMore={handleLoadMore}
     />
   );
 };

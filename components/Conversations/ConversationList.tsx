@@ -3,11 +3,10 @@ import { Pressable, SafeAreaView, FlatList } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import { Placeholder } from '../Placeholder';
 import { ConversationItem } from './ConversationItem';
-import type { Conversations } from '../../utils/types';
 
-export type Props = {
-  data?: Partial<Conversations>[];
-  onPressSingle?: (c: Partial<Conversations>) => void;
+export type Props<TItem extends { id: string }> = {
+  data?: TItem[];
+  onPressSingle?: (c: Pick<TItem, 'id'>) => void;
   onLoadMore?: () => void;
   onRefresh?: () => void;
   isLoading?: boolean;
@@ -20,14 +19,22 @@ const PlaceholderItems = () => (
   />
 );
 
-export const ConversationList = (props: Props) => {
+export const ConversationList = <TItem extends { id: string }>(
+  props: Props<TItem>,
+) => {
   const { data, isLoading, onLoadMore, onPressSingle, onRefresh } = props;
 
-  const renderItem = ({ item }: { item: Partial<Conversations> }) => (
-    <Pressable onPress={() => onPressSingle && onPressSingle(item)}>
+  const handlePressItem = (id: string) => {
+    if (typeof onPressSingle === 'function') {
+      onPressSingle({ id });
+    }
+  };
+
+  const renderItem = React.memo(({ item }: { item: TItem }) => (
+    <Pressable onPress={() => handlePressItem(item.id)}>
       <ConversationItem data={item} />
     </Pressable>
-  );
+  ));
 
   if (!data) {
     return <Text>Start a conversation here</Text>;
