@@ -22,11 +22,6 @@ export const LoginScreen = (props: Props) => {
   const handleLogin: SubmitCallback = async (input) => {
     try {
       await nhost.auth.signIn(input);
-      // console.log({ res });
-
-      // navigation.navigate(RootStackEnum.MainStack, {
-      //   screen: MainStackEnum.JobStack,
-      // });
     } catch (err) {
       ErrorRecovery.setRecoveryProps({
         currentScreen: AuthStackEnum.SignupScreen,

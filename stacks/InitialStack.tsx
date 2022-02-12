@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { WelcomeScreen, SetupScreen } from '../screens';
+import { WelcomeScreen } from '../screens';
 import { createOptions } from '../utils/navigations';
 import { InitialStackEnum } from '../utils/enums';
 import type { InitialStackParams } from '../utils/types';
@@ -16,15 +16,6 @@ export const InitialStack = () => (
       component={WelcomeScreen}
       options={{
         headerShown: false,
-      }}
-    />
-    <Screen
-      name={InitialStackEnum.SetupScreen}
-      component={SetupScreen}
-      options={{
-        title: 'Setup your profile',
-        headerShown: true,
-        headerLeft: () => null,
       }}
     />
   </Navigator>
