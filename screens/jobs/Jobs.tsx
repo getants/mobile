@@ -1,42 +1,46 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Constants from 'expo-constants';
 import { StyleSheet } from 'react-native';
 import {
-  // JobsNearbyAggregateDocument,
-  JobsAggregateDocument,
+  JobsNearbyAggregateDocument,
+  // JobsAggregateDocument,
 } from '../../graphqls';
 import { JobStackEnum } from '../../utils/enums';
 import type {
-  Jobs,
+  // Jobs,
   JobListScreenNavigationProp,
   JobListScreenRouteProp,
-  // JobsNearbyAggregateQuery,
-  // JobsNearbyAggregateQueryVariables,
-  JobsAggregateQuery,
-  JobsAggregateQueryVariables,
+  JobsNearbyAggregateQuery,
+  JobsNearbyAggregateQueryVariables,
+  // JobsAggregateQuery,
+  // JobsAggregateQueryVariables,
 } from '../../utils/types';
 import {
   Animated,
+  Button,
+  Card,
+  Image,
   SafeAreaView,
   Placeholder,
+  Pressable,
   JobItem as JobItemPlaceholder,
   Text,
   View,
 } from '../../components';
 import {
-  // useAuth,
+  useAuth,
   useQuery,
   useTimeoutFn,
   useCollapsibleHeader,
 } from '../../utils/hooks';
-import { getEnvironment } from '../../utils/tokens';
-import { JobItem } from './JobItem';
+// import { getEnvironment } from '../../utils/tokens';
+// import { JobItem } from './JobItem';
 
-const { tenantId } = getEnvironment();
+// const { tenantId } = getEnvironment();
 
 const NumberJobsBatch = 10;
-const MaxRadiusSearch = 9000; // For dev
-const StepRadiusSearch = 9000; // For dev
+const MaxRadiusSearch = 9999999; // For dev
+const StepRadiusSearch = 1000; // For dev
 const StickyHeaderHeight = 60;
 
 export type Props = {
@@ -50,6 +54,7 @@ const styles = StyleSheet.create({
   },
   inner: {
     flex: 1,
+    flexDirection: 'row',
     margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -58,10 +63,10 @@ const styles = StyleSheet.create({
 
 export const JobListScreen = (props: Props) => {
   const { navigation } = props;
-  // const { user } = useAuth();
+  const { user } = useAuth();
 
   const [retry, setRetry] = useState<number>(0);
-  const [distance, setDistance] = useState<number>(999);
+  const [distance, setDistance] = useState<number>(1000);
 
   const {
     data: jobsData,
@@ -69,20 +74,21 @@ export const JobListScreen = (props: Props) => {
     loading,
     fetchMore,
     refetch,
-  } = useQuery<JobsAggregateQuery, JobsAggregateQueryVariables>(
-    JobsAggregateDocument,
+  } = useQuery<JobsNearbyAggregateQuery, JobsNearbyAggregateQueryVariables>(
+    JobsNearbyAggregateDocument,
     {
       variables: {
-        // args: {
-        //   distance,
-        //   user_id: user?.id ?? '',
-        // },
-        limit: NumberJobsBatch,
+        args: {
+          distance,
+          user_id: user?.id ?? '',
+        },
+        limit: 10,
         offset: 0,
         where: {
-          company: {
-            tenant_id: { _eq: tenantId },
-          },
+          // For now, search all jobs, filter per tenants later
+          //   company: {
+          //     tenant_id: { _eq: tenantId },
+          //   },
         },
       },
       fetchPolicy: 'cache-and-network',
@@ -91,11 +97,18 @@ export const JobListScreen = (props: Props) => {
   );
 
   if (aggregateError) {
-    // console.log('### Jobs aggregateError: ', aggregateError, aggregateJobsVars); // eslint-disable-line
+    console.log('### Jobs aggregateError: ', aggregateError); // eslint-disable-line
     // nhost.auth.signOut();
   }
 
-  const jobs = jobsData?.jobs_aggregate.nodes ?? [];
+  const jobs = useMemo(() => {
+    if (jobsData) {
+      return jobsData.jobs_nearby_aggregate.nodes;
+    }
+    return [];
+  }, [jobsData]);
+
+  console.log({ jobs, distance, userId: user?.id });
 
   // const jobs = useMemo<Jobs[]>(() => {
   //   if (aggregateJobs?.jobs_nearby_aggregate?.nodes) {
@@ -114,18 +127,22 @@ export const JobListScreen = (props: Props) => {
   // }, [aggregateJobs]);
 
   const increaseSearchRange = useCallback(() => {
-    setRetry(() => retry + 1);
-    setDistance(() => distance + StepRadiusSearch);
-  }, [setRetry, setDistance, retry, distance]);
+    setRetry((prevRetry) => prevRetry + 1);
+    setDistance((prevDistance) => prevDistance + StepRadiusSearch);
+  }, [setRetry, setDistance]);
 
   const [, cancelTimer, resetTimer] = useTimeoutFn(() => {
-    if (jobs.length < 10 && distance < MaxRadiusSearch) {
-      increaseSearchRange();
+    console.log('increased search range: ', retry);
+    increaseSearchRange();
+  }, 1000);
+
+  useEffect(() => {
+    if (jobs.length === 0 && distance < MaxRadiusSearch && retry <= 1000) {
       resetTimer();
     } else {
       cancelTimer();
     }
-  }, 1100);
+  }, [cancelTimer, resetTimer, distance, jobs, retry]);
 
   const handleLoadMore = useCallback(() => {
     fetchMore({
@@ -139,10 +156,10 @@ export const JobListScreen = (props: Props) => {
         limit: NumberJobsBatch,
       },
     }).then(() => {
-      increaseSearchRange();
+      // increaseSearchRange();
       resetTimer();
     });
-  }, [distance, fetchMore, increaseSearchRange, jobs.length, resetTimer]);
+  }, [distance, fetchMore, jobs.length, resetTimer]);
 
   // Making the useApply() which expose the need methods better
   // so in the future we can go to chat faster from any where
@@ -164,18 +181,19 @@ export const JobListScreen = (props: Props) => {
     resetTimer();
   }, [refetch, resetTimer]);
 
-  const onPressSingle = (job: Partial<Jobs>) => {
-    if (job.id) {
+  const handleOnPressSingle = (id: string) => {
+    const foundJob = jobs.find((job) => job.id === id);
+    if (foundJob) {
       navigation.navigate(JobStackEnum.SingleJobScreen, {
-        jobId: job.id,
-        jobTitle: job.title,
-        companyName: job.company?.name,
+        jobId: foundJob.id,
+        jobTitle: foundJob.title,
+        // companyName: foundJob.quantity,
       });
     }
   };
 
-  const handleOnApply = (job: Partial<Jobs>) => {
-    console.log('### job: ', job); // eslint-disable-line
+  const handleOnApply = (id: string) => {
+    console.log('### apply on jobId: ', id); // eslint-disable-line
     // navigation.navigate(MainStackEnum.InboxStack, {
     //   screen: InboxStackEnum.SingleConversation,
     //   params: {
@@ -186,14 +204,14 @@ export const JobListScreen = (props: Props) => {
     // });
   };
 
-  const renderItem = ({ item }: { item: Partial<Jobs> }) => (
-    <JobItem
-      job={item}
-      onPress={onPressSingle}
-      onApply={handleOnApply}
-      onSave={() => console.log('Saved job!')} // eslint-disable-line
-    />
-  );
+  // const renderItem = <TItem extends { id: string }>({ item }: TItem) => (
+  //   <JobItem
+  //     job={item}
+  //     onPress={onPressSingle}
+  //     onApply={handleOnApply}
+  //     onSave={() => console.log('Saved job!')} // eslint-disable-line
+  //   />
+  // );
 
   const options = useMemo(
     () => ({
@@ -232,7 +250,23 @@ export const JobListScreen = (props: Props) => {
           ListEmptyComponent={
             <Placeholder component={<JobItemPlaceholder />} />
           }
-          renderItem={renderItem}
+          renderItem={({ item }) => (
+            <Card>
+              <Pressable onPress={() => handleOnPressSingle(item.id)}>
+                <Image
+                  source={{
+                    uri: item?.image ?? 'https://via.placeholder.com/90x60',
+                  }}
+                />
+                <Text category="h3">{item?.title}</Text>
+              </Pressable>
+              <Card>
+                <Button onPress={() => handleOnApply(item.id)}>
+                  Apply now
+                </Button>
+              </Card>
+            </Card>
+          )}
           scrollEventThrottle={8}
           onScroll={onScroll}
           contentContainerStyle={{ paddingTop }}
@@ -250,6 +284,7 @@ export const JobListScreen = (props: Props) => {
         >
           <View style={styles.inner}>
             <Text category="h5">Sticky</Text>
+            <Button onPress={() => cancelTimer()}>Stop searching</Button>
           </View>
         </Animated.View>
       </>

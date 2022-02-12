@@ -11850,6 +11850,7 @@ export type JobsNearbyAggregateQuery = {
       created_at: string;
       description?: string | null;
       expiration_date?: string | null;
+      image?: string | null;
       quantity: number;
       title: string;
       updated_at: string;
@@ -11860,6 +11861,7 @@ export type JobsNearbyAggregateQuery = {
         location?: Geography | null;
         unstructured_value?: string | null;
       } | null;
+      company?: { __typename?: 'companies'; id: string; name: string } | null;
     }>;
   };
 };
@@ -12695,6 +12697,7 @@ export const JobsNearbyAggregateDocument = gql`
         created_at
         description
         expiration_date
+        image
         quantity
         title
         updated_at
@@ -12703,6 +12706,10 @@ export const JobsNearbyAggregateDocument = gql`
           id
           location
           unstructured_value
+        }
+        company {
+          id
+          name
         }
       }
     }

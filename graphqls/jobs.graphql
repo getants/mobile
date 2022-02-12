@@ -57,6 +57,7 @@ query JOBS_NEARBY_AGGREGATE(
       created_at
       description
       expiration_date
+      image
       quantity
       title
       updated_at
@@ -65,6 +66,10 @@ query JOBS_NEARBY_AGGREGATE(
         id
         location
         unstructured_value
+      }
+      company {
+        id
+        name
       }
     }
   }

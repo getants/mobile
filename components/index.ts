@@ -26,6 +26,7 @@ export {
   Button,
   Card,
   Divider,
+  Icon,
   Input,
   Spinner,
   Text,

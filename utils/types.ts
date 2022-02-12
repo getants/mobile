@@ -54,7 +54,7 @@ export type AlignItems =
 export type Direction = DirectionEnum | 'row' | 'column';
 
 // Re-export some of the imports
-export type { StackNavigationProp, StackNavigationOptions };
+export type { StackNavigationProp, StackNavigationOptions, RouteProp };
 
 // Only stacks have screens, not composite stack
 export type StackScreens =
@@ -174,6 +174,10 @@ export type SingleConversationScreenRouteProp = RouteProp<
 export type InboxScreenRouteProp = RouteProp<
   InboxStackParams,
   InboxStackEnum.InboxScreen
+>;
+export type MainStackRouteProp<TItem extends MainStackEnum> = RouteProp<
+  MainStackParams,
+  TItem
 >;
 
 export type RecursivePartial<T> = {
