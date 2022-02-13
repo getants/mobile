@@ -1,42 +1,21 @@
 /* eslint-disable global-require */
-// I already paid 1000euro to use this line, jk, I don't know how to fix this
+// I already paid 1000$ to use this line, jk, I don't know how to fix this
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components/native';
-import {
-  // Button,
-  Layout,
-  ProgressBar,
-  StyleSheet,
-  Text,
-  View,
-} from '../../components';
+import { Layout, ProgressBar, StyleSheet, Text, View } from '../../components';
 import {
   useAuth,
   useFocusEffect,
   useQuery,
   useMutation,
-  // useTimeoutFn,
 } from '../../utils/hooks';
-// import { nhost } from '../../utils/nhost';
-import {
-  MainStackEnum,
-  OrderBy,
-  RootStackEnum,
-  // MainStackEnum,
-  // InitialStackEnum,
-} from '../../utils/enums';
-import {
-  InsertResumesOneDocument,
-  ResumesDocument,
-  // JobsNearbyAggregateDocument,
-} from '../../graphqls';
+import { MainStackEnum, RootStackEnum } from '../../utils/enums';
+import { InsertResumesOneDocument, ProfilesByPkDocument } from '../../graphqls';
 import type {
   InsertResumesOneMutation,
   InsertResumesOneMutationVariables,
-  // JobsNearbyAggregateQuery,
-  // JobsNearbyAggregateQueryVariables,
-  ResumesQuery,
-  ResumesQueryVariables,
+  ProfilesByPkQuery,
+  ProfilesByPkQueryVariables,
   WelcomeScreenNavigationProp,
 } from '../../utils/types';
 
@@ -68,37 +47,35 @@ export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
   const [message, setMessage] = useState<string>('Setup, please wait...');
 
   const {
-    data: resumeData,
-    loading: resumeLoading,
+    data: profileData,
+    loading: profileLoading,
     // error: resumeError,
-  } = useQuery<ResumesQuery, ResumesQueryVariables>(ResumesDocument, {
-    variables: {
-      limit: 1,
-      offset: 0,
-      order_by: [{ created_at: OrderBy.Desc }],
-      where: {
-        user_id: { _eq: user?.id },
+  } = useQuery<ProfilesByPkQuery, ProfilesByPkQueryVariables>(
+    ProfilesByPkDocument,
+    {
+      variables: {
+        id: user?.id ?? '',
       },
     },
-  });
+  );
 
   const [insertResumeMutation] = useMutation<
     InsertResumesOneMutation,
     InsertResumesOneMutationVariables
   >(InsertResumesOneDocument);
 
-  // const [isReady, cancelTimer, resetTimer] = useTimeoutFn(async () => {
-  //   if (isAuthenticated) {
-  //   }
-  // }, 1000);
+  const hasResume =
+    !!profileData &&
+    profileData.profiles_by_pk &&
+    profileData.profiles_by_pk?.resumes.length === 0;
 
   useFocusEffect(
     useCallback(() => {
-      let isActive = true;
+      if (isAuthenticated && user) {
+        if (!profileLoading && !hasResume) {
+          setMessage('New profile setup...');
 
-      const createResume = async () => {
-        try {
-          await insertResumeMutation({
+          insertResumeMutation({
             variables: {
               object: {
                 summary: `Auto-generated: ${Date.now()}`,
@@ -107,47 +84,20 @@ export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
               },
             },
           });
-
-          if (isActive) {
-            // console.log({ response });
-          }
-        } catch (e) {
-          // TODO: Handle error
-        }
-      };
-
-      if (isAuthenticated && user) {
-        // try to detect resume here
-        if (
-          resumeData === undefined ||
-          (!resumeLoading && resumeData.resumes.length === 0)
-        ) {
-          setMessage('New profile setup...');
-          createResume();
-          // resetTimer();
-          // TODO: Create setup screen and let user confirm before moving next
-          // navigation.navigate(InitialStackEnum.SetupScreen);
         } else {
           navigation.navigate(RootStackEnum.MainStack, {
             screen: MainStackEnum.JobStack,
           });
         }
       } else {
-        // Redirect to signin
         navigation.navigate(RootStackEnum.AuthStack);
       }
-
-      // Cancel the timer when leaving this view
-      return () => {
-        isActive = false;
-        // cancelTimer();
-      };
     }, [
+      hasResume,
       insertResumeMutation,
       isAuthenticated,
       navigation,
-      resumeData,
-      resumeLoading,
+      profileLoading,
       user,
     ]),
   );

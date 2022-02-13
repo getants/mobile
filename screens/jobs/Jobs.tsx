@@ -149,8 +149,6 @@ export const JobListScreen = (props: Props) => {
       variables: {
         args: {
           distance,
-          lat: 60.333,
-          long: 25.023,
         },
         offset: jobs.length,
         limit: NumberJobsBatch,

@@ -14,3 +14,26 @@ mutation UPSERT_MY_LOCATION($objects: [user_location_insert_input!]!) {
     affected_rows
   }
 }
+
+query PROFILES_BY_PK($id: uuid!) {
+  profiles_by_pk(id: $id) {
+    id
+    resumes(limit: 1) {
+      id
+    }
+    user_id
+    user {
+      id
+      createdAt
+      updatedAt
+      activeMfaType
+      avatarUrl
+      defaultRole
+      disabled
+      displayName
+      email
+      emailVerified
+      lastSeen
+    }
+  }
+}

@@ -407,6 +407,7 @@ export type Applications = {
   /** An object relationship */
   job?: Maybe<Jobs>;
   job_id?: Maybe<Scalars['uuid']>;
+  profile_id: Scalars['uuid'];
   /** An object relationship */
   resume?: Maybe<Resumes>;
   resume_id?: Maybe<Scalars['uuid']>;
@@ -461,6 +462,7 @@ export type ApplicationsBoolExp = {
   id?: InputMaybe<UuidComparisonExp>;
   job?: InputMaybe<JobsBoolExp>;
   job_id?: InputMaybe<UuidComparisonExp>;
+  profile_id?: InputMaybe<UuidComparisonExp>;
   resume?: InputMaybe<ResumesBoolExp>;
   resume_id?: InputMaybe<UuidComparisonExp>;
   status?: InputMaybe<StringComparisonExp>;
@@ -481,6 +483,7 @@ export type ApplicationsInsertInput = {
   id?: InputMaybe<Scalars['uuid']>;
   job?: InputMaybe<JobsObjRelInsertInput>;
   job_id?: InputMaybe<Scalars['uuid']>;
+  profile_id?: InputMaybe<Scalars['uuid']>;
   resume?: InputMaybe<ResumesObjRelInsertInput>;
   resume_id?: InputMaybe<Scalars['uuid']>;
   status?: InputMaybe<Scalars['String']>;
@@ -495,6 +498,7 @@ export type ApplicationsMaxFields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   job_id?: Maybe<Scalars['uuid']>;
+  profile_id?: Maybe<Scalars['uuid']>;
   resume_id?: Maybe<Scalars['uuid']>;
   status?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
@@ -506,6 +510,7 @@ export type ApplicationsMaxOrderBy = {
   created_at?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
   job_id?: InputMaybe<OrderBy>;
+  profile_id?: InputMaybe<OrderBy>;
   resume_id?: InputMaybe<OrderBy>;
   status?: InputMaybe<OrderBy>;
   updated_at?: InputMaybe<OrderBy>;
@@ -518,6 +523,7 @@ export type ApplicationsMinFields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   job_id?: Maybe<Scalars['uuid']>;
+  profile_id?: Maybe<Scalars['uuid']>;
   resume_id?: Maybe<Scalars['uuid']>;
   status?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
@@ -529,6 +535,7 @@ export type ApplicationsMinOrderBy = {
   created_at?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
   job_id?: InputMaybe<OrderBy>;
+  profile_id?: InputMaybe<OrderBy>;
   resume_id?: InputMaybe<OrderBy>;
   status?: InputMaybe<OrderBy>;
   updated_at?: InputMaybe<OrderBy>;
@@ -557,6 +564,7 @@ export type ApplicationsOrderBy = {
   id?: InputMaybe<OrderBy>;
   job?: InputMaybe<JobsOrderBy>;
   job_id?: InputMaybe<OrderBy>;
+  profile_id?: InputMaybe<OrderBy>;
   resume?: InputMaybe<ResumesOrderBy>;
   resume_id?: InputMaybe<OrderBy>;
   status?: InputMaybe<OrderBy>;
@@ -579,6 +587,8 @@ export enum ApplicationsSelectColumn {
   /** column name */
   JobId = 'job_id',
   /** column name */
+  ProfileId = 'profile_id',
+  /** column name */
   ResumeId = 'resume_id',
   /** column name */
   Status = 'status',
@@ -593,6 +603,7 @@ export type ApplicationsSetInput = {
   created_at?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   job_id?: InputMaybe<Scalars['uuid']>;
+  profile_id?: InputMaybe<Scalars['uuid']>;
   resume_id?: InputMaybe<Scalars['uuid']>;
   status?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
@@ -607,6 +618,8 @@ export enum ApplicationsUpdateColumn {
   Id = 'id',
   /** column name */
   JobId = 'job_id',
+  /** column name */
+  ProfileId = 'profile_id',
   /** column name */
   ResumeId = 'resume_id',
   /** column name */
@@ -12182,6 +12195,34 @@ export type UpsertMyLocationMutation = {
   } | null;
 };
 
+export type ProfilesByPkQueryVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+export type ProfilesByPkQuery = {
+  __typename?: 'query_root';
+  profiles_by_pk?: {
+    __typename?: 'profiles';
+    id: string;
+    user_id: string;
+    resumes: Array<{ __typename?: 'resumes'; id: string }>;
+    user: {
+      __typename?: 'users';
+      id: string;
+      createdAt: string;
+      updatedAt: string;
+      activeMfaType?: string | null;
+      avatarUrl: string;
+      defaultRole: string;
+      disabled: boolean;
+      displayName: string;
+      email?: any | null;
+      emailVerified: boolean;
+      lastSeen?: string | null;
+    };
+  } | null;
+};
+
 export const ApplicationsAggregateDocument = gql`
   query APPLICATIONS_AGGREGATE(
     $limit: Int
@@ -13106,4 +13147,32 @@ export type UpsertMyLocationMutationResult =
 export type UpsertMyLocationMutationOptions = Apollo.BaseMutationOptions<
   UpsertMyLocationMutation,
   UpsertMyLocationMutationVariables
+>;
+export const ProfilesByPkDocument = gql`
+  query PROFILES_BY_PK($id: uuid!) {
+    profiles_by_pk(id: $id) {
+      id
+      resumes(limit: 1) {
+        id
+      }
+      user_id
+      user {
+        id
+        createdAt
+        updatedAt
+        activeMfaType
+        avatarUrl
+        defaultRole
+        disabled
+        displayName
+        email
+        emailVerified
+        lastSeen
+      }
+    }
+  }
+`;
+export type ProfilesByPkQueryResult = Apollo.QueryResult<
+  ProfilesByPkQuery,
+  ProfilesByPkQueryVariables
 >;

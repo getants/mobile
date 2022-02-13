@@ -2,7 +2,7 @@ import 'react-native-gesture-handler'; // NOTE: This one must be on top
 
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Sentry from 'sentry-expo';
+// import * as Sentry from 'sentry-expo';
 import * as Linking from 'expo-linking';
 import * as WebBrowser from 'expo-web-browser';
 import { Provider as JotaiProvider } from 'jotai';
@@ -17,18 +17,18 @@ import type { NavigationState } from '@react-navigation/native';
 
 import { RootStack } from './stacks';
 import { View, ThemeProvider } from './components';
-import { NAVIGATION_STATE, SENTRY_DSN } from './utils/constants';
+import { NAVIGATION_STATE } from './utils/constants';
 import { globalState, initialState } from './utils/states';
 import { nhost } from './utils/nhost';
 
 // There are warnings that we can't have resource to fix, ignore now
 LogBox.ignoreLogs(['Warning:', 'Constants.deviceYearClass']);
 
-Sentry.init({
-  dsn: SENTRY_DSN,
-  enableInExpoDevelopment: true,
-  debug: true,
-});
+// Sentry.init({
+//   dsn: SENTRY_DSN,
+//   enableInExpoDevelopment: true,
+//   debug: true,
+// });
 
 enableScreens();
 
