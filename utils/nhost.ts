@@ -29,7 +29,7 @@ export const useAuth = () => {
         id: user?.id ?? '',
       },
       fetchPolicy: 'cache-and-network',
-      notifyOnNetworkStatusChange: true,
+      // notifyOnNetworkStatusChange: true,
     },
   );
 

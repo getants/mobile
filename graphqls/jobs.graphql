@@ -71,6 +71,11 @@ query JOBS_NEARBY_AGGREGATE(
         id
         name
       }
+      applications {
+        id
+        # resume_id
+        # profile_id
+      }
     }
   }
 }

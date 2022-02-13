@@ -407,6 +407,8 @@ export type Applications = {
   /** An object relationship */
   job?: Maybe<Jobs>;
   job_id?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  profile: Profiles;
   profile_id: Scalars['uuid'];
   /** An object relationship */
   resume?: Maybe<Resumes>;
@@ -462,6 +464,7 @@ export type ApplicationsBoolExp = {
   id?: InputMaybe<UuidComparisonExp>;
   job?: InputMaybe<JobsBoolExp>;
   job_id?: InputMaybe<UuidComparisonExp>;
+  profile?: InputMaybe<ProfilesBoolExp>;
   profile_id?: InputMaybe<UuidComparisonExp>;
   resume?: InputMaybe<ResumesBoolExp>;
   resume_id?: InputMaybe<UuidComparisonExp>;
@@ -483,6 +486,7 @@ export type ApplicationsInsertInput = {
   id?: InputMaybe<Scalars['uuid']>;
   job?: InputMaybe<JobsObjRelInsertInput>;
   job_id?: InputMaybe<Scalars['uuid']>;
+  profile?: InputMaybe<ProfilesObjRelInsertInput>;
   profile_id?: InputMaybe<Scalars['uuid']>;
   resume?: InputMaybe<ResumesObjRelInsertInput>;
   resume_id?: InputMaybe<Scalars['uuid']>;
@@ -564,6 +568,7 @@ export type ApplicationsOrderBy = {
   id?: InputMaybe<OrderBy>;
   job?: InputMaybe<JobsOrderBy>;
   job_id?: InputMaybe<OrderBy>;
+  profile?: InputMaybe<ProfilesOrderBy>;
   profile_id?: InputMaybe<OrderBy>;
   resume?: InputMaybe<ResumesOrderBy>;
   resume_id?: InputMaybe<OrderBy>;
@@ -7202,6 +7207,10 @@ export enum OrderBy {
 /** columns and relationships of "profiles" */
 export type Profiles = {
   __typename?: 'profiles';
+  /** An array relationship */
+  applications: Array<Applications>;
+  /** An aggregate relationship */
+  applications_aggregate: ApplicationsAggregate;
   /** An object relationship */
   conversation?: Maybe<Conversations>;
   conversation_id?: Maybe<Scalars['uuid']>;
@@ -7219,6 +7228,24 @@ export type Profiles = {
   /** An object relationship */
   user: Users;
   user_id: Scalars['uuid'];
+};
+
+/** columns and relationships of "profiles" */
+export type ProfilesApplicationsArgs = {
+  distinct_on?: InputMaybe<Array<ApplicationsSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ApplicationsOrderBy>>;
+  where?: InputMaybe<ApplicationsBoolExp>;
+};
+
+/** columns and relationships of "profiles" */
+export type ProfilesApplicationsAggregateArgs = {
+  distinct_on?: InputMaybe<Array<ApplicationsSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ApplicationsOrderBy>>;
+  where?: InputMaybe<ApplicationsBoolExp>;
 };
 
 /** columns and relationships of "profiles" */
@@ -7279,6 +7306,7 @@ export type ProfilesBoolExp = {
   _and?: InputMaybe<Array<ProfilesBoolExp>>;
   _not?: InputMaybe<ProfilesBoolExp>;
   _or?: InputMaybe<Array<ProfilesBoolExp>>;
+  applications?: InputMaybe<ApplicationsBoolExp>;
   conversation?: InputMaybe<ConversationsBoolExp>;
   conversation_id?: InputMaybe<UuidComparisonExp>;
   id?: InputMaybe<UuidComparisonExp>;
@@ -7299,6 +7327,7 @@ export enum ProfilesConstraint {
 
 /** input type for inserting data into table "profiles" */
 export type ProfilesInsertInput = {
+  applications?: InputMaybe<ApplicationsArrRelInsertInput>;
   conversation?: InputMaybe<ConversationsObjRelInsertInput>;
   conversation_id?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
@@ -7353,6 +7382,13 @@ export type ProfilesMutationResponse = {
   returning: Array<Profiles>;
 };
 
+/** input type for inserting object relation for remote table "profiles" */
+export type ProfilesObjRelInsertInput = {
+  data: ProfilesInsertInput;
+  /** on conflict condition */
+  on_conflict?: InputMaybe<ProfilesOnConflict>;
+};
+
 /** on conflict condition type for table "profiles" */
 export type ProfilesOnConflict = {
   constraint: ProfilesConstraint;
@@ -7362,6 +7398,7 @@ export type ProfilesOnConflict = {
 
 /** Ordering options when selecting data from "profiles". */
 export type ProfilesOrderBy = {
+  applications_aggregate?: InputMaybe<ApplicationsAggregateOrderBy>;
   conversation?: InputMaybe<ConversationsOrderBy>;
   conversation_id?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
@@ -8377,6 +8414,8 @@ export type Resumes = {
   /** An aggregate relationship */
   experiences_aggregate: ExperiencesAggregate;
   id: Scalars['uuid'];
+  /** An object relationship */
+  profile: Profiles;
   profile_id: Scalars['uuid'];
   status: Scalars['String'];
   summary?: Maybe<Scalars['String']>;
@@ -8526,6 +8565,7 @@ export type ResumesBoolExp = {
   educations?: InputMaybe<EducationsBoolExp>;
   experiences?: InputMaybe<ExperiencesBoolExp>;
   id?: InputMaybe<UuidComparisonExp>;
+  profile?: InputMaybe<ProfilesBoolExp>;
   profile_id?: InputMaybe<UuidComparisonExp>;
   status?: InputMaybe<StringComparisonExp>;
   summary?: InputMaybe<StringComparisonExp>;
@@ -8549,6 +8589,7 @@ export type ResumesInsertInput = {
   educations?: InputMaybe<EducationsArrRelInsertInput>;
   experiences?: InputMaybe<ExperiencesArrRelInsertInput>;
   id?: InputMaybe<Scalars['uuid']>;
+  profile?: InputMaybe<ProfilesObjRelInsertInput>;
   profile_id?: InputMaybe<Scalars['uuid']>;
   status?: InputMaybe<Scalars['String']>;
   summary?: InputMaybe<Scalars['String']>;
@@ -8635,6 +8676,7 @@ export type ResumesOrderBy = {
   educations_aggregate?: InputMaybe<EducationsAggregateOrderBy>;
   experiences_aggregate?: InputMaybe<ExperiencesAggregateOrderBy>;
   id?: InputMaybe<OrderBy>;
+  profile?: InputMaybe<ProfilesOrderBy>;
   profile_id?: InputMaybe<OrderBy>;
   status?: InputMaybe<OrderBy>;
   summary?: InputMaybe<OrderBy>;
@@ -11465,6 +11507,19 @@ export type ApplicationsAggregateQuery = {
   };
 };
 
+export type InsertApplicationsOneMutationVariables = Exact<{
+  object: ApplicationsInsertInput;
+}>;
+
+export type InsertApplicationsOneMutation = {
+  __typename?: 'mutation_root';
+  insert_applications_one?: {
+    __typename?: 'applications';
+    id: string;
+    created_at: string;
+  } | null;
+};
+
 export type UpdateApplicationsMutationVariables = Exact<{
   where: ApplicationsBoolExp;
   _set: ApplicationsSetInput;
@@ -11875,6 +11930,7 @@ export type JobsNearbyAggregateQuery = {
         unstructured_value?: string | null;
       } | null;
       company?: { __typename?: 'companies'; id: string; name: string } | null;
+      applications: Array<{ __typename?: 'applications'; id: string }>;
     }>;
   };
 };
@@ -12205,21 +12261,11 @@ export type ProfilesByPkQuery = {
     __typename?: 'profiles';
     id: string;
     user_id: string;
-    resumes: Array<{ __typename?: 'resumes'; id: string }>;
-    user: {
-      __typename?: 'users';
+    resumes: Array<{
+      __typename?: 'resumes';
       id: string;
-      createdAt: string;
-      updatedAt: string;
-      activeMfaType?: string | null;
-      avatarUrl: string;
-      defaultRole: string;
-      disabled: boolean;
-      displayName: string;
-      email?: any | null;
-      emailVerified: boolean;
-      lastSeen?: string | null;
-    };
+      applications: Array<{ __typename?: 'applications'; id: string }>;
+    }>;
   } | null;
 };
 
@@ -12261,6 +12307,24 @@ export const ApplicationsAggregateDocument = gql`
 export type ApplicationsAggregateQueryResult = Apollo.QueryResult<
   ApplicationsAggregateQuery,
   ApplicationsAggregateQueryVariables
+>;
+export const InsertApplicationsOneDocument = gql`
+  mutation INSERT_APPLICATIONS_ONE($object: applications_insert_input!) {
+    insert_applications_one(object: $object) {
+      id
+      created_at
+    }
+  }
+`;
+export type InsertApplicationsOneMutationFn = Apollo.MutationFunction<
+  InsertApplicationsOneMutation,
+  InsertApplicationsOneMutationVariables
+>;
+export type InsertApplicationsOneMutationResult =
+  Apollo.MutationResult<InsertApplicationsOneMutation>;
+export type InsertApplicationsOneMutationOptions = Apollo.BaseMutationOptions<
+  InsertApplicationsOneMutation,
+  InsertApplicationsOneMutationVariables
 >;
 export const UpdateApplicationsDocument = gql`
   mutation UPDATE_APPLICATIONS(
@@ -12752,6 +12816,9 @@ export const JobsNearbyAggregateDocument = gql`
           id
           name
         }
+        applications {
+          id
+        }
       }
     }
   }
@@ -13154,21 +13221,11 @@ export const ProfilesByPkDocument = gql`
       id
       resumes(limit: 1) {
         id
+        applications {
+          id
+        }
       }
       user_id
-      user {
-        id
-        createdAt
-        updatedAt
-        activeMfaType
-        avatarUrl
-        defaultRole
-        disabled
-        displayName
-        email
-        emailVerified
-        lastSeen
-      }
     }
   }
 `;

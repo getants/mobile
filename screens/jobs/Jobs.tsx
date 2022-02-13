@@ -1,32 +1,39 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 // import Constants from 'expo-constants';
 import { StyleSheet } from 'react-native';
-import { JobsNearbyAggregateDocument } from '../../graphqls';
-import { JobStackEnum } from '../../utils/enums';
-import type {
-  JobListScreenNavigationProp,
-  JobListScreenRouteProp,
-  JobsNearbyAggregateQuery,
-  JobsNearbyAggregateQueryVariables,
-} from '../../utils/types';
 import {
   Animated,
   Button,
   Card,
   Image,
-  SafeAreaView,
+  JobItem as JobItemPlaceholder,
   Placeholder,
   Pressable,
-  JobItem as JobItemPlaceholder,
+  SafeAreaView,
+  Spinner,
   Text,
   View,
 } from '../../components';
 import {
   useAuth,
   useQuery,
+  useMutation,
   useTimeoutFn,
   useCollapsibleHeader,
 } from '../../utils/hooks';
+import { JobStackEnum } from '../../utils/enums';
+import {
+  JobsNearbyAggregateDocument,
+  InsertApplicationsOneDocument,
+} from '../../graphqls';
+import type {
+  InsertApplicationsOneMutation,
+  InsertApplicationsOneMutationVariables,
+  JobListScreenNavigationProp,
+  JobListScreenRouteProp,
+  JobsNearbyAggregateQuery,
+  JobsNearbyAggregateQueryVariables,
+} from '../../utils/types';
 
 const NumberJobsBatch = 10;
 const MaxRadiusSearch = 9999999; // For dev
@@ -53,17 +60,22 @@ const styles = StyleSheet.create({
 
 export const JobListScreen = (props: Props) => {
   const { navigation } = props;
-  const { user } = useAuth();
+  const { user, profile, isLoading: profileLoading } = useAuth();
 
   const [retry, setRetry] = useState<number>(0);
   const [distance, setDistance] = useState<number>(10);
 
+  const [insertApplicationMutation] = useMutation<
+    InsertApplicationsOneMutation,
+    InsertApplicationsOneMutationVariables
+  >(InsertApplicationsOneDocument);
+
   const {
     data: jobsData,
     error: jobsError,
-    loading,
+    loading: jobLoading,
     fetchMore,
-    refetch,
+    refetch: jobsRefetch,
   } = useQuery<JobsNearbyAggregateQuery, JobsNearbyAggregateQueryVariables>(
     JobsNearbyAggregateDocument,
     {
@@ -152,7 +164,7 @@ export const JobListScreen = (props: Props) => {
     });
   }, [distance, fetchMore, jobs.length, user, increaseSearchRange]);
 
-  const [, cancelTimer, resetTimer] = useTimeoutFn(() => {
+  const [isReady, cancelTimer, resetTimer] = useTimeoutFn(() => {
     handleLoadMore();
   }, 1000);
 
@@ -180,9 +192,9 @@ export const JobListScreen = (props: Props) => {
 
   // Pull to refresh, we should reset the timer
   const handleRefetch = useCallback(() => {
-    refetch();
+    jobsRefetch();
     resetTimer();
-  }, [refetch, resetTimer]);
+  }, [jobsRefetch, resetTimer]);
 
   const handleOnPressSingle = (id: string) => {
     const foundJob = jobs.find((job) => job.id === id);
@@ -195,16 +207,31 @@ export const JobListScreen = (props: Props) => {
     }
   };
 
-  const handleOnApply = (id: string) => {
-    console.log('### apply on jobId: ', id); // eslint-disable-line
-    // navigation.navigate(MainStackEnum.InboxStack, {
-    //   screen: InboxStackEnum.SingleConversation,
-    //   params: {
-    //     conversationId: id,
-    //     userId,
-    //     jobId: job.id,
-    //   },
-    // });
+  const [currentResume] = profile?.resumes ?? [];
+
+  const shouldDisableApply = (item: typeof jobs[0]) => {
+    const [currentApplication] = currentResume.applications;
+
+    const found = item?.applications.find(
+      (o) => o.id === currentApplication.id,
+    );
+
+    return !!found;
+  };
+
+  const handleOnApply = async (id: string) => {
+    if (currentResume) {
+      await insertApplicationMutation({
+        variables: {
+          object: {
+            job_id: id,
+            resume_id: currentResume.id,
+          },
+        },
+      });
+
+      jobsRefetch();
+    }
   };
 
   // const renderItem = <TItem extends { id: string }>({ item }: TItem) => (
@@ -238,30 +265,25 @@ export const JobListScreen = (props: Props) => {
   const paddingTop = containerPaddingTop + StickyHeaderHeight;
   const top = scrollIndicatorInsetTop + StickyHeaderHeight;
 
+  // Prevent go back to initial stack
+  useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        e.preventDefault();
+      }),
+    [navigation],
+  );
+
+  const isLoading = jobLoading || profileLoading || isReady() !== null;
+
   return (
     <SafeAreaView style={styles.wrapper}>
       <>
-        <Animated.View
-          style={{
-            transform: [{ translateY }],
-            top: containerPaddingTop,
-            position: 'absolute',
-            backgroundColor: '#FFFFFF',
-            height: StickyHeaderHeight,
-            width: '100%',
-          }}
-        >
-          <View style={styles.inner}>
-            <Text category="h5">Sticky</Text>
-            <Button onPress={() => cancelTimer()}>Stop searching</Button>
-          </View>
-        </Animated.View>
-
         <Animated.FlatList
           data={jobs}
           keyExtractor={({ id }, index) => id ?? index}
           onRefresh={handleRefetch}
-          refreshing={loading || jobs.length < 10}
+          refreshing={isLoading || jobs.length < 10}
           initialNumToRender={NumberJobsBatch}
           onEndReached={handleLoadMore}
           onEndReachedThreshold={1}
@@ -279,7 +301,10 @@ export const JobListScreen = (props: Props) => {
                 <Text category="h3">{item?.title}</Text>
               </Pressable>
               <Card>
-                <Button onPress={() => handleOnApply(item.id)}>
+                <Button
+                  disabled={shouldDisableApply(item)}
+                  onPress={() => handleOnApply(item.id)}
+                >
                   Apply now
                 </Button>
               </Card>
@@ -290,6 +315,31 @@ export const JobListScreen = (props: Props) => {
           contentContainerStyle={{ paddingTop }}
           scrollIndicatorInsets={{ top }}
         />
+
+        <Animated.View
+          style={{
+            transform: [{ translateY }],
+            top: containerPaddingTop,
+            position: 'absolute',
+            backgroundColor: '#FFFFFF',
+            height: StickyHeaderHeight,
+            width: '100%',
+          }}
+        >
+          <View style={styles.inner}>
+            {isLoading ? (
+              <>
+                <Spinner />
+                <Text category="h5">Loading...</Text>
+              </>
+            ) : (
+              <>
+                <Text category="h5">Done!</Text>
+                <Button onPress={() => jobsRefetch()}>Refetch</Button>
+              </>
+            )}
+          </View>
+        </Animated.View>
       </>
     </SafeAreaView>
   );

@@ -20,20 +20,23 @@ query PROFILES_BY_PK($id: uuid!) {
     id
     resumes(limit: 1) {
       id
+      applications {
+        id
+      }
     }
     user_id
-    user {
-      id
-      createdAt
-      updatedAt
-      activeMfaType
-      avatarUrl
-      defaultRole
-      disabled
-      displayName
-      email
-      emailVerified
-      lastSeen
-    }
+    # user {
+    #   id
+    #   createdAt
+    #   updatedAt
+    #   activeMfaType
+    #   avatarUrl
+    #   defaultRole
+    #   disabled
+    #   displayName
+    #   email
+    #   emailVerified
+    #   lastSeen
+    # }
   }
 }
