@@ -155,3 +155,21 @@ export const halfValue = (input?: number | string | null) => {
   }
   return undefined;
 };
+
+/**
+ */
+export const removeDuplicated = <TItem extends { id: string }>(
+  prevData: TItem[],
+  nextData: TItem[],
+) => {
+  const seen = new Set();
+  const allEntries = [...prevData, ...nextData];
+
+  const filtered = allEntries.filter((item) => {
+    const isDuplicate: boolean = seen.has(item.id);
+    seen.add(item.id);
+    return !isDuplicate;
+  });
+
+  return filtered;
+};

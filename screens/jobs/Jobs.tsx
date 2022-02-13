@@ -1,19 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import Constants from 'expo-constants';
+// import Constants from 'expo-constants';
 import { StyleSheet } from 'react-native';
-import {
-  JobsNearbyAggregateDocument,
-  // JobsAggregateDocument,
-} from '../../graphqls';
+import { JobsNearbyAggregateDocument } from '../../graphqls';
 import { JobStackEnum } from '../../utils/enums';
 import type {
-  // Jobs,
   JobListScreenNavigationProp,
   JobListScreenRouteProp,
   JobsNearbyAggregateQuery,
   JobsNearbyAggregateQueryVariables,
-  // JobsAggregateQuery,
-  // JobsAggregateQueryVariables,
 } from '../../utils/types';
 import {
   Animated,
@@ -33,14 +27,10 @@ import {
   useTimeoutFn,
   useCollapsibleHeader,
 } from '../../utils/hooks';
-// import { getEnvironment } from '../../utils/tokens';
-// import { JobItem } from './JobItem';
-
-// const { tenantId } = getEnvironment();
 
 const NumberJobsBatch = 10;
 const MaxRadiusSearch = 9999999; // For dev
-const StepRadiusSearch = 1000; // For dev
+const StepRadiusSearch = 10; // For dev
 const StickyHeaderHeight = 60;
 
 export type Props = {
@@ -66,11 +56,11 @@ export const JobListScreen = (props: Props) => {
   const { user } = useAuth();
 
   const [retry, setRetry] = useState<number>(0);
-  const [distance, setDistance] = useState<number>(1000);
+  const [distance, setDistance] = useState<number>(10);
 
   const {
     data: jobsData,
-    error: aggregateError,
+    error: jobsError,
     loading,
     fetchMore,
     refetch,
@@ -79,7 +69,7 @@ export const JobListScreen = (props: Props) => {
     {
       variables: {
         args: {
-          distance,
+          distance: 10,
           user_id: user?.id ?? '',
         },
         limit: 10,
@@ -96,9 +86,8 @@ export const JobListScreen = (props: Props) => {
     },
   );
 
-  if (aggregateError) {
-    console.log('### Jobs aggregateError: ', aggregateError); // eslint-disable-line
-    // nhost.auth.signOut();
+  if (jobsError) {
+    console.log('### Jobs nearby aggregate: ', jobsError); // eslint-disable-line
   }
 
   const jobs = useMemo(() => {
@@ -107,8 +96,6 @@ export const JobListScreen = (props: Props) => {
     }
     return [];
   }, [jobsData]);
-
-  console.log({ jobs, distance, userId: user?.id });
 
   // const jobs = useMemo<Jobs[]>(() => {
   //   if (aggregateJobs?.jobs_nearby_aggregate?.nodes) {
@@ -131,33 +118,51 @@ export const JobListScreen = (props: Props) => {
     setDistance((prevDistance) => prevDistance + StepRadiusSearch);
   }, [setRetry, setDistance]);
 
-  const [, cancelTimer, resetTimer] = useTimeoutFn(() => {
-    console.log('increased search range: ', retry);
-    increaseSearchRange();
-  }, 1000);
-
-  useEffect(() => {
-    if (jobs.length === 0 && distance < MaxRadiusSearch && retry <= 1000) {
-      resetTimer();
-    } else {
-      cancelTimer();
-    }
-  }, [cancelTimer, resetTimer, distance, jobs, retry]);
-
   const handleLoadMore = useCallback(() => {
     fetchMore({
       variables: {
         args: {
           distance,
+          user_id: user?.id ?? '',
         },
         offset: jobs.length,
         limit: NumberJobsBatch,
       },
-    }).then(() => {
-      // increaseSearchRange();
-      resetTimer();
+      // TODO: Will be deprecated, change to new way
+      updateQuery: (prevResult, { fetchMoreResult }) => {
+        increaseSearchRange();
+        const target = [...(prevResult?.jobs_nearby_aggregate.nodes ?? [])];
+        const nextItems = fetchMoreResult?.jobs_nearby_aggregate.nodes ?? [];
+
+        for (let i = 0, j = nextItems.length; i < j; i++) {
+          const newItem = nextItems[i];
+          const isDuplicated = target.some((o) => o.id === newItem.id);
+          if (!isDuplicated) {
+            target.push(newItem);
+          }
+        }
+
+        return {
+          jobs_nearby_aggregate: {
+            __typename: 'jobs_aggregate',
+            nodes: target,
+          },
+        };
+      },
     });
-  }, [distance, fetchMore, jobs.length, resetTimer]);
+  }, [distance, fetchMore, jobs.length, user, increaseSearchRange]);
+
+  const [, cancelTimer, resetTimer] = useTimeoutFn(() => {
+    handleLoadMore();
+  }, 1000);
+
+  useEffect(() => {
+    if (jobs.length === 0 && distance < MaxRadiusSearch && retry <= 100) {
+      resetTimer();
+    } else {
+      cancelTimer();
+    }
+  }, [cancelTimer, resetTimer, distance, jobs, retry]);
 
   // Making the useApply() which expose the need methods better
   // so in the future we can go to chat faster from any where
@@ -230,16 +235,31 @@ export const JobListScreen = (props: Props) => {
   const { onScroll, containerPaddingTop, scrollIndicatorInsetTop, translateY } =
     useCollapsibleHeader(options);
 
-  const paddingTop =
-    containerPaddingTop + StickyHeaderHeight - Constants.statusBarHeight;
+  const paddingTop = containerPaddingTop + StickyHeaderHeight;
   const top = scrollIndicatorInsetTop + StickyHeaderHeight;
 
   return (
     <SafeAreaView style={styles.wrapper}>
       <>
+        <Animated.View
+          style={{
+            transform: [{ translateY }],
+            top: containerPaddingTop,
+            position: 'absolute',
+            backgroundColor: '#FFFFFF',
+            height: StickyHeaderHeight,
+            width: '100%',
+          }}
+        >
+          <View style={styles.inner}>
+            <Text category="h5">Sticky</Text>
+            <Button onPress={() => cancelTimer()}>Stop searching</Button>
+          </View>
+        </Animated.View>
+
         <Animated.FlatList
           data={jobs}
-          keyExtractor={({ id }) => id ?? ''}
+          keyExtractor={({ id }, index) => id ?? index}
           onRefresh={handleRefetch}
           refreshing={loading || jobs.length < 10}
           initialNumToRender={NumberJobsBatch}
@@ -249,7 +269,7 @@ export const JobListScreen = (props: Props) => {
             <Placeholder component={<JobItemPlaceholder />} />
           }
           renderItem={({ item }) => (
-            <Card>
+            <Card key={item.id}>
               <Pressable onPress={() => handleOnPressSingle(item.id)}>
                 <Image
                   source={{
@@ -270,21 +290,6 @@ export const JobListScreen = (props: Props) => {
           contentContainerStyle={{ paddingTop }}
           scrollIndicatorInsets={{ top }}
         />
-        <Animated.View
-          style={{
-            transform: [{ translateY }],
-            top: containerPaddingTop,
-            position: 'absolute',
-            backgroundColor: '#FFFFFF',
-            height: StickyHeaderHeight,
-            width: '100%',
-          }}
-        >
-          <View style={styles.inner}>
-            <Text category="h5">Sticky</Text>
-            <Button onPress={() => cancelTimer()}>Stop searching</Button>
-          </View>
-        </Animated.View>
       </>
     </SafeAreaView>
   );

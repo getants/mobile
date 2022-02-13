@@ -3,19 +3,12 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components/native';
 import { Layout, ProgressBar, StyleSheet, Text, View } from '../../components';
-import {
-  useAuth,
-  useFocusEffect,
-  useQuery,
-  useMutation,
-} from '../../utils/hooks';
+import { useAuth, useFocusEffect, useMutation } from '../../utils/hooks';
 import { MainStackEnum, RootStackEnum } from '../../utils/enums';
-import { InsertResumesOneDocument, ProfilesByPkDocument } from '../../graphqls';
+import { InsertResumesOneDocument } from '../../graphqls';
 import type {
   InsertResumesOneMutation,
   InsertResumesOneMutationVariables,
-  ProfilesByPkQuery,
-  ProfilesByPkQueryVariables,
   WelcomeScreenNavigationProp,
 } from '../../utils/types';
 
@@ -43,36 +36,20 @@ type Props = {
 };
 
 export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading, profile, user } = useAuth();
   const [message, setMessage] = useState<string>('Setup, please wait...');
-
-  const {
-    data: profileData,
-    loading: profileLoading,
-    // error: resumeError,
-  } = useQuery<ProfilesByPkQuery, ProfilesByPkQueryVariables>(
-    ProfilesByPkDocument,
-    {
-      variables: {
-        id: user?.id ?? '',
-      },
-    },
-  );
 
   const [insertResumeMutation] = useMutation<
     InsertResumesOneMutation,
     InsertResumesOneMutationVariables
   >(InsertResumesOneDocument);
 
-  const hasResume =
-    !!profileData &&
-    profileData.profiles_by_pk &&
-    profileData.profiles_by_pk?.resumes.length === 0;
+  const hasResume = !!profile && profile?.resumes.length === 0;
 
   useFocusEffect(
     useCallback(() => {
       if (isAuthenticated && user) {
-        if (!profileLoading && !hasResume) {
+        if (!isLoading && !hasResume) {
           setMessage('New profile setup...');
 
           insertResumeMutation({
@@ -96,8 +73,8 @@ export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
       hasResume,
       insertResumeMutation,
       isAuthenticated,
+      isLoading,
       navigation,
-      profileLoading,
       user,
     ]),
   );
