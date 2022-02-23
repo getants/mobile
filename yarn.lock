@@ -8951,10 +8951,10 @@ sentence-case@^3.0.4:
     tslib "^2.0.3"
     upper-case-first "^2.0.2"
 
-sentry-expo@4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/sentry-expo/-/sentry-expo-4.0.3.tgz#8b98481d37923f734da13519a98913f55995aad3"
-  integrity sha512-Def+9ewJPRE1i/TdAGrZqY5/UqOA6lwS0C4L/XMekJMPeDMjFf3c/++u5EyK45eU/SM611tG6LwUvj38sp88sg==
+sentry-expo@4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/sentry-expo/-/sentry-expo-4.1.0.tgz#c107377e458b82a1b5a29056ede3fed348c8cac6"
+  integrity sha512-37GuQMnNdUVFP8zoCr6coDkKaz9gnmPDPVKNeOL1X5Zb0NWB/scfvvZ4disHcbqaC51/z0CKZbtmDVIqu708TQ==
   dependencies:
     "@expo/config-plugins" "^2.0.2"
     "@expo/config-types" "^41.0.0"
