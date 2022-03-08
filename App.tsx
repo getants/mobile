@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import * as Sentry from 'sentry-expo';
 import * as Linking from 'expo-linking';
-import * as WebBrowser from 'expo-web-browser';
+// import * as WebBrowser from 'expo-web-browser';
 import { Provider as JotaiProvider } from 'jotai';
 import { LogBox, Platform, Text } from 'react-native';
 import { NhostAuthProvider } from '@nhost/react-auth';
@@ -37,12 +37,12 @@ const App = () => {
   const [navigationState, setNavigationState] = useState();
 
   // Warming the browser to speed up the login
-  useEffect(() => {
-    WebBrowser.warmUpAsync();
-    return () => {
-      WebBrowser.coolDownAsync();
-    };
-  }, []);
+  // useEffect(() => {
+  //   WebBrowser.warmUpAsync();
+  //   return () => {
+  //     WebBrowser.coolDownAsync();
+  //   };
+  // }, []);
 
   useEffect(() => {
     const restoreState = async () => {

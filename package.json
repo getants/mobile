@@ -21,9 +21,9 @@
   "dependencies": {
     "@apollo/client": "3.5.8",
     "@eva-design/eva": "2.1.1",
-    "@nhost/nhost-js": "0.2.4",
-    "@nhost/react-apollo": "2.0.5",
-    "@nhost/react-auth": "2.0.3",
+    "@nhost/nhost-js": "0.3.10",
+    "@nhost/react-apollo": "2.1.4",
+    "@nhost/react-auth": "2.0.8",
     "@react-native-async-storage/async-storage": "1.15.0",
     "@react-native-community/blur": "3.6.0",
     "@react-native-community/datetimepicker": "3.5.2",
