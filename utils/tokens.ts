@@ -2,7 +2,7 @@ import Constants from 'expo-constants';
 import { Platform, StatusBar, StyleSheet } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { ENV_VARS, SPACE_MULTIPLIER } from './constants';
-import type { EnvironmentType, Spacing } from './types';
+import type { EnvironmentKey, EnvironmentType, Spacing } from './types';
 
 export const propertyMap: Record<string, string> = {
   mt: 'marginTop',
@@ -117,13 +117,11 @@ export const getStatusBarHeight = () => {
   return 0;
 };
 
-// Release Channel must has this form: environment-country
-// E.g: dev-finland, prod-finland, stage-thailand
+// Release Channel must has this form: EnvironmentKey
 export const getEnvironment = (): EnvironmentType => {
   const { manifest } = Constants;
-  const { releaseChannel = 'dev-finland' } = manifest ?? {};
-  const [env, country] = releaseChannel.split('-');
-  return ENV_VARS[env][country];
+  const { releaseChannel = 'development' } = manifest ?? {};
+  return ENV_VARS[releaseChannel as EnvironmentKey];
 };
 
 export const space = (multiplier: number): Spacing => {

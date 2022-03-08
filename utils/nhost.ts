@@ -6,10 +6,10 @@ import { getEnvironment } from './tokens';
 import { ProfilesByPkDocument } from '../graphqls';
 import type { ProfilesByPkQuery, ProfilesByPkQueryVariables } from './types';
 
-const { baseUrl } = getEnvironment();
+const { BACKEND_URL } = getEnvironment();
 
 export const nhost = new NhostClient({
-  backendUrl: baseUrl,
+  backendUrl: BACKEND_URL,
   clientStorage: SecureStore,
   clientStorageType: 'expo-secure-storage',
 });
@@ -25,9 +25,8 @@ export const useAuth = () => {
   } = useQuery<ProfilesByPkQuery, ProfilesByPkQueryVariables>(
     ProfilesByPkDocument,
     {
-      variables: {
-        id: user?.id ?? '',
-      },
+      skip: !user || !isAuthenticated,
+      variables: { id: user?.id ?? '' },
       fetchPolicy: 'cache-and-network',
       // notifyOnNetworkStatusChange: true,
     },

@@ -269,13 +269,11 @@ export type ShortProperty =  // TODO: Make use of this
   | 'h';
 export type RichProperty = `${ShortProperty}-${number}`;
 export type StyleObject = Record<string, string | number>;
+export type EnvironmentKey = 'development' | 'staging' | 'production';
 export type EnvironmentType = {
-  tenantId: string;
-  baseUrl: string;
-  wsUrl: string;
-  chatUrl: string;
+  BACKEND_URL: string;
+  CHATBOT_URL: string;
 };
-export type EnvType = 'dev' | 'stage' | 'prod';
 export type UserType = {
   id: string;
   created_at: Date;
