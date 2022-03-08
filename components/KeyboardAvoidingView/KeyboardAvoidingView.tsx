@@ -8,7 +8,7 @@ import type { KeyboardAvoidingViewProps as NativeKeyboardAvoidingProps } from 'r
 export const KeyboardAvoidingView: React.FC<NativeKeyboardAvoidingProps> = ({
   children,
 }) => {
-  const behavior = Platform.OS === 'ios' ? 'padding' : 'height';
+  const behavior = Platform.OS === 'ios' ? 'padding' : undefined;
   return (
     <NativeKeyboardAvoiding behavior={behavior}>
       {children}

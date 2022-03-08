@@ -14,6 +14,7 @@ import { Direction, JustifyContent, AlignItems } from '../../utils/types';
 import { halfValue } from '../../utils/tokens';
 
 export type LayoutProps = {
+  direction?: 'horizontal' | 'vertical';
   transparent?: boolean;
   height?: number | string;
   width?: number | string;
@@ -24,12 +25,13 @@ export type LayoutProps = {
 } & KittenLayoutProps;
 
 export const Layout: React.FC<LayoutProps> = ({
+  direction,
   transparent,
   children,
   style,
   gap = 8,
-  width = '100%',
-  height = '100%',
+  width = 'auto',
+  height = 'auto',
   alignItems = 'stretch',
   flexDirection = 'column',
   justifyContent = 'flex-start',
@@ -43,13 +45,19 @@ export const Layout: React.FC<LayoutProps> = ({
     flexDirection,
     justifyContent,
     alignItems,
-    padding: gapSpace,
+    paddingTop: direction === 'horizontal' ? 0 : gapSpace,
+    paddingBottom: direction === 'horizontal' ? 0 : gapSpace,
+    paddingLeft: direction === 'vertical' ? 0 : gapSpace,
+    paddingRight: direction === 'vertical' ? 0 : gapSpace,
     ...(transparent && { backgroundColor: 'transparent' }),
   };
 
   const overrideStyles = StyleSheet.create({
     child: {
-      margin: gapSpace,
+      marginTop: direction === 'horizontal' ? 0 : gapSpace,
+      marginBottom: direction === 'horizontal' ? 0 : gapSpace,
+      marginLeft: direction === 'vertical' ? 0 : gapSpace,
+      marginRight: direction === 'vertical' ? 0 : gapSpace,
     },
   });
 

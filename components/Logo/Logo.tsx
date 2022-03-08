@@ -1,33 +1,19 @@
 import React from 'react';
 import { useAssets } from 'expo-asset';
-import styled from 'styled-components/native';
 import { Image, StyleSheet } from 'react-native';
 import { Placeholder } from '../Placeholder';
-import type { Size } from '../../utils/types';
-
-export type LogoProps = {
-  width?: number | string;
-  size?: Size;
-};
-
-const StyledWrapper = styled.View`
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: auto;
-`;
-// background-color: gray;
+import type { Size, ImageProps } from '../../utils/types';
 
 const getNumberFromSize = (size?: Size) => {
   switch (size) {
     case 'xs':
-      return 40;
+      return 20;
     case 'sm':
-      return 60;
+      return 40;
     case 'md':
       return 80;
     case 'lg':
-      return 140;
+      return 160;
     default:
       return 80;
   }
@@ -35,9 +21,6 @@ const getNumberFromSize = (size?: Size) => {
 
 const makeStyles = (length: number) =>
   StyleSheet.create({
-    wrapper: {
-      flex: 1,
-    },
     image: {
       justifyContent: 'center',
       alignItems: 'center',
@@ -46,7 +29,11 @@ const makeStyles = (length: number) =>
     },
   });
 
-export const Logo = ({ size }: LogoProps) => {
+export type LogoProps = {
+  size?: Size;
+} & Partial<ImageProps>;
+
+export const Logo = ({ size, ...restProps }: LogoProps) => {
   /* eslint-disable-next-line global-require */
   const [assets, error] = useAssets([require('../../assets/logo.png')]);
 
@@ -59,9 +46,5 @@ export const Logo = ({ size }: LogoProps) => {
 
   const imageUri = { uri: assets[0]?.uri ?? 'fallback-uri' };
 
-  return (
-    <StyledWrapper>
-      <Image source={imageUri} style={styles.image} />
-    </StyledWrapper>
-  );
+  return <Image {...restProps} source={imageUri} style={styles.image} />;
 };

@@ -1,5 +1,5 @@
-// import type { SetStateAction, WritableAtom } from 'jotai';
-import type { PrimitiveAtom } from 'jotai';
+import type { ImageProps, ViewProps } from 'react-native';
+import type { PrimitiveAtom, SetStateAction, WritableAtom } from 'jotai';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type {
   StackNavigationProp,
@@ -12,7 +12,6 @@ import type {
 } from '@react-navigation/native';
 import type {
   CalendarStackEnum,
-  // EntityKey,
   InboxStackEnum,
   InitialStackEnum,
   JobStackEnum,
@@ -31,6 +30,14 @@ import type { Conversations, Messages } from '../graphqls';
 export type { NhostUser } from './nhost';
 
 export * from '../graphqls';
+
+export type {
+  PrimitiveAtom,
+  SetStateAction,
+  WritableAtom,
+  ImageProps,
+  ViewProps,
+};
 
 export type Size = 'lg' | 'md' | 'sm' | 'xs';
 
