@@ -28,6 +28,7 @@ import type {
 import type { Conversations, Messages } from '../graphqls';
 
 export type { NhostUser } from './nhost';
+export type { Colors } from './hooks/useTheme';
 
 export * from '../graphqls';
 
@@ -320,6 +321,12 @@ export type ChatRequest = {
 
 export type ChatResponse = {
   message: Partial<Messages>;
+};
+
+export type IconProps = {
+  focused: boolean;
+  color?: string;
+  size?: number;
 };
 
 export type NavigationOptionParams = {

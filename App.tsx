@@ -21,8 +21,12 @@ import { NAVIGATION_STATE } from './utils/constants';
 import { globalState, initialState } from './utils/states';
 import { nhost } from './utils/nhost';
 
-// There are warnings that we can't have resource to fix, ignore now
-LogBox.ignoreLogs(['Warning:', 'Constants.deviceYearClass']);
+// There are warnings that we can't fix, ignore now
+LogBox.ignoreLogs([
+  'Warning:',
+  'Constants.deviceYearClass',
+  'Setting a timer for a long period of time',
+]);
 
 // Sentry.init({
 //   dsn: SENTRY_DSN,

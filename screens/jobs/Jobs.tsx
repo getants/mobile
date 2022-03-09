@@ -81,10 +81,10 @@ export const JobListScreen = (props: Props) => {
     {
       variables: {
         args: {
-          distance: 10,
+          distance: 20,
           user_id: user?.id ?? '',
         },
-        limit: 10,
+        limit: 20,
         offset: 0,
         where: {
           // For now, search all jobs, filter per tenants later

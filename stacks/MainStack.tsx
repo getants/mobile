@@ -5,31 +5,32 @@ import { Icon } from '../components';
 
 import { JobStack } from './JobStack';
 import { MainStackEnum } from '../utils/enums';
-import type { MainStackParams } from '../utils/types';
+import { useTheme } from '../utils/hooks';
+import type { MainStackParams, Colors } from '../utils/types';
 
 const tabBarOptions = {
-  // tabBarActiveTintColor: Colors.primary,
   keyboardHidesTabBar: true,
-  tabBarstyle: {
-    paddingTop: 15,
-    paddingBottom: 15,
-    height: 60,
+  tabBarStyle: {
+    height: 65,
+    paddingTop: 0,
+    paddingBottom: 10,
   },
 };
 
-type IconProps = {
+type MakeIconOptions = {
   focused: boolean;
-  color?: string;
-  size?: number;
-  horizontal?: boolean | undefined;
-  tintColor?: string | undefined;
+  icon: string;
+  colors: Colors;
 };
 
-const makeIcon = (focused: boolean, name: string) => {
+const makeIcon = ({ focused, icon, colors }: MakeIconOptions) => {
+  const activeColor = colors.grey700;
+  const inactiveColor = colors.grey600;
+
   const resetStyle = {
     marginTop: 0,
     marginBottom: 0,
-    paddingBottom: 10,
+    paddingBottom: 1,
     width: 32,
     height: 32,
   };
@@ -37,33 +38,32 @@ const makeIcon = (focused: boolean, name: string) => {
   return (
     <Icon
       type="material"
-      name={focused ? name : `${name}-outline`}
-      fill="#cccccc"
+      name={focused ? icon : `${icon}-outline`}
+      fill={focused ? activeColor : inactiveColor}
       style={resetStyle}
     />
   );
 };
 
-const baseOptions = {
-  // headerStyle: MainStackStyles.screenOptions,
-  // headerTintColor: Colors.white,
-};
-
 const { Navigator, Screen } = createBottomTabNavigator<MainStackParams>();
 
-export const MainStack = () => (
-  <Navigator initialRouteName={MainStackEnum.JobStack} backBehavior="history">
-    <Screen
-      name={MainStackEnum.JobStack}
-      component={JobStack}
-      options={() => ({
-        ...baseOptions,
-        ...tabBarOptions,
-        tabBarLabel: 'jobs',
-        tabBarIcon: ({ focused }: IconProps) => makeIcon(focused, 'briefcase'),
-        tabBarVisible: true,
-        headerShown: false,
-      })}
-    />
-  </Navigator>
-);
+export const MainStack = () => {
+  const { colors } = useTheme();
+
+  return (
+    <Navigator initialRouteName={MainStackEnum.JobStack} backBehavior="history">
+      <Screen
+        name={MainStackEnum.JobStack}
+        component={JobStack}
+        options={() => ({
+          ...tabBarOptions,
+          tabBarActiveTintColor: colors.grey700,
+          tabBarLabel: 'Jobs',
+          tabBarIcon: ({ focused }) =>
+            makeIcon({ focused, colors, icon: 'briefcase' }),
+          headerShown: false,
+        })}
+      />
+    </Navigator>
+  );
+};
