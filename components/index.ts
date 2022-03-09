@@ -36,6 +36,7 @@ export { ChatWrapper } from './ChatWrapper';
 export { ConversationList, ConversationItem } from './Conversations';
 export { KeyboardAvoidingView } from './KeyboardAvoidingView';
 export { Layout } from './Layout';
+export { LoadingIndicator } from './LoadingIndicator';
 export { Logo } from './Logo';
 export { Placeholder, JobItem } from './Placeholder';
 export { ProgressBar } from './ProgressBar';

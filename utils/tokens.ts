@@ -154,8 +154,6 @@ export const halfValue = (input?: number | string | null) => {
   return undefined;
 };
 
-/**
- */
 export const removeDuplicated = <TItem extends { id: string }>(
   prevData: TItem[],
   nextData: TItem[],
@@ -170,4 +168,11 @@ export const removeDuplicated = <TItem extends { id: string }>(
   });
 
   return filtered;
+};
+
+export const makeBoolExp = (key: string, ids?: string[]) => {
+  if (!ids || ids.length === 0) {
+    return {};
+  }
+  return { [key]: ids };
 };

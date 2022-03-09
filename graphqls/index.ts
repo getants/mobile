@@ -12451,7 +12451,12 @@ export type JobsNearbyAggregateQuery = {
         unstructured_value?: string | null;
       } | null;
       company?: { __typename?: 'companies'; id: string; name: string } | null;
-      applications: Array<{ __typename?: 'applications'; id: string }>;
+      applications: Array<{
+        __typename?: 'applications';
+        id: string;
+        resume_id?: string | null;
+        profile_id: string;
+      }>;
     }>;
   };
 };
@@ -12493,8 +12498,30 @@ export type JobsAggregateQuery = {
       title: string;
       description?: string | null;
       expiration_date?: string | null;
+      image?: string | null;
       location?: Geography | null;
       quantity: number;
+      status: string;
+      address_id?: string | null;
+      applications: Array<{ __typename?: 'applications'; id: string }>;
+      applications_aggregate: {
+        __typename?: 'applications_aggregate';
+        nodes: Array<{ __typename?: 'applications'; id: string }>;
+      };
+      company?: {
+        __typename?: 'companies';
+        id: string;
+        name: string;
+        summary?: string | null;
+        size?: string | null;
+      } | null;
+      address?: {
+        __typename?: 'addresses';
+        id: string;
+        structured_value?: string | null;
+        unstructured_value?: string | null;
+        location?: Geography | null;
+      } | null;
     }>;
   };
 };
@@ -12772,6 +12799,52 @@ export type UpsertMyLocationMutation = {
   } | null;
 };
 
+export type ProfilesAggregateQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  offset: Scalars['Int'];
+  order_by?: InputMaybe<Array<ProfilesOrderBy> | ProfilesOrderBy>;
+  where?: InputMaybe<ProfilesBoolExp>;
+}>;
+
+export type ProfilesAggregateQuery = {
+  __typename?: 'query_root';
+  profiles_aggregate: {
+    __typename?: 'profiles_aggregate';
+    nodes: Array<{
+      __typename?: 'profiles';
+      id: string;
+      conversation_id?: string | null;
+      location?: Geography | null;
+      is_online?: boolean | null;
+      view_as: string;
+      settings?: any | null;
+      user_id: string;
+      tenant_id?: string | null;
+      companies: Array<{
+        __typename?: 'profile_company';
+        company: { __typename?: 'companies'; id: string; name: string };
+      }>;
+      user: {
+        __typename?: 'users';
+        id: string;
+        createdAt: string;
+        updatedAt: string;
+        activeMfaType?: string | null;
+        avatarUrl: string;
+        defaultRole: string;
+        disabled: boolean;
+        displayName: string;
+        email?: any | null;
+        emailVerified: boolean;
+        lastSeen?: string | null;
+        locale: string;
+        roles: Array<{ __typename?: 'authUserRoles'; role: string }>;
+      };
+      tenant?: { __typename?: 'tenants'; id: string; name: string } | null;
+    }>;
+  };
+};
+
 export type ProfilesByPkQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -12781,12 +12854,12 @@ export type ProfilesByPkQuery = {
   profiles_by_pk?: {
     __typename?: 'profiles';
     id: string;
+    is_online?: boolean | null;
+    view_as: string;
+    settings?: any | null;
+    tenant_id?: string | null;
     user_id: string;
-    resumes: Array<{
-      __typename?: 'resumes';
-      id: string;
-      applications: Array<{ __typename?: 'applications'; id: string }>;
-    }>;
+    tenant?: { __typename?: 'tenants'; id: string; name: string } | null;
     user: {
       __typename?: 'users';
       id: string;
@@ -12801,6 +12874,48 @@ export type ProfilesByPkQuery = {
       emailVerified: boolean;
       lastSeen?: string | null;
     };
+    companies: Array<{
+      __typename?: 'profile_company';
+      company: { __typename?: 'companies'; id: string; name: string };
+    }>;
+    resumes: Array<{
+      __typename?: 'resumes';
+      id: string;
+      applications: Array<{ __typename?: 'applications'; id: string }>;
+    }>;
+  } | null;
+};
+
+export type UpdateProfilesMutationVariables = Exact<{
+  where: ProfilesBoolExp;
+  _set: ProfilesSetInput;
+}>;
+
+export type UpdateProfilesMutation = {
+  __typename?: 'mutation_root';
+  update_profiles?: {
+    __typename?: 'profiles_mutation_response';
+    returning: Array<{
+      __typename?: 'profiles';
+      id: string;
+      user: { __typename?: 'users'; id: string; updatedAt: string };
+      tenant?: { __typename?: 'tenants'; id: string; name: string } | null;
+    }>;
+  } | null;
+};
+
+export type UpdateProfilesByPkMutationVariables = Exact<{
+  pk_columns: ProfilesPkColumnsInput;
+  _set: ProfilesSetInput;
+}>;
+
+export type UpdateProfilesByPkMutation = {
+  __typename?: 'mutation_root';
+  update_profiles_by_pk?: {
+    __typename?: 'profiles';
+    id: string;
+    user: { __typename?: 'users'; id: string; updatedAt: string };
+    tenant?: { __typename?: 'tenants'; id: string; name: string } | null;
   } | null;
 };
 
@@ -13353,6 +13468,8 @@ export const JobsNearbyAggregateDocument = gql`
         }
         applications {
           id
+          resume_id
+          profile_id
         }
       }
     }
@@ -13404,8 +13521,31 @@ export const JobsAggregateDocument = gql`
         title
         description
         expiration_date
+        image
         location
         quantity
+        status
+        applications {
+          id
+        }
+        applications_aggregate {
+          nodes {
+            id
+          }
+        }
+        company {
+          id
+          name
+          summary
+          size
+        }
+        address_id
+        address {
+          id
+          structured_value
+          unstructured_value
+          location
+        }
       }
     }
   }
@@ -13750,15 +13890,74 @@ export type UpsertMyLocationMutationOptions = Apollo.BaseMutationOptions<
   UpsertMyLocationMutation,
   UpsertMyLocationMutationVariables
 >;
+export const ProfilesAggregateDocument = gql`
+  query PROFILES_AGGREGATE(
+    $limit: Int!
+    $offset: Int!
+    $order_by: [profiles_order_by!]
+    $where: profiles_bool_exp
+  ) {
+    profiles_aggregate(
+      limit: $limit
+      offset: $offset
+      order_by: $order_by
+      where: $where
+    ) {
+      nodes {
+        id
+        conversation_id
+        location
+        is_online
+        view_as
+        settings
+        companies {
+          company {
+            id
+            name
+          }
+        }
+        user_id
+        user {
+          id
+          createdAt
+          updatedAt
+          activeMfaType
+          avatarUrl
+          defaultRole
+          disabled
+          displayName
+          email
+          emailVerified
+          lastSeen
+          locale
+          roles {
+            role
+          }
+        }
+        tenant_id
+        tenant {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+export type ProfilesAggregateQueryResult = Apollo.QueryResult<
+  ProfilesAggregateQuery,
+  ProfilesAggregateQueryVariables
+>;
 export const ProfilesByPkDocument = gql`
   query PROFILES_BY_PK($id: uuid!) {
     profiles_by_pk(id: $id) {
       id
-      resumes(limit: 1) {
+      is_online
+      view_as
+      settings
+      tenant_id
+      tenant {
         id
-        applications {
-          id
-        }
+        name
       }
       user_id
       user {
@@ -13774,10 +13973,80 @@ export const ProfilesByPkDocument = gql`
         emailVerified
         lastSeen
       }
+      companies {
+        company {
+          id
+          name
+        }
+      }
+      resumes(limit: 1) {
+        id
+        applications {
+          id
+        }
+      }
     }
   }
 `;
 export type ProfilesByPkQueryResult = Apollo.QueryResult<
   ProfilesByPkQuery,
   ProfilesByPkQueryVariables
+>;
+export const UpdateProfilesDocument = gql`
+  mutation UPDATE_PROFILES(
+    $where: profiles_bool_exp!
+    $_set: profiles_set_input!
+  ) {
+    update_profiles(where: $where, _set: $_set) {
+      returning {
+        id
+        user {
+          id
+          updatedAt
+        }
+        tenant {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+export type UpdateProfilesMutationFn = Apollo.MutationFunction<
+  UpdateProfilesMutation,
+  UpdateProfilesMutationVariables
+>;
+export type UpdateProfilesMutationResult =
+  Apollo.MutationResult<UpdateProfilesMutation>;
+export type UpdateProfilesMutationOptions = Apollo.BaseMutationOptions<
+  UpdateProfilesMutation,
+  UpdateProfilesMutationVariables
+>;
+export const UpdateProfilesByPkDocument = gql`
+  mutation UPDATE_PROFILES_BY_PK(
+    $pk_columns: profiles_pk_columns_input!
+    $_set: profiles_set_input!
+  ) {
+    update_profiles_by_pk(pk_columns: $pk_columns, _set: $_set) {
+      id
+      user {
+        id
+        updatedAt
+      }
+      tenant {
+        id
+        name
+      }
+    }
+  }
+`;
+export type UpdateProfilesByPkMutationFn = Apollo.MutationFunction<
+  UpdateProfilesByPkMutation,
+  UpdateProfilesByPkMutationVariables
+>;
+export type UpdateProfilesByPkMutationResult =
+  Apollo.MutationResult<UpdateProfilesByPkMutation>;
+export type UpdateProfilesByPkMutationOptions = Apollo.BaseMutationOptions<
+  UpdateProfilesByPkMutation,
+  UpdateProfilesByPkMutationVariables
 >;

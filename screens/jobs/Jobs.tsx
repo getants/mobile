@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Constants from 'expo-constants';
 import {
   Animated,
+  Avatar,
   Button,
   Card,
   Image,
@@ -22,18 +23,28 @@ import {
   useCollapsibleHeader,
   useColorScheme,
 } from '../../utils/hooks';
-import { JobStackEnum } from '../../utils/enums';
+import { makeBoolExp } from '../../utils/tokens';
 import {
-  JobsNearbyAggregateDocument,
+  JobStackEnum,
+  RootStackEnum,
+  MainStackEnum,
+  ProfileStackEnum,
+} from '../../utils/enums';
+import {
+  OrderBy,
+  JobsAggregateDocument,
+  // JobsNearbyAggregateDocument,
   InsertApplicationsOneDocument,
 } from '../../graphqls';
 import type {
   InsertApplicationsOneMutation,
   InsertApplicationsOneMutationVariables,
+  JobsAggregateQuery,
+  JobsAggregateQueryVariables,
   JobListScreenNavigationProp,
   JobListScreenRouteProp,
-  JobsNearbyAggregateQuery,
-  JobsNearbyAggregateQueryVariables,
+  // JobsNearbyAggregateQuery,
+  // JobsNearbyAggregateQueryVariables,
 } from '../../utils/types';
 
 const NumberJobsBatch = 10;
@@ -50,12 +61,15 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
   },
-  inner: {
+  subHeader: {
     flex: 1,
     flexDirection: 'row',
-    margin: 10,
-    justifyContent: 'center',
+    padding: 10,
+    justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  logo: {
+    fontWeight: 'bold',
   },
   avatar: {
     margin: 4,
@@ -64,7 +78,12 @@ const styles = StyleSheet.create({
 
 export const JobListScreen = (props: Props) => {
   const { navigation } = props;
-  const { user, profile, isLoading: profileLoading } = useAuth();
+  const {
+    isAuthenticated,
+    user,
+    profile,
+    isLoading: profileLoading,
+  } = useAuth();
 
   const [retry, setRetry] = useState<number>(0);
   const [distance, setDistance] = useState<number>(10);
@@ -74,44 +93,75 @@ export const JobListScreen = (props: Props) => {
     InsertApplicationsOneMutationVariables
   >(InsertApplicationsOneDocument);
 
-  const {
-    data: jobsData,
-    error: jobsError,
-    loading: jobsLoading,
-    fetchMore,
-    refetch: jobsRefetch,
-  } = useQuery<JobsNearbyAggregateQuery, JobsNearbyAggregateQueryVariables>(
-    JobsNearbyAggregateDocument,
-    {
-      variables: {
-        args: {
-          distance: 20,
-          user_id: user?.id ?? '',
-        },
-        limit: 20,
-        offset: 0,
-        where: {
-          // For now, search all jobs, filter per tenants later
-          //   company: {
-          //     tenant_id: { _eq: tenantId },
-          //   },
+  const initialVariables = {
+    limit: 100,
+    offset: 0,
+    order_by: { title: OrderBy.Asc },
+  };
+
+  const jobsAggregateOptions = {
+    skip: !isAuthenticated,
+    variables: {
+      ...initialVariables,
+      where: {
+        company: {
+          tenant_id: makeBoolExp('_in', [profile?.tenant_id ?? '']),
         },
       },
+    },
+  };
+
+  const {
+    data: jobsData,
+    refetch: jobsRefetch,
+    loading: jobsLoading,
+  } = useQuery<JobsAggregateQuery, JobsAggregateQueryVariables>(
+    JobsAggregateDocument,
+    {
+      ...jobsAggregateOptions,
       fetchPolicy: 'cache-and-network',
-      notifyOnNetworkStatusChange: true,
     },
   );
 
-  if (jobsError) {
-    console.log('### Jobs nearby aggregate: ', jobsError); // eslint-disable-line
-  }
+  const jobs = jobsData?.jobs_aggregate.nodes ?? [];
+  // const {
+  //   data: jobsData,
+  //   error: jobsError,
+  //   loading: jobsLoading,
+  //   fetchMore,
+  //   refetch: jobsRefetch,
+  // } = useQuery<JobsNearbyAggregateQuery, JobsNearbyAggregateQueryVariables>(
+  //   JobsNearbyAggregateDocument,
+  //   {
+  //     variables: {
+  //       args: {
+  //         distance: 20,
+  //         user_id: user?.id ?? '',
+  //       },
+  //       limit: 20,
+  //       offset: 0,
+  //       where: {
+  //         // For now, search all jobs, filter per tenants later
+  //         //   company: {
+  //         //     tenant_id: { _eq: tenantId },
+  //         //   },
+  //       },
+  //     },
+  //     fetchPolicy: 'cache-and-network',
+  //     notifyOnNetworkStatusChange: true,
+  //   },
+  // );
 
-  const jobs = useMemo(() => {
-    if (jobsData) {
-      return jobsData.jobs_nearby_aggregate.nodes;
-    }
-    return [];
-  }, [jobsData]);
+  // if (jobsError) {
+  //   console.log('### Jobs nearby aggregate: ', jobsError); // eslint-disable-line
+  // }
+
+  // const jobs = useMemo(() => {
+  //   if (jobsData) {
+  //     return jobsData.jobs_nearby_aggregate.nodes;
+  //   }
+  //   return [];
+  // }, [jobsData]);
 
   // console.log({ jobs, profile });
   // const jobs = useMemo<Jobs[]>(() => {
@@ -135,51 +185,51 @@ export const JobListScreen = (props: Props) => {
     setDistance((prevDistance) => prevDistance + StepRadiusSearch);
   }, [setRetry, setDistance]);
 
-  const handleLoadMore = useCallback(() => {
-    fetchMore({
-      variables: {
-        args: {
-          distance,
-          user_id: user?.id ?? '',
-        },
-        offset: jobs.length,
-        limit: NumberJobsBatch,
-      },
-      // TODO: Will be deprecated, change to new way
-      updateQuery: (prevResult, { fetchMoreResult }) => {
-        increaseSearchRange();
-        const target = [...(prevResult?.jobs_nearby_aggregate.nodes ?? [])];
-        const nextItems = fetchMoreResult?.jobs_nearby_aggregate.nodes ?? [];
+  // const handleLoadMore = useCallback(() => {
+  //   fetchMore({
+  //     variables: {
+  //       args: {
+  //         distance,
+  //         user_id: user?.id ?? '',
+  //       },
+  //       offset: jobs.length,
+  //       limit: NumberJobsBatch,
+  //     },
+  //     // TODO: Will be deprecated, change to new way
+  //     updateQuery: (prevResult, { fetchMoreResult }) => {
+  //       increaseSearchRange();
+  //       const target = [...(prevResult?.jobs_nearby_aggregate.nodes ?? [])];
+  //       const nextItems = fetchMoreResult?.jobs_nearby_aggregate.nodes ?? [];
 
-        for (let i = 0, j = nextItems.length; i < j; i++) {
-          const newItem = nextItems[i];
-          const isDuplicated = target.some((o) => o.id === newItem.id);
-          if (!isDuplicated) {
-            target.push(newItem);
-          }
-        }
+  //       for (let i = 0, j = nextItems.length; i < j; i++) {
+  //         const newItem = nextItems[i];
+  //         const isDuplicated = target.some((o) => o.id === newItem.id);
+  //         if (!isDuplicated) {
+  //           target.push(newItem);
+  //         }
+  //       }
 
-        return {
-          jobs_nearby_aggregate: {
-            __typename: 'jobs_aggregate',
-            nodes: target,
-          },
-        };
-      },
-    });
-  }, [distance, fetchMore, jobs.length, user, increaseSearchRange]);
+  //       return {
+  //         jobs_nearby_aggregate: {
+  //           __typename: 'jobs_aggregate',
+  //           nodes: target,
+  //         },
+  //       };
+  //     },
+  //   });
+  // }, [distance, fetchMore, jobs.length, user, increaseSearchRange]);
 
-  const [isReady, cancelTimer, resetTimer] = useTimeoutFn(() => {
-    handleLoadMore();
-  }, 1000);
+  // const [isReady, cancelTimer, resetTimer] = useTimeoutFn(() => {
+  //   handleLoadMore();
+  // }, 1000);
 
-  useEffect(() => {
-    if (jobs.length === 0 && distance < MaxRadiusSearch && retry <= 3) {
-      resetTimer();
-    } else {
-      cancelTimer();
-    }
-  }, [cancelTimer, resetTimer, distance, jobs, retry]);
+  // useEffect(() => {
+  //   if (jobs.length === 0 && distance < MaxRadiusSearch && retry <= 3) {
+  //     resetTimer();
+  //   } else {
+  //     cancelTimer();
+  //   }
+  // }, [cancelTimer, resetTimer, distance, jobs, retry]);
 
   // Making the useApply() which expose the need methods better
   // so in the future we can go to chat faster from any where
@@ -197,9 +247,10 @@ export const JobListScreen = (props: Props) => {
 
   // Pull to refresh, we should reset the timer
   const handleRefetch = useCallback(() => {
-    jobsRefetch();
-    resetTimer();
-  }, [jobsRefetch, resetTimer]);
+    if (jobsRefetch) {
+      jobsRefetch();
+    }
+  }, [jobsRefetch]);
 
   const handleOnPressSingle = (id: string) => {
     const foundJob = jobs.find((job) => job.id === id);
@@ -215,13 +266,14 @@ export const JobListScreen = (props: Props) => {
   const [currentResume] = profile?.resumes ?? [];
 
   const shouldDisableApply = (item: typeof jobs[0]) => {
-    const [currentApplication] = currentResume.applications;
+    // const [currentApplication] = currentResume?.applications ?? [];
 
-    const found = item?.applications.find(
-      (o) => o.id === currentApplication.id,
-    );
+    // const found = item?.applications.find(
+    //   (o) => o.id === currentApplication.id,
+    // );
 
-    return !!found;
+    // return !!found;
+    return false;
   };
 
   const handleOnApply = async (id: string) => {
@@ -238,6 +290,12 @@ export const JobListScreen = (props: Props) => {
       jobsRefetch();
     }
   };
+
+  const handleOpenProfile = useCallback(() => {
+    navigation.navigate(MainStackEnum.ProfileStack, {
+      screen: ProfileStackEnum.Profile,
+    });
+  }, [navigation]);
 
   // const renderItem = <TItem extends { id: string }>({ item }: TItem) => (
   //   <JobItem
@@ -260,6 +318,7 @@ export const JobListScreen = (props: Props) => {
           />
         ),
       },
+      tabBarHideOnKeyboard: true,
       config: {
         collapsedColor: backgroundColor,
         useNativeDriver: true,
@@ -271,7 +330,7 @@ export const JobListScreen = (props: Props) => {
   const { onScroll, containerPaddingTop, headerHeight, translateY } =
     useCollapsibleHeader(headerOptions);
 
-  const paddingTop = containerPaddingTop + StickyHeaderHeight + 8;
+  const paddingTop = containerPaddingTop;
   const top = headerHeight + StickyHeaderHeight;
 
   // Prevent go back to initial stack
@@ -280,7 +339,11 @@ export const JobListScreen = (props: Props) => {
     [navigation],
   );
 
-  const isLoading = jobsLoading || profileLoading || isReady() !== null;
+  const isLoading = jobsLoading || profileLoading;
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -291,7 +354,7 @@ export const JobListScreen = (props: Props) => {
           onRefresh={handleRefetch}
           refreshing={isLoading}
           initialNumToRender={NumberJobsBatch}
-          onEndReached={handleLoadMore}
+          // onEndReached={handleLoadMore}
           onEndReachedThreshold={1}
           ListEmptyComponent={
             <Placeholder component={<JobItemPlaceholder />} />
@@ -328,23 +391,19 @@ export const JobListScreen = (props: Props) => {
             transform: [{ translateY }],
             top: Constants.statusBarHeight,
             position: 'absolute',
-            zIndex: 0,
             backgroundColor: '#FFFFFF',
             height: StickyHeaderHeight,
             width: '100%',
+            zIndex: 0,
           }}
         >
-          <View style={[styles.inner]}>
-            {isLoading ? (
-              <>
-                <Spinner />
-                <Text category="h5">Loading...</Text>
-              </>
-            ) : (
-              <Button size="small" onPress={() => jobsRefetch()}>
-                Refetch
-              </Button>
-            )}
+          <View style={styles.subHeader}>
+            <Text category="h6" style={styles.logo}>
+              GETANTS
+            </Text>
+            <Pressable onPress={handleOpenProfile}>
+              <Avatar size="tiny" source={{ uri: profile?.user.avatarUrl }} />
+            </Pressable>
           </View>
         </Animated.View>
       </>

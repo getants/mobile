@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from '../components';
 
 import { JobStack } from './JobStack';
+import { ProfileStack } from './ProfileStack';
 import { MainStackEnum } from '../utils/enums';
 import { useTheme } from '../utils/hooks';
 import type { MainStackParams, Colors } from '../utils/types';
@@ -59,8 +60,22 @@ export const MainStack = () => {
           ...tabBarScreensOptions,
           tabBarActiveTintColor: colors.grey700,
           tabBarLabel: 'Jobs',
+          tabBarHideOnKeyboard: true,
           tabBarIcon: ({ focused }) =>
             makeIcon({ focused, colors, icon: 'briefcase' }),
+          headerShown: false,
+        })}
+      />
+      <Screen
+        name={MainStackEnum.ProfileStack}
+        component={ProfileStack}
+        options={() => ({
+          ...tabBarScreensOptions,
+          tabBarActiveTintColor: colors.grey700,
+          tabBarLabel: 'Settings',
+          tabBarHideOnKeyboard: true,
+          tabBarIcon: ({ focused }) =>
+            makeIcon({ focused, colors, icon: 'options-2' }),
           headerShown: false,
         })}
       />

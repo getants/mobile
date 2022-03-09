@@ -73,8 +73,8 @@ query JOBS_NEARBY_AGGREGATE(
       }
       applications {
         id
-        # resume_id
-        # profile_id
+        resume_id
+        profile_id
       }
     }
   }
@@ -110,8 +110,31 @@ query JOBS_AGGREGATE(
       title
       description
       expiration_date
+      image
       location
       quantity
+      status
+      applications {
+        id
+      }
+      applications_aggregate {
+        nodes {
+          id
+        }
+      }
+      company {
+        id
+        name
+        summary
+        size
+      }
+      address_id
+      address {
+        id
+        structured_value
+        unstructured_value
+        location
+      }
     }
   }
 }

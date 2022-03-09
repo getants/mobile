@@ -5,7 +5,6 @@ import {
   Button,
   Divider,
   Placeholder,
-  Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -13,6 +12,7 @@ import {
 } from '../../components';
 import { space } from '../../utils/tokens';
 import { useAuth, useNavigation } from '../../utils/hooks';
+import { nhost } from '../../utils/nhost';
 import type { ProfileScreenNavigationProp } from '../../utils/types';
 
 const ScrollView = styled.ScrollView`
@@ -38,6 +38,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  new: {
+    margin: 40,
+  },
 });
 
 export type Props = {
@@ -47,16 +50,24 @@ export type Props = {
 export const ProfileScreen = () => {
   const navigation = useNavigation();
 
+  const handleSignOut = async () => {
+    await nhost.auth.signOut();
+  };
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'My Profile',
     });
   }, [navigation]);
 
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, isAuthenticated } = useAuth();
 
   const imageUrl = user?.avatarUrl ?? '';
   const fullName = user?.displayName ?? '';
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, paddingTop: 20 }}>
@@ -67,30 +78,25 @@ export const ProfileScreen = () => {
             accessibilityLabel={fullName}
             source={{ uri: imageUrl }}
           />
-          <TitleWrapper>
-            {isLoading ? (
-              <Placeholder.Rect width={160} height={40} />
-            ) : (
-              <Text category="h2">{fullName}</Text>
-            )}
-          </TitleWrapper>
+          <View>
+            <TitleWrapper>
+              {isLoading ? (
+                <Placeholder.Rect width={160} height={40} />
+              ) : (
+                <Text category="h2">{fullName}</Text>
+              )}
+            </TitleWrapper>
+            <Text>{user?.email}</Text>
+          </View>
         </NameSection>
 
         <Divider />
 
-        <View paddingH-20 paddingV-10>
-          <Text category="h2">Personal Information</Text>
+        <Text style={styles.new} appearance="hint">
+          Comming soon
+        </Text>
 
-          <Pressable>
-            <View>
-              <Text>{user?.email}</Text>
-            </View>
-          </Pressable>
-        </View>
-
-        <Divider />
-
-        <Button>Logout</Button>
+        <Button onPress={handleSignOut}>Sign Out</Button>
       </ScrollView>
     </SafeAreaView>
   );

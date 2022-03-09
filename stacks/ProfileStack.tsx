@@ -10,7 +10,7 @@ const { Navigator, Screen } = createStackNavigator<ProfileStackParams>();
 
 const customOptions = createOptions({});
 
-const ProfileStack = () => (
+export const ProfileStack = () => (
   <Navigator screenOptions={customOptions}>
     <Screen
       name={ProfileStackEnum.Profile}
@@ -21,5 +21,3 @@ const ProfileStack = () => (
     />
   </Navigator>
 );
-
-export default ProfileStack;
