@@ -23,7 +23,7 @@ const NameSection = styled.View`
   padding: ${space(5)};
   flex-direction: row;
   justify-content: space-between;
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
 `;
 const TitleWrapper = styled.View`
@@ -74,7 +74,7 @@ export const ProfileScreen = () => {
       <ScrollView contentContainerStyle={styles.scroll}>
         <NameSection>
           <Avatar
-            size="medium"
+            size="giant"
             accessibilityLabel={fullName}
             source={{ uri: imageUrl }}
           />

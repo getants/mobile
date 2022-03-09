@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    paddingBottom: 20,
+    paddingBottom: 30,
   },
   form: {
     flex: 1,

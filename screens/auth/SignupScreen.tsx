@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import * as ErrorRecovery from 'expo-error-recovery';
 import {
   Button,
+  CheckBox,
   Input,
   KeyboardAvoidingView,
   Layout,
   Logo,
-  View,
   StyleSheet,
   Text,
+  View,
 } from '../../components';
 import { nhost } from '../../utils/nhost';
 import { AuthStackEnum } from '../../utils/enums';
@@ -20,9 +21,14 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-end',
+    paddingBottom: 10,
   },
   form: {
     flex: 3,
+  },
+  terms: {
+    paddingTop: 5,
+    paddingBottom: 5,
   },
   title: {
     textAlign: 'center',
@@ -37,17 +43,29 @@ export type Props = {
 export const SignupScreen = (props: Props) => {
   const { navigation } = props;
 
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [agree, setAgree] = useState(false);
+
+  const goToLogin = () => {
+    navigation.navigate(AuthStackEnum.LoginScreen);
+  };
 
   const handleSignup = async () => {
     try {
       await nhost.auth.signUp({
         email,
         password,
-        options: { displayName: name },
+        options: {
+          displayName: name,
+          metadata: {
+            mobile: true,
+          },
+        },
       });
+
+      goToLogin();
     } catch (e) {
       ErrorRecovery.setRecoveryProps({
         currentScreen: AuthStackEnum.SignupScreen,
@@ -55,9 +73,8 @@ export const SignupScreen = (props: Props) => {
     }
   };
 
-  const goToLogin = () => {
-    navigation.navigate(AuthStackEnum.LoginScreen);
-  };
+  const shouldDisableSubmit =
+    !email || email.length <= 2 || !password || password.length < 8 || !agree;
 
   return (
     <KeyboardAvoidingView>
@@ -66,7 +83,7 @@ export const SignupScreen = (props: Props) => {
           <Logo size="lg" />
         </View>
 
-        <Layout direction="vertical" style={styles.form}>
+        <Layout direction="vertical" gap={10} style={styles.form}>
           <Text category="h5" style={styles.title}>
             Signup
           </Text>
@@ -97,7 +114,19 @@ export const SignupScreen = (props: Props) => {
             onChangeText={setPassword}
           />
 
-          <Button size="large" onPress={handleSignup}>
+          <CheckBox
+            style={styles.terms}
+            checked={agree}
+            onChange={(nextChecked: boolean) => setAgree(nextChecked)}
+          >
+            Agree with GetAnts Terms of Services
+          </CheckBox>
+
+          <Button
+            size="large"
+            disabled={shouldDisableSubmit}
+            onPress={handleSignup}
+          >
             Signup
           </Button>
 
