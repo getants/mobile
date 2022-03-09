@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // import * as Sentry from 'sentry-expo';
 import * as Linking from 'expo-linking';
 // import * as WebBrowser from 'expo-web-browser';
+import { StatusBar } from 'expo-status-bar';
 import { Provider as JotaiProvider } from 'jotai';
 import { LogBox, Platform, Text } from 'react-native';
 import { NhostAuthProvider } from '@nhost/react-auth';
@@ -94,6 +95,7 @@ const App = () => {
             initialState={navigationState}
             onStateChange={handleNavigationStateChange}
           >
+            <StatusBar style="auto" />
             <IconRegistry icons={EvaIconsPack} />
             <ThemeProvider>
               <RootStack />

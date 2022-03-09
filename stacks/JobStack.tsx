@@ -9,21 +9,24 @@ const defaultOptions = createOptions();
 
 const { Navigator, Screen } = createStackNavigator<JobStackParams>();
 
-export const JobStack = () => (
-  <Navigator screenOptions={defaultOptions}>
-    <Screen
-      name={JobStackEnum.JobListScreen}
-      component={JobListScreen}
-      options={({ route }) => ({
-        headerLeft: (props) => renderHeaderLeft(route, props),
-      })}
-    />
-    <Screen
-      name={JobStackEnum.SingleJobScreen}
-      component={SingleJobScreen}
-      options={({ route }) => ({
-        headerLeft: (props) => renderHeaderLeft(route, props),
-      })}
-    />
-  </Navigator>
-);
+export const JobStack = () => {
+  return (
+    <Navigator screenOptions={defaultOptions}>
+      <Screen
+        name={JobStackEnum.JobListScreen}
+        component={JobListScreen}
+        options={({ route }) => ({
+          title: 'Recent Jobs',
+          headerLeft: (props) => renderHeaderLeft(route, props),
+        })}
+      />
+      <Screen
+        name={JobStackEnum.SingleJobScreen}
+        component={SingleJobScreen}
+        options={({ route }) => ({
+          headerLeft: (props) => renderHeaderLeft(route, props),
+        })}
+      />
+    </Navigator>
+  );
+};

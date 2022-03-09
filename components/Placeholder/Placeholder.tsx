@@ -16,7 +16,7 @@ type PlaceholderType = React.FC<Props> & {
   Rect: typeof Rect;
 };
 
-const Placeholder: PlaceholderType = ({ repeat = 3, component }: Props) => (
+const Placeholder: PlaceholderType = ({ repeat = 10, component }: Props) => (
   <>{Array.from({ length: repeat }, () => component)}</>
 );
 

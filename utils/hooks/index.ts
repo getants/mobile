@@ -7,7 +7,7 @@ export {
 } from '@apollo/client';
 export { useIsFocused, useFocusEffect } from '@react-navigation/native';
 
-export { useWindowDimensions } from 'react-native';
+export { useColorScheme, useWindowDimensions } from 'react-native';
 export { useNavigation } from '@react-navigation/native';
 
 export { default as useTimeout } from 'react-use/lib/useTimeout';

@@ -8,7 +8,7 @@ import { MainStackEnum } from '../utils/enums';
 import { useTheme } from '../utils/hooks';
 import type { MainStackParams, Colors } from '../utils/types';
 
-const tabBarOptions = {
+const tabBarScreensOptions = {
   keyboardHidesTabBar: true,
   tabBarStyle: {
     height: 65,
@@ -56,7 +56,7 @@ export const MainStack = () => {
         name={MainStackEnum.JobStack}
         component={JobStack}
         options={() => ({
-          ...tabBarOptions,
+          ...tabBarScreensOptions,
           tabBarActiveTintColor: colors.grey700,
           tabBarLabel: 'Jobs',
           tabBarIcon: ({ focused }) =>

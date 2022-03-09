@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+// import deepmerge from 'deepmerge';
 import isEqual from 'react-fast-compare';
 import Constants from 'expo-constants';
 import {
@@ -7,7 +8,6 @@ import {
   NativeScrollEvent,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-// import Colors from '@styles/colors';
 import { SAFE_BOUNCE_HEIGHT, HEADER_HEIGHT, OUR_COLORS } from '../constants';
 import { getStatusBarHeight } from '../tokens';
 import { createHeaderBackground } from './createHeaderBackground';
@@ -23,6 +23,7 @@ export type Collapsible = {
   translateY: Animated.AnimatedInterpolation;
   progress: Animated.AnimatedInterpolation;
   opacity: Animated.AnimatedInterpolation;
+  headerHeight: number;
 };
 
 export type UseCollapsibleOptions = {
@@ -78,9 +79,11 @@ export const useCollapsibleHeader = (
     (headerStyle.height ?? HEADER_HEIGHT) - Constants.statusBarHeight;
   const safeBounceHeightWithHeader = SAFE_BOUNCE_HEIGHT + headerHeight;
 
+  const containerPaddingTop = headerHeight + getStatusBarHeight();
+
   const animatedDiffClampY = Animated.diffClamp(
     positionY,
-    0,
+    containerPaddingTop,
     safeBounceHeightWithHeader,
   );
 
@@ -94,6 +97,14 @@ export const useCollapsibleHeader = (
   const opacity = Animated.subtract(1, progress);
 
   useLayoutEffect(() => {
+    const headerBackground = createHeaderBackground({
+      translateY,
+      opacity,
+      backgroundColor,
+      collapsedColor: collapsedColor ?? backgroundColor,
+      component: navigationOptions.headerBackground,
+    });
+
     const options = {
       ...navigationOptions,
       headerStyle: {
@@ -101,13 +112,7 @@ export const useCollapsibleHeader = (
         transform: [{ translateY }],
         opacity,
       },
-      headerBackground: createHeaderBackground({
-        translateY,
-        opacity,
-        backgroundColor,
-        collapsedColor: collapsedColor ?? backgroundColor,
-        headerBackground: navigationOptions.headerBackground,
-      }),
+      headerBackground,
       headerTransparent: true,
     };
     navigation.setOptions(options);
@@ -124,8 +129,9 @@ export const useCollapsibleHeader = (
   return {
     onScroll,
     onScrollWithListener,
-    containerPaddingTop: headerHeight + getStatusBarHeight(),
+    containerPaddingTop,
     scrollIndicatorInsetTop: headerHeight,
+    headerHeight,
     positionY,
     translateY,
     progress,

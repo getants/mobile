@@ -8,7 +8,7 @@ export type Params = {
   opacity: Animated.AnimatedInterpolation;
   backgroundColor?: ColorValue;
   collapsedColor: string | null;
-  headerBackground?: React.ReactNode;
+  component?: React.ReactNode;
 };
 
 const createHeaderBackground =
@@ -17,20 +17,23 @@ const createHeaderBackground =
     opacity,
     backgroundColor,
     collapsedColor,
-    headerBackground,
+    component,
   }: Params) =>
   () =>
     (
-      <Animated.View style={{ flex: 1, transform: [{ translateY }] }}>
+      <Animated.View
+        style={{
+          flex: 1,
+          transform: [{ translateY }],
+        }}
+      >
         <View
-          style={[
-            {
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-              backgroundColor: collapsedColor ?? backgroundColor,
-            },
-          ]}
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            backgroundColor: collapsedColor ?? backgroundColor,
+          }}
         />
         <Animated.View
           style={{
@@ -39,7 +42,7 @@ const createHeaderBackground =
             opacity,
           }}
         >
-          {headerBackground}
+          {component}
         </Animated.View>
       </Animated.View>
     );

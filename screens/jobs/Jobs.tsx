@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-// import Constants from 'expo-constants';
-import { StyleSheet } from 'react-native';
+import Constants from 'expo-constants';
 import {
   Animated,
   Button,
@@ -9,6 +8,7 @@ import {
   JobItem as JobItemPlaceholder,
   Placeholder,
   Pressable,
+  StyleSheet,
   SafeAreaView,
   Spinner,
   Text,
@@ -20,6 +20,7 @@ import {
   useMutation,
   useTimeoutFn,
   useCollapsibleHeader,
+  useColorScheme,
 } from '../../utils/hooks';
 import { JobStackEnum } from '../../utils/enums';
 import {
@@ -38,7 +39,7 @@ import type {
 const NumberJobsBatch = 10;
 const MaxRadiusSearch = 9999999; // For dev
 const StepRadiusSearch = 10; // For dev
-const StickyHeaderHeight = 60;
+const StickyHeaderHeight = Constants.statusBarHeight;
 
 export type Props = {
   route: JobListScreenRouteProp;
@@ -55,6 +56,9 @@ const styles = StyleSheet.create({
     margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  avatar: {
+    margin: 4,
   },
 });
 
@@ -73,7 +77,7 @@ export const JobListScreen = (props: Props) => {
   const {
     data: jobsData,
     error: jobsError,
-    loading: jobLoading,
+    loading: jobsLoading,
     fetchMore,
     refetch: jobsRefetch,
   } = useQuery<JobsNearbyAggregateQuery, JobsNearbyAggregateQueryVariables>(
@@ -109,6 +113,7 @@ export const JobListScreen = (props: Props) => {
     return [];
   }, [jobsData]);
 
+  // console.log({ jobs, profile });
   // const jobs = useMemo<Jobs[]>(() => {
   //   if (aggregateJobs?.jobs_nearby_aggregate?.nodes) {
   //     return aggregateJobs.jobs_nearby_aggregate.nodes.map((job: Jobs) => {
@@ -169,7 +174,7 @@ export const JobListScreen = (props: Props) => {
   }, 1000);
 
   useEffect(() => {
-    if (jobs.length === 0 && distance < MaxRadiusSearch && retry <= 100) {
+    if (jobs.length === 0 && distance < MaxRadiusSearch && retry <= 3) {
       resetTimer();
     } else {
       cancelTimer();
@@ -243,38 +248,39 @@ export const JobListScreen = (props: Props) => {
   //   />
   // );
 
-  const options = useMemo(
+  const colorScheme = useColorScheme();
+  const backgroundColor = colorScheme === 'dark' ? '#111111' : '#FFFFFF';
+
+  const headerOptions = useMemo(
     () => ({
       navigationOptions: {
-        // header: () => <Text>test</Text>,
-        headerStyle: {
-          // backgroundColor: 'green',
-        },
+        header: () => (
+          <View
+            style={{ height: Constants.statusBarHeight, backgroundColor }}
+          />
+        ),
       },
       config: {
-        // collapsedColor: 'black',
+        collapsedColor: backgroundColor,
         useNativeDriver: true,
       },
     }),
-    [],
+    [backgroundColor],
   );
 
-  const { onScroll, containerPaddingTop, scrollIndicatorInsetTop, translateY } =
-    useCollapsibleHeader(options);
+  const { onScroll, containerPaddingTop, headerHeight, translateY } =
+    useCollapsibleHeader(headerOptions);
 
-  const paddingTop = containerPaddingTop + StickyHeaderHeight;
-  const top = scrollIndicatorInsetTop + StickyHeaderHeight;
+  const paddingTop = containerPaddingTop + StickyHeaderHeight + 8;
+  const top = headerHeight + StickyHeaderHeight;
 
   // Prevent go back to initial stack
   useEffect(
-    () =>
-      navigation.addListener('beforeRemove', (e) => {
-        e.preventDefault();
-      }),
+    () => navigation.addListener('beforeRemove', (e) => e.preventDefault()),
     [navigation],
   );
 
-  const isLoading = jobLoading || profileLoading || isReady() !== null;
+  const isLoading = jobsLoading || profileLoading || isReady() !== null;
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -283,7 +289,7 @@ export const JobListScreen = (props: Props) => {
           data={jobs}
           keyExtractor={({ id }, index) => id ?? index}
           onRefresh={handleRefetch}
-          refreshing={isLoading || jobs.length < 10}
+          refreshing={isLoading}
           initialNumToRender={NumberJobsBatch}
           onEndReached={handleLoadMore}
           onEndReachedThreshold={1}
@@ -311,6 +317,7 @@ export const JobListScreen = (props: Props) => {
             </Card>
           )}
           scrollEventThrottle={8}
+          showsVerticalScrollIndicator={false}
           onScroll={onScroll}
           contentContainerStyle={{ paddingTop }}
           scrollIndicatorInsets={{ top }}
@@ -319,24 +326,24 @@ export const JobListScreen = (props: Props) => {
         <Animated.View
           style={{
             transform: [{ translateY }],
-            top: containerPaddingTop,
+            top: Constants.statusBarHeight,
             position: 'absolute',
+            zIndex: 0,
             backgroundColor: '#FFFFFF',
             height: StickyHeaderHeight,
             width: '100%',
           }}
         >
-          <View style={styles.inner}>
+          <View style={[styles.inner]}>
             {isLoading ? (
               <>
                 <Spinner />
                 <Text category="h5">Loading...</Text>
               </>
             ) : (
-              <>
-                <Text category="h5">Done!</Text>
-                <Button onPress={() => jobsRefetch()}>Refetch</Button>
-              </>
+              <Button size="small" onPress={() => jobsRefetch()}>
+                Refetch
+              </Button>
             )}
           </View>
         </Animated.View>

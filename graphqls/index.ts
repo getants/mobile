@@ -24,6 +24,7 @@ export type Scalars = {
   float8: any;
   geography: Geography;
   geometry: any;
+  jsonb: any;
   timestamptz: string;
   uuid: string;
 };
@@ -95,7 +96,7 @@ export type Addresses = {
   /** An aggregate relationship */
   companies_aggregate: CompanyAddressAggregate;
   created_at: Scalars['timestamptz'];
-  data_usage?: Maybe<Scalars['String']>;
+  data_usage: Scalars['String'];
   id: Scalars['uuid'];
   /** An array relationship */
   jobs: Array<Jobs>;
@@ -200,7 +201,7 @@ export type AddressesAggregateOrderBy = {
 /** input type for inserting array relation for remote table "addresses" */
 export type AddressesArrRelInsertInput = {
   data: Array<AddressesInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<AddressesOnConflict>;
 };
 
@@ -309,11 +310,11 @@ export type AddressesMutationResponse = {
 /** input type for inserting object relation for remote table "addresses" */
 export type AddressesObjRelInsertInput = {
   data: AddressesInsertInput;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<AddressesOnConflict>;
 };
 
-/** on conflict condition type for table "addresses" */
+/** on_conflict condition type for table "addresses" */
 export type AddressesOnConflict = {
   constraint: AddressesConstraint;
   update_columns?: Array<AddressesUpdateColumn>;
@@ -451,7 +452,7 @@ export type ApplicationsAggregateOrderBy = {
 /** input type for inserting array relation for remote table "applications" */
 export type ApplicationsArrRelInsertInput = {
   data: Array<ApplicationsInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<ApplicationsOnConflict>;
 };
 
@@ -555,7 +556,7 @@ export type ApplicationsMutationResponse = {
   returning: Array<Applications>;
 };
 
-/** on conflict condition type for table "applications" */
+/** on_conflict condition type for table "applications" */
 export type ApplicationsOnConflict = {
   constraint: ApplicationsConstraint;
   update_columns?: Array<ApplicationsUpdateColumn>;
@@ -707,7 +708,7 @@ export type AuthProviderRequestsMutationResponse = {
   returning: Array<AuthProviderRequests>;
 };
 
-/** on conflict condition type for table "auth.provider_requests" */
+/** on_conflict condition type for table "auth.provider_requests" */
 export type AuthProviderRequestsOnConflict = {
   constraint: AuthProviderRequestsConstraint;
   update_columns?: Array<AuthProviderRequestsUpdateColumn>;
@@ -841,11 +842,11 @@ export type AuthProvidersMutationResponse = {
 /** input type for inserting object relation for remote table "auth.providers" */
 export type AuthProvidersObjRelInsertInput = {
   data: AuthProvidersInsertInput;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<AuthProvidersOnConflict>;
 };
 
-/** on conflict condition type for table "auth.providers" */
+/** on_conflict condition type for table "auth.providers" */
 export type AuthProvidersOnConflict = {
   constraint: AuthProvidersConstraint;
   update_columns?: Array<AuthProvidersUpdateColumn>;
@@ -922,7 +923,7 @@ export type AuthRefreshTokensAggregateOrderBy = {
 /** input type for inserting array relation for remote table "auth.refresh_tokens" */
 export type AuthRefreshTokensArrRelInsertInput = {
   data: Array<AuthRefreshTokensInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<AuthRefreshTokensOnConflict>;
 };
 
@@ -996,7 +997,7 @@ export type AuthRefreshTokensMutationResponse = {
   returning: Array<AuthRefreshTokens>;
 };
 
-/** on conflict condition type for table "auth.refresh_tokens" */
+/** on_conflict condition type for table "auth.refresh_tokens" */
 export type AuthRefreshTokensOnConflict = {
   constraint: AuthRefreshTokensConstraint;
   update_columns?: Array<AuthRefreshTokensUpdateColumn>;
@@ -1167,11 +1168,11 @@ export type AuthRolesMutationResponse = {
 /** input type for inserting object relation for remote table "auth.roles" */
 export type AuthRolesObjRelInsertInput = {
   data: AuthRolesInsertInput;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<AuthRolesOnConflict>;
 };
 
-/** on conflict condition type for table "auth.roles" */
+/** on_conflict condition type for table "auth.roles" */
 export type AuthRolesOnConflict = {
   constraint: AuthRolesConstraint;
   update_columns?: Array<AuthRolesUpdateColumn>;
@@ -1255,7 +1256,7 @@ export type AuthUserProvidersAggregateOrderBy = {
 /** input type for inserting array relation for remote table "auth.user_providers" */
 export type AuthUserProvidersArrRelInsertInput = {
   data: Array<AuthUserProvidersInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<AuthUserProvidersOnConflict>;
 };
 
@@ -1359,7 +1360,7 @@ export type AuthUserProvidersMutationResponse = {
   returning: Array<AuthUserProviders>;
 };
 
-/** on conflict condition type for table "auth.user_providers" */
+/** on_conflict condition type for table "auth.user_providers" */
 export type AuthUserProvidersOnConflict = {
   constraint: AuthUserProvidersConstraint;
   update_columns?: Array<AuthUserProvidersUpdateColumn>;
@@ -1481,7 +1482,7 @@ export type AuthUserRolesAggregateOrderBy = {
 /** input type for inserting array relation for remote table "auth.user_roles" */
 export type AuthUserRolesArrRelInsertInput = {
   data: Array<AuthUserRolesInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<AuthUserRolesOnConflict>;
 };
 
@@ -1559,7 +1560,7 @@ export type AuthUserRolesMutationResponse = {
   returning: Array<AuthUserRoles>;
 };
 
-/** on conflict condition type for table "auth.user_roles" */
+/** on_conflict condition type for table "auth.user_roles" */
 export type AuthUserRolesOnConflict = {
   constraint: AuthUserRolesConstraint;
   update_columns?: Array<AuthUserRolesUpdateColumn>;
@@ -1685,7 +1686,7 @@ export type BenefitsMutationResponse = {
   returning: Array<Benefits>;
 };
 
-/** on conflict condition type for table "benefits" */
+/** on_conflict condition type for table "benefits" */
 export type BenefitsOnConflict = {
   constraint: BenefitsConstraint;
   update_columns?: Array<BenefitsUpdateColumn>;
@@ -1875,11 +1876,11 @@ export type BucketsMutationResponse = {
 /** input type for inserting object relation for remote table "storage.buckets" */
 export type BucketsObjRelInsertInput = {
   data: BucketsInsertInput;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<BucketsOnConflict>;
 };
 
-/** on conflict condition type for table "storage.buckets" */
+/** on_conflict condition type for table "storage.buckets" */
 export type BucketsOnConflict = {
   constraint: BucketsConstraint;
   update_columns?: Array<BucketsUpdateColumn>;
@@ -2064,7 +2065,7 @@ export type CertificationsAggregateOrderBy = {
 /** input type for inserting array relation for remote table "certifications" */
 export type CertificationsArrRelInsertInput = {
   data: Array<CertificationsInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<CertificationsOnConflict>;
 };
 
@@ -2188,7 +2189,7 @@ export type CertificationsMutationResponse = {
   returning: Array<Certifications>;
 };
 
-/** on conflict condition type for table "certifications" */
+/** on_conflict condition type for table "certifications" */
 export type CertificationsOnConflict = {
   constraint: CertificationsConstraint;
   update_columns?: Array<CertificationsUpdateColumn>;
@@ -2330,7 +2331,7 @@ export type Companies = {
   addresses: Array<CompanyAddress>;
   /** An aggregate relationship */
   addresses_aggregate: CompanyAddressAggregate;
-  /** fetch data from the table: "conversations" */
+  /** An array relationship */
   conversations: Array<Conversations>;
   /** An aggregate relationship */
   conversations_aggregate: ConversationsAggregate;
@@ -2343,6 +2344,10 @@ export type Companies = {
   /** An aggregate relationship */
   jobs_aggregate: JobsAggregate;
   name: Scalars['String'];
+  /** An array relationship */
+  profiles: Array<ProfileCompany>;
+  /** An aggregate relationship */
+  profiles_aggregate: ProfileCompanyAggregate;
   size?: Maybe<Scalars['String']>;
   status: Scalars['String'];
   summary?: Maybe<Scalars['String']>;
@@ -2412,6 +2417,24 @@ export type CompaniesJobsAggregateArgs = {
 };
 
 /** columns and relationships of "companies" */
+export type CompaniesProfilesArgs = {
+  distinct_on?: InputMaybe<Array<ProfileCompanySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileCompanyOrderBy>>;
+  where?: InputMaybe<ProfileCompanyBoolExp>;
+};
+
+/** columns and relationships of "companies" */
+export type CompaniesProfilesAggregateArgs = {
+  distinct_on?: InputMaybe<Array<ProfileCompanySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileCompanyOrderBy>>;
+  where?: InputMaybe<ProfileCompanyBoolExp>;
+};
+
+/** columns and relationships of "companies" */
 export type CompaniesUsersArgs = {
   distinct_on?: InputMaybe<Array<UserCompanySelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2460,7 +2483,7 @@ export type CompaniesAggregateOrderBy = {
 /** input type for inserting array relation for remote table "companies" */
 export type CompaniesArrRelInsertInput = {
   data: Array<CompaniesInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<CompaniesOnConflict>;
 };
 
@@ -2477,6 +2500,7 @@ export type CompaniesBoolExp = {
   image?: InputMaybe<StringComparisonExp>;
   jobs?: InputMaybe<JobsBoolExp>;
   name?: InputMaybe<StringComparisonExp>;
+  profiles?: InputMaybe<ProfileCompanyBoolExp>;
   size?: InputMaybe<StringComparisonExp>;
   status?: InputMaybe<StringComparisonExp>;
   summary?: InputMaybe<StringComparisonExp>;
@@ -2503,6 +2527,7 @@ export type CompaniesInsertInput = {
   image?: InputMaybe<Scalars['String']>;
   jobs?: InputMaybe<JobsArrRelInsertInput>;
   name?: InputMaybe<Scalars['String']>;
+  profiles?: InputMaybe<ProfileCompanyArrRelInsertInput>;
   size?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<Scalars['String']>;
   summary?: InputMaybe<Scalars['String']>;
@@ -2583,11 +2608,11 @@ export type CompaniesMutationResponse = {
 /** input type for inserting object relation for remote table "companies" */
 export type CompaniesObjRelInsertInput = {
   data: CompaniesInsertInput;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<CompaniesOnConflict>;
 };
 
-/** on conflict condition type for table "companies" */
+/** on_conflict condition type for table "companies" */
 export type CompaniesOnConflict = {
   constraint: CompaniesConstraint;
   update_columns?: Array<CompaniesUpdateColumn>;
@@ -2604,6 +2629,7 @@ export type CompaniesOrderBy = {
   image?: InputMaybe<OrderBy>;
   jobs_aggregate?: InputMaybe<JobsAggregateOrderBy>;
   name?: InputMaybe<OrderBy>;
+  profiles_aggregate?: InputMaybe<ProfileCompanyAggregateOrderBy>;
   size?: InputMaybe<OrderBy>;
   status?: InputMaybe<OrderBy>;
   summary?: InputMaybe<OrderBy>;
@@ -2728,7 +2754,7 @@ export type CompanyAddressAggregateOrderBy = {
 /** input type for inserting array relation for remote table "company_address" */
 export type CompanyAddressArrRelInsertInput = {
   data: Array<CompanyAddressInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<CompanyAddressOnConflict>;
 };
 
@@ -2792,7 +2818,7 @@ export type CompanyAddressMutationResponse = {
   returning: Array<CompanyAddress>;
 };
 
-/** on conflict condition type for table "company_address" */
+/** on_conflict condition type for table "company_address" */
 export type CompanyAddressOnConflict = {
   constraint: CompanyAddressConstraint;
   update_columns?: Array<CompanyAddressUpdateColumn>;
@@ -2907,7 +2933,7 @@ export type CompanySizesMutationResponse = {
   returning: Array<CompanySizes>;
 };
 
-/** on conflict condition type for table "company_sizes" */
+/** on_conflict condition type for table "company_sizes" */
 export type CompanySizesOnConflict = {
   constraint: CompanySizesConstraint;
   update_columns?: Array<CompanySizesUpdateColumn>;
@@ -3019,7 +3045,7 @@ export type CompensationUnitsMutationResponse = {
   returning: Array<CompensationUnits>;
 };
 
-/** on conflict condition type for table "compensation_units" */
+/** on_conflict condition type for table "compensation_units" */
 export type CompensationUnitsOnConflict = {
   constraint: CompensationUnitsConstraint;
   update_columns?: Array<CompensationUnitsUpdateColumn>;
@@ -3170,7 +3196,7 @@ export type ConversationsAggregateOrderBy = {
 /** input type for inserting array relation for remote table "conversations" */
 export type ConversationsArrRelInsertInput = {
   data: Array<ConversationsInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<ConversationsOnConflict>;
 };
 
@@ -3271,11 +3297,11 @@ export type ConversationsMutationResponse = {
 /** input type for inserting object relation for remote table "conversations" */
 export type ConversationsObjRelInsertInput = {
   data: ConversationsInsertInput;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<ConversationsOnConflict>;
 };
 
-/** on conflict condition type for table "conversations" */
+/** on_conflict condition type for table "conversations" */
 export type ConversationsOnConflict = {
   constraint: ConversationsConstraint;
   update_columns?: Array<ConversationsUpdateColumn>;
@@ -3421,7 +3447,7 @@ export type DataUsagesMutationResponse = {
   returning: Array<DataUsages>;
 };
 
-/** on conflict condition type for table "data_usages" */
+/** on_conflict condition type for table "data_usages" */
 export type DataUsagesOnConflict = {
   constraint: DataUsagesConstraint;
   update_columns?: Array<DataUsagesUpdateColumn>;
@@ -3533,7 +3559,7 @@ export type EducationLevelsMutationResponse = {
   returning: Array<EducationLevels>;
 };
 
-/** on conflict condition type for table "education_levels" */
+/** on_conflict condition type for table "education_levels" */
 export type EducationLevelsOnConflict = {
   constraint: EducationLevelsConstraint;
   update_columns?: Array<EducationLevelsUpdateColumn>;
@@ -3626,7 +3652,7 @@ export type EducationsAggregateOrderBy = {
 /** input type for inserting array relation for remote table "educations" */
 export type EducationsArrRelInsertInput = {
   data: Array<EducationsInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<EducationsOnConflict>;
 };
 
@@ -3756,7 +3782,7 @@ export type EducationsMutationResponse = {
   returning: Array<Educations>;
 };
 
-/** on conflict condition type for table "educations" */
+/** on_conflict condition type for table "educations" */
 export type EducationsOnConflict = {
   constraint: EducationsConstraint;
   update_columns?: Array<EducationsUpdateColumn>;
@@ -3936,7 +3962,7 @@ export type EmploymentTypesMutationResponse = {
   returning: Array<EmploymentTypes>;
 };
 
-/** on conflict condition type for table "employment_types" */
+/** on_conflict condition type for table "employment_types" */
 export type EmploymentTypesOnConflict = {
   constraint: EmploymentTypesConstraint;
   update_columns?: Array<EmploymentTypesUpdateColumn>;
@@ -4028,7 +4054,7 @@ export type ExperiencesAggregateOrderBy = {
 /** input type for inserting array relation for remote table "experiences" */
 export type ExperiencesArrRelInsertInput = {
   data: Array<ExperiencesInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<ExperiencesOnConflict>;
 };
 
@@ -4152,7 +4178,7 @@ export type ExperiencesMutationResponse = {
   returning: Array<Experiences>;
 };
 
-/** on conflict condition type for table "experiences" */
+/** on_conflict condition type for table "experiences" */
 export type ExperiencesOnConflict = {
   constraint: ExperiencesConstraint;
   update_columns?: Array<ExperiencesUpdateColumn>;
@@ -4318,7 +4344,7 @@ export type FilesAggregateOrderBy = {
 /** input type for inserting array relation for remote table "storage.files" */
 export type FilesArrRelInsertInput = {
   data: Array<FilesInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<FilesOnConflict>;
 };
 
@@ -4440,7 +4466,7 @@ export type FilesMutationResponse = {
   returning: Array<Files>;
 };
 
-/** on conflict condition type for table "storage.files" */
+/** on_conflict condition type for table "storage.files" */
 export type FilesOnConflict = {
   constraint: FilesConstraint;
   update_columns?: Array<FilesUpdateColumn>;
@@ -4738,7 +4764,7 @@ export type InfoUsagesMutationResponse = {
   returning: Array<InfoUsages>;
 };
 
-/** on conflict condition type for table "info_usages" */
+/** on_conflict condition type for table "info_usages" */
 export type InfoUsagesOnConflict = {
   constraint: InfoUsagesConstraint;
   update_columns?: Array<InfoUsagesUpdateColumn>;
@@ -4876,7 +4902,7 @@ export type JobsAggregateOrderBy = {
 /** input type for inserting array relation for remote table "jobs" */
 export type JobsArrRelInsertInput = {
   data: Array<JobsInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<JobsOnConflict>;
 };
 
@@ -5070,11 +5096,11 @@ export type JobsNearbyArgs = {
 /** input type for inserting object relation for remote table "jobs" */
 export type JobsObjRelInsertInput = {
   data: JobsInsertInput;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<JobsOnConflict>;
 };
 
-/** on conflict condition type for table "jobs" */
+/** on_conflict condition type for table "jobs" */
 export type JobsOnConflict = {
   constraint: JobsConstraint;
   update_columns?: Array<JobsUpdateColumn>;
@@ -5302,24 +5328,60 @@ export type JobsVarianceOrderBy = {
   quantity?: InputMaybe<OrderBy>;
 };
 
+/** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
+export type JsonbComparisonExp = {
+  /** is the column contained in the given json value */
+  _contained_in?: InputMaybe<Scalars['jsonb']>;
+  /** does the column contain the given json value at the top level */
+  _contains?: InputMaybe<Scalars['jsonb']>;
+  _eq?: InputMaybe<Scalars['jsonb']>;
+  _gt?: InputMaybe<Scalars['jsonb']>;
+  _gte?: InputMaybe<Scalars['jsonb']>;
+  /** does the string exist as a top-level key in the column */
+  _has_key?: InputMaybe<Scalars['String']>;
+  /** do all of these strings exist as top-level keys in the column */
+  _has_keys_all?: InputMaybe<Array<Scalars['String']>>;
+  /** do any of these strings exist as top-level keys in the column */
+  _has_keys_any?: InputMaybe<Array<Scalars['String']>>;
+  _in?: InputMaybe<Array<Scalars['jsonb']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['jsonb']>;
+  _lte?: InputMaybe<Scalars['jsonb']>;
+  _neq?: InputMaybe<Scalars['jsonb']>;
+  _nin?: InputMaybe<Array<Scalars['jsonb']>>;
+};
+
 /** columns and relationships of "messages" */
 export type Messages = {
   __typename?: 'messages';
   audio?: Maybe<Scalars['String']>;
+  category?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
   /** An object relationship */
   conversation?: Maybe<Conversations>;
   conversation_id?: Maybe<Scalars['uuid']>;
   created_at: Scalars['timestamptz'];
+  format?: Maybe<Scalars['jsonb']>;
   id: Scalars['uuid'];
   image?: Maybe<Scalars['String']>;
   is_bot: Scalars['Boolean'];
   status: Scalars['String'];
+  tags?: Maybe<Scalars['jsonb']>;
   updated_at: Scalars['timestamptz'];
   /** An object relationship */
   user?: Maybe<Users>;
   user_id?: Maybe<Scalars['uuid']>;
   video?: Maybe<Scalars['String']>;
+};
+
+/** columns and relationships of "messages" */
+export type MessagesFormatArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+/** columns and relationships of "messages" */
+export type MessagesTagsArgs = {
+  path?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregated selection of "messages" */
@@ -5350,10 +5412,16 @@ export type MessagesAggregateOrderBy = {
   min?: InputMaybe<MessagesMinOrderBy>;
 };
 
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type MessagesAppendInput = {
+  format?: InputMaybe<Scalars['jsonb']>;
+  tags?: InputMaybe<Scalars['jsonb']>;
+};
+
 /** input type for inserting array relation for remote table "messages" */
 export type MessagesArrRelInsertInput = {
   data: Array<MessagesInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<MessagesOnConflict>;
 };
 
@@ -5363,14 +5431,17 @@ export type MessagesBoolExp = {
   _not?: InputMaybe<MessagesBoolExp>;
   _or?: InputMaybe<Array<MessagesBoolExp>>;
   audio?: InputMaybe<StringComparisonExp>;
+  category?: InputMaybe<StringComparisonExp>;
   content?: InputMaybe<StringComparisonExp>;
   conversation?: InputMaybe<ConversationsBoolExp>;
   conversation_id?: InputMaybe<UuidComparisonExp>;
   created_at?: InputMaybe<TimestamptzComparisonExp>;
+  format?: InputMaybe<JsonbComparisonExp>;
   id?: InputMaybe<UuidComparisonExp>;
   image?: InputMaybe<StringComparisonExp>;
   is_bot?: InputMaybe<BooleanComparisonExp>;
   status?: InputMaybe<StringComparisonExp>;
+  tags?: InputMaybe<JsonbComparisonExp>;
   updated_at?: InputMaybe<TimestamptzComparisonExp>;
   user?: InputMaybe<UsersBoolExp>;
   user_id?: InputMaybe<UuidComparisonExp>;
@@ -5383,17 +5454,38 @@ export enum MessagesConstraint {
   MessagesPkey = 'messages_pkey',
 }
 
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type MessagesDeleteAtPathInput = {
+  format?: InputMaybe<Array<Scalars['String']>>;
+  tags?: InputMaybe<Array<Scalars['String']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type MessagesDeleteElemInput = {
+  format?: InputMaybe<Scalars['Int']>;
+  tags?: InputMaybe<Scalars['Int']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type MessagesDeleteKeyInput = {
+  format?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Scalars['String']>;
+};
+
 /** input type for inserting data into table "messages" */
 export type MessagesInsertInput = {
   audio?: InputMaybe<Scalars['String']>;
+  category?: InputMaybe<Scalars['String']>;
   content?: InputMaybe<Scalars['String']>;
   conversation?: InputMaybe<ConversationsObjRelInsertInput>;
   conversation_id?: InputMaybe<Scalars['uuid']>;
   created_at?: InputMaybe<Scalars['timestamptz']>;
+  format?: InputMaybe<Scalars['jsonb']>;
   id?: InputMaybe<Scalars['uuid']>;
   image?: InputMaybe<Scalars['String']>;
   is_bot?: InputMaybe<Scalars['Boolean']>;
   status?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Scalars['jsonb']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
   user?: InputMaybe<UsersObjRelInsertInput>;
   user_id?: InputMaybe<Scalars['uuid']>;
@@ -5404,6 +5496,7 @@ export type MessagesInsertInput = {
 export type MessagesMaxFields = {
   __typename?: 'messages_max_fields';
   audio?: Maybe<Scalars['String']>;
+  category?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
   conversation_id?: Maybe<Scalars['uuid']>;
   created_at?: Maybe<Scalars['timestamptz']>;
@@ -5418,6 +5511,7 @@ export type MessagesMaxFields = {
 /** order by max() on columns of table "messages" */
 export type MessagesMaxOrderBy = {
   audio?: InputMaybe<OrderBy>;
+  category?: InputMaybe<OrderBy>;
   content?: InputMaybe<OrderBy>;
   conversation_id?: InputMaybe<OrderBy>;
   created_at?: InputMaybe<OrderBy>;
@@ -5433,6 +5527,7 @@ export type MessagesMaxOrderBy = {
 export type MessagesMinFields = {
   __typename?: 'messages_min_fields';
   audio?: Maybe<Scalars['String']>;
+  category?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
   conversation_id?: Maybe<Scalars['uuid']>;
   created_at?: Maybe<Scalars['timestamptz']>;
@@ -5447,6 +5542,7 @@ export type MessagesMinFields = {
 /** order by min() on columns of table "messages" */
 export type MessagesMinOrderBy = {
   audio?: InputMaybe<OrderBy>;
+  category?: InputMaybe<OrderBy>;
   content?: InputMaybe<OrderBy>;
   conversation_id?: InputMaybe<OrderBy>;
   created_at?: InputMaybe<OrderBy>;
@@ -5467,7 +5563,7 @@ export type MessagesMutationResponse = {
   returning: Array<Messages>;
 };
 
-/** on conflict condition type for table "messages" */
+/** on_conflict condition type for table "messages" */
 export type MessagesOnConflict = {
   constraint: MessagesConstraint;
   update_columns?: Array<MessagesUpdateColumn>;
@@ -5477,14 +5573,17 @@ export type MessagesOnConflict = {
 /** Ordering options when selecting data from "messages". */
 export type MessagesOrderBy = {
   audio?: InputMaybe<OrderBy>;
+  category?: InputMaybe<OrderBy>;
   content?: InputMaybe<OrderBy>;
   conversation?: InputMaybe<ConversationsOrderBy>;
   conversation_id?: InputMaybe<OrderBy>;
   created_at?: InputMaybe<OrderBy>;
+  format?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
   image?: InputMaybe<OrderBy>;
   is_bot?: InputMaybe<OrderBy>;
   status?: InputMaybe<OrderBy>;
+  tags?: InputMaybe<OrderBy>;
   updated_at?: InputMaybe<OrderBy>;
   user?: InputMaybe<UsersOrderBy>;
   user_id?: InputMaybe<OrderBy>;
@@ -5496,16 +5595,26 @@ export type MessagesPkColumnsInput = {
   id: Scalars['uuid'];
 };
 
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type MessagesPrependInput = {
+  format?: InputMaybe<Scalars['jsonb']>;
+  tags?: InputMaybe<Scalars['jsonb']>;
+};
+
 /** select columns of table "messages" */
 export enum MessagesSelectColumn {
   /** column name */
   Audio = 'audio',
+  /** column name */
+  Category = 'category',
   /** column name */
   Content = 'content',
   /** column name */
   ConversationId = 'conversation_id',
   /** column name */
   CreatedAt = 'created_at',
+  /** column name */
+  Format = 'format',
   /** column name */
   Id = 'id',
   /** column name */
@@ -5514,6 +5623,8 @@ export enum MessagesSelectColumn {
   IsBot = 'is_bot',
   /** column name */
   Status = 'status',
+  /** column name */
+  Tags = 'tags',
   /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
@@ -5525,13 +5636,16 @@ export enum MessagesSelectColumn {
 /** input type for updating data in table "messages" */
 export type MessagesSetInput = {
   audio?: InputMaybe<Scalars['String']>;
+  category?: InputMaybe<Scalars['String']>;
   content?: InputMaybe<Scalars['String']>;
   conversation_id?: InputMaybe<Scalars['uuid']>;
   created_at?: InputMaybe<Scalars['timestamptz']>;
+  format?: InputMaybe<Scalars['jsonb']>;
   id?: InputMaybe<Scalars['uuid']>;
   image?: InputMaybe<Scalars['String']>;
   is_bot?: InputMaybe<Scalars['Boolean']>;
   status?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Scalars['jsonb']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
   user_id?: InputMaybe<Scalars['uuid']>;
   video?: InputMaybe<Scalars['String']>;
@@ -5542,11 +5656,15 @@ export enum MessagesUpdateColumn {
   /** column name */
   Audio = 'audio',
   /** column name */
+  Category = 'category',
+  /** column name */
   Content = 'content',
   /** column name */
   ConversationId = 'conversation_id',
   /** column name */
   CreatedAt = 'created_at',
+  /** column name */
+  Format = 'format',
   /** column name */
   Id = 'id',
   /** column name */
@@ -5555,6 +5673,8 @@ export enum MessagesUpdateColumn {
   IsBot = 'is_bot',
   /** column name */
   Status = 'status',
+  /** column name */
+  Tags = 'tags',
   /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
@@ -5670,6 +5790,10 @@ export type MutationRoot = {
   delete_messages?: Maybe<MessagesMutationResponse>;
   /** delete single row from the table: "messages" */
   delete_messages_by_pk?: Maybe<Messages>;
+  /** delete data from the table: "profile_company" */
+  delete_profile_company?: Maybe<ProfileCompanyMutationResponse>;
+  /** delete single row from the table: "profile_company" */
+  delete_profile_company_by_pk?: Maybe<ProfileCompany>;
   /** delete data from the table: "profiles" */
   delete_profiles?: Maybe<ProfilesMutationResponse>;
   /** delete single row from the table: "profiles" */
@@ -5810,6 +5934,10 @@ export type MutationRoot = {
   insert_messages?: Maybe<MessagesMutationResponse>;
   /** insert a single row into the table: "messages" */
   insert_messages_one?: Maybe<Messages>;
+  /** insert data into the table: "profile_company" */
+  insert_profile_company?: Maybe<ProfileCompanyMutationResponse>;
+  /** insert a single row into the table: "profile_company" */
+  insert_profile_company_one?: Maybe<ProfileCompany>;
   /** insert data into the table: "profiles" */
   insert_profiles?: Maybe<ProfilesMutationResponse>;
   /** insert a single row into the table: "profiles" */
@@ -5950,6 +6078,10 @@ export type MutationRoot = {
   update_messages?: Maybe<MessagesMutationResponse>;
   /** update single row of the table: "messages" */
   update_messages_by_pk?: Maybe<Messages>;
+  /** update data of the table: "profile_company" */
+  update_profile_company?: Maybe<ProfileCompanyMutationResponse>;
+  /** update single row of the table: "profile_company" */
+  update_profile_company_by_pk?: Maybe<ProfileCompany>;
   /** update data of the table: "profiles" */
   update_profiles?: Maybe<ProfilesMutationResponse>;
   /** update single row of the table: "profiles" */
@@ -6247,6 +6379,17 @@ export type MutationRootDeleteMessagesArgs = {
 /** mutation root */
 export type MutationRootDeleteMessagesByPkArgs = {
   id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteProfileCompanyArgs = {
+  where: ProfileCompanyBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteProfileCompanyByPkArgs = {
+  company_id: Scalars['uuid'];
+  profile_id: Scalars['uuid'];
 };
 
 /** mutation root */
@@ -6655,6 +6798,18 @@ export type MutationRootInsertMessagesOneArgs = {
 };
 
 /** mutation root */
+export type MutationRootInsertProfileCompanyArgs = {
+  objects: Array<ProfileCompanyInsertInput>;
+  on_conflict?: InputMaybe<ProfileCompanyOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertProfileCompanyOneArgs = {
+  object: ProfileCompanyInsertInput;
+  on_conflict?: InputMaybe<ProfileCompanyOnConflict>;
+};
+
+/** mutation root */
 export type MutationRootInsertProfilesArgs = {
   objects: Array<ProfilesInsertInput>;
   on_conflict?: InputMaybe<ProfilesOnConflict>;
@@ -6864,12 +7019,22 @@ export type MutationRootUpdateFilesArgs = {
 
 /** mutation root */
 export type MutationRootUpdateUserArgs = {
+  _append?: InputMaybe<UsersAppendInput>;
+  _delete_at_path?: InputMaybe<UsersDeleteAtPathInput>;
+  _delete_elem?: InputMaybe<UsersDeleteElemInput>;
+  _delete_key?: InputMaybe<UsersDeleteKeyInput>;
+  _prepend?: InputMaybe<UsersPrependInput>;
   _set?: InputMaybe<UsersSetInput>;
   pk_columns: UsersPkColumnsInput;
 };
 
 /** mutation root */
 export type MutationRootUpdateUsersArgs = {
+  _append?: InputMaybe<UsersAppendInput>;
+  _delete_at_path?: InputMaybe<UsersDeleteAtPathInput>;
+  _delete_elem?: InputMaybe<UsersDeleteElemInput>;
+  _delete_key?: InputMaybe<UsersDeleteKeyInput>;
+  _prepend?: InputMaybe<UsersPrependInput>;
   _set?: InputMaybe<UsersSetInput>;
   where: UsersBoolExp;
 };
@@ -7070,24 +7235,56 @@ export type MutationRootUpdateJobsByPkArgs = {
 
 /** mutation root */
 export type MutationRootUpdateMessagesArgs = {
+  _append?: InputMaybe<MessagesAppendInput>;
+  _delete_at_path?: InputMaybe<MessagesDeleteAtPathInput>;
+  _delete_elem?: InputMaybe<MessagesDeleteElemInput>;
+  _delete_key?: InputMaybe<MessagesDeleteKeyInput>;
+  _prepend?: InputMaybe<MessagesPrependInput>;
   _set?: InputMaybe<MessagesSetInput>;
   where: MessagesBoolExp;
 };
 
 /** mutation root */
 export type MutationRootUpdateMessagesByPkArgs = {
+  _append?: InputMaybe<MessagesAppendInput>;
+  _delete_at_path?: InputMaybe<MessagesDeleteAtPathInput>;
+  _delete_elem?: InputMaybe<MessagesDeleteElemInput>;
+  _delete_key?: InputMaybe<MessagesDeleteKeyInput>;
+  _prepend?: InputMaybe<MessagesPrependInput>;
   _set?: InputMaybe<MessagesSetInput>;
   pk_columns: MessagesPkColumnsInput;
 };
 
 /** mutation root */
+export type MutationRootUpdateProfileCompanyArgs = {
+  _set?: InputMaybe<ProfileCompanySetInput>;
+  where: ProfileCompanyBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateProfileCompanyByPkArgs = {
+  _set?: InputMaybe<ProfileCompanySetInput>;
+  pk_columns: ProfileCompanyPkColumnsInput;
+};
+
+/** mutation root */
 export type MutationRootUpdateProfilesArgs = {
+  _append?: InputMaybe<ProfilesAppendInput>;
+  _delete_at_path?: InputMaybe<ProfilesDeleteAtPathInput>;
+  _delete_elem?: InputMaybe<ProfilesDeleteElemInput>;
+  _delete_key?: InputMaybe<ProfilesDeleteKeyInput>;
+  _prepend?: InputMaybe<ProfilesPrependInput>;
   _set?: InputMaybe<ProfilesSetInput>;
   where: ProfilesBoolExp;
 };
 
 /** mutation root */
 export type MutationRootUpdateProfilesByPkArgs = {
+  _append?: InputMaybe<ProfilesAppendInput>;
+  _delete_at_path?: InputMaybe<ProfilesDeleteAtPathInput>;
+  _delete_elem?: InputMaybe<ProfilesDeleteElemInput>;
+  _delete_key?: InputMaybe<ProfilesDeleteKeyInput>;
+  _prepend?: InputMaybe<ProfilesPrependInput>;
   _set?: InputMaybe<ProfilesSetInput>;
   pk_columns: ProfilesPkColumnsInput;
 };
@@ -7204,6 +7401,155 @@ export enum OrderBy {
   DescNullsLast = 'desc_nulls_last',
 }
 
+/** columns and relationships of "profile_company" */
+export type ProfileCompany = {
+  __typename?: 'profile_company';
+  /** An object relationship */
+  company: Companies;
+  company_id: Scalars['uuid'];
+  /** An object relationship */
+  profile: Profiles;
+  profile_id: Scalars['uuid'];
+};
+
+/** aggregated selection of "profile_company" */
+export type ProfileCompanyAggregate = {
+  __typename?: 'profile_company_aggregate';
+  aggregate?: Maybe<ProfileCompanyAggregateFields>;
+  nodes: Array<ProfileCompany>;
+};
+
+/** aggregate fields of "profile_company" */
+export type ProfileCompanyAggregateFields = {
+  __typename?: 'profile_company_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<ProfileCompanyMaxFields>;
+  min?: Maybe<ProfileCompanyMinFields>;
+};
+
+/** aggregate fields of "profile_company" */
+export type ProfileCompanyAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<ProfileCompanySelectColumn>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "profile_company" */
+export type ProfileCompanyAggregateOrderBy = {
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<ProfileCompanyMaxOrderBy>;
+  min?: InputMaybe<ProfileCompanyMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "profile_company" */
+export type ProfileCompanyArrRelInsertInput = {
+  data: Array<ProfileCompanyInsertInput>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<ProfileCompanyOnConflict>;
+};
+
+/** Boolean expression to filter rows from the table "profile_company". All fields are combined with a logical 'AND'. */
+export type ProfileCompanyBoolExp = {
+  _and?: InputMaybe<Array<ProfileCompanyBoolExp>>;
+  _not?: InputMaybe<ProfileCompanyBoolExp>;
+  _or?: InputMaybe<Array<ProfileCompanyBoolExp>>;
+  company?: InputMaybe<CompaniesBoolExp>;
+  company_id?: InputMaybe<UuidComparisonExp>;
+  profile?: InputMaybe<ProfilesBoolExp>;
+  profile_id?: InputMaybe<UuidComparisonExp>;
+};
+
+/** unique or primary key constraints on table "profile_company" */
+export enum ProfileCompanyConstraint {
+  /** unique or primary key constraint */
+  ProfileCompanyPkey = 'profile_company_pkey',
+}
+
+/** input type for inserting data into table "profile_company" */
+export type ProfileCompanyInsertInput = {
+  company?: InputMaybe<CompaniesObjRelInsertInput>;
+  company_id?: InputMaybe<Scalars['uuid']>;
+  profile?: InputMaybe<ProfilesObjRelInsertInput>;
+  profile_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type ProfileCompanyMaxFields = {
+  __typename?: 'profile_company_max_fields';
+  company_id?: Maybe<Scalars['uuid']>;
+  profile_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "profile_company" */
+export type ProfileCompanyMaxOrderBy = {
+  company_id?: InputMaybe<OrderBy>;
+  profile_id?: InputMaybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type ProfileCompanyMinFields = {
+  __typename?: 'profile_company_min_fields';
+  company_id?: Maybe<Scalars['uuid']>;
+  profile_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "profile_company" */
+export type ProfileCompanyMinOrderBy = {
+  company_id?: InputMaybe<OrderBy>;
+  profile_id?: InputMaybe<OrderBy>;
+};
+
+/** response of any mutation on the table "profile_company" */
+export type ProfileCompanyMutationResponse = {
+  __typename?: 'profile_company_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<ProfileCompany>;
+};
+
+/** on_conflict condition type for table "profile_company" */
+export type ProfileCompanyOnConflict = {
+  constraint: ProfileCompanyConstraint;
+  update_columns?: Array<ProfileCompanyUpdateColumn>;
+  where?: InputMaybe<ProfileCompanyBoolExp>;
+};
+
+/** Ordering options when selecting data from "profile_company". */
+export type ProfileCompanyOrderBy = {
+  company?: InputMaybe<CompaniesOrderBy>;
+  company_id?: InputMaybe<OrderBy>;
+  profile?: InputMaybe<ProfilesOrderBy>;
+  profile_id?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: profile_company */
+export type ProfileCompanyPkColumnsInput = {
+  company_id: Scalars['uuid'];
+  profile_id: Scalars['uuid'];
+};
+
+/** select columns of table "profile_company" */
+export enum ProfileCompanySelectColumn {
+  /** column name */
+  CompanyId = 'company_id',
+  /** column name */
+  ProfileId = 'profile_id',
+}
+
+/** input type for updating data in table "profile_company" */
+export type ProfileCompanySetInput = {
+  company_id?: InputMaybe<Scalars['uuid']>;
+  profile_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "profile_company" */
+export enum ProfileCompanyUpdateColumn {
+  /** column name */
+  CompanyId = 'company_id',
+  /** column name */
+  ProfileId = 'profile_id',
+}
+
 /** columns and relationships of "profiles" */
 export type Profiles = {
   __typename?: 'profiles';
@@ -7211,6 +7557,10 @@ export type Profiles = {
   applications: Array<Applications>;
   /** An aggregate relationship */
   applications_aggregate: ApplicationsAggregate;
+  /** An array relationship */
+  companies: Array<ProfileCompany>;
+  /** An aggregate relationship */
+  companies_aggregate: ProfileCompanyAggregate;
   /** An object relationship */
   conversation?: Maybe<Conversations>;
   conversation_id?: Maybe<Scalars['uuid']>;
@@ -7222,12 +7572,14 @@ export type Profiles = {
   resumes: Array<Resumes>;
   /** An aggregate relationship */
   resumes_aggregate: ResumesAggregate;
+  settings?: Maybe<Scalars['jsonb']>;
   /** An object relationship */
   tenant?: Maybe<Tenants>;
   tenant_id?: Maybe<Scalars['uuid']>;
   /** An object relationship */
   user: Users;
   user_id: Scalars['uuid'];
+  view_as: Scalars['String'];
 };
 
 /** columns and relationships of "profiles" */
@@ -7249,6 +7601,24 @@ export type ProfilesApplicationsAggregateArgs = {
 };
 
 /** columns and relationships of "profiles" */
+export type ProfilesCompaniesArgs = {
+  distinct_on?: InputMaybe<Array<ProfileCompanySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileCompanyOrderBy>>;
+  where?: InputMaybe<ProfileCompanyBoolExp>;
+};
+
+/** columns and relationships of "profiles" */
+export type ProfilesCompaniesAggregateArgs = {
+  distinct_on?: InputMaybe<Array<ProfileCompanySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileCompanyOrderBy>>;
+  where?: InputMaybe<ProfileCompanyBoolExp>;
+};
+
+/** columns and relationships of "profiles" */
 export type ProfilesResumesArgs = {
   distinct_on?: InputMaybe<Array<ResumesSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -7264,6 +7634,11 @@ export type ProfilesResumesAggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<ResumesOrderBy>>;
   where?: InputMaybe<ResumesBoolExp>;
+};
+
+/** columns and relationships of "profiles" */
+export type ProfilesSettingsArgs = {
+  path?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregated selection of "profiles" */
@@ -7294,10 +7669,15 @@ export type ProfilesAggregateOrderBy = {
   min?: InputMaybe<ProfilesMinOrderBy>;
 };
 
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type ProfilesAppendInput = {
+  settings?: InputMaybe<Scalars['jsonb']>;
+};
+
 /** input type for inserting array relation for remote table "profiles" */
 export type ProfilesArrRelInsertInput = {
   data: Array<ProfilesInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<ProfilesOnConflict>;
 };
 
@@ -7307,16 +7687,19 @@ export type ProfilesBoolExp = {
   _not?: InputMaybe<ProfilesBoolExp>;
   _or?: InputMaybe<Array<ProfilesBoolExp>>;
   applications?: InputMaybe<ApplicationsBoolExp>;
+  companies?: InputMaybe<ProfileCompanyBoolExp>;
   conversation?: InputMaybe<ConversationsBoolExp>;
   conversation_id?: InputMaybe<UuidComparisonExp>;
   id?: InputMaybe<UuidComparisonExp>;
   is_online?: InputMaybe<BooleanComparisonExp>;
   location?: InputMaybe<GeographyComparisonExp>;
   resumes?: InputMaybe<ResumesBoolExp>;
+  settings?: InputMaybe<JsonbComparisonExp>;
   tenant?: InputMaybe<TenantsBoolExp>;
   tenant_id?: InputMaybe<UuidComparisonExp>;
   user?: InputMaybe<UsersBoolExp>;
   user_id?: InputMaybe<UuidComparisonExp>;
+  view_as?: InputMaybe<StringComparisonExp>;
 };
 
 /** unique or primary key constraints on table "profiles" */
@@ -7325,18 +7708,36 @@ export enum ProfilesConstraint {
   ProfilePkey = 'profile_pkey',
 }
 
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type ProfilesDeleteAtPathInput = {
+  settings?: InputMaybe<Array<Scalars['String']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type ProfilesDeleteElemInput = {
+  settings?: InputMaybe<Scalars['Int']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type ProfilesDeleteKeyInput = {
+  settings?: InputMaybe<Scalars['String']>;
+};
+
 /** input type for inserting data into table "profiles" */
 export type ProfilesInsertInput = {
   applications?: InputMaybe<ApplicationsArrRelInsertInput>;
+  companies?: InputMaybe<ProfileCompanyArrRelInsertInput>;
   conversation?: InputMaybe<ConversationsObjRelInsertInput>;
   conversation_id?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
   location?: InputMaybe<Scalars['geography']>;
   resumes?: InputMaybe<ResumesArrRelInsertInput>;
+  settings?: InputMaybe<Scalars['jsonb']>;
   tenant?: InputMaybe<TenantsObjRelInsertInput>;
   tenant_id?: InputMaybe<Scalars['uuid']>;
   user?: InputMaybe<UsersObjRelInsertInput>;
   user_id?: InputMaybe<Scalars['uuid']>;
+  view_as?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
@@ -7346,6 +7747,7 @@ export type ProfilesMaxFields = {
   id?: Maybe<Scalars['uuid']>;
   tenant_id?: Maybe<Scalars['uuid']>;
   user_id?: Maybe<Scalars['uuid']>;
+  view_as?: Maybe<Scalars['String']>;
 };
 
 /** order by max() on columns of table "profiles" */
@@ -7354,6 +7756,7 @@ export type ProfilesMaxOrderBy = {
   id?: InputMaybe<OrderBy>;
   tenant_id?: InputMaybe<OrderBy>;
   user_id?: InputMaybe<OrderBy>;
+  view_as?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
@@ -7363,6 +7766,7 @@ export type ProfilesMinFields = {
   id?: Maybe<Scalars['uuid']>;
   tenant_id?: Maybe<Scalars['uuid']>;
   user_id?: Maybe<Scalars['uuid']>;
+  view_as?: Maybe<Scalars['String']>;
 };
 
 /** order by min() on columns of table "profiles" */
@@ -7371,6 +7775,7 @@ export type ProfilesMinOrderBy = {
   id?: InputMaybe<OrderBy>;
   tenant_id?: InputMaybe<OrderBy>;
   user_id?: InputMaybe<OrderBy>;
+  view_as?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "profiles" */
@@ -7385,11 +7790,11 @@ export type ProfilesMutationResponse = {
 /** input type for inserting object relation for remote table "profiles" */
 export type ProfilesObjRelInsertInput = {
   data: ProfilesInsertInput;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<ProfilesOnConflict>;
 };
 
-/** on conflict condition type for table "profiles" */
+/** on_conflict condition type for table "profiles" */
 export type ProfilesOnConflict = {
   constraint: ProfilesConstraint;
   update_columns?: Array<ProfilesUpdateColumn>;
@@ -7399,21 +7804,29 @@ export type ProfilesOnConflict = {
 /** Ordering options when selecting data from "profiles". */
 export type ProfilesOrderBy = {
   applications_aggregate?: InputMaybe<ApplicationsAggregateOrderBy>;
+  companies_aggregate?: InputMaybe<ProfileCompanyAggregateOrderBy>;
   conversation?: InputMaybe<ConversationsOrderBy>;
   conversation_id?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
   is_online?: InputMaybe<OrderBy>;
   location?: InputMaybe<OrderBy>;
   resumes_aggregate?: InputMaybe<ResumesAggregateOrderBy>;
+  settings?: InputMaybe<OrderBy>;
   tenant?: InputMaybe<TenantsOrderBy>;
   tenant_id?: InputMaybe<OrderBy>;
   user?: InputMaybe<UsersOrderBy>;
   user_id?: InputMaybe<OrderBy>;
+  view_as?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: profiles */
 export type ProfilesPkColumnsInput = {
   id: Scalars['uuid'];
+};
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type ProfilesPrependInput = {
+  settings?: InputMaybe<Scalars['jsonb']>;
 };
 
 /** select columns of table "profiles" */
@@ -7425,9 +7838,13 @@ export enum ProfilesSelectColumn {
   /** column name */
   Location = 'location',
   /** column name */
+  Settings = 'settings',
+  /** column name */
   TenantId = 'tenant_id',
   /** column name */
   UserId = 'user_id',
+  /** column name */
+  ViewAs = 'view_as',
 }
 
 /** input type for updating data in table "profiles" */
@@ -7435,8 +7852,10 @@ export type ProfilesSetInput = {
   conversation_id?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
   location?: InputMaybe<Scalars['geography']>;
+  settings?: InputMaybe<Scalars['jsonb']>;
   tenant_id?: InputMaybe<Scalars['uuid']>;
   user_id?: InputMaybe<Scalars['uuid']>;
+  view_as?: InputMaybe<Scalars['String']>;
 };
 
 /** update columns of table "profiles" */
@@ -7448,9 +7867,13 @@ export enum ProfilesUpdateColumn {
   /** column name */
   Location = 'location',
   /** column name */
+  Settings = 'settings',
+  /** column name */
   TenantId = 'tenant_id',
   /** column name */
   UserId = 'user_id',
+  /** column name */
+  ViewAs = 'view_as',
 }
 
 export type QueryRoot = {
@@ -7545,7 +7968,7 @@ export type QueryRoot = {
   compensation_units_aggregate: CompensationUnitsAggregate;
   /** fetch data from the table: "compensation_units" using primary key columns */
   compensation_units_by_pk?: Maybe<CompensationUnits>;
-  /** fetch data from the table: "conversations" */
+  /** An array relationship */
   conversations: Array<Conversations>;
   /** An aggregate relationship */
   conversations_aggregate: ConversationsAggregate;
@@ -7609,6 +8032,12 @@ export type QueryRoot = {
   messages_aggregate: MessagesAggregate;
   /** fetch data from the table: "messages" using primary key columns */
   messages_by_pk?: Maybe<Messages>;
+  /** fetch data from the table: "profile_company" */
+  profile_company: Array<ProfileCompany>;
+  /** fetch aggregated fields from the table: "profile_company" */
+  profile_company_aggregate: ProfileCompanyAggregate;
+  /** fetch data from the table: "profile_company" using primary key columns */
+  profile_company_by_pk?: Maybe<ProfileCompany>;
   /** An array relationship */
   profiles: Array<Profiles>;
   /** An aggregate relationship */
@@ -8190,6 +8619,27 @@ export type QueryRootMessagesByPkArgs = {
   id: Scalars['uuid'];
 };
 
+export type QueryRootProfileCompanyArgs = {
+  distinct_on?: InputMaybe<Array<ProfileCompanySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileCompanyOrderBy>>;
+  where?: InputMaybe<ProfileCompanyBoolExp>;
+};
+
+export type QueryRootProfileCompanyAggregateArgs = {
+  distinct_on?: InputMaybe<Array<ProfileCompanySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileCompanyOrderBy>>;
+  where?: InputMaybe<ProfileCompanyBoolExp>;
+};
+
+export type QueryRootProfileCompanyByPkArgs = {
+  company_id: Scalars['uuid'];
+  profile_id: Scalars['uuid'];
+};
+
 export type QueryRootProfilesArgs = {
   distinct_on?: InputMaybe<Array<ProfilesSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -8550,7 +9000,7 @@ export type ResumesAggregateOrderBy = {
 /** input type for inserting array relation for remote table "resumes" */
 export type ResumesArrRelInsertInput = {
   data: Array<ResumesInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<ResumesOnConflict>;
 };
 
@@ -8657,11 +9107,11 @@ export type ResumesMutationResponse = {
 /** input type for inserting object relation for remote table "resumes" */
 export type ResumesObjRelInsertInput = {
   data: ResumesInsertInput;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<ResumesOnConflict>;
 };
 
-/** on conflict condition type for table "resumes" */
+/** on_conflict condition type for table "resumes" */
 export type ResumesOnConflict = {
   constraint: ResumesConstraint;
   update_columns?: Array<ResumesUpdateColumn>;
@@ -8841,7 +9291,7 @@ export type SubscriptionRoot = {
   compensation_units_aggregate: CompensationUnitsAggregate;
   /** fetch data from the table: "compensation_units" using primary key columns */
   compensation_units_by_pk?: Maybe<CompensationUnits>;
-  /** fetch data from the table: "conversations" */
+  /** An array relationship */
   conversations: Array<Conversations>;
   /** An aggregate relationship */
   conversations_aggregate: ConversationsAggregate;
@@ -8905,6 +9355,12 @@ export type SubscriptionRoot = {
   messages_aggregate: MessagesAggregate;
   /** fetch data from the table: "messages" using primary key columns */
   messages_by_pk?: Maybe<Messages>;
+  /** fetch data from the table: "profile_company" */
+  profile_company: Array<ProfileCompany>;
+  /** fetch aggregated fields from the table: "profile_company" */
+  profile_company_aggregate: ProfileCompanyAggregate;
+  /** fetch data from the table: "profile_company" using primary key columns */
+  profile_company_by_pk?: Maybe<ProfileCompany>;
   /** An array relationship */
   profiles: Array<Profiles>;
   /** An aggregate relationship */
@@ -9486,6 +9942,27 @@ export type SubscriptionRootMessagesByPkArgs = {
   id: Scalars['uuid'];
 };
 
+export type SubscriptionRootProfileCompanyArgs = {
+  distinct_on?: InputMaybe<Array<ProfileCompanySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileCompanyOrderBy>>;
+  where?: InputMaybe<ProfileCompanyBoolExp>;
+};
+
+export type SubscriptionRootProfileCompanyAggregateArgs = {
+  distinct_on?: InputMaybe<Array<ProfileCompanySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileCompanyOrderBy>>;
+  where?: InputMaybe<ProfileCompanyBoolExp>;
+};
+
+export type SubscriptionRootProfileCompanyByPkArgs = {
+  company_id: Scalars['uuid'];
+  profile_id: Scalars['uuid'];
+};
+
 export type SubscriptionRootProfilesArgs = {
   distinct_on?: InputMaybe<Array<ProfilesSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -9885,11 +10362,11 @@ export type TenantsMutationResponse = {
 /** input type for inserting object relation for remote table "tenants" */
 export type TenantsObjRelInsertInput = {
   data: TenantsInsertInput;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<TenantsOnConflict>;
 };
 
-/** on conflict condition type for table "tenants" */
+/** on_conflict condition type for table "tenants" */
 export type TenantsOnConflict = {
   constraint: TenantsConstraint;
   update_columns?: Array<TenantsUpdateColumn>;
@@ -10018,7 +10495,7 @@ export type UserAddressAggregateOrderBy = {
 /** input type for inserting array relation for remote table "user_address" */
 export type UserAddressArrRelInsertInput = {
   data: Array<UserAddressInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<UserAddressOnConflict>;
 };
 
@@ -10082,7 +10559,7 @@ export type UserAddressMutationResponse = {
   returning: Array<UserAddress>;
 };
 
-/** on conflict condition type for table "user_address" */
+/** on_conflict condition type for table "user_address" */
 export type UserAddressOnConflict = {
   constraint: UserAddressConstraint;
   update_columns?: Array<UserAddressUpdateColumn>;
@@ -10167,7 +10644,7 @@ export type UserCompanyAggregateOrderBy = {
 /** input type for inserting array relation for remote table "user_company" */
 export type UserCompanyArrRelInsertInput = {
   data: Array<UserCompanyInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<UserCompanyOnConflict>;
 };
 
@@ -10231,7 +10708,7 @@ export type UserCompanyMutationResponse = {
   returning: Array<UserCompany>;
 };
 
-/** on conflict condition type for table "user_company" */
+/** on_conflict condition type for table "user_company" */
 export type UserCompanyOnConflict = {
   constraint: UserCompanyConstraint;
   update_columns?: Array<UserCompanyUpdateColumn>;
@@ -10316,7 +10793,7 @@ export type UserConversationAggregateOrderBy = {
 /** input type for inserting array relation for remote table "user_conversation" */
 export type UserConversationArrRelInsertInput = {
   data: Array<UserConversationInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<UserConversationOnConflict>;
 };
 
@@ -10380,7 +10857,7 @@ export type UserConversationMutationResponse = {
   returning: Array<UserConversation>;
 };
 
-/** on conflict condition type for table "user_conversation" */
+/** on_conflict condition type for table "user_conversation" */
 export type UserConversationOnConflict = {
   constraint: UserConversationConstraint;
   update_columns?: Array<UserConversationUpdateColumn>;
@@ -10497,7 +10974,7 @@ export type UserLocationMutationResponse = {
   returning: Array<UserLocation>;
 };
 
-/** on conflict condition type for table "user_location" */
+/** on_conflict condition type for table "user_location" */
 export type UserLocationOnConflict = {
   constraint: UserLocationConstraint;
   update_columns?: Array<UserLocationUpdateColumn>;
@@ -10555,6 +11032,7 @@ export type Users = {
   isAnonymous: Scalars['Boolean'];
   lastSeen?: Maybe<Scalars['timestamptz']>;
   locale: Scalars['String'];
+  metadata?: Maybe<Scalars['jsonb']>;
   newEmail?: Maybe<Scalars['citext']>;
   otpHash?: Maybe<Scalars['String']>;
   otpHashExpiresAt: Scalars['timestamptz'];
@@ -10562,6 +11040,8 @@ export type Users = {
   passwordHash?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   phoneNumberVerified: Scalars['Boolean'];
+  /** An object relationship */
+  profile?: Maybe<Profiles>;
   /** An array relationship */
   refreshTokens: Array<AuthRefreshTokens>;
   /** An aggregate relationship */
@@ -10578,6 +11058,11 @@ export type Users = {
   userProviders: Array<AuthUserProviders>;
   /** An aggregate relationship */
   userProviders_aggregate: AuthUserProvidersAggregate;
+};
+
+/** columns and relationships of "auth.users" */
+export type UsersMetadataArgs = {
+  path?: InputMaybe<Scalars['String']>;
 };
 
 /** columns and relationships of "auth.users" */
@@ -10662,10 +11147,15 @@ export type UsersAggregateOrderBy = {
   min?: InputMaybe<UsersMinOrderBy>;
 };
 
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type UsersAppendInput = {
+  metadata?: InputMaybe<Scalars['jsonb']>;
+};
+
 /** input type for inserting array relation for remote table "auth.users" */
 export type UsersArrRelInsertInput = {
   data: Array<UsersInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<UsersOnConflict>;
 };
 
@@ -10687,6 +11177,7 @@ export type UsersBoolExp = {
   isAnonymous?: InputMaybe<BooleanComparisonExp>;
   lastSeen?: InputMaybe<TimestamptzComparisonExp>;
   locale?: InputMaybe<StringComparisonExp>;
+  metadata?: InputMaybe<JsonbComparisonExp>;
   newEmail?: InputMaybe<CitextComparisonExp>;
   otpHash?: InputMaybe<StringComparisonExp>;
   otpHashExpiresAt?: InputMaybe<TimestamptzComparisonExp>;
@@ -10694,6 +11185,7 @@ export type UsersBoolExp = {
   passwordHash?: InputMaybe<StringComparisonExp>;
   phoneNumber?: InputMaybe<StringComparisonExp>;
   phoneNumberVerified?: InputMaybe<BooleanComparisonExp>;
+  profile?: InputMaybe<ProfilesBoolExp>;
   refreshTokens?: InputMaybe<AuthRefreshTokensBoolExp>;
   roles?: InputMaybe<AuthUserRolesBoolExp>;
   ticket?: InputMaybe<StringComparisonExp>;
@@ -10713,6 +11205,21 @@ export enum UsersConstraint {
   UsersPkey = 'users_pkey',
 }
 
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type UsersDeleteAtPathInput = {
+  metadata?: InputMaybe<Array<Scalars['String']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type UsersDeleteElemInput = {
+  metadata?: InputMaybe<Scalars['Int']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type UsersDeleteKeyInput = {
+  metadata?: InputMaybe<Scalars['String']>;
+};
+
 /** input type for inserting data into table "auth.users" */
 export type UsersInsertInput = {
   activeMfaType?: InputMaybe<Scalars['String']>;
@@ -10728,6 +11235,7 @@ export type UsersInsertInput = {
   isAnonymous?: InputMaybe<Scalars['Boolean']>;
   lastSeen?: InputMaybe<Scalars['timestamptz']>;
   locale?: InputMaybe<Scalars['String']>;
+  metadata?: InputMaybe<Scalars['jsonb']>;
   newEmail?: InputMaybe<Scalars['citext']>;
   otpHash?: InputMaybe<Scalars['String']>;
   otpHashExpiresAt?: InputMaybe<Scalars['timestamptz']>;
@@ -10735,6 +11243,7 @@ export type UsersInsertInput = {
   passwordHash?: InputMaybe<Scalars['String']>;
   phoneNumber?: InputMaybe<Scalars['String']>;
   phoneNumberVerified?: InputMaybe<Scalars['Boolean']>;
+  profile?: InputMaybe<ProfilesObjRelInsertInput>;
   refreshTokens?: InputMaybe<AuthRefreshTokensArrRelInsertInput>;
   roles?: InputMaybe<AuthUserRolesArrRelInsertInput>;
   ticket?: InputMaybe<Scalars['String']>;
@@ -10850,11 +11359,11 @@ export type UsersMutationResponse = {
 /** input type for inserting object relation for remote table "auth.users" */
 export type UsersObjRelInsertInput = {
   data: UsersInsertInput;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<UsersOnConflict>;
 };
 
-/** on conflict condition type for table "auth.users" */
+/** on_conflict condition type for table "auth.users" */
 export type UsersOnConflict = {
   constraint: UsersConstraint;
   update_columns?: Array<UsersUpdateColumn>;
@@ -10876,6 +11385,7 @@ export type UsersOrderBy = {
   isAnonymous?: InputMaybe<OrderBy>;
   lastSeen?: InputMaybe<OrderBy>;
   locale?: InputMaybe<OrderBy>;
+  metadata?: InputMaybe<OrderBy>;
   newEmail?: InputMaybe<OrderBy>;
   otpHash?: InputMaybe<OrderBy>;
   otpHashExpiresAt?: InputMaybe<OrderBy>;
@@ -10883,6 +11393,7 @@ export type UsersOrderBy = {
   passwordHash?: InputMaybe<OrderBy>;
   phoneNumber?: InputMaybe<OrderBy>;
   phoneNumberVerified?: InputMaybe<OrderBy>;
+  profile?: InputMaybe<ProfilesOrderBy>;
   refreshTokens_aggregate?: InputMaybe<AuthRefreshTokensAggregateOrderBy>;
   roles_aggregate?: InputMaybe<AuthUserRolesAggregateOrderBy>;
   ticket?: InputMaybe<OrderBy>;
@@ -10895,6 +11406,11 @@ export type UsersOrderBy = {
 /** primary key columns input for table: users */
 export type UsersPkColumnsInput = {
   id: Scalars['uuid'];
+};
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type UsersPrependInput = {
+  metadata?: InputMaybe<Scalars['jsonb']>;
 };
 
 /** select columns of table "auth.users" */
@@ -10923,6 +11439,8 @@ export enum UsersSelectColumn {
   LastSeen = 'lastSeen',
   /** column name */
   Locale = 'locale',
+  /** column name */
+  Metadata = 'metadata',
   /** column name */
   NewEmail = 'newEmail',
   /** column name */
@@ -10961,6 +11479,7 @@ export type UsersSetInput = {
   isAnonymous?: InputMaybe<Scalars['Boolean']>;
   lastSeen?: InputMaybe<Scalars['timestamptz']>;
   locale?: InputMaybe<Scalars['String']>;
+  metadata?: InputMaybe<Scalars['jsonb']>;
   newEmail?: InputMaybe<Scalars['citext']>;
   otpHash?: InputMaybe<Scalars['String']>;
   otpHashExpiresAt?: InputMaybe<Scalars['timestamptz']>;
@@ -11018,7 +11537,7 @@ export type UsersTenantsAggregateOrderBy = {
 /** input type for inserting array relation for remote table "users_tenants" */
 export type UsersTenantsArrRelInsertInput = {
   data: Array<UsersTenantsInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<UsersTenantsOnConflict>;
 };
 
@@ -11094,7 +11613,7 @@ export type UsersTenantsMutationResponse = {
   returning: Array<UsersTenants>;
 };
 
-/** on conflict condition type for table "users_tenants" */
+/** on_conflict condition type for table "users_tenants" */
 export type UsersTenantsOnConflict = {
   constraint: UsersTenantsConstraint;
   update_columns?: Array<UsersTenantsUpdateColumn>;
@@ -11174,6 +11693,8 @@ export enum UsersUpdateColumn {
   LastSeen = 'lastSeen',
   /** column name */
   Locale = 'locale',
+  /** column name */
+  Metadata = 'metadata',
   /** column name */
   NewEmail = 'newEmail',
   /** column name */
@@ -11262,7 +11783,7 @@ export type VolunteersAggregateOrderBy = {
 /** input type for inserting array relation for remote table "volunteers" */
 export type VolunteersArrRelInsertInput = {
   data: Array<VolunteersInsertInput>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<VolunteersOnConflict>;
 };
 
@@ -11380,7 +11901,7 @@ export type VolunteersMutationResponse = {
   returning: Array<Volunteers>;
 };
 
-/** on conflict condition type for table "volunteers" */
+/** on_conflict condition type for table "volunteers" */
 export type VolunteersOnConflict = {
   constraint: VolunteersConstraint;
   update_columns?: Array<VolunteersUpdateColumn>;
@@ -11881,7 +12402,7 @@ export type JobsByPkQuery = {
       id: string;
       created_at: string;
       updated_at: string;
-      data_usage?: string | null;
+      data_usage: string;
       location?: Geography | null;
       unstructured_value?: string | null;
       structured_value?: string | null;
@@ -12266,6 +12787,20 @@ export type ProfilesByPkQuery = {
       id: string;
       applications: Array<{ __typename?: 'applications'; id: string }>;
     }>;
+    user: {
+      __typename?: 'users';
+      id: string;
+      createdAt: string;
+      updatedAt: string;
+      activeMfaType?: string | null;
+      avatarUrl: string;
+      defaultRole: string;
+      disabled: boolean;
+      displayName: string;
+      email?: any | null;
+      emailVerified: boolean;
+      lastSeen?: string | null;
+    };
   } | null;
 };
 
@@ -13226,6 +13761,19 @@ export const ProfilesByPkDocument = gql`
         }
       }
       user_id
+      user {
+        id
+        createdAt
+        updatedAt
+        activeMfaType
+        avatarUrl
+        defaultRole
+        disabled
+        displayName
+        email
+        emailVerified
+        lastSeen
+      }
     }
   }
 `;

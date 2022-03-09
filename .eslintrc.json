@@ -40,6 +40,7 @@
         "react/no-unused-prop-types": "off",
         "react/function-component-definition": "off",
         "react/no-unstable-nested-components": "off",
+        "react/style-prop-object": ["off", { "allow": ["StatusBar"] }],
         "max-len": [
           "error",
           {
