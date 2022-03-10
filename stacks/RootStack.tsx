@@ -1,23 +1,67 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useAuth } from '../utils/hooks';
+import {
+  addNotificationReceivedListener,
+  addNotificationResponseReceivedListener,
+  removeNotificationSubscription,
+} from 'expo-notifications';
+import { useAuth, useNotifications } from '../utils/hooks';
+import { registerForPushNotificationsAsync } from '../utils/notification';
 
 import { AuthStack } from './AuthStack';
 import { InitialStack } from './InitialStack';
 import { MainStack } from './MainStack';
 import { RootStackEnum } from '../utils/enums';
-import type { RootStackParams } from '../utils/types';
-
-export type IconProps = {
-  focused: boolean;
-  horizontal?: boolean | undefined;
-  tintColor?: string | undefined;
-};
+import type { RootStackParams, Subscription } from '../utils/types';
 
 const { Navigator, Screen } = createStackNavigator<RootStackParams>();
 
 export const RootStack = () => {
   const { isAuthenticated } = useAuth();
+
+  const { setNotificationStates } = useNotifications();
+
+  const notificationListener = useRef<Subscription>();
+  const responseListener = useRef<Subscription>();
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then((token) => {
+      if (token) {
+        setNotificationStates((prev) => ({ ...prev, hasRegistered: true }));
+        if (__DEV__) {
+          console.info('> Registered Push Notifications successfully!', token);
+        }
+      }
+    });
+
+    notificationListener.current = addNotificationReceivedListener(
+      (response) => {
+        setNotificationStates((prev) => ({
+          ...prev,
+          hasNotification: response,
+          hasResponded: undefined,
+        }));
+      },
+    );
+
+    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+    responseListener.current = addNotificationResponseReceivedListener(
+      (response) => {
+        setNotificationStates((prev) => ({
+          ...prev,
+          hasNotification: undefined,
+          hasResponded: response,
+        }));
+      },
+    );
+
+    return () => {
+      if (notificationListener.current && responseListener.current) {
+        removeNotificationSubscription(notificationListener.current);
+        removeNotificationSubscription(responseListener.current);
+      }
+    };
+  }, [setNotificationStates]);
 
   return (
     <Navigator screenOptions={{ headerShown: false }}>

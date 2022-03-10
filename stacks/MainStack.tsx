@@ -1,6 +1,5 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { Icon } from '../components';
 
 import { JobStack } from './JobStack';

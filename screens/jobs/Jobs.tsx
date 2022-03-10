@@ -71,6 +71,10 @@ const styles = StyleSheet.create({
   avatar: {
     margin: 4,
   },
+  notification: {
+    width: 22,
+    height: 22,
+  },
 });
 
 export const JobListScreen = ({ navigation }: Props) => {
