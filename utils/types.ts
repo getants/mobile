@@ -1,6 +1,12 @@
 import type { ImageProps, ViewProps } from 'react-native';
+import type { Subscription } from 'expo-modules-core';
 import type { PrimitiveAtom, SetStateAction, WritableAtom } from 'jotai';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import type {
+  ExpoPushToken,
+  Notification,
+  NotificationResponse,
+} from 'expo-notifications';
 import type {
   StackNavigationProp,
   StackNavigationOptions,
@@ -8,6 +14,7 @@ import type {
 import type {
   CompositeNavigationProp,
   NavigatorScreenParams,
+  NavigationState,
   RouteProp,
 } from '@react-navigation/native';
 import type {
@@ -33,11 +40,16 @@ export type { Colors } from './hooks/useTheme';
 export * from '../graphqls';
 
 export type {
+  ExpoPushToken,
+  ImageProps,
+  NavigationState,
+  Notification,
+  NotificationResponse,
   PrimitiveAtom,
   SetStateAction,
-  WritableAtom,
-  ImageProps,
+  Subscription,
   ViewProps,
+  WritableAtom,
 };
 
 export type Size = 'lg' | 'md' | 'sm' | 'xs';

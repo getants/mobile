@@ -53,6 +53,12 @@ export const OUR_COLORS = {
   successColor: '#ADC76F',
   warnColor: '#FF963C',
 };
+export const NotificationChannel = {
+  Default: 'DEFAULT',
+  NewJobs: 'NEW_JOBS',
+};
+export const ASYNC_STORAGE_NOTIFICATIONS_KEY = '@GETANTS_MOBILE_NOTIFICATIONS';
+
 // NOTE: Disable spacing issue for easier modifications :D
 /* eslint-disable key-spacing */
 export const ColorMap = {

@@ -29,6 +29,7 @@
         "jasmine": true
       },
       "rules": {
+        "no-console": ["error", { "allow": ["info"] }],
         "no-plusplus": "off",
         "always-multiline": "off",
         "func-names": "off",

@@ -1,8 +1,12 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
     "version": "1.0.0",
+    "owner": "getants",
+    "name": "GetAnts Mobile",
+    "slug": "mobile",
+    "scheme": "ants",
+    "facebookScheme": "fb358217902274990",
+    "platforms": ["ios", "android"],
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "icon": "./assets/icon.png",
@@ -16,17 +20,35 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "buildNumber": "1.0.0",
+      "bundleIdentifier": "com.getants.mobile.partners",
+      "supportsTablet": true,
+      "infoPlist": {}
     },
     "android": {
+      "versionCode": 1,
+      "package": "com.getants.mobile.partners",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["sentry-expo"]
+    "plugins": ["sentry-expo"],
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "getants",
+            "project": "mobile",
+            "authToken": "11e6c79d96584e4fa4003e2a5a89032cc47c3fc338d6468aa2c6ce3d64697bb8"
+          }
+        }
+      ]
+    }
   }
 }

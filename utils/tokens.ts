@@ -1,4 +1,5 @@
 import Constants from 'expo-constants';
+import * as Sentry from 'sentry-expo';
 import { Platform, StatusBar, StyleSheet } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { ENV_VARS, SPACE_MULTIPLIER } from './constants';
@@ -175,4 +176,13 @@ export const makeBoolExp = (key: string, ids?: string[]) => {
     return {};
   }
   return { [key]: ids };
+};
+
+export const handleError = (reason: unknown | string) => {
+  if (reason instanceof Error) {
+    Sentry.Native.captureException(reason);
+  }
+  if (typeof reason === 'string') {
+    Sentry.Native.captureMessage(reason);
+  }
 };

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import Constants from 'expo-constants';
 import {
   Animated,
@@ -11,7 +11,6 @@ import {
   Pressable,
   StyleSheet,
   SafeAreaView,
-  Spinner,
   Text,
   View,
 } from '../../components';
@@ -19,14 +18,12 @@ import {
   useAuth,
   useQuery,
   useMutation,
-  useTimeoutFn,
   useCollapsibleHeader,
   useColorScheme,
 } from '../../utils/hooks';
 import { makeBoolExp } from '../../utils/tokens';
 import {
   JobStackEnum,
-  RootStackEnum,
   MainStackEnum,
   ProfileStackEnum,
 } from '../../utils/enums';
@@ -48,8 +45,8 @@ import type {
 } from '../../utils/types';
 
 const NumberJobsBatch = 10;
-const MaxRadiusSearch = 9999999; // For dev
-const StepRadiusSearch = 10; // For dev
+// const MaxRadiusSearch = 9999999; // For dev
+// const StepRadiusSearch = 10; // For dev
 const StickyHeaderHeight = Constants.statusBarHeight;
 
 export type Props = {
@@ -76,17 +73,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export const JobListScreen = (props: Props) => {
-  const { navigation } = props;
-  const {
-    isAuthenticated,
-    user,
-    profile,
-    isLoading: profileLoading,
-  } = useAuth();
+export const JobListScreen = ({ navigation }: Props) => {
+  const { isAuthenticated, profile, isLoading: profileLoading } = useAuth();
 
-  const [retry, setRetry] = useState<number>(0);
-  const [distance, setDistance] = useState<number>(10);
+  // const [retry, setRetry] = useState<number>(0);
+  // const [distance, setDistance] = useState<number>(10);
 
   const [insertApplicationMutation] = useMutation<
     InsertApplicationsOneMutation,
@@ -180,10 +171,10 @@ export const JobListScreen = (props: Props) => {
   //   return [];
   // }, [aggregateJobs]);
 
-  const increaseSearchRange = useCallback(() => {
-    setRetry((prevRetry) => prevRetry + 1);
-    setDistance((prevDistance) => prevDistance + StepRadiusSearch);
-  }, [setRetry, setDistance]);
+  // const increaseSearchRange = useCallback(() => {
+  //   setRetry((prevRetry) => prevRetry + 1);
+  //   setDistance((prevDistance) => prevDistance + StepRadiusSearch);
+  // }, [setRetry, setDistance]);
 
   // const handleLoadMore = useCallback(() => {
   //   fetchMore({
@@ -265,16 +256,16 @@ export const JobListScreen = (props: Props) => {
 
   const [currentResume] = profile?.resumes ?? [];
 
-  const shouldDisableApply = (item: typeof jobs[0]) => {
-    // const [currentApplication] = currentResume?.applications ?? [];
+  // const shouldDisableApply = (item: typeof jobs[0]) => {
+  // const [currentApplication] = currentResume?.applications ?? [];
 
-    // const found = item?.applications.find(
-    //   (o) => o.id === currentApplication.id,
-    // );
+  // const found = item?.applications.find(
+  //   (o) => o.id === currentApplication.id,
+  // );
 
-    // return !!found;
-    return false;
-  };
+  // return !!found;
+  //   return false;
+  // };
 
   const handleOnApply = async (id: string) => {
     if (currentResume) {
@@ -371,7 +362,7 @@ export const JobListScreen = (props: Props) => {
               </Pressable>
               <Card>
                 <Button
-                  disabled={shouldDisableApply(item)}
+                  // disabled={shouldDisableApply(item)}
                   onPress={() => handleOnApply(item.id)}
                 >
                   Apply now

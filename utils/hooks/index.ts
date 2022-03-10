@@ -16,6 +16,8 @@ export { default as useAsync } from 'react-use/lib/useAsync';
 export { default as usePrevious } from 'react-use/lib/usePrevious';
 
 export { useAuth } from '../nhost';
+export { useAlert } from './useAlert';
 export { useCollapsibleHeader } from './useCollapsibleHeader';
 export { useComputedWidth } from './useComputedWidth';
+export { useNotifications } from './useNotifications';
 export { useTheme } from './useTheme';

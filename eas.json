@@ -1,0 +1,31 @@
+{
+  "cli": {
+    "version": ">= 0.34.0"
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "../path/to/api-xxx-yyy-zzz.json",
+        "track": "internal"
+      },
+      "ios": {
+        "appleId": "sangdth@me.com",
+        "ascAppId": "1234567890",
+        "appleTeamId": "AB12XYZ34S"
+      }
+    }
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "releaseChannel": "staging",
+      "distribution": "internal"
+    },
+    "production": {
+      "releaseChannel": "production"
+    }
+  }
+}
