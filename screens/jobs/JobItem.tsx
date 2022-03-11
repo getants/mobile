@@ -1,35 +1,61 @@
 import React from 'react';
-// import styled from 'styled-components/native';
-import { Card, Button, Pressable } from '../../components';
+import {
+  Card,
+  Icon,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from '../../components';
+import type { Jobs } from '../../utils/types';
 
-// import type { Jobs } from '../../utils/types';
+const styles = StyleSheet.create({
+  wrapper: {
+    height: 100,
+  },
+  titleStack: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  compoundHeader: {
+    width: '94%',
+  },
+  title: {
+    fontWeight: 'bold',
+  },
+  subtitle: {
+    paddingLeft: 5,
+  },
+  nextIcon: {},
+});
 
-type BaseItem = {
-  id?: string;
+type JobItemProps = {
+  job: Jobs;
+  onPress: (c: Jobs) => void;
 };
-type JobItemProps<TItem extends BaseItem> = {
-  job: TItem;
-  onPress: (c: BaseItem) => void;
-  onApply: (c?: BaseItem) => void;
-  onSave: (c?: BaseItem) => void;
-};
 
-export const JobItem = <TItem extends BaseItem>(props: JobItemProps<TItem>) => {
-  const { onApply, onSave, job, onPress } = props;
-
+export const JobItem = ({ job, onPress }: JobItemProps) => {
   return (
-    <Card>
-      <Pressable onPress={() => onPress(job)}>
-        {/* <Image */}
-        {/*   source={{ uri: job?.image ?? 'https://via.placeholder.com/90x60' }} */}
-        {/* /> */}
-        {/* <Text category="h3">{job?.title}</Text> */}
-        {/* <Text>{job?.address?.unstructured_value ?? ''}</Text> */}
+    <Card style={styles.wrapper}>
+      <Pressable style={styles.titleStack} onPress={() => onPress(job)}>
+        <View style={styles.compoundHeader}>
+          <Text category="h6" style={styles.title}>
+            {job?.title}
+          </Text>
+          <Text category="s1" style={styles.subtitle}>
+            {job.address?.unstructured_value ??
+              'test something kinda long here'}
+          </Text>
+        </View>
+        <Icon
+          name="arrow-ios-forward"
+          fill="#AAAAAA"
+          width={20}
+          height={20}
+          style={styles.nextIcon}
+        />
       </Pressable>
-      <Card>
-        <Button onPress={() => onApply(job)}>Apply now</Button>
-        <Button onPress={() => onSave(job)}>Save for later</Button>
-      </Card>
     </Card>
   );
 };

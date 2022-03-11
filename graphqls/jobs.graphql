@@ -1,12 +1,10 @@
 query JOBS_BY_PK($id: uuid!) {
   jobs_by_pk(id: $id) {
-    created_at
-    updated_at
     compensations
+    created_at
     degree_type
     description
     employment_type
-    start_time
     end_time
     expiration_date
     image
@@ -15,8 +13,10 @@ query JOBS_BY_PK($id: uuid!) {
     qualifications
     quantity
     responsibilities
+    start_time
     status
     title
+    updated_at
     address {
       id
       created_at
@@ -26,6 +26,9 @@ query JOBS_BY_PK($id: uuid!) {
       unstructured_value
       structured_value
       status
+    }
+    applications {
+      id
     }
     company {
       id
@@ -105,35 +108,45 @@ query JOBS_AGGREGATE(
   ) {
     nodes {
       id
+      compensations
       created_at
-      updated_at
-      title
+      degree_type
       description
+      employment_type
+      end_time
       expiration_date
       image
+      level
       location
+      qualifications
       quantity
+      responsibilities
+      start_time
       status
+      title
+      updated_at
+      address {
+        id
+        created_at
+        updated_at
+        data_usage
+        location
+        unstructured_value
+        structured_value
+        status
+      }
       applications {
         id
       }
-      applications_aggregate {
-        nodes {
-          id
-        }
-      }
       company {
         id
+        created_at
+        establish_date
+        image
         name
-        summary
         size
-      }
-      address_id
-      address {
-        id
-        structured_value
-        unstructured_value
-        location
+        summary
+        updated_at
       }
     }
   }

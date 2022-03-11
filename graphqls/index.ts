@@ -12380,13 +12380,11 @@ export type JobsByPkQuery = {
   __typename?: 'query_root';
   jobs_by_pk?: {
     __typename?: 'jobs';
-    created_at: string;
-    updated_at: string;
     compensations?: string | null;
+    created_at: string;
     degree_type?: string | null;
     description?: string | null;
     employment_type?: string | null;
-    start_time?: string | null;
     end_time?: string | null;
     expiration_date?: string | null;
     image?: string | null;
@@ -12395,8 +12393,10 @@ export type JobsByPkQuery = {
     qualifications?: string | null;
     quantity: number;
     responsibilities?: string | null;
+    start_time?: string | null;
     status: string;
     title: string;
+    updated_at: string;
     address?: {
       __typename?: 'addresses';
       id: string;
@@ -12408,6 +12408,7 @@ export type JobsByPkQuery = {
       structured_value?: string | null;
       status: string;
     } | null;
+    applications: Array<{ __typename?: 'applications'; id: string }>;
     company?: {
       __typename?: 'companies';
       id: string;
@@ -12493,34 +12494,45 @@ export type JobsAggregateQuery = {
     nodes: Array<{
       __typename?: 'jobs';
       id: string;
+      compensations?: string | null;
       created_at: string;
-      updated_at: string;
-      title: string;
+      degree_type?: string | null;
       description?: string | null;
+      employment_type?: string | null;
+      end_time?: string | null;
       expiration_date?: string | null;
       image?: string | null;
+      level?: string | null;
       location?: Geography | null;
+      qualifications?: string | null;
       quantity: number;
+      responsibilities?: string | null;
+      start_time?: string | null;
       status: string;
-      address_id?: string | null;
-      applications: Array<{ __typename?: 'applications'; id: string }>;
-      applications_aggregate: {
-        __typename?: 'applications_aggregate';
-        nodes: Array<{ __typename?: 'applications'; id: string }>;
-      };
-      company?: {
-        __typename?: 'companies';
-        id: string;
-        name: string;
-        summary?: string | null;
-        size?: string | null;
-      } | null;
+      title: string;
+      updated_at: string;
       address?: {
         __typename?: 'addresses';
         id: string;
-        structured_value?: string | null;
-        unstructured_value?: string | null;
+        created_at: string;
+        updated_at: string;
+        data_usage: string;
         location?: Geography | null;
+        unstructured_value?: string | null;
+        structured_value?: string | null;
+        status: string;
+      } | null;
+      applications: Array<{ __typename?: 'applications'; id: string }>;
+      company?: {
+        __typename?: 'companies';
+        id: string;
+        created_at: string;
+        establish_date?: string | null;
+        image?: string | null;
+        name: string;
+        size?: string | null;
+        summary?: string | null;
+        updated_at: string;
       } | null;
     }>;
   };
@@ -13390,13 +13402,11 @@ export type SearchQueryResult = Apollo.QueryResult<
 export const JobsByPkDocument = gql`
   query JOBS_BY_PK($id: uuid!) {
     jobs_by_pk(id: $id) {
-      created_at
-      updated_at
       compensations
+      created_at
       degree_type
       description
       employment_type
-      start_time
       end_time
       expiration_date
       image
@@ -13405,8 +13415,10 @@ export const JobsByPkDocument = gql`
       qualifications
       quantity
       responsibilities
+      start_time
       status
       title
+      updated_at
       address {
         id
         created_at
@@ -13416,6 +13428,9 @@ export const JobsByPkDocument = gql`
         unstructured_value
         structured_value
         status
+      }
+      applications {
+        id
       }
       company {
         id
@@ -13516,35 +13531,45 @@ export const JobsAggregateDocument = gql`
     ) {
       nodes {
         id
+        compensations
         created_at
-        updated_at
-        title
+        degree_type
         description
+        employment_type
+        end_time
         expiration_date
         image
+        level
         location
+        qualifications
         quantity
+        responsibilities
+        start_time
         status
+        title
+        updated_at
+        address {
+          id
+          created_at
+          updated_at
+          data_usage
+          location
+          unstructured_value
+          structured_value
+          status
+        }
         applications {
           id
         }
-        applications_aggregate {
-          nodes {
-            id
-          }
-        }
         company {
           id
+          created_at
+          establish_date
+          image
           name
-          summary
           size
-        }
-        address_id
-        address {
-          id
-          structured_value
-          unstructured_value
-          location
+          summary
+          updated_at
         }
       }
     }

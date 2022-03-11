@@ -83,7 +83,7 @@ export const useCollapsibleHeader = (
 
   const animatedDiffClampY = Animated.diffClamp(
     positionY,
-    containerPaddingTop,
+    headerHeight,
     safeBounceHeightWithHeader,
   );
 
