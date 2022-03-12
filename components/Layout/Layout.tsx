@@ -6,10 +6,8 @@
  */
 import React, { Children, isValidElement, cloneElement } from 'react';
 import { StyleSheet } from 'react-native';
-import {
-  Layout as KittenLayout,
-  LayoutProps as KittenLayoutProps,
-} from '@ui-kitten/components';
+import { Layout as KittenLayout } from '@ui-kitten/components';
+import type { LayoutProps as KittenLayoutProps } from '@ui-kitten/components';
 import { Direction, JustifyContent, AlignItems } from '../../utils/types';
 import { halfValue } from '../../utils/tokens';
 

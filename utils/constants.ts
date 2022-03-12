@@ -41,10 +41,10 @@ export const AUTH_KEY = '__ANTS_AUTH_STATE__';
 export const NAVIGATION_STATE = 'NAVIGATION_STATE';
 export const DISTANCE_TO_TOP = 80;
 export const HEADER_HEIGHT = 91;
-export const SPACE_MULTIPLIER = 4;
 export const JOB_IMAGE_FRAME_RATIO = 8 / 3;
 export const MESSAGE_QUERY_LIMIT = 20;
 export const BASE_SPACING = 4;
+export const SPACE_MULTIPLIER = BASE_SPACING;
 export const OUR_COLORS = {
   primaryColor: '#D97B1E',
   secondaryColor: '#1e7bd9',

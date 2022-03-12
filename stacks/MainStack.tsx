@@ -11,9 +11,10 @@ import type { MainStackParams, Colors } from '../utils/types';
 const tabBarScreensOptions = {
   keyboardHidesTabBar: true,
   tabBarStyle: {
+    fontSize: 16,
     height: 65,
     paddingTop: 0,
-    paddingBottom: 10,
+    paddingBottom: 20,
   },
 };
 
@@ -31,8 +32,8 @@ const makeIcon = ({ focused, icon, colors }: MakeIconOptions) => {
     marginTop: 0,
     marginBottom: 0,
     paddingBottom: 1,
-    width: 32,
-    height: 32,
+    width: 24,
+    height: 24,
   };
 
   return (

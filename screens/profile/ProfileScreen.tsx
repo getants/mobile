@@ -1,45 +1,34 @@
 import React, { useLayoutEffect } from 'react';
-import styled from 'styled-components/native';
 import {
   Avatar,
   Button,
   Divider,
   Placeholder,
+  Layout,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   View,
 } from '../../components';
-import { space } from '../../utils/tokens';
 import { useAuth, useNavigation, useAppStates } from '../../hooks';
 import { nhost } from '../../utils/nhost';
 import type { ProfileScreenNavigationProp } from '../../utils/types';
-
-const ScrollView = styled.ScrollView`
-  background-color: #ffffff;
-`;
-const NameSection = styled.View`
-  display: flex;
-  padding: ${space(5)};
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-  margin: 0 auto;
-`;
-const TitleWrapper = styled.View`
-  flex-direction: row;
-  justify-content: center;
-  width: 80%;
-`;
 
 const styles = StyleSheet.create({
   scroll: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    backgroundColor: '#ECECEC',
   },
-  new: {
-    margin: 40,
+  heading: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
+  name: {
+    display: 'flex',
   },
 });
 
@@ -72,33 +61,31 @@ export const ProfileScreen = () => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, paddingTop: 20 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.scroll}>
-        <NameSection>
-          <Avatar
-            size="giant"
-            accessibilityLabel={fullName}
-            source={{ uri: imageUrl }}
-          />
-          <View>
-            <TitleWrapper>
+        <Layout gap={40} width="100%">
+          <View style={styles.heading}>
+            <Avatar
+              size="giant"
+              accessibilityLabel={fullName}
+              source={{ uri: imageUrl }}
+            />
+            <View style={styles.name}>
               {isLoading ? (
                 <Placeholder.Rect width={160} height={40} />
               ) : (
                 <Text category="h2">{fullName}</Text>
               )}
-            </TitleWrapper>
-            <Text>{user?.email}</Text>
+              <Text category="s1">{user?.email}</Text>
+            </View>
           </View>
-        </NameSection>
 
-        <Divider />
+          <Divider />
 
-        <Text style={styles.new} appearance="hint">
-          Comming soon
-        </Text>
+          <Text appearance="hint">More settings comming soon</Text>
 
-        <Button onPress={handleSignOut}>Sign Out</Button>
+          <Button onPress={handleSignOut}>Sign Out</Button>
+        </Layout>
       </ScrollView>
     </SafeAreaView>
   );

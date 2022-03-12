@@ -7,7 +7,7 @@ import * as Sentry from 'sentry-expo';
 import { setNotificationHandler } from 'expo-notifications';
 import { StatusBar } from 'expo-status-bar';
 import { Provider as JotaiProvider } from 'jotai';
-import { LogBox, Platform, StyleSheet, Text } from 'react-native';
+import { LogBox, Platform, Text } from 'react-native';
 import { NhostAuthProvider } from '@nhost/react-auth';
 import { NhostApolloProvider } from '@nhost/react-apollo';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
@@ -16,21 +16,11 @@ import { enableScreens } from 'react-native-screens';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { RootStack } from './stacks';
-import { View, ThemeProvider } from './components';
+import { ThemeProvider, SplashView } from './components';
 import { NAVIGATION_STATE, SENTRY_DSN } from './utils/constants';
 import { globalState, initialState } from './utils/states';
 import { nhost } from './utils/nhost';
 import type { NavigationState } from './utils/types';
-
-const styles = StyleSheet.create({
-  loading: {
-    width: '100%',
-    height: '100%',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 // There are warnings that we can't fix, ignore now
 LogBox.ignoreLogs([
@@ -91,9 +81,9 @@ const App = () => {
 
   if (!isReady) {
     return (
-      <View style={styles.loading}>
-        <Text>Loading...</Text>
-      </View>
+      <SplashView>
+        <Text>Initializing...</Text>
+      </SplashView>
     );
   }
 

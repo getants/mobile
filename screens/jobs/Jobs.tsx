@@ -14,7 +14,7 @@ import {
 import {
   useAuth,
   useQuery,
-  useMutation,
+  // useMutation,
   useCollapsibleHeader,
   useColorScheme,
 } from '../../hooks';
@@ -27,11 +27,11 @@ import {
 import {
   OrderBy,
   JobsAggregateDocument,
-  InsertApplicationsOneDocument,
+  // InsertApplicationsOneDocument,
 } from '../../graphqls';
 import type {
-  InsertApplicationsOneMutation,
-  InsertApplicationsOneMutationVariables,
+  // InsertApplicationsOneMutation,
+  // InsertApplicationsOneMutationVariables,
   Jobs,
   JobsAggregate,
   JobsAggregateQueryVariables,
@@ -53,7 +53,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  logo: {
+  logo: {},
+  left: {},
+  right: {
     fontWeight: 'bold',
   },
   avatar: {
@@ -73,10 +75,10 @@ export type Props = {
 export const JobListScreen = ({ navigation }: Props) => {
   const { isAuthenticated, profile, isLoading: profileLoading } = useAuth();
 
-  const [insertApplicationMutation] = useMutation<
-    InsertApplicationsOneMutation,
-    InsertApplicationsOneMutationVariables
-  >(InsertApplicationsOneDocument);
+  // const [insertApplicationMutation] = useMutation<
+  //   InsertApplicationsOneMutation,
+  //   InsertApplicationsOneMutationVariables
+  // >(InsertApplicationsOneDocument);
 
   const initialVariables = {
     limit: 100,
@@ -172,7 +174,7 @@ export const JobListScreen = ({ navigation }: Props) => {
   const { onScroll, containerPaddingTop, headerHeight, translateY } =
     useCollapsibleHeader(headerOptions);
 
-  const paddingTop = containerPaddingTop + 6;
+  const paddingTop = containerPaddingTop + 10;
   const top = headerHeight + StickyHeaderHeight;
 
   // Prevent go back to initial stack
@@ -223,8 +225,13 @@ export const JobListScreen = ({ navigation }: Props) => {
           }}
         >
           <View style={styles.subHeader}>
-            <Text category="h6" style={styles.logo}>
-              GETANTS
+            <Text style={styles.logo}>
+              <Text category="h6" style={styles.left}>
+                GET
+              </Text>
+              <Text category="h6" style={styles.right}>
+                ANTS
+              </Text>
             </Text>
             <Pressable onPress={handleOpenProfile}>
               <Avatar size="tiny" source={{ uri: profile?.user.avatarUrl }} />

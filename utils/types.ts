@@ -43,6 +43,7 @@ import type {
 
 export type { NhostUser } from './nhost';
 export type { Colors } from '../hooks/useTheme';
+export type { LayoutProps } from '../components/Layout';
 export * from '../graphqls';
 
 export type UsersEdit = UsersInsertInput | UsersSetInput;

@@ -1,17 +1,15 @@
 import React from 'react';
-import {
-  Card,
-  Icon,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from '../../components';
+import { Icon, Pressable, StyleSheet, Text, View } from '../../components';
+import { OUR_COLORS, BASE_SPACING } from '../../utils/constants';
 import type { Jobs } from '../../utils/types';
 
 const styles = StyleSheet.create({
   wrapper: {
-    height: 100,
+    minHeight: 200,
+    paddingVertical: BASE_SPACING * 5,
+    paddingHorizontal: BASE_SPACING * 2,
+    marginBottom: BASE_SPACING * 2,
+    backgroundColor: '#FFFFFF',
   },
   titleStack: {
     display: 'flex',
@@ -22,11 +20,10 @@ const styles = StyleSheet.create({
     width: '94%',
   },
   title: {
+    color: OUR_COLORS.primaryColor,
     fontWeight: 'bold',
   },
-  subtitle: {
-    paddingLeft: 5,
-  },
+  subtitle: {},
   nextIcon: {},
 });
 
@@ -39,7 +36,7 @@ export const JobItem = ({ job, onPress }: JobItemProps) => {
   const title = job.title.trim();
   const address = (job.address?.unstructured_value ?? '').trim();
   return (
-    <Card style={styles.wrapper}>
+    <View style={styles.wrapper}>
       <Pressable style={styles.titleStack} onPress={() => onPress(job)}>
         <View style={styles.compoundHeader}>
           <Text category="h6" style={styles.title}>
@@ -57,6 +54,6 @@ export const JobItem = ({ job, onPress }: JobItemProps) => {
           style={styles.nextIcon}
         />
       </Pressable>
-    </Card>
+    </View>
   );
 };

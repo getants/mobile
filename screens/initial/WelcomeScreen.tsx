@@ -65,7 +65,7 @@ export const WelcomeScreen: React.FC<Props> = () => {
     useCallback(() => {
       if (isAuthenticated) {
         if (!isLoading && !hasResume) {
-          setMessage('New profile setup...');
+          setMessage('Loading...');
 
           insertResumeMutation({
             variables: {

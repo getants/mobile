@@ -45,4 +45,5 @@ export { LoadingIndicator } from './LoadingIndicator';
 export { Logo } from './Logo';
 export { Placeholder, JobItem } from './Placeholder';
 export { ProgressBar } from './ProgressBar';
+export { SplashView } from './SplashView';
 export { ThemeContext, ThemeProvider } from './ThemeProvider';
