@@ -47,7 +47,7 @@ export const retrieveToken = async () => {
   }
 };
 
-export const registerForPushNotificationsAsync = async () => {
+export const registerForPushNotifications = async () => {
   let token = null;
 
   if (isDevice) {

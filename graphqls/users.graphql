@@ -50,6 +50,7 @@ query PROFILES_AGGREGATE(
         emailVerified
         lastSeen
         locale
+        metadata
         roles {
           role
         }
@@ -87,6 +88,7 @@ query PROFILES_BY_PK($id: uuid!) {
       email
       emailVerified
       lastSeen
+      metadata
     }
     companies {
       company {

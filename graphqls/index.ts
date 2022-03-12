@@ -12850,6 +12850,7 @@ export type ProfilesAggregateQuery = {
         emailVerified: boolean;
         lastSeen?: string | null;
         locale: string;
+        metadata?: any | null;
         roles: Array<{ __typename?: 'authUserRoles'; role: string }>;
       };
       tenant?: { __typename?: 'tenants'; id: string; name: string } | null;
@@ -12885,6 +12886,7 @@ export type ProfilesByPkQuery = {
       email?: any | null;
       emailVerified: boolean;
       lastSeen?: string | null;
+      metadata?: any | null;
     };
     companies: Array<{
       __typename?: 'profile_company';
@@ -12929,6 +12931,16 @@ export type UpdateProfilesByPkMutation = {
     user: { __typename?: 'users'; id: string; updatedAt: string };
     tenant?: { __typename?: 'tenants'; id: string; name: string } | null;
   } | null;
+};
+
+export type UpdateUserMutationVariables = Exact<{
+  pk_columns: UsersPkColumnsInput;
+  _set: UsersSetInput;
+}>;
+
+export type UpdateUserMutation = {
+  __typename?: 'mutation_root';
+  updateUser?: { __typename?: 'users'; id: string; updatedAt: string } | null;
 };
 
 export const ApplicationsAggregateDocument = gql`
@@ -13955,6 +13967,7 @@ export const ProfilesAggregateDocument = gql`
           emailVerified
           lastSeen
           locale
+          metadata
           roles {
             role
           }
@@ -13997,6 +14010,7 @@ export const ProfilesByPkDocument = gql`
         email
         emailVerified
         lastSeen
+        metadata
       }
       companies {
         company {
@@ -14074,4 +14088,25 @@ export type UpdateProfilesByPkMutationResult =
 export type UpdateProfilesByPkMutationOptions = Apollo.BaseMutationOptions<
   UpdateProfilesByPkMutation,
   UpdateProfilesByPkMutationVariables
+>;
+export const UpdateUserDocument = gql`
+  mutation UPDATE_USER(
+    $pk_columns: users_pk_columns_input!
+    $_set: users_set_input!
+  ) {
+    updateUser(pk_columns: $pk_columns, _set: $_set) {
+      id
+      updatedAt
+    }
+  }
+`;
+export type UpdateUserMutationFn = Apollo.MutationFunction<
+  UpdateUserMutation,
+  UpdateUserMutationVariables
+>;
+export type UpdateUserMutationResult =
+  Apollo.MutationResult<UpdateUserMutation>;
+export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
+  UpdateUserMutation,
+  UpdateUserMutationVariables
 >;

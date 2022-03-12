@@ -5,8 +5,7 @@ import {
   addNotificationResponseReceivedListener,
   removeNotificationSubscription,
 } from 'expo-notifications';
-import { useAuth, useNotifications } from '../hooks';
-import { registerForPushNotificationsAsync } from '../utils/notification';
+import { useAuth, useAppStates, useNotifications } from '../hooks';
 
 import { AuthStack } from './AuthStack';
 import { InitialStack } from './InitialStack';
@@ -18,24 +17,13 @@ const { Navigator, Screen } = createStackNavigator<RootStackParams>();
 
 export const RootStack = () => {
   const { isAuthenticated } = useAuth();
-
+  const { appStates } = useAppStates();
   const { setNotificationStates } = useNotifications();
 
   const notificationListener = useRef<Subscription>();
   const responseListener = useRef<Subscription>();
 
   useEffect(() => {
-    if (isAuthenticated) {
-      registerForPushNotificationsAsync().then((token) => {
-        if (token) {
-          setNotificationStates((prev) => ({ ...prev, hasRegistered: true }));
-          if (__DEV__) {
-            console.info('> Registered Push Notifications!', token);
-          }
-        }
-      });
-    }
-
     notificationListener.current = addNotificationReceivedListener(
       (response) => {
         setNotificationStates((prev) => ({
@@ -65,15 +53,21 @@ export const RootStack = () => {
     };
   }, [setNotificationStates, isAuthenticated]);
 
+  const screensSwitcher = () => {
+    if (!isAuthenticated) {
+      return <Screen name={RootStackEnum.AuthStack} component={AuthStack} />;
+    }
+    if (!appStates.isReady) {
+      return (
+        <Screen name={RootStackEnum.InitialStack} component={InitialStack} />
+      );
+    }
+    return <Screen name={RootStackEnum.MainStack} component={MainStack} />;
+  };
+
   return (
     <Navigator screenOptions={{ headerShown: false }}>
-      <Screen name={RootStackEnum.InitialStack} component={InitialStack} />
-
-      {isAuthenticated ? (
-        <Screen name={RootStackEnum.MainStack} component={MainStack} />
-      ) : (
-        <Screen name={RootStackEnum.AuthStack} component={AuthStack} />
-      )}
+      {screensSwitcher()}
     </Navigator>
   );
 };

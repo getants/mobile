@@ -11,7 +11,7 @@ import {
   View,
 } from '../../components';
 import { space } from '../../utils/tokens';
-import { useAuth, useNavigation } from '../../hooks';
+import { useAuth, useNavigation, useAppStates } from '../../hooks';
 import { nhost } from '../../utils/nhost';
 import type { ProfileScreenNavigationProp } from '../../utils/types';
 
@@ -49,9 +49,11 @@ export type Props = {
 
 export const ProfileScreen = () => {
   const navigation = useNavigation();
+  const { setAppStates } = useAppStates();
 
   const handleSignOut = async () => {
     await nhost.auth.signOut();
+    setAppStates((prev) => ({ ...prev, isReady: false }));
   };
 
   useLayoutEffect(() => {

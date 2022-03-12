@@ -1,10 +1,20 @@
 /* eslint-disable global-require */
-// I already paid 1000$ to use this line, jk, I don't know how to fix this
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components/native';
-import { Layout, ProgressBar, StyleSheet, Text, View } from '../../components';
-import { useAuth, useFocusEffect, useMutation } from '../../hooks';
-import { MainStackEnum, RootStackEnum } from '../../utils/enums';
+import {
+  Layout,
+  ImageBackground,
+  ProgressBar,
+  StyleSheet,
+  Text,
+  View,
+} from '../../components';
+import {
+  useAuth,
+  useAppStates,
+  useFocusEffect,
+  useMutation,
+  useTimeoutFn,
+} from '../../hooks';
 import { InsertResumesOneDocument } from '../../graphqls';
 import type {
   InsertResumesOneMutation,
@@ -12,22 +22,19 @@ import type {
   WelcomeScreenNavigationProp,
 } from '../../utils/types';
 
-const StyledBackground = styled.ImageBackground`
-  width: 100%;
-  height: 100%;
-`;
-
-const TinyMessage = styled(Text)`
-  text-align: center;
-  font-weight: 300;
-  margin-top: 3%;
-`;
-
 const styles = StyleSheet.create({
+  wrapper: {
+    width: '100%',
+    height: '100%',
+  },
   loading: {
     alignItems: 'center',
     marginTop: 20,
-    marginBottom: 120,
+    paddingBottom: 120,
+  },
+  message: {
+    textAlign: 'center',
+    marginTop: 10,
   },
 });
 
@@ -35,8 +42,10 @@ type Props = {
   navigation: WelcomeScreenNavigationProp;
 };
 
-export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
-  const { isAuthenticated, isLoading, profile, user } = useAuth();
+export const WelcomeScreen: React.FC<Props> = () => {
+  const { isAuthenticated, isLoading, profile } = useAuth();
+  const { appStates, setAppStates } = useAppStates();
+
   const [message, setMessage] = useState<string>('Setup, please wait...');
 
   const [insertResumeMutation] = useMutation<
@@ -46,9 +55,15 @@ export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
 
   const hasResume = !!profile && profile?.resumes.length === 0;
 
+  useTimeoutFn(() => {
+    if (!isLoading && !appStates.isReady && isAuthenticated) {
+      setAppStates((prev) => ({ ...prev, isReady: true }));
+    }
+  }, 1200);
+
   useFocusEffect(
     useCallback(() => {
-      if (isAuthenticated && user) {
+      if (isAuthenticated) {
         if (!isLoading && !hasResume) {
           setMessage('New profile setup...');
 
@@ -56,31 +71,20 @@ export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
             variables: {
               object: {
                 summary: `Auto-generated: ${Date.now()}`,
-                // profile_id: userId, // auto get from session
-                // user_id: userId,
               },
             },
           });
-        } else {
-          navigation.navigate(RootStackEnum.MainStack, {
-            screen: MainStackEnum.JobStack,
-          });
         }
-      } else {
-        navigation.navigate(RootStackEnum.AuthStack);
       }
-    }, [
-      hasResume,
-      insertResumeMutation,
-      isAuthenticated,
-      isLoading,
-      navigation,
-      user,
-    ]),
+    }, [hasResume, insertResumeMutation, isAuthenticated, isLoading]),
   );
 
   return (
-    <StyledBackground source={require('../../assets/splash.png')}>
+    // I already paid 1000$ to use this line, jk, I don't know how to fix this
+    <ImageBackground
+      style={styles.wrapper}
+      source={require('../../assets/splash.png')}
+    >
       <Layout
         transparent
         flexDirection="column"
@@ -92,9 +96,9 @@ export const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
         <View style={styles.loading}>
           <ProgressBar />
 
-          <TinyMessage>{message}</TinyMessage>
+          <Text style={styles.message}>{message}</Text>
         </View>
       </Layout>
-    </StyledBackground>
+    </ImageBackground>
   );
 };

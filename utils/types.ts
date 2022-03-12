@@ -32,12 +32,21 @@ import type {
 } from './enums';
 
 // Import for using in Chat
-import type { Conversations, Messages } from '../graphqls';
+import type {
+  Conversations,
+  Messages,
+  ProfilesInsertInput,
+  ProfilesSetInput,
+  UsersInsertInput,
+  UsersSetInput,
+} from '../graphqls';
 
 export type { NhostUser } from './nhost';
 export type { Colors } from '../hooks/useTheme';
-
 export * from '../graphqls';
+
+export type UsersEdit = UsersInsertInput | UsersSetInput;
+export type ProfilesEdit = ProfilesInsertInput | ProfilesSetInput;
 
 export type {
   ExpoPushToken,

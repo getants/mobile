@@ -10,10 +10,11 @@ import {
   StyleSheet,
   Text,
 } from '../../components';
-import { useFocusEffect } from '../../hooks';
+import { useActions, useFocusEffect, useNotifications } from '../../hooks';
 import { nhost } from '../../utils/nhost';
 import { AuthStackEnum } from '../../utils/enums';
-import type { LoginScreenNavigationProp } from '../../utils/types';
+import { registerForPushNotifications } from '../../utils/notification';
+import type { LoginScreenNavigationProp, Users } from '../../utils/types';
 
 const styles = StyleSheet.create({
   logo: {
@@ -44,6 +45,8 @@ export type Props = {
 export const LoginScreen = (props: Props) => {
   const { navigation } = props;
   const emailInputRef = useRef(null);
+  const { handleUpdateUser } = useActions();
+  const { setNotificationStates } = useNotifications();
 
   const [input, setInput] = useState<LoginFormInput>({
     email: '',
@@ -60,7 +63,29 @@ export const LoginScreen = (props: Props) => {
 
   const handleLogin = async () => {
     try {
-      await nhost.auth.signIn(input);
+      const { session, error } = await nhost.auth.signIn(input);
+      if (session && !error) {
+        const token = await registerForPushNotifications();
+        if (token && session.user) {
+          setNotificationStates((prev) => ({
+            ...prev,
+            token,
+            hasRegistered: true,
+          }));
+
+          await handleUpdateUser(session.user.id, {
+            metadata: {
+              // When the type is fixed, remove this cast
+              ...(session.user as unknown as Users).metadata,
+              notificationToken: token,
+            },
+          });
+
+          if (__DEV__) {
+            console.info('> Registered Push Notifications!', token);
+          }
+        }
+      }
     } catch (err) {
       ErrorRecovery.setRecoveryProps({
         currentScreen: AuthStackEnum.SignupScreen,

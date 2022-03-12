@@ -22,6 +22,7 @@ export const useAuth = () => {
     data: profileData,
     loading: profileLoading,
     error: profileError,
+    refetch: refetchProfile,
   } = useQuery<ProfilesByPkQuery, ProfilesByPkQueryVariables>(
     ProfilesByPkDocument,
     {
@@ -35,11 +36,12 @@ export const useAuth = () => {
   const profile = profileData?.profiles_by_pk;
 
   return {
-    user,
-    profile,
+    error: profileError,
     isAuthenticated,
     isLoading: isLoading || profileLoading,
-    error: profileError,
+    profile,
+    refetchProfile,
+    user,
   };
 };
 

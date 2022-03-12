@@ -22,3 +22,14 @@ export const useScreen = () => {
     [currentScreen, setCurrentScreen],
   );
 };
+
+export const appStatesAtom = atom({ isReady: false });
+
+export const useAppStates = () => {
+  const [appStates, setAppStates] = useAtom(appStatesAtom);
+
+  return {
+    appStates,
+    setAppStates,
+  };
+};
