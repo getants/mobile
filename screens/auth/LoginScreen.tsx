@@ -10,7 +10,7 @@ import {
   StyleSheet,
   Text,
 } from '../../components';
-import { useFocusEffect } from '../../utils/hooks';
+import { useFocusEffect } from '../../hooks';
 import { nhost } from '../../utils/nhost';
 import { AuthStackEnum } from '../../utils/enums';
 import type { LoginScreenNavigationProp } from '../../utils/types';

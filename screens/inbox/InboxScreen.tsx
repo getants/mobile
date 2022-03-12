@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth, useQuery } from '../../utils/hooks';
+import { useAuth, useQuery } from '../../hooks';
 import { ConversationsAggregateDocument } from '../../graphqls';
 import { ConversationList } from '../../components';
 import { InboxStackEnum, OrderBy } from '../../utils/enums';

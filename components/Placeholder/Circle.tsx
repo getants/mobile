@@ -2,7 +2,7 @@ import React from 'react';
 import ContentLoader, {
   Circle as RCLCircle,
 } from 'react-content-loader/native';
-import { useTheme } from '../../utils/hooks';
+import { useTheme } from '../../hooks';
 
 export type CircleProps = {
   radius: number;

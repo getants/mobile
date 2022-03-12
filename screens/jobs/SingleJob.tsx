@@ -13,7 +13,7 @@ import {
   useQuery,
   useMutation,
   useTimeoutFn,
-} from '../../utils/hooks';
+} from '../../hooks';
 import {
   ConversationsAggregateDocument,
   JobsByPkDocument,

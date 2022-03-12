@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useTheme as useKittenTheme } from '@ui-kitten/components';
-import { ThemeContext } from '../../components/ThemeProvider';
-import { ColorMap } from '../constants';
+import { ThemeContext } from '../components/ThemeProvider';
+import { ColorMap } from '../utils/constants';
 
 type ColorKey = keyof typeof ColorMap;
 export type Colors = ReturnType<typeof mapColors>;

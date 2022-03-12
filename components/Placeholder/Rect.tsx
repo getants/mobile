@@ -1,6 +1,6 @@
 import React from 'react';
 import ContentLoader, { Rect as RCLRect } from 'react-content-loader/native';
-import { useTheme } from '../../utils/hooks';
+import { useTheme } from '../../hooks';
 
 export type RectProps = {
   borderRadius?: number;

@@ -1,6 +1,6 @@
 import React from 'react';
 import ContentLoader, { Rect } from 'react-content-loader/native';
-import { useWindowDimensions, useTheme } from '../../utils/hooks';
+import { useWindowDimensions, useTheme } from '../../hooks';
 import { getRandom } from './helpers';
 
 type Props = {

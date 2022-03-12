@@ -8,8 +8,12 @@ import {
   NativeScrollEvent,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { SAFE_BOUNCE_HEIGHT, HEADER_HEIGHT, OUR_COLORS } from '../constants';
-import { getStatusBarHeight } from '../tokens';
+import {
+  SAFE_BOUNCE_HEIGHT,
+  HEADER_HEIGHT,
+  OUR_COLORS,
+} from '../utils/constants';
+import { getStatusBarHeight } from '../utils/tokens';
 import { createHeaderBackground } from './createHeaderBackground';
 
 export type Collapsible = {

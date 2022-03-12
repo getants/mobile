@@ -1,5 +1,5 @@
 import { atom, useAtom } from 'jotai';
-import type { Notification, NotificationResponse } from '../types';
+import type { Notification, NotificationResponse } from '../utils/types';
 
 type NotificationState = {
   hasRegistered?: boolean;

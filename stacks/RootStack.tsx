@@ -5,7 +5,7 @@ import {
   addNotificationResponseReceivedListener,
   removeNotificationSubscription,
 } from 'expo-notifications';
-import { useAuth, useNotifications } from '../utils/hooks';
+import { useAuth, useNotifications } from '../hooks';
 import { registerForPushNotificationsAsync } from '../utils/notification';
 
 import { AuthStack } from './AuthStack';

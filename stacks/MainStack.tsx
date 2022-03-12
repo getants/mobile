@@ -5,7 +5,7 @@ import { Icon } from '../components';
 import { JobStack } from './JobStack';
 import { ProfileStack } from './ProfileStack';
 import { MainStackEnum } from '../utils/enums';
-import { useTheme } from '../utils/hooks';
+import { useTheme } from '../hooks';
 import type { MainStackParams, Colors } from '../utils/types';
 
 const tabBarScreensOptions = {

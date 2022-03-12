@@ -1,6 +1,6 @@
 import React from 'react';
 import ContentLoader, { Rect } from 'react-content-loader/native';
-import { useWindowDimensions, useTheme } from '../../utils/hooks';
+import { useWindowDimensions, useTheme } from '../../hooks';
 import { JOB_IMAGE_FRAME_RATIO } from '../../utils/constants';
 
 type Props = {

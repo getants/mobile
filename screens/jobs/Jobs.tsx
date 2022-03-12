@@ -3,9 +3,6 @@ import Constants from 'expo-constants';
 import {
   Animated,
   Avatar,
-  Button,
-  Card,
-  Image,
   JobItem as JobItemPlaceholder,
   Placeholder,
   Pressable,
@@ -20,7 +17,7 @@ import {
   useMutation,
   useCollapsibleHeader,
   useColorScheme,
-} from '../../utils/hooks';
+} from '../../hooks';
 import { makeBoolExp } from '../../utils/tokens';
 import {
   JobStackEnum,

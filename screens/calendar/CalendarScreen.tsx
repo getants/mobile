@@ -9,7 +9,7 @@ import {
   SafeAreaView,
   StyleSheet,
 } from '../../components';
-import { useCollapsibleHeader } from '../../utils/hooks';
+import { useCollapsibleHeader } from '../../hooks';
 import type { CalendarScreenNavigationProp } from '../../utils/types';
 
 type CalendarTheme = React.ComponentProps<typeof CalendarComponent>['theme'];

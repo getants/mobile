@@ -1,6 +1,6 @@
 import React from 'react';
 import ContentLoader, { Rect } from 'react-content-loader/native';
-import { useComputedWidth, useTheme } from '../../utils/hooks';
+import { useComputedWidth, useTheme } from '../../hooks';
 
 type Props = {
   speed?: number;

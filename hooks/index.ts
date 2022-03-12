@@ -15,7 +15,7 @@ export { default as useTimeoutFn } from 'react-use/lib/useTimeoutFn';
 export { default as useAsync } from 'react-use/lib/useAsync';
 export { default as usePrevious } from 'react-use/lib/usePrevious';
 
-export { useAuth } from '../nhost';
+export { useAuth } from '../utils/nhost';
 export { useAlert } from './useAlert';
 export { useCollapsibleHeader } from './useCollapsibleHeader';
 export { useComputedWidth } from './useComputedWidth';

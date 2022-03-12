@@ -35,7 +35,7 @@ import type {
 import type { Conversations, Messages } from '../graphqls';
 
 export type { NhostUser } from './nhost';
-export type { Colors } from './hooks/useTheme';
+export type { Colors } from '../hooks/useTheme';
 
 export * from '../graphqls';
 

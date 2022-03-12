@@ -3,7 +3,7 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components/native';
 import { Layout, ProgressBar, StyleSheet, Text, View } from '../../components';
-import { useAuth, useFocusEffect, useMutation } from '../../utils/hooks';
+import { useAuth, useFocusEffect, useMutation } from '../../hooks';
 import { MainStackEnum, RootStackEnum } from '../../utils/enums';
 import { InsertResumesOneDocument } from '../../graphqls';
 import type {
