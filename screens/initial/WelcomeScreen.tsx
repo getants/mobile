@@ -1,10 +1,9 @@
 /* eslint-disable global-require */
 import React, { useCallback, useState } from 'react';
 import {
-  Layout,
-  ImageBackground,
   ProgressBar,
   StyleSheet,
+  SplashView,
   Text,
   View,
 } from '../../components';
@@ -80,25 +79,12 @@ export const WelcomeScreen: React.FC<Props> = () => {
   );
 
   return (
-    // I already paid 1000$ to use this line, jk, I don't know how to fix this
-    <ImageBackground
-      style={styles.wrapper}
-      source={require('../../assets/splash.png')}
-    >
-      <Layout
-        transparent
-        flexDirection="column"
-        height="100%"
-        justifyContent="space-between"
-      >
-        <View />
+    <SplashView>
+      <View style={styles.loading}>
+        <ProgressBar />
 
-        <View style={styles.loading}>
-          <ProgressBar />
-
-          <Text style={styles.message}>{message}</Text>
-        </View>
-      </Layout>
-    </ImageBackground>
+        <Text style={styles.message}>{message}</Text>
+      </View>
+    </SplashView>
   );
 };
