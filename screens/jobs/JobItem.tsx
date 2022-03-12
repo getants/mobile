@@ -32,20 +32,21 @@ const styles = StyleSheet.create({
 
 type JobItemProps = {
   job: Jobs;
-  onPress: (c: Jobs) => void;
+  onPress: (job: Jobs) => void;
 };
 
 export const JobItem = ({ job, onPress }: JobItemProps) => {
+  const title = job.title.trim();
+  const address = (job.address?.unstructured_value ?? '').trim();
   return (
     <Card style={styles.wrapper}>
       <Pressable style={styles.titleStack} onPress={() => onPress(job)}>
         <View style={styles.compoundHeader}>
           <Text category="h6" style={styles.title}>
-            {job?.title}
+            {title}
           </Text>
           <Text category="s1" style={styles.subtitle}>
-            {job.address?.unstructured_value ??
-              'test something kinda long here'}
+            {address}
           </Text>
         </View>
         <Icon

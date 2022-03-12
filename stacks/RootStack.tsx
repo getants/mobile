@@ -25,14 +25,16 @@ export const RootStack = () => {
   const responseListener = useRef<Subscription>();
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) => {
-      if (token) {
-        setNotificationStates((prev) => ({ ...prev, hasRegistered: true }));
-        if (__DEV__) {
-          console.info('> Registered Push Notifications successfully!', token);
+    if (isAuthenticated) {
+      registerForPushNotificationsAsync().then((token) => {
+        if (token) {
+          setNotificationStates((prev) => ({ ...prev, hasRegistered: true }));
+          if (__DEV__) {
+            console.info('> Registered Push Notifications!', token);
+          }
         }
-      }
-    });
+      });
+    }
 
     notificationListener.current = addNotificationReceivedListener(
       (response) => {
@@ -61,7 +63,7 @@ export const RootStack = () => {
         removeNotificationSubscription(responseListener.current);
       }
     };
-  }, [setNotificationStates]);
+  }, [setNotificationStates, isAuthenticated]);
 
   return (
     <Navigator screenOptions={{ headerShown: false }}>
