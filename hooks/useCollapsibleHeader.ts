@@ -68,7 +68,9 @@ export const useCollapsibleHeader = (
 
   const onScroll = Animated.event(
     [{ nativeEvent: { contentOffset: { y: positionY } } }],
-    { useNativeDriver },
+    {
+      useNativeDriver,
+    },
   );
 
   const onScrollWithListener = (

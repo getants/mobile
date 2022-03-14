@@ -66,18 +66,22 @@ export const LoginScreen = (props: Props) => {
       const { session, error } = await nhost.auth.signIn(input);
       if (session && !error) {
         const token = await registerForPushNotifications();
-        if (token && session.user) {
+        if (session.user) {
           setNotificationStates((prev) => ({
             ...prev,
             token,
             hasRegistered: true,
           }));
 
+          // When the type is fixed, remove this cast
+          const oldMeta = (session.user as unknown as Users).metadata;
+          // We remove the token if user changes his mind
+          delete oldMeta.notificationToken;
+
           await handleUpdateUser(session.user.id, {
             metadata: {
-              // When the type is fixed, remove this cast
-              ...(session.user as unknown as Users).metadata,
-              notificationToken: token,
+              ...oldMeta,
+              ...(token && { notificationToken: token }),
             },
           });
 

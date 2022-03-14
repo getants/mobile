@@ -92,9 +92,9 @@ export type StringComparisonExp = {
 export type Addresses = {
   __typename?: 'addresses';
   /** An array relationship */
-  companies: Array<CompanyAddress>;
+  address_companies: Array<CompanyAddress>;
   /** An aggregate relationship */
-  companies_aggregate: CompanyAddressAggregate;
+  address_companies_aggregate: CompanyAddressAggregate;
   created_at: Scalars['timestamptz'];
   data_usage: Scalars['String'];
   id: Scalars['uuid'];
@@ -110,14 +110,10 @@ export type Addresses = {
   tenant_id?: Maybe<Scalars['uuid']>;
   unstructured_value?: Maybe<Scalars['String']>;
   updated_at: Scalars['timestamptz'];
-  /** An array relationship */
-  users: Array<UserAddress>;
-  /** An aggregate relationship */
-  users_aggregate: UserAddressAggregate;
 };
 
 /** columns and relationships of "addresses" */
-export type AddressesCompaniesArgs = {
+export type AddressesAddressCompaniesArgs = {
   distinct_on?: InputMaybe<Array<CompanyAddressSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -126,7 +122,7 @@ export type AddressesCompaniesArgs = {
 };
 
 /** columns and relationships of "addresses" */
-export type AddressesCompaniesAggregateArgs = {
+export type AddressesAddressCompaniesAggregateArgs = {
   distinct_on?: InputMaybe<Array<CompanyAddressSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -150,24 +146,6 @@ export type AddressesJobsAggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<JobsOrderBy>>;
   where?: InputMaybe<JobsBoolExp>;
-};
-
-/** columns and relationships of "addresses" */
-export type AddressesUsersArgs = {
-  distinct_on?: InputMaybe<Array<UserAddressSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserAddressOrderBy>>;
-  where?: InputMaybe<UserAddressBoolExp>;
-};
-
-/** columns and relationships of "addresses" */
-export type AddressesUsersAggregateArgs = {
-  distinct_on?: InputMaybe<Array<UserAddressSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserAddressOrderBy>>;
-  where?: InputMaybe<UserAddressBoolExp>;
 };
 
 /** aggregated selection of "addresses" */
@@ -210,7 +188,7 @@ export type AddressesBoolExp = {
   _and?: InputMaybe<Array<AddressesBoolExp>>;
   _not?: InputMaybe<AddressesBoolExp>;
   _or?: InputMaybe<Array<AddressesBoolExp>>;
-  companies?: InputMaybe<CompanyAddressBoolExp>;
+  address_companies?: InputMaybe<CompanyAddressBoolExp>;
   created_at?: InputMaybe<TimestamptzComparisonExp>;
   data_usage?: InputMaybe<StringComparisonExp>;
   id?: InputMaybe<UuidComparisonExp>;
@@ -222,7 +200,6 @@ export type AddressesBoolExp = {
   tenant_id?: InputMaybe<UuidComparisonExp>;
   unstructured_value?: InputMaybe<StringComparisonExp>;
   updated_at?: InputMaybe<TimestamptzComparisonExp>;
-  users?: InputMaybe<UserAddressBoolExp>;
 };
 
 /** unique or primary key constraints on table "addresses" */
@@ -233,7 +210,7 @@ export enum AddressesConstraint {
 
 /** input type for inserting data into table "addresses" */
 export type AddressesInsertInput = {
-  companies?: InputMaybe<CompanyAddressArrRelInsertInput>;
+  address_companies?: InputMaybe<CompanyAddressArrRelInsertInput>;
   created_at?: InputMaybe<Scalars['timestamptz']>;
   data_usage?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
@@ -245,7 +222,6 @@ export type AddressesInsertInput = {
   tenant_id?: InputMaybe<Scalars['uuid']>;
   unstructured_value?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
-  users?: InputMaybe<UserAddressArrRelInsertInput>;
 };
 
 /** aggregate max on columns */
@@ -323,7 +299,7 @@ export type AddressesOnConflict = {
 
 /** Ordering options when selecting data from "addresses". */
 export type AddressesOrderBy = {
-  companies_aggregate?: InputMaybe<CompanyAddressAggregateOrderBy>;
+  address_companies_aggregate?: InputMaybe<CompanyAddressAggregateOrderBy>;
   created_at?: InputMaybe<OrderBy>;
   data_usage?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
@@ -335,7 +311,6 @@ export type AddressesOrderBy = {
   tenant_id?: InputMaybe<OrderBy>;
   unstructured_value?: InputMaybe<OrderBy>;
   updated_at?: InputMaybe<OrderBy>;
-  users_aggregate?: InputMaybe<UserAddressAggregateOrderBy>;
 };
 
 /** primary key columns input for table: addresses */
@@ -2328,9 +2303,13 @@ export type CitextComparisonExp = {
 export type Companies = {
   __typename?: 'companies';
   /** An array relationship */
-  addresses: Array<CompanyAddress>;
+  company_addresses: Array<CompanyAddress>;
   /** An aggregate relationship */
-  addresses_aggregate: CompanyAddressAggregate;
+  company_addresses_aggregate: CompanyAddressAggregate;
+  /** An array relationship */
+  company_profiles: Array<ProfileCompany>;
+  /** An aggregate relationship */
+  company_profiles_aggregate: ProfileCompanyAggregate;
   /** An array relationship */
   conversations: Array<Conversations>;
   /** An aggregate relationship */
@@ -2344,10 +2323,6 @@ export type Companies = {
   /** An aggregate relationship */
   jobs_aggregate: JobsAggregate;
   name: Scalars['String'];
-  /** An array relationship */
-  profiles: Array<ProfileCompany>;
-  /** An aggregate relationship */
-  profiles_aggregate: ProfileCompanyAggregate;
   size?: Maybe<Scalars['String']>;
   status: Scalars['String'];
   summary?: Maybe<Scalars['String']>;
@@ -2356,14 +2331,10 @@ export type Companies = {
   tenant: Tenants;
   tenant_id: Scalars['uuid'];
   updated_at: Scalars['timestamptz'];
-  /** An array relationship */
-  users: Array<UserCompany>;
-  /** An aggregate relationship */
-  users_aggregate: UserCompanyAggregate;
 };
 
 /** columns and relationships of "companies" */
-export type CompaniesAddressesArgs = {
+export type CompaniesCompanyAddressesArgs = {
   distinct_on?: InputMaybe<Array<CompanyAddressSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2372,12 +2343,30 @@ export type CompaniesAddressesArgs = {
 };
 
 /** columns and relationships of "companies" */
-export type CompaniesAddressesAggregateArgs = {
+export type CompaniesCompanyAddressesAggregateArgs = {
   distinct_on?: InputMaybe<Array<CompanyAddressSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<CompanyAddressOrderBy>>;
   where?: InputMaybe<CompanyAddressBoolExp>;
+};
+
+/** columns and relationships of "companies" */
+export type CompaniesCompanyProfilesArgs = {
+  distinct_on?: InputMaybe<Array<ProfileCompanySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileCompanyOrderBy>>;
+  where?: InputMaybe<ProfileCompanyBoolExp>;
+};
+
+/** columns and relationships of "companies" */
+export type CompaniesCompanyProfilesAggregateArgs = {
+  distinct_on?: InputMaybe<Array<ProfileCompanySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileCompanyOrderBy>>;
+  where?: InputMaybe<ProfileCompanyBoolExp>;
 };
 
 /** columns and relationships of "companies" */
@@ -2414,42 +2403,6 @@ export type CompaniesJobsAggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<JobsOrderBy>>;
   where?: InputMaybe<JobsBoolExp>;
-};
-
-/** columns and relationships of "companies" */
-export type CompaniesProfilesArgs = {
-  distinct_on?: InputMaybe<Array<ProfileCompanySelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<ProfileCompanyOrderBy>>;
-  where?: InputMaybe<ProfileCompanyBoolExp>;
-};
-
-/** columns and relationships of "companies" */
-export type CompaniesProfilesAggregateArgs = {
-  distinct_on?: InputMaybe<Array<ProfileCompanySelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<ProfileCompanyOrderBy>>;
-  where?: InputMaybe<ProfileCompanyBoolExp>;
-};
-
-/** columns and relationships of "companies" */
-export type CompaniesUsersArgs = {
-  distinct_on?: InputMaybe<Array<UserCompanySelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserCompanyOrderBy>>;
-  where?: InputMaybe<UserCompanyBoolExp>;
-};
-
-/** columns and relationships of "companies" */
-export type CompaniesUsersAggregateArgs = {
-  distinct_on?: InputMaybe<Array<UserCompanySelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserCompanyOrderBy>>;
-  where?: InputMaybe<UserCompanyBoolExp>;
 };
 
 /** aggregated selection of "companies" */
@@ -2492,7 +2445,8 @@ export type CompaniesBoolExp = {
   _and?: InputMaybe<Array<CompaniesBoolExp>>;
   _not?: InputMaybe<CompaniesBoolExp>;
   _or?: InputMaybe<Array<CompaniesBoolExp>>;
-  addresses?: InputMaybe<CompanyAddressBoolExp>;
+  company_addresses?: InputMaybe<CompanyAddressBoolExp>;
+  company_profiles?: InputMaybe<ProfileCompanyBoolExp>;
   conversations?: InputMaybe<ConversationsBoolExp>;
   created_at?: InputMaybe<TimestamptzComparisonExp>;
   establish_date?: InputMaybe<TimestamptzComparisonExp>;
@@ -2500,7 +2454,6 @@ export type CompaniesBoolExp = {
   image?: InputMaybe<StringComparisonExp>;
   jobs?: InputMaybe<JobsBoolExp>;
   name?: InputMaybe<StringComparisonExp>;
-  profiles?: InputMaybe<ProfileCompanyBoolExp>;
   size?: InputMaybe<StringComparisonExp>;
   status?: InputMaybe<StringComparisonExp>;
   summary?: InputMaybe<StringComparisonExp>;
@@ -2508,7 +2461,6 @@ export type CompaniesBoolExp = {
   tenant?: InputMaybe<TenantsBoolExp>;
   tenant_id?: InputMaybe<UuidComparisonExp>;
   updated_at?: InputMaybe<TimestamptzComparisonExp>;
-  users?: InputMaybe<UserCompanyBoolExp>;
 };
 
 /** unique or primary key constraints on table "companies" */
@@ -2519,7 +2471,8 @@ export enum CompaniesConstraint {
 
 /** input type for inserting data into table "companies" */
 export type CompaniesInsertInput = {
-  addresses?: InputMaybe<CompanyAddressArrRelInsertInput>;
+  company_addresses?: InputMaybe<CompanyAddressArrRelInsertInput>;
+  company_profiles?: InputMaybe<ProfileCompanyArrRelInsertInput>;
   conversations?: InputMaybe<ConversationsArrRelInsertInput>;
   created_at?: InputMaybe<Scalars['timestamptz']>;
   establish_date?: InputMaybe<Scalars['timestamptz']>;
@@ -2527,7 +2480,6 @@ export type CompaniesInsertInput = {
   image?: InputMaybe<Scalars['String']>;
   jobs?: InputMaybe<JobsArrRelInsertInput>;
   name?: InputMaybe<Scalars['String']>;
-  profiles?: InputMaybe<ProfileCompanyArrRelInsertInput>;
   size?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<Scalars['String']>;
   summary?: InputMaybe<Scalars['String']>;
@@ -2535,7 +2487,6 @@ export type CompaniesInsertInput = {
   tenant?: InputMaybe<TenantsObjRelInsertInput>;
   tenant_id?: InputMaybe<Scalars['uuid']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
-  users?: InputMaybe<UserCompanyArrRelInsertInput>;
 };
 
 /** aggregate max on columns */
@@ -2621,7 +2572,8 @@ export type CompaniesOnConflict = {
 
 /** Ordering options when selecting data from "companies". */
 export type CompaniesOrderBy = {
-  addresses_aggregate?: InputMaybe<CompanyAddressAggregateOrderBy>;
+  company_addresses_aggregate?: InputMaybe<CompanyAddressAggregateOrderBy>;
+  company_profiles_aggregate?: InputMaybe<ProfileCompanyAggregateOrderBy>;
   conversations_aggregate?: InputMaybe<ConversationsAggregateOrderBy>;
   created_at?: InputMaybe<OrderBy>;
   establish_date?: InputMaybe<OrderBy>;
@@ -2629,7 +2581,6 @@ export type CompaniesOrderBy = {
   image?: InputMaybe<OrderBy>;
   jobs_aggregate?: InputMaybe<JobsAggregateOrderBy>;
   name?: InputMaybe<OrderBy>;
-  profiles_aggregate?: InputMaybe<ProfileCompanyAggregateOrderBy>;
   size?: InputMaybe<OrderBy>;
   status?: InputMaybe<OrderBy>;
   summary?: InputMaybe<OrderBy>;
@@ -2637,7 +2588,6 @@ export type CompaniesOrderBy = {
   tenant?: InputMaybe<TenantsOrderBy>;
   tenant_id?: InputMaybe<OrderBy>;
   updated_at?: InputMaybe<OrderBy>;
-  users_aggregate?: InputMaybe<UserCompanyAggregateOrderBy>;
 };
 
 /** primary key columns input for table: companies */
@@ -2721,6 +2671,9 @@ export type CompanyAddress = {
   /** An object relationship */
   company: Companies;
   company_id: Scalars['uuid'];
+  created_at: Scalars['timestamptz'];
+  id: Scalars['uuid'];
+  updated_at: Scalars['timestamptz'];
 };
 
 /** aggregated selection of "company_address" */
@@ -2767,10 +2720,15 @@ export type CompanyAddressBoolExp = {
   address_id?: InputMaybe<UuidComparisonExp>;
   company?: InputMaybe<CompaniesBoolExp>;
   company_id?: InputMaybe<UuidComparisonExp>;
+  created_at?: InputMaybe<TimestamptzComparisonExp>;
+  id?: InputMaybe<UuidComparisonExp>;
+  updated_at?: InputMaybe<TimestamptzComparisonExp>;
 };
 
 /** unique or primary key constraints on table "company_address" */
 export enum CompanyAddressConstraint {
+  /** unique or primary key constraint */
+  CompanyAddressCompanyIdAddressIdKey = 'company_address_company_id_address_id_key',
   /** unique or primary key constraint */
   CompanyAddressPkey = 'company_address_pkey',
 }
@@ -2781,6 +2739,9 @@ export type CompanyAddressInsertInput = {
   address_id?: InputMaybe<Scalars['uuid']>;
   company?: InputMaybe<CompaniesObjRelInsertInput>;
   company_id?: InputMaybe<Scalars['uuid']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** aggregate max on columns */
@@ -2788,12 +2749,18 @@ export type CompanyAddressMaxFields = {
   __typename?: 'company_address_max_fields';
   address_id?: Maybe<Scalars['uuid']>;
   company_id?: Maybe<Scalars['uuid']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by max() on columns of table "company_address" */
 export type CompanyAddressMaxOrderBy = {
   address_id?: InputMaybe<OrderBy>;
   company_id?: InputMaybe<OrderBy>;
+  created_at?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  updated_at?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
@@ -2801,12 +2768,18 @@ export type CompanyAddressMinFields = {
   __typename?: 'company_address_min_fields';
   address_id?: Maybe<Scalars['uuid']>;
   company_id?: Maybe<Scalars['uuid']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by min() on columns of table "company_address" */
 export type CompanyAddressMinOrderBy = {
   address_id?: InputMaybe<OrderBy>;
   company_id?: InputMaybe<OrderBy>;
+  created_at?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  updated_at?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "company_address" */
@@ -2831,12 +2804,14 @@ export type CompanyAddressOrderBy = {
   address_id?: InputMaybe<OrderBy>;
   company?: InputMaybe<CompaniesOrderBy>;
   company_id?: InputMaybe<OrderBy>;
+  created_at?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  updated_at?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: company_address */
 export type CompanyAddressPkColumnsInput = {
-  address_id: Scalars['uuid'];
-  company_id: Scalars['uuid'];
+  id: Scalars['uuid'];
 };
 
 /** select columns of table "company_address" */
@@ -2845,12 +2820,21 @@ export enum CompanyAddressSelectColumn {
   AddressId = 'address_id',
   /** column name */
   CompanyId = 'company_id',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UpdatedAt = 'updated_at',
 }
 
 /** input type for updating data in table "company_address" */
 export type CompanyAddressSetInput = {
   address_id?: InputMaybe<Scalars['uuid']>;
   company_id?: InputMaybe<Scalars['uuid']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** update columns of table "company_address" */
@@ -2859,6 +2843,12 @@ export enum CompanyAddressUpdateColumn {
   AddressId = 'address_id',
   /** column name */
   CompanyId = 'company_id',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UpdatedAt = 'updated_at',
 }
 
 /** columns and relationships of "company_sizes" */
@@ -3105,10 +3095,6 @@ export type Conversations = {
   profiles_aggregate: ProfilesAggregate;
   status: Scalars['String'];
   updated_at: Scalars['timestamptz'];
-  /** An array relationship */
-  users: Array<UserConversation>;
-  /** An aggregate relationship */
-  users_aggregate: UserConversationAggregate;
 };
 
 /** columns and relationships of "conversations" */
@@ -3145,24 +3131,6 @@ export type ConversationsProfilesAggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<ProfilesOrderBy>>;
   where?: InputMaybe<ProfilesBoolExp>;
-};
-
-/** columns and relationships of "conversations" */
-export type ConversationsUsersArgs = {
-  distinct_on?: InputMaybe<Array<UserConversationSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserConversationOrderBy>>;
-  where?: InputMaybe<UserConversationBoolExp>;
-};
-
-/** columns and relationships of "conversations" */
-export type ConversationsUsersAggregateArgs = {
-  distinct_on?: InputMaybe<Array<UserConversationSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserConversationOrderBy>>;
-  where?: InputMaybe<UserConversationBoolExp>;
 };
 
 /** aggregated selection of "conversations" */
@@ -3215,7 +3183,6 @@ export type ConversationsBoolExp = {
   profiles?: InputMaybe<ProfilesBoolExp>;
   status?: InputMaybe<StringComparisonExp>;
   updated_at?: InputMaybe<TimestamptzComparisonExp>;
-  users?: InputMaybe<UserConversationBoolExp>;
 };
 
 /** unique or primary key constraints on table "conversations" */
@@ -3236,7 +3203,6 @@ export type ConversationsInsertInput = {
   profiles?: InputMaybe<ProfilesArrRelInsertInput>;
   status?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
-  users?: InputMaybe<UserConversationArrRelInsertInput>;
 };
 
 /** aggregate max on columns */
@@ -3320,7 +3286,6 @@ export type ConversationsOrderBy = {
   profiles_aggregate?: InputMaybe<ProfilesAggregateOrderBy>;
   status?: InputMaybe<OrderBy>;
   updated_at?: InputMaybe<OrderBy>;
-  users_aggregate?: InputMaybe<UserConversationAggregateOrderBy>;
 };
 
 /** primary key columns input for table: conversations */
@@ -5790,10 +5755,18 @@ export type MutationRoot = {
   delete_messages?: Maybe<MessagesMutationResponse>;
   /** delete single row from the table: "messages" */
   delete_messages_by_pk?: Maybe<Messages>;
+  /** delete data from the table: "notifications" */
+  delete_notifications?: Maybe<NotificationsMutationResponse>;
+  /** delete single row from the table: "notifications" */
+  delete_notifications_by_pk?: Maybe<Notifications>;
   /** delete data from the table: "profile_company" */
   delete_profile_company?: Maybe<ProfileCompanyMutationResponse>;
   /** delete single row from the table: "profile_company" */
   delete_profile_company_by_pk?: Maybe<ProfileCompany>;
+  /** delete data from the table: "profile_notification" */
+  delete_profile_notification?: Maybe<ProfileNotificationMutationResponse>;
+  /** delete single row from the table: "profile_notification" */
+  delete_profile_notification_by_pk?: Maybe<ProfileNotification>;
   /** delete data from the table: "profiles" */
   delete_profiles?: Maybe<ProfilesMutationResponse>;
   /** delete single row from the table: "profiles" */
@@ -5806,26 +5779,6 @@ export type MutationRoot = {
   delete_tenants?: Maybe<TenantsMutationResponse>;
   /** delete single row from the table: "tenants" */
   delete_tenants_by_pk?: Maybe<Tenants>;
-  /** delete data from the table: "user_address" */
-  delete_user_address?: Maybe<UserAddressMutationResponse>;
-  /** delete single row from the table: "user_address" */
-  delete_user_address_by_pk?: Maybe<UserAddress>;
-  /** delete data from the table: "user_company" */
-  delete_user_company?: Maybe<UserCompanyMutationResponse>;
-  /** delete single row from the table: "user_company" */
-  delete_user_company_by_pk?: Maybe<UserCompany>;
-  /** delete data from the table: "user_conversation" */
-  delete_user_conversation?: Maybe<UserConversationMutationResponse>;
-  /** delete single row from the table: "user_conversation" */
-  delete_user_conversation_by_pk?: Maybe<UserConversation>;
-  /** delete data from the table: "user_location" */
-  delete_user_location?: Maybe<UserLocationMutationResponse>;
-  /** delete single row from the table: "user_location" */
-  delete_user_location_by_pk?: Maybe<UserLocation>;
-  /** delete data from the table: "users_tenants" */
-  delete_users_tenants?: Maybe<UsersTenantsMutationResponse>;
-  /** delete single row from the table: "users_tenants" */
-  delete_users_tenants_by_pk?: Maybe<UsersTenants>;
   /** delete data from the table: "volunteers" */
   delete_volunteers?: Maybe<VolunteersMutationResponse>;
   /** delete single row from the table: "volunteers" */
@@ -5934,10 +5887,18 @@ export type MutationRoot = {
   insert_messages?: Maybe<MessagesMutationResponse>;
   /** insert a single row into the table: "messages" */
   insert_messages_one?: Maybe<Messages>;
+  /** insert data into the table: "notifications" */
+  insert_notifications?: Maybe<NotificationsMutationResponse>;
+  /** insert a single row into the table: "notifications" */
+  insert_notifications_one?: Maybe<Notifications>;
   /** insert data into the table: "profile_company" */
   insert_profile_company?: Maybe<ProfileCompanyMutationResponse>;
   /** insert a single row into the table: "profile_company" */
   insert_profile_company_one?: Maybe<ProfileCompany>;
+  /** insert data into the table: "profile_notification" */
+  insert_profile_notification?: Maybe<ProfileNotificationMutationResponse>;
+  /** insert a single row into the table: "profile_notification" */
+  insert_profile_notification_one?: Maybe<ProfileNotification>;
   /** insert data into the table: "profiles" */
   insert_profiles?: Maybe<ProfilesMutationResponse>;
   /** insert a single row into the table: "profiles" */
@@ -5950,26 +5911,6 @@ export type MutationRoot = {
   insert_tenants?: Maybe<TenantsMutationResponse>;
   /** insert a single row into the table: "tenants" */
   insert_tenants_one?: Maybe<Tenants>;
-  /** insert data into the table: "user_address" */
-  insert_user_address?: Maybe<UserAddressMutationResponse>;
-  /** insert a single row into the table: "user_address" */
-  insert_user_address_one?: Maybe<UserAddress>;
-  /** insert data into the table: "user_company" */
-  insert_user_company?: Maybe<UserCompanyMutationResponse>;
-  /** insert a single row into the table: "user_company" */
-  insert_user_company_one?: Maybe<UserCompany>;
-  /** insert data into the table: "user_conversation" */
-  insert_user_conversation?: Maybe<UserConversationMutationResponse>;
-  /** insert a single row into the table: "user_conversation" */
-  insert_user_conversation_one?: Maybe<UserConversation>;
-  /** insert data into the table: "user_location" */
-  insert_user_location?: Maybe<UserLocationMutationResponse>;
-  /** insert a single row into the table: "user_location" */
-  insert_user_location_one?: Maybe<UserLocation>;
-  /** insert data into the table: "users_tenants" */
-  insert_users_tenants?: Maybe<UsersTenantsMutationResponse>;
-  /** insert a single row into the table: "users_tenants" */
-  insert_users_tenants_one?: Maybe<UsersTenants>;
   /** insert data into the table: "volunteers" */
   insert_volunteers?: Maybe<VolunteersMutationResponse>;
   /** insert a single row into the table: "volunteers" */
@@ -6078,10 +6019,18 @@ export type MutationRoot = {
   update_messages?: Maybe<MessagesMutationResponse>;
   /** update single row of the table: "messages" */
   update_messages_by_pk?: Maybe<Messages>;
+  /** update data of the table: "notifications" */
+  update_notifications?: Maybe<NotificationsMutationResponse>;
+  /** update single row of the table: "notifications" */
+  update_notifications_by_pk?: Maybe<Notifications>;
   /** update data of the table: "profile_company" */
   update_profile_company?: Maybe<ProfileCompanyMutationResponse>;
   /** update single row of the table: "profile_company" */
   update_profile_company_by_pk?: Maybe<ProfileCompany>;
+  /** update data of the table: "profile_notification" */
+  update_profile_notification?: Maybe<ProfileNotificationMutationResponse>;
+  /** update single row of the table: "profile_notification" */
+  update_profile_notification_by_pk?: Maybe<ProfileNotification>;
   /** update data of the table: "profiles" */
   update_profiles?: Maybe<ProfilesMutationResponse>;
   /** update single row of the table: "profiles" */
@@ -6094,26 +6043,6 @@ export type MutationRoot = {
   update_tenants?: Maybe<TenantsMutationResponse>;
   /** update single row of the table: "tenants" */
   update_tenants_by_pk?: Maybe<Tenants>;
-  /** update data of the table: "user_address" */
-  update_user_address?: Maybe<UserAddressMutationResponse>;
-  /** update single row of the table: "user_address" */
-  update_user_address_by_pk?: Maybe<UserAddress>;
-  /** update data of the table: "user_company" */
-  update_user_company?: Maybe<UserCompanyMutationResponse>;
-  /** update single row of the table: "user_company" */
-  update_user_company_by_pk?: Maybe<UserCompany>;
-  /** update data of the table: "user_conversation" */
-  update_user_conversation?: Maybe<UserConversationMutationResponse>;
-  /** update single row of the table: "user_conversation" */
-  update_user_conversation_by_pk?: Maybe<UserConversation>;
-  /** update data of the table: "user_location" */
-  update_user_location?: Maybe<UserLocationMutationResponse>;
-  /** update single row of the table: "user_location" */
-  update_user_location_by_pk?: Maybe<UserLocation>;
-  /** update data of the table: "users_tenants" */
-  update_users_tenants?: Maybe<UsersTenantsMutationResponse>;
-  /** update single row of the table: "users_tenants" */
-  update_users_tenants_by_pk?: Maybe<UsersTenants>;
   /** update data of the table: "volunteers" */
   update_volunteers?: Maybe<VolunteersMutationResponse>;
   /** update single row of the table: "volunteers" */
@@ -6267,8 +6196,7 @@ export type MutationRootDeleteCompanyAddressArgs = {
 
 /** mutation root */
 export type MutationRootDeleteCompanyAddressByPkArgs = {
-  address_id: Scalars['uuid'];
-  company_id: Scalars['uuid'];
+  id: Scalars['uuid'];
 };
 
 /** mutation root */
@@ -6382,14 +6310,33 @@ export type MutationRootDeleteMessagesByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootDeleteNotificationsArgs = {
+  where: NotificationsBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteNotificationsByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+/** mutation root */
 export type MutationRootDeleteProfileCompanyArgs = {
   where: ProfileCompanyBoolExp;
 };
 
 /** mutation root */
 export type MutationRootDeleteProfileCompanyByPkArgs = {
-  company_id: Scalars['uuid'];
-  profile_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteProfileNotificationArgs = {
+  where: ProfileNotificationBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteProfileNotificationByPkArgs = {
+  id: Scalars['uuid'];
 };
 
 /** mutation root */
@@ -6419,59 +6366,6 @@ export type MutationRootDeleteTenantsArgs = {
 
 /** mutation root */
 export type MutationRootDeleteTenantsByPkArgs = {
-  id: Scalars['uuid'];
-};
-
-/** mutation root */
-export type MutationRootDeleteUserAddressArgs = {
-  where: UserAddressBoolExp;
-};
-
-/** mutation root */
-export type MutationRootDeleteUserAddressByPkArgs = {
-  address_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
-};
-
-/** mutation root */
-export type MutationRootDeleteUserCompanyArgs = {
-  where: UserCompanyBoolExp;
-};
-
-/** mutation root */
-export type MutationRootDeleteUserCompanyByPkArgs = {
-  company_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
-};
-
-/** mutation root */
-export type MutationRootDeleteUserConversationArgs = {
-  where: UserConversationBoolExp;
-};
-
-/** mutation root */
-export type MutationRootDeleteUserConversationByPkArgs = {
-  conversation_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
-};
-
-/** mutation root */
-export type MutationRootDeleteUserLocationArgs = {
-  where: UserLocationBoolExp;
-};
-
-/** mutation root */
-export type MutationRootDeleteUserLocationByPkArgs = {
-  user_id: Scalars['uuid'];
-};
-
-/** mutation root */
-export type MutationRootDeleteUsersTenantsArgs = {
-  where: UsersTenantsBoolExp;
-};
-
-/** mutation root */
-export type MutationRootDeleteUsersTenantsByPkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -6798,6 +6692,18 @@ export type MutationRootInsertMessagesOneArgs = {
 };
 
 /** mutation root */
+export type MutationRootInsertNotificationsArgs = {
+  objects: Array<NotificationsInsertInput>;
+  on_conflict?: InputMaybe<NotificationsOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNotificationsOneArgs = {
+  object: NotificationsInsertInput;
+  on_conflict?: InputMaybe<NotificationsOnConflict>;
+};
+
+/** mutation root */
 export type MutationRootInsertProfileCompanyArgs = {
   objects: Array<ProfileCompanyInsertInput>;
   on_conflict?: InputMaybe<ProfileCompanyOnConflict>;
@@ -6807,6 +6713,18 @@ export type MutationRootInsertProfileCompanyArgs = {
 export type MutationRootInsertProfileCompanyOneArgs = {
   object: ProfileCompanyInsertInput;
   on_conflict?: InputMaybe<ProfileCompanyOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertProfileNotificationArgs = {
+  objects: Array<ProfileNotificationInsertInput>;
+  on_conflict?: InputMaybe<ProfileNotificationOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertProfileNotificationOneArgs = {
+  object: ProfileNotificationInsertInput;
+  on_conflict?: InputMaybe<ProfileNotificationOnConflict>;
 };
 
 /** mutation root */
@@ -6843,66 +6761,6 @@ export type MutationRootInsertTenantsArgs = {
 export type MutationRootInsertTenantsOneArgs = {
   object: TenantsInsertInput;
   on_conflict?: InputMaybe<TenantsOnConflict>;
-};
-
-/** mutation root */
-export type MutationRootInsertUserAddressArgs = {
-  objects: Array<UserAddressInsertInput>;
-  on_conflict?: InputMaybe<UserAddressOnConflict>;
-};
-
-/** mutation root */
-export type MutationRootInsertUserAddressOneArgs = {
-  object: UserAddressInsertInput;
-  on_conflict?: InputMaybe<UserAddressOnConflict>;
-};
-
-/** mutation root */
-export type MutationRootInsertUserCompanyArgs = {
-  objects: Array<UserCompanyInsertInput>;
-  on_conflict?: InputMaybe<UserCompanyOnConflict>;
-};
-
-/** mutation root */
-export type MutationRootInsertUserCompanyOneArgs = {
-  object: UserCompanyInsertInput;
-  on_conflict?: InputMaybe<UserCompanyOnConflict>;
-};
-
-/** mutation root */
-export type MutationRootInsertUserConversationArgs = {
-  objects: Array<UserConversationInsertInput>;
-  on_conflict?: InputMaybe<UserConversationOnConflict>;
-};
-
-/** mutation root */
-export type MutationRootInsertUserConversationOneArgs = {
-  object: UserConversationInsertInput;
-  on_conflict?: InputMaybe<UserConversationOnConflict>;
-};
-
-/** mutation root */
-export type MutationRootInsertUserLocationArgs = {
-  objects: Array<UserLocationInsertInput>;
-  on_conflict?: InputMaybe<UserLocationOnConflict>;
-};
-
-/** mutation root */
-export type MutationRootInsertUserLocationOneArgs = {
-  object: UserLocationInsertInput;
-  on_conflict?: InputMaybe<UserLocationOnConflict>;
-};
-
-/** mutation root */
-export type MutationRootInsertUsersTenantsArgs = {
-  objects: Array<UsersTenantsInsertInput>;
-  on_conflict?: InputMaybe<UsersTenantsOnConflict>;
-};
-
-/** mutation root */
-export type MutationRootInsertUsersTenantsOneArgs = {
-  object: UsersTenantsInsertInput;
-  on_conflict?: InputMaybe<UsersTenantsOnConflict>;
 };
 
 /** mutation root */
@@ -7256,15 +7114,69 @@ export type MutationRootUpdateMessagesByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateNotificationsArgs = {
+  _append?: InputMaybe<NotificationsAppendInput>;
+  _delete_at_path?: InputMaybe<NotificationsDeleteAtPathInput>;
+  _delete_elem?: InputMaybe<NotificationsDeleteElemInput>;
+  _delete_key?: InputMaybe<NotificationsDeleteKeyInput>;
+  _prepend?: InputMaybe<NotificationsPrependInput>;
+  _set?: InputMaybe<NotificationsSetInput>;
+  where: NotificationsBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotificationsByPkArgs = {
+  _append?: InputMaybe<NotificationsAppendInput>;
+  _delete_at_path?: InputMaybe<NotificationsDeleteAtPathInput>;
+  _delete_elem?: InputMaybe<NotificationsDeleteElemInput>;
+  _delete_key?: InputMaybe<NotificationsDeleteKeyInput>;
+  _prepend?: InputMaybe<NotificationsPrependInput>;
+  _set?: InputMaybe<NotificationsSetInput>;
+  pk_columns: NotificationsPkColumnsInput;
+};
+
+/** mutation root */
 export type MutationRootUpdateProfileCompanyArgs = {
+  _append?: InputMaybe<ProfileCompanyAppendInput>;
+  _delete_at_path?: InputMaybe<ProfileCompanyDeleteAtPathInput>;
+  _delete_elem?: InputMaybe<ProfileCompanyDeleteElemInput>;
+  _delete_key?: InputMaybe<ProfileCompanyDeleteKeyInput>;
+  _prepend?: InputMaybe<ProfileCompanyPrependInput>;
   _set?: InputMaybe<ProfileCompanySetInput>;
   where: ProfileCompanyBoolExp;
 };
 
 /** mutation root */
 export type MutationRootUpdateProfileCompanyByPkArgs = {
+  _append?: InputMaybe<ProfileCompanyAppendInput>;
+  _delete_at_path?: InputMaybe<ProfileCompanyDeleteAtPathInput>;
+  _delete_elem?: InputMaybe<ProfileCompanyDeleteElemInput>;
+  _delete_key?: InputMaybe<ProfileCompanyDeleteKeyInput>;
+  _prepend?: InputMaybe<ProfileCompanyPrependInput>;
   _set?: InputMaybe<ProfileCompanySetInput>;
   pk_columns: ProfileCompanyPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateProfileNotificationArgs = {
+  _append?: InputMaybe<ProfileNotificationAppendInput>;
+  _delete_at_path?: InputMaybe<ProfileNotificationDeleteAtPathInput>;
+  _delete_elem?: InputMaybe<ProfileNotificationDeleteElemInput>;
+  _delete_key?: InputMaybe<ProfileNotificationDeleteKeyInput>;
+  _prepend?: InputMaybe<ProfileNotificationPrependInput>;
+  _set?: InputMaybe<ProfileNotificationSetInput>;
+  where: ProfileNotificationBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateProfileNotificationByPkArgs = {
+  _append?: InputMaybe<ProfileNotificationAppendInput>;
+  _delete_at_path?: InputMaybe<ProfileNotificationDeleteAtPathInput>;
+  _delete_elem?: InputMaybe<ProfileNotificationDeleteElemInput>;
+  _delete_key?: InputMaybe<ProfileNotificationDeleteKeyInput>;
+  _prepend?: InputMaybe<ProfileNotificationPrependInput>;
+  _set?: InputMaybe<ProfileNotificationSetInput>;
+  pk_columns: ProfileNotificationPkColumnsInput;
 };
 
 /** mutation root */
@@ -7314,66 +7226,6 @@ export type MutationRootUpdateTenantsByPkArgs = {
 };
 
 /** mutation root */
-export type MutationRootUpdateUserAddressArgs = {
-  _set?: InputMaybe<UserAddressSetInput>;
-  where: UserAddressBoolExp;
-};
-
-/** mutation root */
-export type MutationRootUpdateUserAddressByPkArgs = {
-  _set?: InputMaybe<UserAddressSetInput>;
-  pk_columns: UserAddressPkColumnsInput;
-};
-
-/** mutation root */
-export type MutationRootUpdateUserCompanyArgs = {
-  _set?: InputMaybe<UserCompanySetInput>;
-  where: UserCompanyBoolExp;
-};
-
-/** mutation root */
-export type MutationRootUpdateUserCompanyByPkArgs = {
-  _set?: InputMaybe<UserCompanySetInput>;
-  pk_columns: UserCompanyPkColumnsInput;
-};
-
-/** mutation root */
-export type MutationRootUpdateUserConversationArgs = {
-  _set?: InputMaybe<UserConversationSetInput>;
-  where: UserConversationBoolExp;
-};
-
-/** mutation root */
-export type MutationRootUpdateUserConversationByPkArgs = {
-  _set?: InputMaybe<UserConversationSetInput>;
-  pk_columns: UserConversationPkColumnsInput;
-};
-
-/** mutation root */
-export type MutationRootUpdateUserLocationArgs = {
-  _set?: InputMaybe<UserLocationSetInput>;
-  where: UserLocationBoolExp;
-};
-
-/** mutation root */
-export type MutationRootUpdateUserLocationByPkArgs = {
-  _set?: InputMaybe<UserLocationSetInput>;
-  pk_columns: UserLocationPkColumnsInput;
-};
-
-/** mutation root */
-export type MutationRootUpdateUsersTenantsArgs = {
-  _set?: InputMaybe<UsersTenantsSetInput>;
-  where: UsersTenantsBoolExp;
-};
-
-/** mutation root */
-export type MutationRootUpdateUsersTenantsByPkArgs = {
-  _set?: InputMaybe<UsersTenantsSetInput>;
-  pk_columns: UsersTenantsPkColumnsInput;
-};
-
-/** mutation root */
 export type MutationRootUpdateVolunteersArgs = {
   _set?: InputMaybe<VolunteersSetInput>;
   where: VolunteersBoolExp;
@@ -7384,6 +7236,200 @@ export type MutationRootUpdateVolunteersByPkArgs = {
   _set?: InputMaybe<VolunteersSetInput>;
   pk_columns: VolunteersPkColumnsInput;
 };
+
+/** columns and relationships of "notifications" */
+export type Notifications = {
+  __typename?: 'notifications';
+  created_at: Scalars['timestamptz'];
+  id: Scalars['uuid'];
+  message: Scalars['jsonb'];
+  /** An array relationship */
+  notification_profiles: Array<ProfileNotification>;
+  /** An aggregate relationship */
+  notification_profiles_aggregate: ProfileNotificationAggregate;
+  updated_at: Scalars['timestamptz'];
+};
+
+/** columns and relationships of "notifications" */
+export type NotificationsMessageArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+/** columns and relationships of "notifications" */
+export type NotificationsNotificationProfilesArgs = {
+  distinct_on?: InputMaybe<Array<ProfileNotificationSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileNotificationOrderBy>>;
+  where?: InputMaybe<ProfileNotificationBoolExp>;
+};
+
+/** columns and relationships of "notifications" */
+export type NotificationsNotificationProfilesAggregateArgs = {
+  distinct_on?: InputMaybe<Array<ProfileNotificationSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileNotificationOrderBy>>;
+  where?: InputMaybe<ProfileNotificationBoolExp>;
+};
+
+/** aggregated selection of "notifications" */
+export type NotificationsAggregate = {
+  __typename?: 'notifications_aggregate';
+  aggregate?: Maybe<NotificationsAggregateFields>;
+  nodes: Array<Notifications>;
+};
+
+/** aggregate fields of "notifications" */
+export type NotificationsAggregateFields = {
+  __typename?: 'notifications_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<NotificationsMaxFields>;
+  min?: Maybe<NotificationsMinFields>;
+};
+
+/** aggregate fields of "notifications" */
+export type NotificationsAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<NotificationsSelectColumn>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type NotificationsAppendInput = {
+  message?: InputMaybe<Scalars['jsonb']>;
+};
+
+/** Boolean expression to filter rows from the table "notifications". All fields are combined with a logical 'AND'. */
+export type NotificationsBoolExp = {
+  _and?: InputMaybe<Array<NotificationsBoolExp>>;
+  _not?: InputMaybe<NotificationsBoolExp>;
+  _or?: InputMaybe<Array<NotificationsBoolExp>>;
+  created_at?: InputMaybe<TimestamptzComparisonExp>;
+  id?: InputMaybe<UuidComparisonExp>;
+  message?: InputMaybe<JsonbComparisonExp>;
+  notification_profiles?: InputMaybe<ProfileNotificationBoolExp>;
+  updated_at?: InputMaybe<TimestamptzComparisonExp>;
+};
+
+/** unique or primary key constraints on table "notifications" */
+export enum NotificationsConstraint {
+  /** unique or primary key constraint */
+  NotificationsPkey = 'notifications_pkey',
+}
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type NotificationsDeleteAtPathInput = {
+  message?: InputMaybe<Array<Scalars['String']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type NotificationsDeleteElemInput = {
+  message?: InputMaybe<Scalars['Int']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type NotificationsDeleteKeyInput = {
+  message?: InputMaybe<Scalars['String']>;
+};
+
+/** input type for inserting data into table "notifications" */
+export type NotificationsInsertInput = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  message?: InputMaybe<Scalars['jsonb']>;
+  notification_profiles?: InputMaybe<ProfileNotificationArrRelInsertInput>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type NotificationsMaxFields = {
+  __typename?: 'notifications_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate min on columns */
+export type NotificationsMinFields = {
+  __typename?: 'notifications_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** response of any mutation on the table "notifications" */
+export type NotificationsMutationResponse = {
+  __typename?: 'notifications_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Notifications>;
+};
+
+/** input type for inserting object relation for remote table "notifications" */
+export type NotificationsObjRelInsertInput = {
+  data: NotificationsInsertInput;
+  /** upsert condition */
+  on_conflict?: InputMaybe<NotificationsOnConflict>;
+};
+
+/** on_conflict condition type for table "notifications" */
+export type NotificationsOnConflict = {
+  constraint: NotificationsConstraint;
+  update_columns?: Array<NotificationsUpdateColumn>;
+  where?: InputMaybe<NotificationsBoolExp>;
+};
+
+/** Ordering options when selecting data from "notifications". */
+export type NotificationsOrderBy = {
+  created_at?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  message?: InputMaybe<OrderBy>;
+  notification_profiles_aggregate?: InputMaybe<ProfileNotificationAggregateOrderBy>;
+  updated_at?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: notifications */
+export type NotificationsPkColumnsInput = {
+  id: Scalars['uuid'];
+};
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type NotificationsPrependInput = {
+  message?: InputMaybe<Scalars['jsonb']>;
+};
+
+/** select columns of table "notifications" */
+export enum NotificationsSelectColumn {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Message = 'message',
+  /** column name */
+  UpdatedAt = 'updated_at',
+}
+
+/** input type for updating data in table "notifications" */
+export type NotificationsSetInput = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  message?: InputMaybe<Scalars['jsonb']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "notifications" */
+export enum NotificationsUpdateColumn {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Message = 'message',
+  /** column name */
+  UpdatedAt = 'updated_at',
+}
 
 /** column ordering options */
 export enum OrderBy {
@@ -7407,9 +7453,18 @@ export type ProfileCompany = {
   /** An object relationship */
   company: Companies;
   company_id: Scalars['uuid'];
+  created_at: Scalars['timestamptz'];
+  id: Scalars['uuid'];
+  position?: Maybe<Scalars['jsonb']>;
   /** An object relationship */
   profile: Profiles;
   profile_id: Scalars['uuid'];
+  updated_at: Scalars['timestamptz'];
+};
+
+/** columns and relationships of "profile_company" */
+export type ProfileCompanyPositionArgs = {
+  path?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregated selection of "profile_company" */
@@ -7440,6 +7495,11 @@ export type ProfileCompanyAggregateOrderBy = {
   min?: InputMaybe<ProfileCompanyMinOrderBy>;
 };
 
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type ProfileCompanyAppendInput = {
+  position?: InputMaybe<Scalars['jsonb']>;
+};
+
 /** input type for inserting array relation for remote table "profile_company" */
 export type ProfileCompanyArrRelInsertInput = {
   data: Array<ProfileCompanyInsertInput>;
@@ -7454,48 +7514,87 @@ export type ProfileCompanyBoolExp = {
   _or?: InputMaybe<Array<ProfileCompanyBoolExp>>;
   company?: InputMaybe<CompaniesBoolExp>;
   company_id?: InputMaybe<UuidComparisonExp>;
+  created_at?: InputMaybe<TimestamptzComparisonExp>;
+  id?: InputMaybe<UuidComparisonExp>;
+  position?: InputMaybe<JsonbComparisonExp>;
   profile?: InputMaybe<ProfilesBoolExp>;
   profile_id?: InputMaybe<UuidComparisonExp>;
+  updated_at?: InputMaybe<TimestamptzComparisonExp>;
 };
 
 /** unique or primary key constraints on table "profile_company" */
 export enum ProfileCompanyConstraint {
   /** unique or primary key constraint */
   ProfileCompanyPkey = 'profile_company_pkey',
+  /** unique or primary key constraint */
+  ProfileCompanyProfileIdCompanyIdKey = 'profile_company_profile_id_company_id_key',
+  /** unique or primary key constraint */
+  ProfileIdCompanyIdPkey = 'profile_id_company_id_pkey',
 }
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type ProfileCompanyDeleteAtPathInput = {
+  position?: InputMaybe<Array<Scalars['String']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type ProfileCompanyDeleteElemInput = {
+  position?: InputMaybe<Scalars['Int']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type ProfileCompanyDeleteKeyInput = {
+  position?: InputMaybe<Scalars['String']>;
+};
 
 /** input type for inserting data into table "profile_company" */
 export type ProfileCompanyInsertInput = {
   company?: InputMaybe<CompaniesObjRelInsertInput>;
   company_id?: InputMaybe<Scalars['uuid']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  position?: InputMaybe<Scalars['jsonb']>;
   profile?: InputMaybe<ProfilesObjRelInsertInput>;
   profile_id?: InputMaybe<Scalars['uuid']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** aggregate max on columns */
 export type ProfileCompanyMaxFields = {
   __typename?: 'profile_company_max_fields';
   company_id?: Maybe<Scalars['uuid']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
   profile_id?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by max() on columns of table "profile_company" */
 export type ProfileCompanyMaxOrderBy = {
   company_id?: InputMaybe<OrderBy>;
+  created_at?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
   profile_id?: InputMaybe<OrderBy>;
+  updated_at?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
 export type ProfileCompanyMinFields = {
   __typename?: 'profile_company_min_fields';
   company_id?: Maybe<Scalars['uuid']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
   profile_id?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by min() on columns of table "profile_company" */
 export type ProfileCompanyMinOrderBy = {
   company_id?: InputMaybe<OrderBy>;
+  created_at?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
   profile_id?: InputMaybe<OrderBy>;
+  updated_at?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "profile_company" */
@@ -7518,14 +7617,22 @@ export type ProfileCompanyOnConflict = {
 export type ProfileCompanyOrderBy = {
   company?: InputMaybe<CompaniesOrderBy>;
   company_id?: InputMaybe<OrderBy>;
+  created_at?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  position?: InputMaybe<OrderBy>;
   profile?: InputMaybe<ProfilesOrderBy>;
   profile_id?: InputMaybe<OrderBy>;
+  updated_at?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: profile_company */
 export type ProfileCompanyPkColumnsInput = {
-  company_id: Scalars['uuid'];
-  profile_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+};
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type ProfileCompanyPrependInput = {
+  position?: InputMaybe<Scalars['jsonb']>;
 };
 
 /** select columns of table "profile_company" */
@@ -7533,13 +7640,25 @@ export enum ProfileCompanySelectColumn {
   /** column name */
   CompanyId = 'company_id',
   /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Position = 'position',
+  /** column name */
   ProfileId = 'profile_id',
+  /** column name */
+  UpdatedAt = 'updated_at',
 }
 
 /** input type for updating data in table "profile_company" */
 export type ProfileCompanySetInput = {
   company_id?: InputMaybe<Scalars['uuid']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  position?: InputMaybe<Scalars['jsonb']>;
   profile_id?: InputMaybe<Scalars['uuid']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** update columns of table "profile_company" */
@@ -7547,7 +7666,283 @@ export enum ProfileCompanyUpdateColumn {
   /** column name */
   CompanyId = 'company_id',
   /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Position = 'position',
+  /** column name */
   ProfileId = 'profile_id',
+  /** column name */
+  UpdatedAt = 'updated_at',
+}
+
+/** columns and relationships of "profile_notification" */
+export type ProfileNotification = {
+  __typename?: 'profile_notification';
+  created_at: Scalars['timestamptz'];
+  id: Scalars['uuid'];
+  /** An object relationship */
+  notification: Notifications;
+  notification_id: Scalars['uuid'];
+  /** An object relationship */
+  profile: Profiles;
+  profile_id: Scalars['uuid'];
+  receipt?: Maybe<Scalars['jsonb']>;
+  response?: Maybe<Scalars['jsonb']>;
+  ticket?: Maybe<Scalars['jsonb']>;
+  updated_at: Scalars['timestamptz'];
+};
+
+/** columns and relationships of "profile_notification" */
+export type ProfileNotificationReceiptArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+/** columns and relationships of "profile_notification" */
+export type ProfileNotificationResponseArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+/** columns and relationships of "profile_notification" */
+export type ProfileNotificationTicketArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregated selection of "profile_notification" */
+export type ProfileNotificationAggregate = {
+  __typename?: 'profile_notification_aggregate';
+  aggregate?: Maybe<ProfileNotificationAggregateFields>;
+  nodes: Array<ProfileNotification>;
+};
+
+/** aggregate fields of "profile_notification" */
+export type ProfileNotificationAggregateFields = {
+  __typename?: 'profile_notification_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<ProfileNotificationMaxFields>;
+  min?: Maybe<ProfileNotificationMinFields>;
+};
+
+/** aggregate fields of "profile_notification" */
+export type ProfileNotificationAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<ProfileNotificationSelectColumn>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "profile_notification" */
+export type ProfileNotificationAggregateOrderBy = {
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<ProfileNotificationMaxOrderBy>;
+  min?: InputMaybe<ProfileNotificationMinOrderBy>;
+};
+
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type ProfileNotificationAppendInput = {
+  receipt?: InputMaybe<Scalars['jsonb']>;
+  response?: InputMaybe<Scalars['jsonb']>;
+  ticket?: InputMaybe<Scalars['jsonb']>;
+};
+
+/** input type for inserting array relation for remote table "profile_notification" */
+export type ProfileNotificationArrRelInsertInput = {
+  data: Array<ProfileNotificationInsertInput>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<ProfileNotificationOnConflict>;
+};
+
+/** Boolean expression to filter rows from the table "profile_notification". All fields are combined with a logical 'AND'. */
+export type ProfileNotificationBoolExp = {
+  _and?: InputMaybe<Array<ProfileNotificationBoolExp>>;
+  _not?: InputMaybe<ProfileNotificationBoolExp>;
+  _or?: InputMaybe<Array<ProfileNotificationBoolExp>>;
+  created_at?: InputMaybe<TimestamptzComparisonExp>;
+  id?: InputMaybe<UuidComparisonExp>;
+  notification?: InputMaybe<NotificationsBoolExp>;
+  notification_id?: InputMaybe<UuidComparisonExp>;
+  profile?: InputMaybe<ProfilesBoolExp>;
+  profile_id?: InputMaybe<UuidComparisonExp>;
+  receipt?: InputMaybe<JsonbComparisonExp>;
+  response?: InputMaybe<JsonbComparisonExp>;
+  ticket?: InputMaybe<JsonbComparisonExp>;
+  updated_at?: InputMaybe<TimestamptzComparisonExp>;
+};
+
+/** unique or primary key constraints on table "profile_notification" */
+export enum ProfileNotificationConstraint {
+  /** unique or primary key constraint */
+  ProfileIdNotificationIdPkey = 'profile_id_notification_id_pkey',
+  /** unique or primary key constraint */
+  ProfileNotificationPkey = 'profile_notification_pkey',
+  /** unique or primary key constraint */
+  ProfileNotificationProfileIdNotificationIdKey = 'profile_notification_profile_id_notification_id_key',
+}
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type ProfileNotificationDeleteAtPathInput = {
+  receipt?: InputMaybe<Array<Scalars['String']>>;
+  response?: InputMaybe<Array<Scalars['String']>>;
+  ticket?: InputMaybe<Array<Scalars['String']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type ProfileNotificationDeleteElemInput = {
+  receipt?: InputMaybe<Scalars['Int']>;
+  response?: InputMaybe<Scalars['Int']>;
+  ticket?: InputMaybe<Scalars['Int']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type ProfileNotificationDeleteKeyInput = {
+  receipt?: InputMaybe<Scalars['String']>;
+  response?: InputMaybe<Scalars['String']>;
+  ticket?: InputMaybe<Scalars['String']>;
+};
+
+/** input type for inserting data into table "profile_notification" */
+export type ProfileNotificationInsertInput = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  notification?: InputMaybe<NotificationsObjRelInsertInput>;
+  notification_id?: InputMaybe<Scalars['uuid']>;
+  profile?: InputMaybe<ProfilesObjRelInsertInput>;
+  profile_id?: InputMaybe<Scalars['uuid']>;
+  receipt?: InputMaybe<Scalars['jsonb']>;
+  response?: InputMaybe<Scalars['jsonb']>;
+  ticket?: InputMaybe<Scalars['jsonb']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type ProfileNotificationMaxFields = {
+  __typename?: 'profile_notification_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  notification_id?: Maybe<Scalars['uuid']>;
+  profile_id?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by max() on columns of table "profile_notification" */
+export type ProfileNotificationMaxOrderBy = {
+  created_at?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  notification_id?: InputMaybe<OrderBy>;
+  profile_id?: InputMaybe<OrderBy>;
+  updated_at?: InputMaybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type ProfileNotificationMinFields = {
+  __typename?: 'profile_notification_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  notification_id?: Maybe<Scalars['uuid']>;
+  profile_id?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by min() on columns of table "profile_notification" */
+export type ProfileNotificationMinOrderBy = {
+  created_at?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  notification_id?: InputMaybe<OrderBy>;
+  profile_id?: InputMaybe<OrderBy>;
+  updated_at?: InputMaybe<OrderBy>;
+};
+
+/** response of any mutation on the table "profile_notification" */
+export type ProfileNotificationMutationResponse = {
+  __typename?: 'profile_notification_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<ProfileNotification>;
+};
+
+/** on_conflict condition type for table "profile_notification" */
+export type ProfileNotificationOnConflict = {
+  constraint: ProfileNotificationConstraint;
+  update_columns?: Array<ProfileNotificationUpdateColumn>;
+  where?: InputMaybe<ProfileNotificationBoolExp>;
+};
+
+/** Ordering options when selecting data from "profile_notification". */
+export type ProfileNotificationOrderBy = {
+  created_at?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  notification?: InputMaybe<NotificationsOrderBy>;
+  notification_id?: InputMaybe<OrderBy>;
+  profile?: InputMaybe<ProfilesOrderBy>;
+  profile_id?: InputMaybe<OrderBy>;
+  receipt?: InputMaybe<OrderBy>;
+  response?: InputMaybe<OrderBy>;
+  ticket?: InputMaybe<OrderBy>;
+  updated_at?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: profile_notification */
+export type ProfileNotificationPkColumnsInput = {
+  id: Scalars['uuid'];
+};
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type ProfileNotificationPrependInput = {
+  receipt?: InputMaybe<Scalars['jsonb']>;
+  response?: InputMaybe<Scalars['jsonb']>;
+  ticket?: InputMaybe<Scalars['jsonb']>;
+};
+
+/** select columns of table "profile_notification" */
+export enum ProfileNotificationSelectColumn {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  NotificationId = 'notification_id',
+  /** column name */
+  ProfileId = 'profile_id',
+  /** column name */
+  Receipt = 'receipt',
+  /** column name */
+  Response = 'response',
+  /** column name */
+  Ticket = 'ticket',
+  /** column name */
+  UpdatedAt = 'updated_at',
+}
+
+/** input type for updating data in table "profile_notification" */
+export type ProfileNotificationSetInput = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  notification_id?: InputMaybe<Scalars['uuid']>;
+  profile_id?: InputMaybe<Scalars['uuid']>;
+  receipt?: InputMaybe<Scalars['jsonb']>;
+  response?: InputMaybe<Scalars['jsonb']>;
+  ticket?: InputMaybe<Scalars['jsonb']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "profile_notification" */
+export enum ProfileNotificationUpdateColumn {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  NotificationId = 'notification_id',
+  /** column name */
+  ProfileId = 'profile_id',
+  /** column name */
+  Receipt = 'receipt',
+  /** column name */
+  Response = 'response',
+  /** column name */
+  Ticket = 'ticket',
+  /** column name */
+  UpdatedAt = 'updated_at',
 }
 
 /** columns and relationships of "profiles" */
@@ -7557,10 +7952,6 @@ export type Profiles = {
   applications: Array<Applications>;
   /** An aggregate relationship */
   applications_aggregate: ApplicationsAggregate;
-  /** An array relationship */
-  companies: Array<ProfileCompany>;
-  /** An aggregate relationship */
-  companies_aggregate: ProfileCompanyAggregate;
   /** An object relationship */
   conversation?: Maybe<Conversations>;
   conversation_id?: Maybe<Scalars['uuid']>;
@@ -7568,6 +7959,14 @@ export type Profiles = {
   /** A computed field, executes function "is_online" */
   is_online?: Maybe<Scalars['Boolean']>;
   location?: Maybe<Scalars['geography']>;
+  /** An array relationship */
+  profile_companies: Array<ProfileCompany>;
+  /** An aggregate relationship */
+  profile_companies_aggregate: ProfileCompanyAggregate;
+  /** An array relationship */
+  profile_notifications: Array<ProfileNotification>;
+  /** An aggregate relationship */
+  profile_notifications_aggregate: ProfileNotificationAggregate;
   /** An array relationship */
   resumes: Array<Resumes>;
   /** An aggregate relationship */
@@ -7601,7 +8000,7 @@ export type ProfilesApplicationsAggregateArgs = {
 };
 
 /** columns and relationships of "profiles" */
-export type ProfilesCompaniesArgs = {
+export type ProfilesProfileCompaniesArgs = {
   distinct_on?: InputMaybe<Array<ProfileCompanySelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -7610,12 +8009,30 @@ export type ProfilesCompaniesArgs = {
 };
 
 /** columns and relationships of "profiles" */
-export type ProfilesCompaniesAggregateArgs = {
+export type ProfilesProfileCompaniesAggregateArgs = {
   distinct_on?: InputMaybe<Array<ProfileCompanySelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<ProfileCompanyOrderBy>>;
   where?: InputMaybe<ProfileCompanyBoolExp>;
+};
+
+/** columns and relationships of "profiles" */
+export type ProfilesProfileNotificationsArgs = {
+  distinct_on?: InputMaybe<Array<ProfileNotificationSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileNotificationOrderBy>>;
+  where?: InputMaybe<ProfileNotificationBoolExp>;
+};
+
+/** columns and relationships of "profiles" */
+export type ProfilesProfileNotificationsAggregateArgs = {
+  distinct_on?: InputMaybe<Array<ProfileNotificationSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileNotificationOrderBy>>;
+  where?: InputMaybe<ProfileNotificationBoolExp>;
 };
 
 /** columns and relationships of "profiles" */
@@ -7687,12 +8104,13 @@ export type ProfilesBoolExp = {
   _not?: InputMaybe<ProfilesBoolExp>;
   _or?: InputMaybe<Array<ProfilesBoolExp>>;
   applications?: InputMaybe<ApplicationsBoolExp>;
-  companies?: InputMaybe<ProfileCompanyBoolExp>;
   conversation?: InputMaybe<ConversationsBoolExp>;
   conversation_id?: InputMaybe<UuidComparisonExp>;
   id?: InputMaybe<UuidComparisonExp>;
   is_online?: InputMaybe<BooleanComparisonExp>;
   location?: InputMaybe<GeographyComparisonExp>;
+  profile_companies?: InputMaybe<ProfileCompanyBoolExp>;
+  profile_notifications?: InputMaybe<ProfileNotificationBoolExp>;
   resumes?: InputMaybe<ResumesBoolExp>;
   settings?: InputMaybe<JsonbComparisonExp>;
   tenant?: InputMaybe<TenantsBoolExp>;
@@ -7726,11 +8144,12 @@ export type ProfilesDeleteKeyInput = {
 /** input type for inserting data into table "profiles" */
 export type ProfilesInsertInput = {
   applications?: InputMaybe<ApplicationsArrRelInsertInput>;
-  companies?: InputMaybe<ProfileCompanyArrRelInsertInput>;
   conversation?: InputMaybe<ConversationsObjRelInsertInput>;
   conversation_id?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
   location?: InputMaybe<Scalars['geography']>;
+  profile_companies?: InputMaybe<ProfileCompanyArrRelInsertInput>;
+  profile_notifications?: InputMaybe<ProfileNotificationArrRelInsertInput>;
   resumes?: InputMaybe<ResumesArrRelInsertInput>;
   settings?: InputMaybe<Scalars['jsonb']>;
   tenant?: InputMaybe<TenantsObjRelInsertInput>;
@@ -7804,12 +8223,13 @@ export type ProfilesOnConflict = {
 /** Ordering options when selecting data from "profiles". */
 export type ProfilesOrderBy = {
   applications_aggregate?: InputMaybe<ApplicationsAggregateOrderBy>;
-  companies_aggregate?: InputMaybe<ProfileCompanyAggregateOrderBy>;
   conversation?: InputMaybe<ConversationsOrderBy>;
   conversation_id?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
   is_online?: InputMaybe<OrderBy>;
   location?: InputMaybe<OrderBy>;
+  profile_companies_aggregate?: InputMaybe<ProfileCompanyAggregateOrderBy>;
+  profile_notifications_aggregate?: InputMaybe<ProfileNotificationAggregateOrderBy>;
   resumes_aggregate?: InputMaybe<ResumesAggregateOrderBy>;
   settings?: InputMaybe<OrderBy>;
   tenant?: InputMaybe<TenantsOrderBy>;
@@ -8032,12 +8452,24 @@ export type QueryRoot = {
   messages_aggregate: MessagesAggregate;
   /** fetch data from the table: "messages" using primary key columns */
   messages_by_pk?: Maybe<Messages>;
+  /** fetch data from the table: "notifications" */
+  notifications: Array<Notifications>;
+  /** fetch aggregated fields from the table: "notifications" */
+  notifications_aggregate: NotificationsAggregate;
+  /** fetch data from the table: "notifications" using primary key columns */
+  notifications_by_pk?: Maybe<Notifications>;
   /** fetch data from the table: "profile_company" */
   profile_company: Array<ProfileCompany>;
   /** fetch aggregated fields from the table: "profile_company" */
   profile_company_aggregate: ProfileCompanyAggregate;
   /** fetch data from the table: "profile_company" using primary key columns */
   profile_company_by_pk?: Maybe<ProfileCompany>;
+  /** fetch data from the table: "profile_notification" */
+  profile_notification: Array<ProfileNotification>;
+  /** fetch aggregated fields from the table: "profile_notification" */
+  profile_notification_aggregate: ProfileNotificationAggregate;
+  /** fetch data from the table: "profile_notification" using primary key columns */
+  profile_notification_by_pk?: Maybe<ProfileNotification>;
   /** An array relationship */
   profiles: Array<Profiles>;
   /** An aggregate relationship */
@@ -8060,38 +8492,8 @@ export type QueryRoot = {
   user?: Maybe<Users>;
   /** fetch aggregated fields from the table: "auth.users" */
   userAggregate: UsersAggregate;
-  /** fetch data from the table: "user_address" */
-  user_address: Array<UserAddress>;
-  /** fetch aggregated fields from the table: "user_address" */
-  user_address_aggregate: UserAddressAggregate;
-  /** fetch data from the table: "user_address" using primary key columns */
-  user_address_by_pk?: Maybe<UserAddress>;
-  /** fetch data from the table: "user_company" */
-  user_company: Array<UserCompany>;
-  /** fetch aggregated fields from the table: "user_company" */
-  user_company_aggregate: UserCompanyAggregate;
-  /** fetch data from the table: "user_company" using primary key columns */
-  user_company_by_pk?: Maybe<UserCompany>;
-  /** fetch data from the table: "user_conversation" */
-  user_conversation: Array<UserConversation>;
-  /** fetch aggregated fields from the table: "user_conversation" */
-  user_conversation_aggregate: UserConversationAggregate;
-  /** fetch data from the table: "user_conversation" using primary key columns */
-  user_conversation_by_pk?: Maybe<UserConversation>;
-  /** fetch data from the table: "user_location" */
-  user_location: Array<UserLocation>;
-  /** fetch aggregated fields from the table: "user_location" */
-  user_location_aggregate: UserLocationAggregate;
-  /** fetch data from the table: "user_location" using primary key columns */
-  user_location_by_pk?: Maybe<UserLocation>;
   /** fetch data from the table: "auth.users" */
   users: Array<Users>;
-  /** fetch data from the table: "users_tenants" */
-  users_tenants: Array<UsersTenants>;
-  /** fetch aggregated fields from the table: "users_tenants" */
-  users_tenants_aggregate: UsersTenantsAggregate;
-  /** fetch data from the table: "users_tenants" using primary key columns */
-  users_tenants_by_pk?: Maybe<UsersTenants>;
   /** An array relationship */
   volunteers: Array<Volunteers>;
   /** An aggregate relationship */
@@ -8357,8 +8759,7 @@ export type QueryRootCompanyAddressAggregateArgs = {
 };
 
 export type QueryRootCompanyAddressByPkArgs = {
-  address_id: Scalars['uuid'];
-  company_id: Scalars['uuid'];
+  id: Scalars['uuid'];
 };
 
 export type QueryRootCompanySizesArgs = {
@@ -8619,6 +9020,26 @@ export type QueryRootMessagesByPkArgs = {
   id: Scalars['uuid'];
 };
 
+export type QueryRootNotificationsArgs = {
+  distinct_on?: InputMaybe<Array<NotificationsSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<NotificationsOrderBy>>;
+  where?: InputMaybe<NotificationsBoolExp>;
+};
+
+export type QueryRootNotificationsAggregateArgs = {
+  distinct_on?: InputMaybe<Array<NotificationsSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<NotificationsOrderBy>>;
+  where?: InputMaybe<NotificationsBoolExp>;
+};
+
+export type QueryRootNotificationsByPkArgs = {
+  id: Scalars['uuid'];
+};
+
 export type QueryRootProfileCompanyArgs = {
   distinct_on?: InputMaybe<Array<ProfileCompanySelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -8636,8 +9057,27 @@ export type QueryRootProfileCompanyAggregateArgs = {
 };
 
 export type QueryRootProfileCompanyByPkArgs = {
-  company_id: Scalars['uuid'];
-  profile_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+};
+
+export type QueryRootProfileNotificationArgs = {
+  distinct_on?: InputMaybe<Array<ProfileNotificationSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileNotificationOrderBy>>;
+  where?: InputMaybe<ProfileNotificationBoolExp>;
+};
+
+export type QueryRootProfileNotificationAggregateArgs = {
+  distinct_on?: InputMaybe<Array<ProfileNotificationSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileNotificationOrderBy>>;
+  where?: InputMaybe<ProfileNotificationBoolExp>;
+};
+
+export type QueryRootProfileNotificationByPkArgs = {
+  id: Scalars['uuid'];
 };
 
 export type QueryRootProfilesArgs = {
@@ -8712,115 +9152,12 @@ export type QueryRootUserAggregateArgs = {
   where?: InputMaybe<UsersBoolExp>;
 };
 
-export type QueryRootUserAddressArgs = {
-  distinct_on?: InputMaybe<Array<UserAddressSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserAddressOrderBy>>;
-  where?: InputMaybe<UserAddressBoolExp>;
-};
-
-export type QueryRootUserAddressAggregateArgs = {
-  distinct_on?: InputMaybe<Array<UserAddressSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserAddressOrderBy>>;
-  where?: InputMaybe<UserAddressBoolExp>;
-};
-
-export type QueryRootUserAddressByPkArgs = {
-  address_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
-};
-
-export type QueryRootUserCompanyArgs = {
-  distinct_on?: InputMaybe<Array<UserCompanySelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserCompanyOrderBy>>;
-  where?: InputMaybe<UserCompanyBoolExp>;
-};
-
-export type QueryRootUserCompanyAggregateArgs = {
-  distinct_on?: InputMaybe<Array<UserCompanySelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserCompanyOrderBy>>;
-  where?: InputMaybe<UserCompanyBoolExp>;
-};
-
-export type QueryRootUserCompanyByPkArgs = {
-  company_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
-};
-
-export type QueryRootUserConversationArgs = {
-  distinct_on?: InputMaybe<Array<UserConversationSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserConversationOrderBy>>;
-  where?: InputMaybe<UserConversationBoolExp>;
-};
-
-export type QueryRootUserConversationAggregateArgs = {
-  distinct_on?: InputMaybe<Array<UserConversationSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserConversationOrderBy>>;
-  where?: InputMaybe<UserConversationBoolExp>;
-};
-
-export type QueryRootUserConversationByPkArgs = {
-  conversation_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
-};
-
-export type QueryRootUserLocationArgs = {
-  distinct_on?: InputMaybe<Array<UserLocationSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserLocationOrderBy>>;
-  where?: InputMaybe<UserLocationBoolExp>;
-};
-
-export type QueryRootUserLocationAggregateArgs = {
-  distinct_on?: InputMaybe<Array<UserLocationSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserLocationOrderBy>>;
-  where?: InputMaybe<UserLocationBoolExp>;
-};
-
-export type QueryRootUserLocationByPkArgs = {
-  user_id: Scalars['uuid'];
-};
-
 export type QueryRootUsersArgs = {
   distinct_on?: InputMaybe<Array<UsersSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<UsersOrderBy>>;
   where?: InputMaybe<UsersBoolExp>;
-};
-
-export type QueryRootUsersTenantsArgs = {
-  distinct_on?: InputMaybe<Array<UsersTenantsSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UsersTenantsOrderBy>>;
-  where?: InputMaybe<UsersTenantsBoolExp>;
-};
-
-export type QueryRootUsersTenantsAggregateArgs = {
-  distinct_on?: InputMaybe<Array<UsersTenantsSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UsersTenantsOrderBy>>;
-  where?: InputMaybe<UsersTenantsBoolExp>;
-};
-
-export type QueryRootUsersTenantsByPkArgs = {
-  id: Scalars['uuid'];
 };
 
 export type QueryRootVolunteersArgs = {
@@ -9355,12 +9692,24 @@ export type SubscriptionRoot = {
   messages_aggregate: MessagesAggregate;
   /** fetch data from the table: "messages" using primary key columns */
   messages_by_pk?: Maybe<Messages>;
+  /** fetch data from the table: "notifications" */
+  notifications: Array<Notifications>;
+  /** fetch aggregated fields from the table: "notifications" */
+  notifications_aggregate: NotificationsAggregate;
+  /** fetch data from the table: "notifications" using primary key columns */
+  notifications_by_pk?: Maybe<Notifications>;
   /** fetch data from the table: "profile_company" */
   profile_company: Array<ProfileCompany>;
   /** fetch aggregated fields from the table: "profile_company" */
   profile_company_aggregate: ProfileCompanyAggregate;
   /** fetch data from the table: "profile_company" using primary key columns */
   profile_company_by_pk?: Maybe<ProfileCompany>;
+  /** fetch data from the table: "profile_notification" */
+  profile_notification: Array<ProfileNotification>;
+  /** fetch aggregated fields from the table: "profile_notification" */
+  profile_notification_aggregate: ProfileNotificationAggregate;
+  /** fetch data from the table: "profile_notification" using primary key columns */
+  profile_notification_by_pk?: Maybe<ProfileNotification>;
   /** An array relationship */
   profiles: Array<Profiles>;
   /** An aggregate relationship */
@@ -9383,38 +9732,8 @@ export type SubscriptionRoot = {
   user?: Maybe<Users>;
   /** fetch aggregated fields from the table: "auth.users" */
   userAggregate: UsersAggregate;
-  /** fetch data from the table: "user_address" */
-  user_address: Array<UserAddress>;
-  /** fetch aggregated fields from the table: "user_address" */
-  user_address_aggregate: UserAddressAggregate;
-  /** fetch data from the table: "user_address" using primary key columns */
-  user_address_by_pk?: Maybe<UserAddress>;
-  /** fetch data from the table: "user_company" */
-  user_company: Array<UserCompany>;
-  /** fetch aggregated fields from the table: "user_company" */
-  user_company_aggregate: UserCompanyAggregate;
-  /** fetch data from the table: "user_company" using primary key columns */
-  user_company_by_pk?: Maybe<UserCompany>;
-  /** fetch data from the table: "user_conversation" */
-  user_conversation: Array<UserConversation>;
-  /** fetch aggregated fields from the table: "user_conversation" */
-  user_conversation_aggregate: UserConversationAggregate;
-  /** fetch data from the table: "user_conversation" using primary key columns */
-  user_conversation_by_pk?: Maybe<UserConversation>;
-  /** fetch data from the table: "user_location" */
-  user_location: Array<UserLocation>;
-  /** fetch aggregated fields from the table: "user_location" */
-  user_location_aggregate: UserLocationAggregate;
-  /** fetch data from the table: "user_location" using primary key columns */
-  user_location_by_pk?: Maybe<UserLocation>;
   /** fetch data from the table: "auth.users" */
   users: Array<Users>;
-  /** fetch data from the table: "users_tenants" */
-  users_tenants: Array<UsersTenants>;
-  /** fetch aggregated fields from the table: "users_tenants" */
-  users_tenants_aggregate: UsersTenantsAggregate;
-  /** fetch data from the table: "users_tenants" using primary key columns */
-  users_tenants_by_pk?: Maybe<UsersTenants>;
   /** An array relationship */
   volunteers: Array<Volunteers>;
   /** An aggregate relationship */
@@ -9680,8 +9999,7 @@ export type SubscriptionRootCompanyAddressAggregateArgs = {
 };
 
 export type SubscriptionRootCompanyAddressByPkArgs = {
-  address_id: Scalars['uuid'];
-  company_id: Scalars['uuid'];
+  id: Scalars['uuid'];
 };
 
 export type SubscriptionRootCompanySizesArgs = {
@@ -9942,6 +10260,26 @@ export type SubscriptionRootMessagesByPkArgs = {
   id: Scalars['uuid'];
 };
 
+export type SubscriptionRootNotificationsArgs = {
+  distinct_on?: InputMaybe<Array<NotificationsSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<NotificationsOrderBy>>;
+  where?: InputMaybe<NotificationsBoolExp>;
+};
+
+export type SubscriptionRootNotificationsAggregateArgs = {
+  distinct_on?: InputMaybe<Array<NotificationsSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<NotificationsOrderBy>>;
+  where?: InputMaybe<NotificationsBoolExp>;
+};
+
+export type SubscriptionRootNotificationsByPkArgs = {
+  id: Scalars['uuid'];
+};
+
 export type SubscriptionRootProfileCompanyArgs = {
   distinct_on?: InputMaybe<Array<ProfileCompanySelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -9959,8 +10297,27 @@ export type SubscriptionRootProfileCompanyAggregateArgs = {
 };
 
 export type SubscriptionRootProfileCompanyByPkArgs = {
-  company_id: Scalars['uuid'];
-  profile_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+};
+
+export type SubscriptionRootProfileNotificationArgs = {
+  distinct_on?: InputMaybe<Array<ProfileNotificationSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileNotificationOrderBy>>;
+  where?: InputMaybe<ProfileNotificationBoolExp>;
+};
+
+export type SubscriptionRootProfileNotificationAggregateArgs = {
+  distinct_on?: InputMaybe<Array<ProfileNotificationSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<ProfileNotificationOrderBy>>;
+  where?: InputMaybe<ProfileNotificationBoolExp>;
+};
+
+export type SubscriptionRootProfileNotificationByPkArgs = {
+  id: Scalars['uuid'];
 };
 
 export type SubscriptionRootProfilesArgs = {
@@ -10035,115 +10392,12 @@ export type SubscriptionRootUserAggregateArgs = {
   where?: InputMaybe<UsersBoolExp>;
 };
 
-export type SubscriptionRootUserAddressArgs = {
-  distinct_on?: InputMaybe<Array<UserAddressSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserAddressOrderBy>>;
-  where?: InputMaybe<UserAddressBoolExp>;
-};
-
-export type SubscriptionRootUserAddressAggregateArgs = {
-  distinct_on?: InputMaybe<Array<UserAddressSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserAddressOrderBy>>;
-  where?: InputMaybe<UserAddressBoolExp>;
-};
-
-export type SubscriptionRootUserAddressByPkArgs = {
-  address_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
-};
-
-export type SubscriptionRootUserCompanyArgs = {
-  distinct_on?: InputMaybe<Array<UserCompanySelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserCompanyOrderBy>>;
-  where?: InputMaybe<UserCompanyBoolExp>;
-};
-
-export type SubscriptionRootUserCompanyAggregateArgs = {
-  distinct_on?: InputMaybe<Array<UserCompanySelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserCompanyOrderBy>>;
-  where?: InputMaybe<UserCompanyBoolExp>;
-};
-
-export type SubscriptionRootUserCompanyByPkArgs = {
-  company_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
-};
-
-export type SubscriptionRootUserConversationArgs = {
-  distinct_on?: InputMaybe<Array<UserConversationSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserConversationOrderBy>>;
-  where?: InputMaybe<UserConversationBoolExp>;
-};
-
-export type SubscriptionRootUserConversationAggregateArgs = {
-  distinct_on?: InputMaybe<Array<UserConversationSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserConversationOrderBy>>;
-  where?: InputMaybe<UserConversationBoolExp>;
-};
-
-export type SubscriptionRootUserConversationByPkArgs = {
-  conversation_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
-};
-
-export type SubscriptionRootUserLocationArgs = {
-  distinct_on?: InputMaybe<Array<UserLocationSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserLocationOrderBy>>;
-  where?: InputMaybe<UserLocationBoolExp>;
-};
-
-export type SubscriptionRootUserLocationAggregateArgs = {
-  distinct_on?: InputMaybe<Array<UserLocationSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UserLocationOrderBy>>;
-  where?: InputMaybe<UserLocationBoolExp>;
-};
-
-export type SubscriptionRootUserLocationByPkArgs = {
-  user_id: Scalars['uuid'];
-};
-
 export type SubscriptionRootUsersArgs = {
   distinct_on?: InputMaybe<Array<UsersSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<UsersOrderBy>>;
   where?: InputMaybe<UsersBoolExp>;
-};
-
-export type SubscriptionRootUsersTenantsArgs = {
-  distinct_on?: InputMaybe<Array<UsersTenantsSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UsersTenantsOrderBy>>;
-  where?: InputMaybe<UsersTenantsBoolExp>;
-};
-
-export type SubscriptionRootUsersTenantsAggregateArgs = {
-  distinct_on?: InputMaybe<Array<UsersTenantsSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UsersTenantsOrderBy>>;
-  where?: InputMaybe<UsersTenantsBoolExp>;
-};
-
-export type SubscriptionRootUsersTenantsByPkArgs = {
-  id: Scalars['uuid'];
 };
 
 export type SubscriptionRootVolunteersArgs = {
@@ -10187,10 +10441,6 @@ export type Tenants = {
   /** An aggregate relationship */
   profiles_aggregate: ProfilesAggregate;
   status: Scalars['String'];
-  /** An array relationship */
-  tenant_users: Array<UsersTenants>;
-  /** An aggregate relationship */
-  tenant_users_aggregate: UsersTenantsAggregate;
   updated_at: Scalars['timestamptz'];
 };
 
@@ -10248,24 +10498,6 @@ export type TenantsProfilesAggregateArgs = {
   where?: InputMaybe<ProfilesBoolExp>;
 };
 
-/** columns and relationships of "tenants" */
-export type TenantsTenantUsersArgs = {
-  distinct_on?: InputMaybe<Array<UsersTenantsSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UsersTenantsOrderBy>>;
-  where?: InputMaybe<UsersTenantsBoolExp>;
-};
-
-/** columns and relationships of "tenants" */
-export type TenantsTenantUsersAggregateArgs = {
-  distinct_on?: InputMaybe<Array<UsersTenantsSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<UsersTenantsOrderBy>>;
-  where?: InputMaybe<UsersTenantsBoolExp>;
-};
-
 /** aggregated selection of "tenants" */
 export type TenantsAggregate = {
   __typename?: 'tenants_aggregate';
@@ -10301,7 +10533,6 @@ export type TenantsBoolExp = {
   name?: InputMaybe<StringComparisonExp>;
   profiles?: InputMaybe<ProfilesBoolExp>;
   status?: InputMaybe<StringComparisonExp>;
-  tenant_users?: InputMaybe<UsersTenantsBoolExp>;
   updated_at?: InputMaybe<TimestamptzComparisonExp>;
 };
 
@@ -10322,7 +10553,6 @@ export type TenantsInsertInput = {
   name?: InputMaybe<Scalars['String']>;
   profiles?: InputMaybe<ProfilesArrRelInsertInput>;
   status?: InputMaybe<Scalars['String']>;
-  tenant_users?: InputMaybe<UsersTenantsArrRelInsertInput>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
@@ -10384,7 +10614,6 @@ export type TenantsOrderBy = {
   name?: InputMaybe<OrderBy>;
   profiles_aggregate?: InputMaybe<ProfilesAggregateOrderBy>;
   status?: InputMaybe<OrderBy>;
-  tenant_users_aggregate?: InputMaybe<UsersTenantsAggregateOrderBy>;
   updated_at?: InputMaybe<OrderBy>;
 };
 
@@ -10452,568 +10681,6 @@ export type TimestamptzComparisonExp = {
   _neq?: InputMaybe<Scalars['timestamptz']>;
   _nin?: InputMaybe<Array<Scalars['timestamptz']>>;
 };
-
-/** columns and relationships of "user_address" */
-export type UserAddress = {
-  __typename?: 'user_address';
-  /** An object relationship */
-  address: Addresses;
-  address_id: Scalars['uuid'];
-  /** An object relationship */
-  user: Users;
-  user_id: Scalars['uuid'];
-};
-
-/** aggregated selection of "user_address" */
-export type UserAddressAggregate = {
-  __typename?: 'user_address_aggregate';
-  aggregate?: Maybe<UserAddressAggregateFields>;
-  nodes: Array<UserAddress>;
-};
-
-/** aggregate fields of "user_address" */
-export type UserAddressAggregateFields = {
-  __typename?: 'user_address_aggregate_fields';
-  count: Scalars['Int'];
-  max?: Maybe<UserAddressMaxFields>;
-  min?: Maybe<UserAddressMinFields>;
-};
-
-/** aggregate fields of "user_address" */
-export type UserAddressAggregateFieldsCountArgs = {
-  columns?: InputMaybe<Array<UserAddressSelectColumn>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "user_address" */
-export type UserAddressAggregateOrderBy = {
-  count?: InputMaybe<OrderBy>;
-  max?: InputMaybe<UserAddressMaxOrderBy>;
-  min?: InputMaybe<UserAddressMinOrderBy>;
-};
-
-/** input type for inserting array relation for remote table "user_address" */
-export type UserAddressArrRelInsertInput = {
-  data: Array<UserAddressInsertInput>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<UserAddressOnConflict>;
-};
-
-/** Boolean expression to filter rows from the table "user_address". All fields are combined with a logical 'AND'. */
-export type UserAddressBoolExp = {
-  _and?: InputMaybe<Array<UserAddressBoolExp>>;
-  _not?: InputMaybe<UserAddressBoolExp>;
-  _or?: InputMaybe<Array<UserAddressBoolExp>>;
-  address?: InputMaybe<AddressesBoolExp>;
-  address_id?: InputMaybe<UuidComparisonExp>;
-  user?: InputMaybe<UsersBoolExp>;
-  user_id?: InputMaybe<UuidComparisonExp>;
-};
-
-/** unique or primary key constraints on table "user_address" */
-export enum UserAddressConstraint {
-  /** unique or primary key constraint */
-  UserAddressPkey = 'user_address_pkey',
-}
-
-/** input type for inserting data into table "user_address" */
-export type UserAddressInsertInput = {
-  address?: InputMaybe<AddressesObjRelInsertInput>;
-  address_id?: InputMaybe<Scalars['uuid']>;
-  user?: InputMaybe<UsersObjRelInsertInput>;
-  user_id?: InputMaybe<Scalars['uuid']>;
-};
-
-/** aggregate max on columns */
-export type UserAddressMaxFields = {
-  __typename?: 'user_address_max_fields';
-  address_id?: Maybe<Scalars['uuid']>;
-  user_id?: Maybe<Scalars['uuid']>;
-};
-
-/** order by max() on columns of table "user_address" */
-export type UserAddressMaxOrderBy = {
-  address_id?: InputMaybe<OrderBy>;
-  user_id?: InputMaybe<OrderBy>;
-};
-
-/** aggregate min on columns */
-export type UserAddressMinFields = {
-  __typename?: 'user_address_min_fields';
-  address_id?: Maybe<Scalars['uuid']>;
-  user_id?: Maybe<Scalars['uuid']>;
-};
-
-/** order by min() on columns of table "user_address" */
-export type UserAddressMinOrderBy = {
-  address_id?: InputMaybe<OrderBy>;
-  user_id?: InputMaybe<OrderBy>;
-};
-
-/** response of any mutation on the table "user_address" */
-export type UserAddressMutationResponse = {
-  __typename?: 'user_address_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<UserAddress>;
-};
-
-/** on_conflict condition type for table "user_address" */
-export type UserAddressOnConflict = {
-  constraint: UserAddressConstraint;
-  update_columns?: Array<UserAddressUpdateColumn>;
-  where?: InputMaybe<UserAddressBoolExp>;
-};
-
-/** Ordering options when selecting data from "user_address". */
-export type UserAddressOrderBy = {
-  address?: InputMaybe<AddressesOrderBy>;
-  address_id?: InputMaybe<OrderBy>;
-  user?: InputMaybe<UsersOrderBy>;
-  user_id?: InputMaybe<OrderBy>;
-};
-
-/** primary key columns input for table: user_address */
-export type UserAddressPkColumnsInput = {
-  address_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
-};
-
-/** select columns of table "user_address" */
-export enum UserAddressSelectColumn {
-  /** column name */
-  AddressId = 'address_id',
-  /** column name */
-  UserId = 'user_id',
-}
-
-/** input type for updating data in table "user_address" */
-export type UserAddressSetInput = {
-  address_id?: InputMaybe<Scalars['uuid']>;
-  user_id?: InputMaybe<Scalars['uuid']>;
-};
-
-/** update columns of table "user_address" */
-export enum UserAddressUpdateColumn {
-  /** column name */
-  AddressId = 'address_id',
-  /** column name */
-  UserId = 'user_id',
-}
-
-/** columns and relationships of "user_company" */
-export type UserCompany = {
-  __typename?: 'user_company';
-  /** An object relationship */
-  company: Companies;
-  company_id: Scalars['uuid'];
-  /** An object relationship */
-  user: Users;
-  user_id: Scalars['uuid'];
-};
-
-/** aggregated selection of "user_company" */
-export type UserCompanyAggregate = {
-  __typename?: 'user_company_aggregate';
-  aggregate?: Maybe<UserCompanyAggregateFields>;
-  nodes: Array<UserCompany>;
-};
-
-/** aggregate fields of "user_company" */
-export type UserCompanyAggregateFields = {
-  __typename?: 'user_company_aggregate_fields';
-  count: Scalars['Int'];
-  max?: Maybe<UserCompanyMaxFields>;
-  min?: Maybe<UserCompanyMinFields>;
-};
-
-/** aggregate fields of "user_company" */
-export type UserCompanyAggregateFieldsCountArgs = {
-  columns?: InputMaybe<Array<UserCompanySelectColumn>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "user_company" */
-export type UserCompanyAggregateOrderBy = {
-  count?: InputMaybe<OrderBy>;
-  max?: InputMaybe<UserCompanyMaxOrderBy>;
-  min?: InputMaybe<UserCompanyMinOrderBy>;
-};
-
-/** input type for inserting array relation for remote table "user_company" */
-export type UserCompanyArrRelInsertInput = {
-  data: Array<UserCompanyInsertInput>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<UserCompanyOnConflict>;
-};
-
-/** Boolean expression to filter rows from the table "user_company". All fields are combined with a logical 'AND'. */
-export type UserCompanyBoolExp = {
-  _and?: InputMaybe<Array<UserCompanyBoolExp>>;
-  _not?: InputMaybe<UserCompanyBoolExp>;
-  _or?: InputMaybe<Array<UserCompanyBoolExp>>;
-  company?: InputMaybe<CompaniesBoolExp>;
-  company_id?: InputMaybe<UuidComparisonExp>;
-  user?: InputMaybe<UsersBoolExp>;
-  user_id?: InputMaybe<UuidComparisonExp>;
-};
-
-/** unique or primary key constraints on table "user_company" */
-export enum UserCompanyConstraint {
-  /** unique or primary key constraint */
-  UserCompanyPkey = 'user_company_pkey',
-}
-
-/** input type for inserting data into table "user_company" */
-export type UserCompanyInsertInput = {
-  company?: InputMaybe<CompaniesObjRelInsertInput>;
-  company_id?: InputMaybe<Scalars['uuid']>;
-  user?: InputMaybe<UsersObjRelInsertInput>;
-  user_id?: InputMaybe<Scalars['uuid']>;
-};
-
-/** aggregate max on columns */
-export type UserCompanyMaxFields = {
-  __typename?: 'user_company_max_fields';
-  company_id?: Maybe<Scalars['uuid']>;
-  user_id?: Maybe<Scalars['uuid']>;
-};
-
-/** order by max() on columns of table "user_company" */
-export type UserCompanyMaxOrderBy = {
-  company_id?: InputMaybe<OrderBy>;
-  user_id?: InputMaybe<OrderBy>;
-};
-
-/** aggregate min on columns */
-export type UserCompanyMinFields = {
-  __typename?: 'user_company_min_fields';
-  company_id?: Maybe<Scalars['uuid']>;
-  user_id?: Maybe<Scalars['uuid']>;
-};
-
-/** order by min() on columns of table "user_company" */
-export type UserCompanyMinOrderBy = {
-  company_id?: InputMaybe<OrderBy>;
-  user_id?: InputMaybe<OrderBy>;
-};
-
-/** response of any mutation on the table "user_company" */
-export type UserCompanyMutationResponse = {
-  __typename?: 'user_company_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<UserCompany>;
-};
-
-/** on_conflict condition type for table "user_company" */
-export type UserCompanyOnConflict = {
-  constraint: UserCompanyConstraint;
-  update_columns?: Array<UserCompanyUpdateColumn>;
-  where?: InputMaybe<UserCompanyBoolExp>;
-};
-
-/** Ordering options when selecting data from "user_company". */
-export type UserCompanyOrderBy = {
-  company?: InputMaybe<CompaniesOrderBy>;
-  company_id?: InputMaybe<OrderBy>;
-  user?: InputMaybe<UsersOrderBy>;
-  user_id?: InputMaybe<OrderBy>;
-};
-
-/** primary key columns input for table: user_company */
-export type UserCompanyPkColumnsInput = {
-  company_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
-};
-
-/** select columns of table "user_company" */
-export enum UserCompanySelectColumn {
-  /** column name */
-  CompanyId = 'company_id',
-  /** column name */
-  UserId = 'user_id',
-}
-
-/** input type for updating data in table "user_company" */
-export type UserCompanySetInput = {
-  company_id?: InputMaybe<Scalars['uuid']>;
-  user_id?: InputMaybe<Scalars['uuid']>;
-};
-
-/** update columns of table "user_company" */
-export enum UserCompanyUpdateColumn {
-  /** column name */
-  CompanyId = 'company_id',
-  /** column name */
-  UserId = 'user_id',
-}
-
-/** columns and relationships of "user_conversation" */
-export type UserConversation = {
-  __typename?: 'user_conversation';
-  /** An object relationship */
-  conversation: Conversations;
-  conversation_id: Scalars['uuid'];
-  /** An object relationship */
-  user: Users;
-  user_id: Scalars['uuid'];
-};
-
-/** aggregated selection of "user_conversation" */
-export type UserConversationAggregate = {
-  __typename?: 'user_conversation_aggregate';
-  aggregate?: Maybe<UserConversationAggregateFields>;
-  nodes: Array<UserConversation>;
-};
-
-/** aggregate fields of "user_conversation" */
-export type UserConversationAggregateFields = {
-  __typename?: 'user_conversation_aggregate_fields';
-  count: Scalars['Int'];
-  max?: Maybe<UserConversationMaxFields>;
-  min?: Maybe<UserConversationMinFields>;
-};
-
-/** aggregate fields of "user_conversation" */
-export type UserConversationAggregateFieldsCountArgs = {
-  columns?: InputMaybe<Array<UserConversationSelectColumn>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "user_conversation" */
-export type UserConversationAggregateOrderBy = {
-  count?: InputMaybe<OrderBy>;
-  max?: InputMaybe<UserConversationMaxOrderBy>;
-  min?: InputMaybe<UserConversationMinOrderBy>;
-};
-
-/** input type for inserting array relation for remote table "user_conversation" */
-export type UserConversationArrRelInsertInput = {
-  data: Array<UserConversationInsertInput>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<UserConversationOnConflict>;
-};
-
-/** Boolean expression to filter rows from the table "user_conversation". All fields are combined with a logical 'AND'. */
-export type UserConversationBoolExp = {
-  _and?: InputMaybe<Array<UserConversationBoolExp>>;
-  _not?: InputMaybe<UserConversationBoolExp>;
-  _or?: InputMaybe<Array<UserConversationBoolExp>>;
-  conversation?: InputMaybe<ConversationsBoolExp>;
-  conversation_id?: InputMaybe<UuidComparisonExp>;
-  user?: InputMaybe<UsersBoolExp>;
-  user_id?: InputMaybe<UuidComparisonExp>;
-};
-
-/** unique or primary key constraints on table "user_conversation" */
-export enum UserConversationConstraint {
-  /** unique or primary key constraint */
-  UserConversationPkey = 'user_conversation_pkey',
-}
-
-/** input type for inserting data into table "user_conversation" */
-export type UserConversationInsertInput = {
-  conversation?: InputMaybe<ConversationsObjRelInsertInput>;
-  conversation_id?: InputMaybe<Scalars['uuid']>;
-  user?: InputMaybe<UsersObjRelInsertInput>;
-  user_id?: InputMaybe<Scalars['uuid']>;
-};
-
-/** aggregate max on columns */
-export type UserConversationMaxFields = {
-  __typename?: 'user_conversation_max_fields';
-  conversation_id?: Maybe<Scalars['uuid']>;
-  user_id?: Maybe<Scalars['uuid']>;
-};
-
-/** order by max() on columns of table "user_conversation" */
-export type UserConversationMaxOrderBy = {
-  conversation_id?: InputMaybe<OrderBy>;
-  user_id?: InputMaybe<OrderBy>;
-};
-
-/** aggregate min on columns */
-export type UserConversationMinFields = {
-  __typename?: 'user_conversation_min_fields';
-  conversation_id?: Maybe<Scalars['uuid']>;
-  user_id?: Maybe<Scalars['uuid']>;
-};
-
-/** order by min() on columns of table "user_conversation" */
-export type UserConversationMinOrderBy = {
-  conversation_id?: InputMaybe<OrderBy>;
-  user_id?: InputMaybe<OrderBy>;
-};
-
-/** response of any mutation on the table "user_conversation" */
-export type UserConversationMutationResponse = {
-  __typename?: 'user_conversation_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<UserConversation>;
-};
-
-/** on_conflict condition type for table "user_conversation" */
-export type UserConversationOnConflict = {
-  constraint: UserConversationConstraint;
-  update_columns?: Array<UserConversationUpdateColumn>;
-  where?: InputMaybe<UserConversationBoolExp>;
-};
-
-/** Ordering options when selecting data from "user_conversation". */
-export type UserConversationOrderBy = {
-  conversation?: InputMaybe<ConversationsOrderBy>;
-  conversation_id?: InputMaybe<OrderBy>;
-  user?: InputMaybe<UsersOrderBy>;
-  user_id?: InputMaybe<OrderBy>;
-};
-
-/** primary key columns input for table: user_conversation */
-export type UserConversationPkColumnsInput = {
-  conversation_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
-};
-
-/** select columns of table "user_conversation" */
-export enum UserConversationSelectColumn {
-  /** column name */
-  ConversationId = 'conversation_id',
-  /** column name */
-  UserId = 'user_id',
-}
-
-/** input type for updating data in table "user_conversation" */
-export type UserConversationSetInput = {
-  conversation_id?: InputMaybe<Scalars['uuid']>;
-  user_id?: InputMaybe<Scalars['uuid']>;
-};
-
-/** update columns of table "user_conversation" */
-export enum UserConversationUpdateColumn {
-  /** column name */
-  ConversationId = 'conversation_id',
-  /** column name */
-  UserId = 'user_id',
-}
-
-/** columns and relationships of "user_location" */
-export type UserLocation = {
-  __typename?: 'user_location';
-  location: Scalars['geography'];
-  /** An object relationship */
-  user: Users;
-  user_id: Scalars['uuid'];
-};
-
-/** aggregated selection of "user_location" */
-export type UserLocationAggregate = {
-  __typename?: 'user_location_aggregate';
-  aggregate?: Maybe<UserLocationAggregateFields>;
-  nodes: Array<UserLocation>;
-};
-
-/** aggregate fields of "user_location" */
-export type UserLocationAggregateFields = {
-  __typename?: 'user_location_aggregate_fields';
-  count: Scalars['Int'];
-  max?: Maybe<UserLocationMaxFields>;
-  min?: Maybe<UserLocationMinFields>;
-};
-
-/** aggregate fields of "user_location" */
-export type UserLocationAggregateFieldsCountArgs = {
-  columns?: InputMaybe<Array<UserLocationSelectColumn>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** Boolean expression to filter rows from the table "user_location". All fields are combined with a logical 'AND'. */
-export type UserLocationBoolExp = {
-  _and?: InputMaybe<Array<UserLocationBoolExp>>;
-  _not?: InputMaybe<UserLocationBoolExp>;
-  _or?: InputMaybe<Array<UserLocationBoolExp>>;
-  location?: InputMaybe<GeographyComparisonExp>;
-  user?: InputMaybe<UsersBoolExp>;
-  user_id?: InputMaybe<UuidComparisonExp>;
-};
-
-/** unique or primary key constraints on table "user_location" */
-export enum UserLocationConstraint {
-  /** unique or primary key constraint */
-  UserLocationPkey = 'user_location_pkey',
-}
-
-/** input type for inserting data into table "user_location" */
-export type UserLocationInsertInput = {
-  location?: InputMaybe<Scalars['geography']>;
-  user?: InputMaybe<UsersObjRelInsertInput>;
-  user_id?: InputMaybe<Scalars['uuid']>;
-};
-
-/** aggregate max on columns */
-export type UserLocationMaxFields = {
-  __typename?: 'user_location_max_fields';
-  user_id?: Maybe<Scalars['uuid']>;
-};
-
-/** aggregate min on columns */
-export type UserLocationMinFields = {
-  __typename?: 'user_location_min_fields';
-  user_id?: Maybe<Scalars['uuid']>;
-};
-
-/** response of any mutation on the table "user_location" */
-export type UserLocationMutationResponse = {
-  __typename?: 'user_location_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<UserLocation>;
-};
-
-/** on_conflict condition type for table "user_location" */
-export type UserLocationOnConflict = {
-  constraint: UserLocationConstraint;
-  update_columns?: Array<UserLocationUpdateColumn>;
-  where?: InputMaybe<UserLocationBoolExp>;
-};
-
-/** Ordering options when selecting data from "user_location". */
-export type UserLocationOrderBy = {
-  location?: InputMaybe<OrderBy>;
-  user?: InputMaybe<UsersOrderBy>;
-  user_id?: InputMaybe<OrderBy>;
-};
-
-/** primary key columns input for table: user_location */
-export type UserLocationPkColumnsInput = {
-  user_id: Scalars['uuid'];
-};
-
-/** select columns of table "user_location" */
-export enum UserLocationSelectColumn {
-  /** column name */
-  Location = 'location',
-  /** column name */
-  UserId = 'user_id',
-}
-
-/** input type for updating data in table "user_location" */
-export type UserLocationSetInput = {
-  location?: InputMaybe<Scalars['geography']>;
-  user_id?: InputMaybe<Scalars['uuid']>;
-};
-
-/** update columns of table "user_location" */
-export enum UserLocationUpdateColumn {
-  /** column name */
-  Location = 'location',
-  /** column name */
-  UserId = 'user_id',
-}
 
 /** columns and relationships of "auth.users" */
 export type Users = {
@@ -11492,180 +11159,6 @@ export type UsersSetInput = {
   totpSecret?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
-
-/** columns and relationships of "users_tenants" */
-export type UsersTenants = {
-  __typename?: 'users_tenants';
-  created_at: Scalars['timestamptz'];
-  id: Scalars['uuid'];
-  /** An object relationship */
-  tenant: Tenants;
-  tenant_id: Scalars['uuid'];
-  /** An object relationship */
-  user: Users;
-  user_id: Scalars['uuid'];
-};
-
-/** aggregated selection of "users_tenants" */
-export type UsersTenantsAggregate = {
-  __typename?: 'users_tenants_aggregate';
-  aggregate?: Maybe<UsersTenantsAggregateFields>;
-  nodes: Array<UsersTenants>;
-};
-
-/** aggregate fields of "users_tenants" */
-export type UsersTenantsAggregateFields = {
-  __typename?: 'users_tenants_aggregate_fields';
-  count: Scalars['Int'];
-  max?: Maybe<UsersTenantsMaxFields>;
-  min?: Maybe<UsersTenantsMinFields>;
-};
-
-/** aggregate fields of "users_tenants" */
-export type UsersTenantsAggregateFieldsCountArgs = {
-  columns?: InputMaybe<Array<UsersTenantsSelectColumn>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "users_tenants" */
-export type UsersTenantsAggregateOrderBy = {
-  count?: InputMaybe<OrderBy>;
-  max?: InputMaybe<UsersTenantsMaxOrderBy>;
-  min?: InputMaybe<UsersTenantsMinOrderBy>;
-};
-
-/** input type for inserting array relation for remote table "users_tenants" */
-export type UsersTenantsArrRelInsertInput = {
-  data: Array<UsersTenantsInsertInput>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<UsersTenantsOnConflict>;
-};
-
-/** Boolean expression to filter rows from the table "users_tenants". All fields are combined with a logical 'AND'. */
-export type UsersTenantsBoolExp = {
-  _and?: InputMaybe<Array<UsersTenantsBoolExp>>;
-  _not?: InputMaybe<UsersTenantsBoolExp>;
-  _or?: InputMaybe<Array<UsersTenantsBoolExp>>;
-  created_at?: InputMaybe<TimestamptzComparisonExp>;
-  id?: InputMaybe<UuidComparisonExp>;
-  tenant?: InputMaybe<TenantsBoolExp>;
-  tenant_id?: InputMaybe<UuidComparisonExp>;
-  user?: InputMaybe<UsersBoolExp>;
-  user_id?: InputMaybe<UuidComparisonExp>;
-};
-
-/** unique or primary key constraints on table "users_tenants" */
-export enum UsersTenantsConstraint {
-  /** unique or primary key constraint */
-  UserTenantsPkey = 'user_tenants_pkey',
-}
-
-/** input type for inserting data into table "users_tenants" */
-export type UsersTenantsInsertInput = {
-  created_at?: InputMaybe<Scalars['timestamptz']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  tenant?: InputMaybe<TenantsObjRelInsertInput>;
-  tenant_id?: InputMaybe<Scalars['uuid']>;
-  user?: InputMaybe<UsersObjRelInsertInput>;
-  user_id?: InputMaybe<Scalars['uuid']>;
-};
-
-/** aggregate max on columns */
-export type UsersTenantsMaxFields = {
-  __typename?: 'users_tenants_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
-  id?: Maybe<Scalars['uuid']>;
-  tenant_id?: Maybe<Scalars['uuid']>;
-  user_id?: Maybe<Scalars['uuid']>;
-};
-
-/** order by max() on columns of table "users_tenants" */
-export type UsersTenantsMaxOrderBy = {
-  created_at?: InputMaybe<OrderBy>;
-  id?: InputMaybe<OrderBy>;
-  tenant_id?: InputMaybe<OrderBy>;
-  user_id?: InputMaybe<OrderBy>;
-};
-
-/** aggregate min on columns */
-export type UsersTenantsMinFields = {
-  __typename?: 'users_tenants_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
-  id?: Maybe<Scalars['uuid']>;
-  tenant_id?: Maybe<Scalars['uuid']>;
-  user_id?: Maybe<Scalars['uuid']>;
-};
-
-/** order by min() on columns of table "users_tenants" */
-export type UsersTenantsMinOrderBy = {
-  created_at?: InputMaybe<OrderBy>;
-  id?: InputMaybe<OrderBy>;
-  tenant_id?: InputMaybe<OrderBy>;
-  user_id?: InputMaybe<OrderBy>;
-};
-
-/** response of any mutation on the table "users_tenants" */
-export type UsersTenantsMutationResponse = {
-  __typename?: 'users_tenants_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<UsersTenants>;
-};
-
-/** on_conflict condition type for table "users_tenants" */
-export type UsersTenantsOnConflict = {
-  constraint: UsersTenantsConstraint;
-  update_columns?: Array<UsersTenantsUpdateColumn>;
-  where?: InputMaybe<UsersTenantsBoolExp>;
-};
-
-/** Ordering options when selecting data from "users_tenants". */
-export type UsersTenantsOrderBy = {
-  created_at?: InputMaybe<OrderBy>;
-  id?: InputMaybe<OrderBy>;
-  tenant?: InputMaybe<TenantsOrderBy>;
-  tenant_id?: InputMaybe<OrderBy>;
-  user?: InputMaybe<UsersOrderBy>;
-  user_id?: InputMaybe<OrderBy>;
-};
-
-/** primary key columns input for table: users_tenants */
-export type UsersTenantsPkColumnsInput = {
-  id: Scalars['uuid'];
-};
-
-/** select columns of table "users_tenants" */
-export enum UsersTenantsSelectColumn {
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  TenantId = 'tenant_id',
-  /** column name */
-  UserId = 'user_id',
-}
-
-/** input type for updating data in table "users_tenants" */
-export type UsersTenantsSetInput = {
-  created_at?: InputMaybe<Scalars['timestamptz']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  tenant_id?: InputMaybe<Scalars['uuid']>;
-  user_id?: InputMaybe<Scalars['uuid']>;
-};
-
-/** update columns of table "users_tenants" */
-export enum UsersTenantsUpdateColumn {
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  TenantId = 'tenant_id',
-  /** column name */
-  UserId = 'user_id',
-}
 
 /** update columns of table "auth.users" */
 export enum UsersUpdateColumn {
@@ -12794,23 +12287,6 @@ export type DeleteTenantsByPkMutation = {
   } | null;
 };
 
-export type UpsertMyLocationMutationVariables = Exact<{
-  objects: Array<UserLocationInsertInput> | UserLocationInsertInput;
-}>;
-
-export type UpsertMyLocationMutation = {
-  __typename?: 'mutation_root';
-  insert_user_location?: {
-    __typename?: 'user_location_mutation_response';
-    affected_rows: number;
-    returning: Array<{
-      __typename?: 'user_location';
-      user_id: string;
-      location: Geography;
-    }>;
-  } | null;
-};
-
 export type ProfilesAggregateQueryVariables = Exact<{
   limit: Scalars['Int'];
   offset: Scalars['Int'];
@@ -12832,7 +12308,7 @@ export type ProfilesAggregateQuery = {
       settings?: any | null;
       user_id: string;
       tenant_id?: string | null;
-      companies: Array<{
+      profile_companies: Array<{
         __typename?: 'profile_company';
         company: { __typename?: 'companies'; id: string; name: string };
       }>;
@@ -12888,7 +12364,7 @@ export type ProfilesByPkQuery = {
       lastSeen?: string | null;
       metadata?: any | null;
     };
-    companies: Array<{
+    profile_companies: Array<{
       __typename?: 'profile_company';
       company: { __typename?: 'companies'; id: string; name: string };
     }>;
@@ -13903,30 +13379,6 @@ export type DeleteTenantsByPkMutationOptions = Apollo.BaseMutationOptions<
   DeleteTenantsByPkMutation,
   DeleteTenantsByPkMutationVariables
 >;
-export const UpsertMyLocationDocument = gql`
-  mutation UPSERT_MY_LOCATION($objects: [user_location_insert_input!]!) {
-    insert_user_location(
-      objects: $objects
-      on_conflict: { constraint: user_location_pkey, update_columns: location }
-    ) {
-      returning {
-        user_id
-        location
-      }
-      affected_rows
-    }
-  }
-`;
-export type UpsertMyLocationMutationFn = Apollo.MutationFunction<
-  UpsertMyLocationMutation,
-  UpsertMyLocationMutationVariables
->;
-export type UpsertMyLocationMutationResult =
-  Apollo.MutationResult<UpsertMyLocationMutation>;
-export type UpsertMyLocationMutationOptions = Apollo.BaseMutationOptions<
-  UpsertMyLocationMutation,
-  UpsertMyLocationMutationVariables
->;
 export const ProfilesAggregateDocument = gql`
   query PROFILES_AGGREGATE(
     $limit: Int!
@@ -13947,7 +13399,7 @@ export const ProfilesAggregateDocument = gql`
         is_online
         view_as
         settings
-        companies {
+        profile_companies {
           company {
             id
             name
@@ -14012,7 +13464,7 @@ export const ProfilesByPkDocument = gql`
         lastSeen
         metadata
       }
-      companies {
+      profile_companies {
         company {
           id
           name

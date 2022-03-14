@@ -7,7 +7,7 @@ documents: "graphqls/**/*.graphql"
 generates:
   ./graphqls/index.ts:
     hooks:
-      afterOneFileWrite:
+      beforeDone:
         - "eslint --config .eslintrc.json --fix"
     plugins:
       - "typescript"

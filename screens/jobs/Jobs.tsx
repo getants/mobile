@@ -18,7 +18,7 @@ import {
   useCollapsibleHeader,
   useColorScheme,
 } from '../../hooks';
-import { makeBoolExp } from '../../utils/tokens';
+import { makeBoolExp, handleError } from '../../utils/tokens';
 import {
   JobStackEnum,
   MainStackEnum,
@@ -102,6 +102,7 @@ export const JobListScreen = ({ navigation }: Props) => {
     data: jobsData,
     refetch: jobsRefetch,
     loading: jobsLoading,
+    error: jobsError,
   } = useQuery<{ jobs_aggregate: JobsAggregate }, JobsAggregateQueryVariables>(
     JobsAggregateDocument,
     {
@@ -109,6 +110,10 @@ export const JobListScreen = ({ navigation }: Props) => {
       fetchPolicy: 'cache-and-network',
     },
   );
+
+  if (jobsError) {
+    handleError(jobsError);
+  }
 
   const jobs = jobsData?.jobs_aggregate.nodes;
 

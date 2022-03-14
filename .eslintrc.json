@@ -42,17 +42,7 @@
         "react/function-component-definition": "off",
         "react/no-unstable-nested-components": "off",
         "react/style-prop-object": ["off", { "allow": ["StatusBar"] }],
-        "max-len": [
-          "error",
-          {
-            "code": 80,
-            "ignoreComments": true,
-            "ignoreTrailingComments": true,
-            "ignoreUrls": true,
-            "ignoreRegExpLiterals": true,
-            "ignoreStrings": true
-          }
-        ],
+        "max-len": "off",
         "@typescript-eslint/no-unused-vars": [
           "warn",
           {

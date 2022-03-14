@@ -28,7 +28,8 @@ export const issueToken = async () => {
 
     return token;
   } catch (err) {
-    return handleError(err);
+    handleError(err);
+    return null;
   }
 };
 
@@ -59,7 +60,6 @@ export const registerForPushNotifications = async () => {
     }
     if (finalStatus !== 'granted') {
       handleError('Failed to get push token!');
-      return null;
     }
     token = await issueToken();
   } else {

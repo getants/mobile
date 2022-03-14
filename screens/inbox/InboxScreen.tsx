@@ -27,7 +27,6 @@ export const InboxScreen = (props: Props) => {
     // error: aggregateError,
     loading: aggregateLoading,
     // fetchMore: aggregateMore,
-    // refetch,
   } = useQuery<
     ConversationsAggregateQuery,
     ConversationsAggregateQueryVariables
@@ -41,7 +40,7 @@ export const InboxScreen = (props: Props) => {
         },
       ],
       where: {
-        users: {
+        profiles: {
           user_id: { _eq: user?.id ?? '' },
         },
       },
