@@ -1,8 +1,15 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:base"],
   "packageRules": [
+    { "updateTypes": ["major"], "addLabels": ["Major"] },
+    { "updateTypes": ["minor"], "addLabels": ["Minor"] },
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "updateTypes": ["patch", "pin", "digest", "bump"],
+      "addLabels": ["Patch"]
+    },
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest", "bump"],
       "automerge": true
     },
     {
