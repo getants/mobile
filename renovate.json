@@ -11,7 +11,7 @@
       "addLabels": ["Patch"]
     },
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest", "bump"],
+      "matchUpdateTypes": ["patch", "pin", "digest", "bump"],
       "automerge": true
     },
     {

@@ -8,7 +8,7 @@
     "web": "expo start --web",
     "ts-check": "tsc --project tsconfig.json --noEmit",
     "lint": "eslint . --ext .ts,.tsx --config .eslintrc.json",
-    "dev": "yarn android --clear",
+    "dev": "yarn clean && yarn upgrade:getants && yarn android --clear",
     "test": "jest",
     "test:ci": "yarn test --ci --maxWorkers=50% --silent",
     "test:watch": "yarn test --watch --coverage",
@@ -16,6 +16,7 @@
     "publish:staging": "expo publish --release-channel staging",
     "publish:prod": "expo publish --release-channel prod",
     "prepare": "husky install",
+    "clean": "rm -rf .expo node_modules",
     "upgrade:getants": "yarn upgrade --scope @getants --latest -E"
   },
   "dependencies": {
