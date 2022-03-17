@@ -2,15 +2,15 @@ import React from 'react';
 import { useAssets } from 'expo-asset';
 import {
   Card,
+  CardHeader,
   Icon,
-  ImageBackground,
   Pressable,
   StyleSheet,
   Text,
   View,
 } from '../../components';
 import { OUR_COLORS, BASE_SPACING } from '../../utils/constants';
-import type { Companies, Jobs, ViewProps } from '../../utils/types';
+import type { Jobs } from '../../utils/types';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -49,35 +49,13 @@ type JobItemProps = {
   onPress: (job: Jobs) => void;
 };
 
-const Header = ({
-  showName = true,
-  image,
-  name,
-  size,
-  ...restProps
-}: { showName?: boolean } & Pick<Companies, 'image' | 'name' | 'size'> &
-  ViewProps) => (
-  <ImageBackground
-    resizeMode="cover"
-    source={{ uri: image as string }}
-    style={[{ minHeight: showName ? 60 : 120 }, styles.imageCover]}
-  >
-    <View {...restProps}>
-      <Text category="h6" style={styles.headerName}>
-        {showName ? name : ''}
-      </Text>
-      {showName && <Text category="s2">{size ?? '0–10'} employees</Text>}
-    </View>
-  </ImageBackground>
-);
-
 export const JobItem = ({ job, onPress }: JobItemProps) => {
   /* eslint-disable-next-line global-require */
   const [assets] = useAssets([require('../../assets/blank.svg')]);
+  const fallbackImage = { uri: assets?.[0]?.uri ?? 'fallback-uri' };
 
   const title = job.title.trim();
   const companyName = job.company?.name ?? 'Private';
-  const fallbackImage = { uri: assets?.[0]?.uri ?? 'fallback-uri' };
 
   return (
     <View style={styles.wrapper}>
@@ -103,11 +81,11 @@ export const JobItem = ({ job, onPress }: JobItemProps) => {
         style={styles.companyInfo}
         onPress={() => onPress(job)}
         header={
-          <Header
+          <CardHeader
             showName={!job.company?.image}
             image={job.company?.image ?? fallbackImage.uri}
             name={job.company?.name ?? ''}
-            size={job.company?.size}
+            description={job.company?.size ?? ''}
           />
         }
       >

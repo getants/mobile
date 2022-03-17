@@ -1,15 +1,23 @@
 import React, { useEffect, useRef } from 'react';
+import Constants from 'expo-constants';
+import { View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {
   addNotificationReceivedListener,
   addNotificationResponseReceivedListener,
   removeNotificationSubscription,
 } from 'expo-notifications';
-import { useAuth, useAppStates, useNotifications } from '../hooks';
+import {
+  useAuth,
+  useAppStates,
+  useColorScheme,
+  useNotifications,
+} from '../hooks';
 
 import { AuthStack } from './AuthStack';
 import { InitialStack } from './InitialStack';
 import { MainStack } from './MainStack';
+import { SingleJobScreen } from '../screens/jobs';
 import { RootStackEnum } from '../utils/enums';
 import type { RootStackParams, Subscription } from '../utils/types';
 
@@ -19,6 +27,8 @@ export const RootStack = () => {
   const { isAuthenticated } = useAuth();
   const { appStates } = useAppStates();
   const { setNotificationStates } = useNotifications();
+  const colorScheme = useColorScheme();
+  const backgroundColor = colorScheme === 'dark' ? '#111111' : '#FFFFFF';
 
   const notificationListener = useRef<Subscription>();
   const responseListener = useRef<Subscription>();
@@ -55,19 +65,44 @@ export const RootStack = () => {
 
   const screensSwitcher = () => {
     if (!isAuthenticated) {
-      return <Screen name={RootStackEnum.AuthStack} component={AuthStack} />;
+      return (
+        <Screen
+          options={{ headerShown: false }}
+          name={RootStackEnum.AuthStack}
+          component={AuthStack}
+        />
+      );
     }
     if (!appStates.isReady) {
       return (
-        <Screen name={RootStackEnum.InitialStack} component={InitialStack} />
+        <Screen
+          options={{ headerShown: false }}
+          name={RootStackEnum.InitialStack}
+          component={InitialStack}
+        />
       );
     }
-    return <Screen name={RootStackEnum.MainStack} component={MainStack} />;
+    return (
+      <>
+        <Screen
+          options={{ headerShown: false }}
+          name={RootStackEnum.MainStack}
+          component={MainStack}
+        />
+        <Screen
+          name={RootStackEnum.SingleJobScreen}
+          component={SingleJobScreen}
+          options={() => ({
+            header: () => (
+              <View
+                style={{ height: Constants.statusBarHeight, backgroundColor }}
+              />
+            ),
+          })}
+        />
+      </>
+    );
   };
 
-  return (
-    <Navigator screenOptions={{ headerShown: false }}>
-      {screensSwitcher()}
-    </Navigator>
-  );
+  return <Navigator>{screensSwitcher()}</Navigator>;
 };

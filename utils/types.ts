@@ -91,13 +91,19 @@ export type StackScreens =
   | JobStackEnum
   | InboxStackEnum
   | CalendarStackEnum
-  | ProfileStackEnum;
+  | ProfileStackEnum
+  | RootStackEnum;
 // These are composite stacks, so it does not have real screens
 export type RootStackParams = {
   [RootStackEnum.AuthStack]: NavigatorScreenParams<AuthStackParams>;
   [RootStackEnum.InitialStack]: NavigatorScreenParams<InitialStackParams>;
   [RootStackEnum.MainStack]: NavigatorScreenParams<MainStackParams> & {
     name?: string;
+  };
+  [RootStackEnum.SingleJobScreen]: {
+    jobId: string;
+    jobTitle?: string;
+    companyName?: string;
   };
 };
 export type InitialStackParams = {

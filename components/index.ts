@@ -37,6 +37,7 @@ export {
   Text,
 } from '@ui-kitten/components';
 
+export { CardHeader } from './Card/Header';
 export { ChatWrapper } from './ChatWrapper';
 export { ConversationList, ConversationItem } from './Conversations';
 export { KeyboardAvoidingView } from './KeyboardAvoidingView';

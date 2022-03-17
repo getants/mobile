@@ -4,6 +4,8 @@ export enum RootStackEnum {
   AuthStack = 'AuthStack',
   InitialStack = 'InitialStack',
   MainStack = 'MainStack',
+  // Bring SingleJob here to avoid bottom tab
+  SingleJobScreen = 'SingleJobScreen',
 }
 export enum InitialStackEnum {
   WelcomeScreen = 'WelcomeScreen',

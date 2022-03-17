@@ -64,6 +64,7 @@ export const MainStack = () => {
           tabBarIcon: ({ focused }) =>
             makeIcon({ focused, colors, icon: 'briefcase' }),
           headerShown: false,
+          header: () => null,
         })}
       />
       <Screen

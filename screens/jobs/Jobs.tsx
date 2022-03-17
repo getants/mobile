@@ -25,7 +25,7 @@ import {
 } from '../../hooks';
 import { makeBoolExp, handleError } from '../../utils/tokens';
 import {
-  JobStackEnum,
+  RootStackEnum,
   MainStackEnum,
   ProfileStackEnum,
 } from '../../utils/enums';
@@ -125,7 +125,7 @@ export const JobListScreen = ({ navigation }: Props) => {
   }, [jobsRefetch]);
 
   const handleOnPressSingle = ({ id, title }: Jobs) => {
-    navigation.navigate(JobStackEnum.SingleJobScreen, {
+    navigation.navigate(RootStackEnum.SingleJobScreen, {
       jobId: id,
       jobTitle: title,
       // companyName: foundJob.quantity,

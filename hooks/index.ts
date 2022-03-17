@@ -7,6 +7,7 @@ export {
 } from '@apollo/client';
 export { useIsFocused, useFocusEffect } from '@react-navigation/native';
 
+export { useAssets } from 'expo-asset';
 export { useColorScheme, useWindowDimensions } from 'react-native';
 export { useNavigation } from '@react-navigation/native';
 
