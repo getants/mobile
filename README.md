@@ -1,4 +1,4 @@
-# GetAnts Mobile
+# Mobile
 
 This repo stores Expo code (React Native framework) for Ants. More details documentation will be updated after the app launchs for Alpha test.
 
