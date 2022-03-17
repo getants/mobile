@@ -1,4 +1,4 @@
-export { OrderBy } from '../graphqls';
+export { OrderBy } from '@getants/graphqls';
 
 export enum RootStackEnum {
   AuthStack = 'AuthStack',

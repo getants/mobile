@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as ErrorRecovery from 'expo-error-recovery';
 import {
   Button,
@@ -10,11 +10,19 @@ import {
   StyleSheet,
   Text,
 } from '../../components';
-import { useActions, useFocusEffect, useNotifications } from '../../hooks';
+import { useActions, useNotifications } from '../../hooks';
+import { isEqual } from '../../utils/tokens';
 import { nhost } from '../../utils/nhost';
 import { AuthStackEnum } from '../../utils/enums';
 import { registerForPushNotifications } from '../../utils/notification';
 import type { LoginScreenNavigationProp, Users } from '../../utils/types';
+
+type InputKey = 'email' | 'password' | 'other';
+
+const initialInput = {
+  email: '',
+  password: '',
+};
 
 const styles = StyleSheet.create({
   logo: {
@@ -30,6 +38,18 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontWeight: 'bold',
+  },
+  captionContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  captionText: {
+    fontSize: 12,
+    color: '#FF0000',
+  },
+  error: {
+    textAlign: 'center',
   },
 });
 
@@ -48,10 +68,30 @@ export const LoginScreen = (props: Props) => {
   const { handleUpdateUser } = useActions();
   const { setNotificationStates } = useNotifications();
 
-  const [input, setInput] = useState<LoginFormInput>({
+  const [input, setInput] = useState<LoginFormInput>(initialInput);
+  const [errorMessages, setErrorMessages] = useState({
     email: '',
     password: '',
+    other: '',
   });
+
+  const shouldDisable =
+    isEqual(initialInput, input) ||
+    input.email.length < 3 ||
+    input.password.length < 8;
+
+  const inputStatus = {
+    email: errorMessages.email ? 'danger' : 'basic',
+    password: errorMessages.password ? 'danger' : 'basic',
+  };
+
+  const renderCaption = (inputType: InputKey) => {
+    return (
+      <View style={styles.captionContainer}>
+        <Text style={styles.captionText}>{errorMessages[inputType]}</Text>
+      </View>
+    );
+  };
 
   const changeInput = (key: keyof LoginFormInput, value: string) => {
     const newInputValue = {
@@ -64,6 +104,7 @@ export const LoginScreen = (props: Props) => {
   const handleLogin = async () => {
     try {
       const { session, error } = await nhost.auth.signIn(input);
+
       if (session && !error) {
         const token = await registerForPushNotifications();
         if (session.user) {
@@ -75,7 +116,6 @@ export const LoginScreen = (props: Props) => {
 
           // When the type is fixed, remove this cast
           const oldMeta = (session.user as unknown as Users).metadata;
-          // We remove the token if user changes his mind
           delete oldMeta.notificationToken;
 
           await handleUpdateUser(session.user.id, {
@@ -89,6 +129,8 @@ export const LoginScreen = (props: Props) => {
             console.info('> Registered Push Notifications!', token);
           }
         }
+      } else if (error) {
+        setErrorMessages({ ...errorMessages, other: error.message });
       }
     } catch (err) {
       ErrorRecovery.setRecoveryProps({
@@ -102,6 +144,24 @@ export const LoginScreen = (props: Props) => {
     navigation.navigate(AuthStackEnum.SignupScreen);
   };
 
+  const validate = (inputType: string) => {
+    switch (inputType) {
+      case 'email':
+        return input.email.length < 3 ? 'Should use valid email address' : '';
+      case 'password':
+        return input.password.length < 6
+          ? 'Password should longer than 6 characters'
+          : '';
+      default:
+        return '';
+    }
+  };
+
+  const handleOnBlur = (inputType: InputKey) => {
+    const validatedMessage = validate(inputType);
+    setErrorMessages({ ...errorMessages, [inputType]: validatedMessage });
+  };
+
   // Prevent go back to initial stack
   useEffect(
     () =>
@@ -109,15 +169,6 @@ export const LoginScreen = (props: Props) => {
         e.preventDefault();
       }),
     [navigation],
-  );
-
-  useFocusEffect(
-    useCallback(() => {
-      if (emailInputRef) {
-        // Why not do anything?
-        (emailInputRef?.current as any).focus();
-      }
-    }, [emailInputRef]),
   );
 
   return (
@@ -132,12 +183,21 @@ export const LoginScreen = (props: Props) => {
             Login
           </Text>
 
+          {errorMessages.other && (
+            <Text status="danger" style={styles.error}>
+              Something wrong, please contact admin
+            </Text>
+          )}
+
           <Input
             autoFocus
             size="large"
             textContentType="emailAddress"
             keyboardType="email-address"
             placeholder="Email"
+            onBlur={() => handleOnBlur('email')}
+            caption={() => renderCaption('email')}
+            status={inputStatus.email}
             ref={emailInputRef}
             value={input.email}
             onChangeText={(v: string) => changeInput('email', v)}
@@ -148,11 +208,14 @@ export const LoginScreen = (props: Props) => {
             size="large"
             textContentType="password"
             placeholder="Password"
+            onBlur={() => handleOnBlur('password')}
+            caption={() => renderCaption('password')}
+            status={inputStatus.password}
             value={input.password}
             onChangeText={(v: string) => changeInput('password', v)}
           />
 
-          <Button size="large" onPress={handleLogin}>
+          <Button size="large" disabled={shouldDisable} onPress={handleLogin}>
             Login
           </Button>
 

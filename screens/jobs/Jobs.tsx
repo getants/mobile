@@ -1,6 +1,11 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import Constants from 'expo-constants';
 import {
+  OrderBy,
+  JobsAggregateDocument,
+  // InsertApplicationsOneDocument,
+} from '@getants/graphqls';
+import {
   Animated,
   Avatar,
   JobItem as JobItemPlaceholder,
@@ -24,11 +29,6 @@ import {
   MainStackEnum,
   ProfileStackEnum,
 } from '../../utils/enums';
-import {
-  OrderBy,
-  JobsAggregateDocument,
-  // InsertApplicationsOneDocument,
-} from '../../graphqls';
 import type {
   // InsertApplicationsOneMutation,
   // InsertApplicationsOneMutationVariables,

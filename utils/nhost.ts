@@ -2,8 +2,8 @@ import { NhostClient } from '@nhost/nhost-js';
 import { useNhostAuth } from '@nhost/react-auth';
 import * as SecureStore from 'expo-secure-store';
 import { useQuery } from '@apollo/client';
+import { ProfilesByPkDocument } from '@getants/graphqls';
 import { getEnvironment } from './tokens';
-import { ProfilesByPkDocument } from '../graphqls';
 import type { ProfilesByPkQuery, ProfilesByPkQueryVariables } from './types';
 
 const { BACKEND_URL } = getEnvironment();

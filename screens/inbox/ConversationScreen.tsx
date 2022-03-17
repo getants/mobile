@@ -11,14 +11,13 @@ import {
   // GiftedChat,
   IMessage as ChatMessage,
 } from 'react-native-gifted-chat';
-// import { chatbot } from '@lib/helpers';
-import { ChatWrapper } from '../../components';
 import {
   ConversationsByPkDocument,
   InsertMessagesOneDocument,
   MessagesAggregateDocument,
   MessagesSubscriptionDocument,
-} from '../../graphqls';
+} from '@getants/graphqls';
+import { ChatWrapper } from '../../components';
 import type {
   ConversationsByPkQuery,
   ConversationsByPkQueryVariables,

@@ -1,79 +1,63 @@
 {
-  "overrides": [
-    {
-      "files": ["*.graphql"],
-      "parser": "@graphql-eslint/eslint-plugin",
-      "plugins": ["@graphql-eslint"],
-      "rules": {
-        "@graphql-eslint/known-type-names": "error"
-      },
-      "parserOptions": {
-        "schema": "./graphqls/schema.json"
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.eslint.json"
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "jasmine": true
+  },
+  "rules": {
+    "no-console": ["error", { "allow": ["info"] }],
+    "no-plusplus": "off",
+    "always-multiline": "off",
+    "func-names": "off",
+    "react/display-name": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/no-unused-prop-types": "off",
+    "react/function-component-definition": "off",
+    "react/no-unstable-nested-components": "off",
+    "react/style-prop-object": ["off", { "allow": ["StatusBar"] }],
+    "max-len": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
       }
-    },
-    {
-      "files": ["*.ts", "*.tsx", "*.js"],
-      "parser": "@typescript-eslint/parser",
-      "extends": [
-        "airbnb",
-        "airbnb-typescript",
-        "airbnb/hooks",
-        "plugin:prettier/recommended"
-      ],
-      "parserOptions": {
-        "project": "./tsconfig.eslint.json"
-      },
-      "env": {
-        "browser": true,
-        "node": true,
-        "jasmine": true
-      },
-      "rules": {
-        "no-console": ["error", { "allow": ["info"] }],
-        "no-plusplus": "off",
-        "always-multiline": "off",
-        "func-names": "off",
-        "react/display-name": "off",
-        "react/react-in-jsx-scope": "off",
-        "react/prop-types": "off",
-        "react/require-default-props": "off",
-        "react/jsx-props-no-spreading": "off",
-        "react/no-unused-prop-types": "off",
-        "react/function-component-definition": "off",
-        "react/no-unstable-nested-components": "off",
-        "react/style-prop-object": ["off", { "allow": ["StatusBar"] }],
-        "max-len": "off",
-        "@typescript-eslint/no-unused-vars": [
-          "warn",
-          {
-            "argsIgnorePattern": "^_",
-            "varsIgnorePattern": "^_"
-          }
-        ],
-        "indent": "off",
-        "@typescript-eslint/indent": "off",
-        "import/no-anonymous-default-export": [
-          2,
-          {
-            "allowArrowFunction": true
-          }
-        ],
-        "import/no-extraneous-dependencies": [
-          "error",
-          {
-            "devDependencies": true
-          }
-        ],
-        "import/prefer-default-export": "off",
-        "jsx-a11y/anchor-is-valid": [
-          "error",
-          {
-            "components": ["Link"],
-            "specialLink": ["hrefLeft", "hrefRight"],
-            "aspects": ["invalidHref", "preferButton"]
-          }
-        ]
+    ],
+    "indent": "off",
+    "@typescript-eslint/indent": "off",
+    "import/no-anonymous-default-export": [
+      2,
+      {
+        "allowArrowFunction": true
       }
-    }
-  ]
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
+    "import/prefer-default-export": "off",
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link"],
+        "specialLink": ["hrefLeft", "hrefRight"],
+        "aspects": ["invalidHref", "preferButton"]
+      }
+    ]
+  }
 }

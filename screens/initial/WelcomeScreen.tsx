@@ -1,5 +1,6 @@
 /* eslint-disable global-require */
 import React, { useCallback, useState } from 'react';
+import { InsertResumesOneDocument } from '@getants/graphqls';
 import {
   ProgressBar,
   StyleSheet,
@@ -14,7 +15,6 @@ import {
   useMutation,
   useTimeoutFn,
 } from '../../hooks';
-import { InsertResumesOneDocument } from '../../graphqls';
 import type {
   InsertResumesOneMutation,
   InsertResumesOneMutationVariables,

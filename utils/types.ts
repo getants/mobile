@@ -18,6 +18,14 @@ import type {
   RouteProp,
 } from '@react-navigation/native';
 import type {
+  Conversations,
+  Messages,
+  ProfilesInsertInput,
+  ProfilesSetInput,
+  UsersInsertInput,
+  UsersSetInput,
+} from '@getants/graphqls';
+import type {
   CalendarStackEnum,
   InboxStackEnum,
   InitialStackEnum,
@@ -31,20 +39,10 @@ import type {
   DirectionEnum,
 } from './enums';
 
-// Import for using in Chat
-import type {
-  Conversations,
-  Messages,
-  ProfilesInsertInput,
-  ProfilesSetInput,
-  UsersInsertInput,
-  UsersSetInput,
-} from '../graphqls';
-
+export * from '@getants/graphqls';
 export type { NhostUser } from './nhost';
 export type { Colors } from '../hooks/useTheme';
 export type { LayoutProps } from '../components/Layout';
-export * from '../graphqls';
 
 export type UsersEdit = UsersInsertInput | UsersSetInput;
 export type ProfilesEdit = ProfilesInsertInput | ProfilesSetInput;

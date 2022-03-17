@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { ConversationsAggregateDocument } from '@getants/graphqls';
 import { useAuth, useQuery } from '../../hooks';
-import { ConversationsAggregateDocument } from '../../graphqls';
 import { ConversationList } from '../../components';
 import { InboxStackEnum, OrderBy } from '../../utils/enums';
 import type {

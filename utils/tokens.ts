@@ -5,6 +5,7 @@ import { isIphoneX } from 'react-native-iphone-x-helper';
 import { ENV_VARS, SPACE_MULTIPLIER } from './constants';
 import type { EnvironmentKey, EnvironmentType, Spacing } from './types';
 
+export { default as isEqual } from 'fast-deep-equal';
 export const propertyMap: Record<string, string> = {
   mt: 'marginTop',
   mr: 'marginRight',

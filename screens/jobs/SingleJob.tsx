@@ -1,5 +1,10 @@
 import React, { useLayoutEffect, useMemo } from 'react';
 import styled from 'styled-components/native';
+import {
+  ConversationsAggregateDocument,
+  JobsByPkDocument,
+  InsertConversationsOneDocument,
+} from '@getants/graphqls';
 import { MainStackEnum, InboxStackEnum } from '../../utils/enums';
 import type {
   JobsByPkQuery,
@@ -14,11 +19,6 @@ import {
   useMutation,
   useTimeoutFn,
 } from '../../hooks';
-import {
-  ConversationsAggregateDocument,
-  JobsByPkDocument,
-  InsertConversationsOneDocument,
-} from '../../graphqls';
 import {
   Button,
   Card,

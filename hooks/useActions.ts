@@ -1,9 +1,12 @@
 import { useCallback, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
+import {
+  UpdateProfilesByPkDocument,
+  UpdateUserDocument,
+} from '@getants/graphqls';
 import { useLoading } from './useLoading';
 import { useAuth } from '../utils/nhost';
 import { handleError } from '../utils/tokens';
-import { UpdateProfilesByPkDocument, UpdateUserDocument } from '../graphqls';
 import type {
   ProfilesEdit,
   UpdateProfilesByPkMutation,
