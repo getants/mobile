@@ -6,12 +6,11 @@ import type {
   SingleJobScreenNavigationProp,
 } from '../../utils/types';
 import { BASE_SPACING, OUR_COLORS } from '../../utils/constants';
-import { useAssets, useQuery } from '../../hooks';
+import { useQuery } from '../../hooks';
 import {
   Button,
   Card,
-  CardHeader,
-  Image,
+  ImageBackground,
   SafeAreaView,
   StyleSheet,
   ScrollView,
@@ -22,6 +21,9 @@ import {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+  },
+  imageCover: {
+    height: 240,
   },
   titleStack: {
     display: 'flex',
@@ -38,9 +40,17 @@ const styles = StyleSheet.create({
   },
   subtitle: {},
   nextIcon: {},
+  jobInfo: {
+    paddingTop: BASE_SPACING * 4,
+  },
   companyInfo: {
-    backgroundColor: 'green',
     borderRadius: BASE_SPACING * 3,
+  },
+  jobTitle: {
+    fontWeight: 'bold',
+  },
+  jobDescription: {
+    marginTop: BASE_SPACING * 4,
   },
 });
 
@@ -50,10 +60,6 @@ export type Props = {
 };
 
 export const SingleJobScreen = (props: Props) => {
-  /* eslint-disable-next-line global-require */
-  const [assets] = useAssets([require('../../assets/blank.svg')]);
-  const fallbackImage = { uri: assets?.[0]?.uri ?? 'fallback-uri' };
-
   const { navigation, route } = props;
 
   const { jobId, jobTitle, companyName } = route.params;
@@ -83,32 +89,22 @@ export const SingleJobScreen = (props: Props) => {
       {loading && !singleJobData && <Spinner />}
 
       <ScrollView>
-        <Card
-          style={styles.companyInfo}
-          // onPress={() => onPress(job)}
-          header={
-            <CardHeader
-              showName={!job?.company?.image}
-              image={job?.company?.image ?? fallbackImage.uri}
-              name={job?.company?.name ?? ''}
-              description={job?.company?.size ?? ''}
-            />
-          }
+        <ImageBackground
+          resizeMode="cover"
+          source={{ uri: job?.company?.image as string }}
+          style={styles.imageCover}
         >
-          <Text numberOfLines={4} ellipsizeMode="tail">
-            {job?.company?.summary ?? ''}
-          </Text>
-        </Card>
-        <Card style={{ backgroundColor: 'gray', height: 1900 }}>
-          <Text category="h2">{job?.title ?? ''}</Text>
+          {/* <View> */}
+          {/* </View> */}
+        </ImageBackground>
 
-          <Image source={{ uri: job?.image ?? 'no name' }} />
-          <Text>{job?.address?.unstructured_value ?? ''}</Text>
-
-          <Text>Description</Text>
-          <Text>
-            {job?.description ?? ''} / Company: {job?.company?.name ?? ''}
+        <Card style={styles.jobInfo}>
+          <Text category="h5" style={styles.jobTitle}>
+            {job?.title ?? ''}
           </Text>
+          <Text category="s1">{job?.address?.unstructured_value ?? ''}</Text>
+
+          <Text style={styles.jobDescription}>{job?.description ?? ''} </Text>
         </Card>
       </ScrollView>
 

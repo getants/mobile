@@ -164,9 +164,13 @@ export type JobListScreenNavigationProp = CompositeNavigationProp<
   AbstractCompositeNavigationProps
 >;
 export type SingleJobScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<JobStackParams, JobStackEnum.SingleJobScreen>,
+  StackNavigationProp<RootStackParams, RootStackEnum.SingleJobScreen>,
   AbstractCompositeNavigationProps
 >;
+// export type SingleJobScreenNavigationProp = CompositeNavigationProp<
+//   StackNavigationProp<JobStackParams, JobStackEnum.SingleJobScreen>,
+//   AbstractCompositeNavigationProps
+// >;
 // Inbox and conversation props
 export type InboxScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<InboxStackParams, InboxStackEnum.InboxScreen>,

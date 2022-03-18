@@ -1,6 +1,7 @@
 import React from 'react';
 import { ImageBackground, View, StyleSheet } from 'react-native';
 import { Text } from '@ui-kitten/components';
+import { useAssets } from '../../hooks';
 import type { ViewProps } from '../../utils/types';
 
 const styles = StyleSheet.create({
@@ -25,17 +26,26 @@ export const CardHeader = ({
   name,
   description,
   ...restProps
-}: CardHeaderProps & ViewProps) => (
-  <ImageBackground
-    resizeMode="cover"
-    source={{ uri: image as string }}
-    style={[{ minHeight: showName ? 60 : 120 }, styles.imageCover]}
-  >
-    <View {...restProps}>
-      <Text category="h6" style={styles.headerName}>
-        {showName ? name : ''}
-      </Text>
-      {showName && <Text category="s2">{description ?? ''}</Text>}
-    </View>
-  </ImageBackground>
-);
+}: CardHeaderProps & ViewProps) => {
+  /* eslint-disable-next-line global-require */
+  const [assets] = useAssets([require('../../assets/blank.svg')]);
+
+  const imageSrc = image
+    ? { uri: image as string }
+    : { uri: assets?.[0]?.uri ?? 'fallback-uri' };
+
+  return (
+    <ImageBackground
+      resizeMode="cover"
+      source={imageSrc}
+      style={[{ minHeight: showName ? 60 : 120 }, styles.imageCover]}
+    >
+      <View {...restProps}>
+        <Text category="h6" style={styles.headerName}>
+          {showName ? name : ''}
+        </Text>
+        {showName && <Text category="s2">{description ?? ''}</Text>}
+      </View>
+    </ImageBackground>
+  );
+};

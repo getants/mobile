@@ -1,10 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import Constants from 'expo-constants';
-import {
-  OrderBy,
-  JobsAggregateDocument,
-  // InsertApplicationsOneDocument,
-} from '@getants/graphqls';
+import { OrderBy, JobsAggregateDocument } from '@getants/graphqls';
 import {
   Animated,
   Avatar,
@@ -19,7 +15,6 @@ import {
 import {
   useAuth,
   useQuery,
-  // useMutation,
   useCollapsibleHeader,
   useColorScheme,
 } from '../../hooks';
@@ -30,8 +25,6 @@ import {
   ProfileStackEnum,
 } from '../../utils/enums';
 import type {
-  // InsertApplicationsOneMutation,
-  // InsertApplicationsOneMutationVariables,
   Jobs,
   JobsAggregate,
   JobsAggregateQueryVariables,
@@ -74,11 +67,6 @@ export type Props = {
 
 export const JobListScreen = ({ navigation }: Props) => {
   const { isAuthenticated, profile, isLoading: profileLoading } = useAuth();
-
-  // const [insertApplicationMutation] = useMutation<
-  //   InsertApplicationsOneMutation,
-  //   InsertApplicationsOneMutationVariables
-  // >(InsertApplicationsOneDocument);
 
   const initialVariables = {
     limit: 100,
@@ -124,30 +112,13 @@ export const JobListScreen = ({ navigation }: Props) => {
     }
   }, [jobsRefetch]);
 
-  const handleOnPressSingle = ({ id, title }: Jobs) => {
+  const handleOnPressSingle = (job: Jobs) => {
     navigation.navigate(RootStackEnum.SingleJobScreen, {
-      jobId: id,
-      jobTitle: title,
-      // companyName: foundJob.quantity,
+      jobId: job.id,
+      jobTitle: job.title,
+      companyName: job.company?.name,
     });
   };
-
-  // const [currentResume] = profile?.resumes ?? [];
-
-  // const handleOnApply = async (id: string) => {
-  //   if (currentResume) {
-  //     await insertApplicationMutation({
-  //       variables: {
-  //         object: {
-  //           job_id: id,
-  //           resume_id: currentResume.id,
-  //         },
-  //       },
-  //     });
-
-  //     jobsRefetch();
-  //   }
-  // };
 
   const handleOpenProfile = useCallback(() => {
     navigation.navigate(MainStackEnum.ProfileStack, {

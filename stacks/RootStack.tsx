@@ -33,6 +33,11 @@ export const RootStack = () => {
   const notificationListener = useRef<Subscription>();
   const responseListener = useRef<Subscription>();
 
+  const customHeaderStyles = {
+    height: Constants.statusBarHeight,
+    backgroundColor,
+  };
+
   useEffect(() => {
     notificationListener.current = addNotificationReceivedListener(
       (response) => {
@@ -65,44 +70,33 @@ export const RootStack = () => {
 
   const screensSwitcher = () => {
     if (!isAuthenticated) {
-      return (
-        <Screen
-          options={{ headerShown: false }}
-          name={RootStackEnum.AuthStack}
-          component={AuthStack}
-        />
-      );
+      return <Screen name={RootStackEnum.AuthStack} component={AuthStack} />;
     }
     if (!appStates.isReady) {
       return (
-        <Screen
-          options={{ headerShown: false }}
-          name={RootStackEnum.InitialStack}
-          component={InitialStack}
-        />
+        <Screen name={RootStackEnum.InitialStack} component={InitialStack} />
       );
     }
     return (
       <>
-        <Screen
-          options={{ headerShown: false }}
-          name={RootStackEnum.MainStack}
-          component={MainStack}
-        />
+        <Screen name={RootStackEnum.MainStack} component={MainStack} />
         <Screen
           name={RootStackEnum.SingleJobScreen}
           component={SingleJobScreen}
-          options={() => ({
-            header: () => (
-              <View
-                style={{ height: Constants.statusBarHeight, backgroundColor }}
-              />
-            ),
-          })}
+          options={
+            (/* { route } */) => ({
+              headerShown: true,
+              header: () => <View style={customHeaderStyles} />,
+            })
+          }
         />
       </>
     );
   };
 
-  return <Navigator>{screensSwitcher()}</Navigator>;
+  return (
+    <Navigator screenOptions={{ headerShown: false }}>
+      {screensSwitcher()}
+    </Navigator>
+  );
 };

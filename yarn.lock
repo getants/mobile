@@ -1417,10 +1417,10 @@
     lodash.pick "^4.4.0"
     lodash.template "^4.5.0"
 
-"@getants/graphqls@0.2.6":
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/@getants/graphqls/-/graphqls-0.2.6.tgz#9667aa85d85d07b60d4d6df6c288dfcecdce42ef"
-  integrity sha512-ITzCF3fmxNCTZmJCJZ31PXV204+aURXrwInWkN+n1dqtfJ0Q1YOkdWEjIUXK86dl58BcGMLxFv+MqG1gZCK0rQ==
+"@getants/graphqls@0.2.7":
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/@getants/graphqls/-/graphqls-0.2.7.tgz#72b0b7893f9d2695c46d75834193a58a0b685f88"
+  integrity sha512-2lTpU7xKeBZIS0LDJZWWE3VBSnuoeKYgX60/RuUieZ7JImAm8Lbp11FQ2w0q7TSj69TbRp/uv7JL59LCn1XLig==
   dependencies:
     "@apollo/client" "3.5.10"
     graphql "16.3.0"
