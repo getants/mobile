@@ -9,21 +9,34 @@ import { BASE_SPACING, OUR_COLORS } from '../../utils/constants';
 import { useQuery } from '../../hooks';
 import {
   Button,
-  Card,
+  IconWrapper,
   ImageBackground,
   SafeAreaView,
   StyleSheet,
   ScrollView,
   Spinner,
   Text,
+  View,
 } from '../../components';
+import { BackButton } from './BackButton';
+import { Section } from './Section';
+import { OverviewRow } from './OverviewRow';
 
+const commonSpaces = {
+  paddingVertical: BASE_SPACING * 4,
+  paddingHorizontal: BASE_SPACING * 6,
+};
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
   },
   imageCover: {
     height: 240,
+  },
+  buttons: {
+    position: 'absolute',
+    top: BASE_SPACING * 6,
+    left: BASE_SPACING * 6,
   },
   titleStack: {
     display: 'flex',
@@ -41,16 +54,33 @@ const styles = StyleSheet.create({
   subtitle: {},
   nextIcon: {},
   jobInfo: {
-    paddingTop: BASE_SPACING * 4,
-  },
-  companyInfo: {
-    borderRadius: BASE_SPACING * 3,
+    ...commonSpaces,
   },
   jobTitle: {
     fontWeight: 'bold',
-  },
-  jobDescription: {
     marginTop: BASE_SPACING * 4,
+  },
+  address: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  overview: {
+    borderWidth: 0.6,
+    borderColor: '#CACACA',
+    borderRadius: BASE_SPACING * 2,
+  },
+  jobDescription: {},
+  companyInfo: {
+    ...commonSpaces,
+  },
+  applyWrapper: {
+    borderTopWidth: 0.6,
+    borderTopColor: '#CACACA',
+    padding: BASE_SPACING * 6,
+  },
+  applyButton: {
+    borderRadius: 24,
   },
 });
 
@@ -94,21 +124,58 @@ export const SingleJobScreen = (props: Props) => {
           source={{ uri: job?.company?.image as string }}
           style={styles.imageCover}
         >
-          {/* <View> */}
-          {/* </View> */}
+          <View style={styles.buttons}>
+            <BackButton onPress={() => navigation.goBack()} />
+          </View>
         </ImageBackground>
 
-        <Card style={styles.jobInfo}>
+        <View style={styles.jobInfo}>
           <Text category="h5" style={styles.jobTitle}>
             {job?.title ?? ''}
           </Text>
-          <Text category="s1">{job?.address?.unstructured_value ?? ''}</Text>
 
-          <Text style={styles.jobDescription}>{job?.description ?? ''} </Text>
-        </Card>
+          <View style={styles.address}>
+            <IconWrapper name="pin-outline" size={14} />
+            <Text category="s2" numberOfLines={1}>
+              {job?.address?.unstructured_value ?? ''}
+            </Text>
+          </View>
+
+          <Section>
+            <Text style={styles.jobDescription}>{job?.description ?? ''} </Text>
+          </Section>
+
+          <Section caption="Overview">
+            <View style={styles.overview}>
+              <OverviewRow
+                rowKey="qualifications"
+                label={job?.qualifications}
+              />
+              <OverviewRow rowKey="level" label={job?.level} />
+              <OverviewRow
+                border={false}
+                rowKey="compensations"
+                label={job?.compensations}
+              />
+            </View>
+          </Section>
+          <Section caption="Responsibilities">
+            <Text>{job?.responsibilities ?? ''}</Text>
+          </Section>
+        </View>
       </ScrollView>
 
-      <Button onPress={handleApply}>Apply</Button>
+      <View style={styles.applyWrapper}>
+        <Button
+          style={styles.applyButton}
+          appearance="outline"
+          size="large"
+          status="primary"
+          onPress={handleApply}
+        >
+          Apply
+        </Button>
+      </View>
     </SafeAreaView>
   );
 };

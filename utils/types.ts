@@ -39,6 +39,14 @@ import type {
   DirectionEnum,
 } from './enums';
 
+export type {
+  CSSProperties,
+  ChangeEvent,
+  ComponentType,
+  MouseEvent,
+  ReactElement,
+  ReactNode,
+} from 'react';
 export * from '@getants/graphqls';
 export type { NhostUser } from './nhost';
 export type { Colors } from '../hooks/useTheme';

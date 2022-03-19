@@ -40,6 +40,7 @@ export {
 export { CardHeader } from './Card/Header';
 export { ChatWrapper } from './ChatWrapper';
 export { ConversationList, ConversationItem } from './Conversations';
+export { IconWrapper } from './Icon';
 export { KeyboardAvoidingView } from './KeyboardAvoidingView';
 export { Layout } from './Layout';
 export { LoadingIndicator } from './LoadingIndicator';
