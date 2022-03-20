@@ -1,11 +1,9 @@
 name: Publish preview
 
 on:
-  push:
-    branches: master
   pull_request:
     branches: master
-    types: [opened, synchronize, ready_for_review]
+    types: [opened, synchronize]
 
 jobs:
   publish:
