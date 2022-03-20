@@ -74,7 +74,7 @@
     "react-native-screens": "3.10.2",
     "react-native-svg": "12.1.1",
     "react-native-ui-lib": "6.4.2",
-    "react-native-web": "0.17.1",
+    "react-native-web": "0.17.7",
     "react-use": "17.3.2",
     "sentry-expo": "4.1.0",
     "styled-components": "5.3.3",
