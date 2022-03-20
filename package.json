@@ -20,7 +20,7 @@
     "upgrade:getants": "yarn upgrade --scope @getants --latest -E"
   },
   "dependencies": {
-    "@apollo/client": "3.5.8",
+    "@apollo/client": "3.5.10",
     "@eva-design/eva": "2.1.1",
     "@getants/graphqls": "0.2.10",
     "@nhost/nhost-js": "0.3.10",
