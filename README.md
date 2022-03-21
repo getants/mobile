@@ -1,6 +1,10 @@
 # Mobile
 
+[Backend](https://github.com/getants/backend) &nbsp;&nbsp;•&nbsp;&nbsp; [Console](https://github.com/getants/console) &nbsp;&nbsp;•&nbsp;&nbsp; [System](https://github.com/getants/system) &nbsp;&nbsp;•&nbsp;&nbsp; [Mobile](https://github.com/getants/mobile) &nbsp;&nbsp;•&nbsp;&nbsp; [Landing](https://github.com/getants/landing)
+
 This repo stores Expo code (React Native framework) for Ants. More details documentation will be updated after the app launchs for Alpha test.
+
+---
 
 ## Expo project pages:
 
