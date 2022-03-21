@@ -32,7 +32,7 @@ jobs:
         run: yarn ts-check
 
       - name: Build app
-        run: eas build --non-interactive
+        run: eas build --platform all --non-interactive
 
       - name: Publish preview
         run: expo publish --release-channel=pr-${{ github.event.number }} --non-interactive
