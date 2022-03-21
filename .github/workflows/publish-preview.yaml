@@ -31,8 +31,8 @@ jobs:
       - name: Checking TypeScript
         run: yarn ts-check
 
-      - name: Build app
-        run: eas build --platform all --non-interactive
+      - name: Build preview app
+        run: eas build --platform all --profile preview --non-interactive
 
       - name: Publish preview
         run: expo publish --release-channel=pr-${{ github.event.number }} --non-interactive

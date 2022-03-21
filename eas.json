@@ -22,7 +22,13 @@
     },
     "preview": {
       "releaseChannel": "staging",
-      "distribution": "internal"
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        "simulator": true
+      }
     },
     "production": {
       "releaseChannel": "production"
