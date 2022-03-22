@@ -10,11 +10,18 @@ export const SENTRY_DSN =
   'https://b1aebc40dd134a2985d322a95cf0fed6@o333769.ingest.sentry.io/5568983';
 // export const defaultImage = 'https://template-api.s3-ap-southeast-1.amazonaws.com/image/default.png';
 
-// NOTE: Sometimes the machine's IP will be changed, run the script in folder
-// ./scripts/dev.sh to get the IP. Suggest open the wifi because most of the time
+// NOTE: The machine's IP will be changed time to time, remember to run the script
+// in folder ./scripts/dev.sh to get the new IP. Suggest open the wifi because most of the time
 // the phone will use wifi, with this way we can connect using LAN option in metro.
 const hostUri = __DEV__ && Device.isDevice ? '192.168.100.22' : 'localhost';
 
+// There are warnings that we can't fix, ignore now
+export const IGNORE_MESSAGES = [
+  'Warning:',
+  'Constants.deviceYearClass',
+  'Setting a timer for a long period of time',
+  'Overwriting fontFamily style attribute preprocessor',
+];
 export const ENV_VARS: Record<EnvironmentKey, EnvironmentType> = {
   development: {
     BACKEND_URL: `http://${hostUri}:1337`,

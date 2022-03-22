@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from 'react';
-import styled from 'styled-components/native';
 import { format } from 'date-fns';
 import {
   Animated,
   Calendar as CalendarComponent,
   Divider,
   RefreshControl,
+  ScrollView,
   SafeAreaView,
   StyleSheet,
 } from '../../components';
@@ -13,10 +13,6 @@ import { useCollapsibleHeader } from '../../hooks';
 import type { CalendarScreenNavigationProp } from '../../utils/types';
 
 type CalendarTheme = React.ComponentProps<typeof CalendarComponent>['theme'];
-
-const ScrollView = styled.ScrollView`
-  background-color: #ffffff;
-`;
 
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
 

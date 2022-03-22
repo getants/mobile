@@ -17,6 +17,14 @@
     {
       "matchDepTypes": ["devDependencies"],
       "automerge": true
+    },
+    {
+      "excludePackageNames": [
+        "@react-native-async-storage/async-storage",
+        "@react-native-community/datetimepicker",
+        "@react-native-community/netinfo",
+        "react-native"
+      ]
     }
   ]
 }

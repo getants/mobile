@@ -17,17 +17,16 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import { RootStack } from './stacks';
 import { ThemeProvider, SplashView } from './components';
-import { NAVIGATION_STATE, SENTRY_DSN } from './utils/constants';
+import {
+  NAVIGATION_STATE,
+  SENTRY_DSN,
+  IGNORE_MESSAGES,
+} from './utils/constants';
 import { globalState, initialState } from './utils/states';
 import { nhost } from './utils/nhost';
 import type { NavigationState } from './utils/types';
 
-// There are warnings that we can't fix, ignore now
-LogBox.ignoreLogs([
-  'Warning:',
-  'Constants.deviceYearClass',
-  'Setting a timer for a long period of time',
-]);
+LogBox.ignoreLogs(IGNORE_MESSAGES);
 
 Sentry.init({
   dsn: SENTRY_DSN,
