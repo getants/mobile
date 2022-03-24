@@ -1921,10 +1921,10 @@
     "@sentry/types" "6.18.2"
     tslib "^1.9.3"
 
-"@sentry/react-native@3.3.4":
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/@sentry/react-native/-/react-native-3.3.4.tgz#4d4d920d3108e9f1a84d4ea56573555552a149e0"
-  integrity sha512-Qo8vMLctWP3xvum09ZVdm1Dpz4VHak5apMx1VWATlDiHZBA70fHg0TCKDumRX3yN2P3mWuhrMPmit1u0hfXlLA==
+"@sentry/react-native@3.3.5":
+  version "3.3.5"
+  resolved "https://registry.yarnpkg.com/@sentry/react-native/-/react-native-3.3.5.tgz#55b20d05c19a8b7947b8f5b70982622a529c0db9"
+  integrity sha512-DDpn3931a4+RGLbRBC3x3CDJJKBqksHo5kGf1P9Dk8piUtGfFvQFbe+mq0QI23YVidw68Tbj35kzevv70vCinQ==
   dependencies:
     "@sentry/browser" "6.17.9"
     "@sentry/cli" "^1.72.0"
