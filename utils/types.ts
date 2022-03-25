@@ -119,7 +119,7 @@ export type InitialStackParams = {
   [InitialStackEnum.SetupScreen]?: undefined;
 };
 export type AuthStackParams = {
-  [AuthStackEnum.LoginScreen]?: undefined;
+  [AuthStackEnum.LoginScreen]: { message?: string };
   [AuthStackEnum.SignupScreen]?: undefined;
 };
 export type MainStackParams = {
@@ -202,6 +202,10 @@ export type ProfileScreenNavigationProp = CompositeNavigationProp<
 export type CameraRollScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<ProfileStackParams, ProfileStackEnum.CameraRoll>,
   AbstractCompositeNavigationProps
+>;
+export type LoginScreenRouteProp = RouteProp<
+  AuthStackParams,
+  AuthStackEnum.LoginScreen
 >;
 // Job route props
 export type JobListScreenRouteProp = RouteProp<
@@ -312,6 +316,7 @@ export type EnvironmentKey = 'development' | 'staging' | 'production';
 export type EnvironmentType = {
   BACKEND_URL: string;
   CHATBOT_URL: string;
+  HOST_URL: string;
 };
 export type UserType = {
   id: string;

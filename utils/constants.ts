@@ -14,28 +14,24 @@ export const SENTRY_DSN =
 // in folder ./scripts/dev.sh to get the new IP. Suggest open the wifi because most of the time
 // the phone will use wifi, with this way we can connect using LAN option in metro.
 const hostUri = __DEV__ && Device.isDevice ? '192.168.100.22' : 'localhost';
-
-// There are warnings that we can't fix, ignore now
-export const IGNORE_MESSAGES = [
-  'Warning:',
-  'Constants.deviceYearClass',
-  'Setting a timer for a long period of time',
-  'Overwriting fontFamily style attribute preprocessor',
-];
 export const ENV_VARS: Record<EnvironmentKey, EnvironmentType> = {
   development: {
     BACKEND_URL: `http://${hostUri}:1337`,
-    CHATBOT_URL: `http://${hostUri}:1337`,
+    CHATBOT_URL: `http://${hostUri}:1337/v1/functions/chatbot`,
+    HOST_URL: `http://${hostUri}:3000`,
   },
   staging: {
     BACKEND_URL: 'https://xrnhxphfuvaerdpimjwz.nhost.run',
-    CHATBOT_URL: 'https://us-central1-getants.cloudfunctions.net/chatbot',
+    CHATBOT_URL: `https://xrnhxphfuvaerdpimjwz.nhost.run/v1/functions/chatbot`,
+    HOST_URL: `https://console-stage.getants.com`,
   },
   production: {
     BACKEND_URL: 'https://xrnhxphfuvaerdpimjwz.nhost.run',
-    CHATBOT_URL: 'https://us-central1-getants.cloudfunctions.net/chatbot',
+    CHATBOT_URL: `https://xrnhxphfuvaerdpimjwz.nhost.run/v1/functions/chatbot`,
+    HOST_URL: `https://console.getants.com`,
   },
 };
+
 export const BOT_KEYWORDS = ['bot', 'hello bot', 'chatbot', 'robot'];
 export const SAFE_BOUNCE_HEIGHT =
   Platform.select({
@@ -65,6 +61,14 @@ export const NotificationChannel = {
   NewJobs: 'NEW_JOBS',
 };
 export const ASYNC_STORAGE_NOTIFICATIONS_KEY = '@GETANTS_MOBILE_NOTIFICATIONS';
+
+// There are warnings that we can't fix, ignore now
+export const IGNORE_MESSAGES = [
+  'Warning:',
+  'Constants.deviceYearClass',
+  'Setting a timer for a long period of time',
+  'Overwriting fontFamily style attribute preprocessor',
+];
 
 // NOTE: Disable spacing issue for easier modifications :D
 /* eslint-disable key-spacing */

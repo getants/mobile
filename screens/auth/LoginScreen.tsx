@@ -15,9 +15,13 @@ import { isEqual } from '../../utils/tokens';
 import { nhost } from '../../utils/nhost';
 import { AuthStackEnum } from '../../utils/enums';
 import { registerForPushNotifications } from '../../utils/notification';
-import type { LoginScreenNavigationProp, Users } from '../../utils/types';
+import type {
+  LoginScreenNavigationProp,
+  LoginScreenRouteProp,
+  Users,
+} from '../../utils/types';
 
-type InputKey = 'email' | 'password' | 'other';
+export type InputKey = 'email' | 'password' | 'name' | 'other';
 
 const initialInput = {
   email: '',
@@ -48,7 +52,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#FF0000',
   },
-  error: {
+  messages: {
     textAlign: 'center',
   },
 });
@@ -60,10 +64,13 @@ export type LoginFormInput = {
 
 export type Props = {
   navigation: LoginScreenNavigationProp;
+  route: LoginScreenRouteProp;
 };
 
 export const LoginScreen = (props: Props) => {
-  const { navigation } = props;
+  const { navigation, route } = props;
+  const { message } = route.params ?? {};
+
   const emailInputRef = useRef(null);
   const { handleUpdateUser } = useActions();
   const { setNotificationStates } = useNotifications();
@@ -85,12 +92,28 @@ export const LoginScreen = (props: Props) => {
     password: errorMessages.password ? 'danger' : 'basic',
   };
 
-  const renderCaption = (inputType: InputKey) => {
+  const renderCaption = (inputKey: Exclude<InputKey, 'name' | 'other'>) => {
     return (
       <View style={styles.captionContainer}>
-        <Text style={styles.captionText}>{errorMessages[inputType]}</Text>
+        <Text style={styles.captionText}>{errorMessages[inputKey]}</Text>
       </View>
     );
+  };
+
+  const validate = (inputKey: string) => {
+    const isInitial = isEqual(initialInput, input);
+    switch (inputKey) {
+      case 'email':
+        return input.email.length < 3 && !isInitial
+          ? 'Should use valid email address'
+          : '';
+      case 'password':
+        return input.password.length < 6 && !isInitial
+          ? 'Password should longer than 6 characters'
+          : '';
+      default:
+        return '';
+    }
   };
 
   const changeInput = (key: keyof LoginFormInput, value: string) => {
@@ -99,6 +122,9 @@ export const LoginScreen = (props: Props) => {
       [key]: value,
     };
     setInput(newInputValue);
+
+    const validatedMessage = validate(key);
+    setErrorMessages({ ...errorMessages, [key]: validatedMessage });
   };
 
   const handleLogin = async () => {
@@ -144,22 +170,9 @@ export const LoginScreen = (props: Props) => {
     navigation.navigate(AuthStackEnum.SignupScreen);
   };
 
-  const validate = (inputType: string) => {
-    switch (inputType) {
-      case 'email':
-        return input.email.length < 3 ? 'Should use valid email address' : '';
-      case 'password':
-        return input.password.length < 6
-          ? 'Password should longer than 6 characters'
-          : '';
-      default:
-        return '';
-    }
-  };
-
-  const handleOnBlur = (inputType: InputKey) => {
-    const validatedMessage = validate(inputType);
-    setErrorMessages({ ...errorMessages, [inputType]: validatedMessage });
+  const handleOnBlur = (inputKey: InputKey) => {
+    const validatedMessage = validate(inputKey);
+    setErrorMessages({ ...errorMessages, [inputKey]: validatedMessage });
   };
 
   // Prevent go back to initial stack
@@ -182,9 +195,14 @@ export const LoginScreen = (props: Props) => {
           <Text category="h5" style={styles.title}>
             Login
           </Text>
+          {message && (
+            <Text status="success" style={styles.messages}>
+              {message}
+            </Text>
+          )}
 
           {errorMessages.other && (
-            <Text status="danger" style={styles.error}>
+            <Text status="danger" style={styles.messages}>
               Something wrong, please contact admin
             </Text>
           )}

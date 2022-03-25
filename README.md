@@ -13,6 +13,10 @@ This repo stores Expo code (React Native framework) for Ants. More details docum
 
 ## Development
 
+### Make sure the backend is up and running
+
+- Refer to [backend](https://github.com/getants/backend#readme) doc to learn more
+
 ### Run on physical Apple devices
 TODO: find a device and write the doc hehe.
 
@@ -25,6 +29,25 @@ TODO: find a device and write the doc hehe.
 - Change the value in `./utils/constants.ts` with that IP.
 - Check the connection with `adb devices`, something like this `5HWOXOC65TLVC675	device`
 - Now it can see with `yarn android`
+
+### Setup ngrok
+
+When working with signup process, using ngrok to expose your mailhog local server
+
+- Follow [this doc](https://ngrok.com/download) to setup ngrok
+- When backend start, note down the mailhog port, it's 4 numbers like this
+```
+ℹ Emails will be sent to http://localhost:8867
+```
+- Run the following to get the url:
+```
+ngrok http 8867 // Your port will be different
+```
+- It will open a UI, note the forward url, it looks like:
+```
+Forwarding       http://92832de0.ngrok.io -> localhost:8867
+```
+- After signing up, follow that path to see confirmation email on phone.
 
 ## Working with React Navigation
 
