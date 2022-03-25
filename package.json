@@ -61,7 +61,7 @@
     "graphql": "16.3.0",
     "jotai": "1.6.1",
     "react": "17.0.2",
-    "react-content-loader": "6.0.3",
+    "react-content-loader": "6.2.0",
     "react-dom": "17.0.2",
     "react-fast-compare": "3.2.0",
     "react-native": "0.67.4",
