@@ -295,7 +295,7 @@ export type Spacing =
   | '20px'
   | '24px'
   | '32px';
-export type ShortProperty =  // TODO: Make use of this
+export type ShortProperty =
   | 'mt'
   | 'mr'
   | 'mb'

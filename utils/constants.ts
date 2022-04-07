@@ -1,5 +1,4 @@
 import { Platform } from 'react-native';
-import * as Device from 'expo-device';
 import type { EnvironmentKey, EnvironmentType } from './types';
 
 export const APP_NAME = 'GetAnts';
@@ -13,12 +12,11 @@ export const SENTRY_DSN =
 // NOTE: The machine's IP will be changed time to time, remember to run the script
 // in folder ./scripts/dev.sh to get the new IP. Suggest open the wifi because most of the time
 // the phone will use wifi, with this way we can connect using LAN option in metro.
-const hostUri = __DEV__ && Device.isDevice ? '192.168.100.22' : 'localhost';
 export const ENV_VARS: Record<EnvironmentKey, EnvironmentType> = {
   development: {
-    BACKEND_URL: `http://${hostUri}:1337`,
-    CHATBOT_URL: `http://${hostUri}:1337/v1/functions/chatbot`,
-    HOST_URL: `http://${hostUri}:3000`,
+    BACKEND_URL: 'http://ants-backend.ngrok.io',
+    CHATBOT_URL: 'http://ants-backend.ngrok.io/v1/functions/chatbot',
+    HOST_URL: 'http://ants-console.ngrok.io',
   },
   staging: {
     BACKEND_URL: 'https://xrnhxphfuvaerdpimjwz.nhost.run',

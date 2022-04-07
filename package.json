@@ -77,10 +77,6 @@
     "react-native-web": "0.17.7",
     "react-use": "17.3.2",
     "sentry-expo": "4.1.0",
-<<<<<<< HEAD
-    "styled-components": "5.3.5",
-=======
->>>>>>> e7b6da4 (fixed packages)
     "uuid": "8.3.2"
   },
   "devDependencies": {

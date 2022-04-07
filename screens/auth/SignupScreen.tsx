@@ -133,7 +133,7 @@ export const SignupScreen = (props: Props) => {
           redirectTo: `${HOST_URL}/setup?mobile=44`,
         },
       });
-      // console.log('response signup', response, HOST_URL);
+      // console.log('response signup', response, HOST_URL, input);
 
       // goToLogin('Please check your inbox for confirmation link');
     } catch (e) {
