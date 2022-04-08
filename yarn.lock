@@ -1513,10 +1513,26 @@
     jwt-decode "^3.1.2"
     query-string "^7.1.0"
 
+"@nhost/hasura-auth-js@0.1.15":
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/@nhost/hasura-auth-js/-/hasura-auth-js-0.1.15.tgz#a481a2d21e6315b1ad59d5eec8ada77d6f784bb1"
+  integrity sha512-KIZW0gqTsuZz0HKEA4UZPolmHOn6RVVVwy2WwUn/amFREJfDN4O4JrzZjUQUYSLn9Dx7wOCIf2ij2tkXKhcLaQ==
+  dependencies:
+    axios "^0.25.0"
+    jwt-decode "^3.1.2"
+    query-string "^7.1.0"
+
 "@nhost/hasura-storage-js@0.0.10":
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/@nhost/hasura-storage-js/-/hasura-storage-js-0.0.10.tgz#0423534034408aa491e141848ae31a720be1cf8b"
   integrity sha512-g9oreQ9DrOHbW4YprS3VuaKj67Vgag8mIfOK369CtrKqKFm2pqnnKYK5RX9PuGZTujH61c299PtPGX7b90VjhQ==
+  dependencies:
+    axios "^0.21.1"
+
+"@nhost/hasura-storage-js@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@nhost/hasura-storage-js/-/hasura-storage-js-0.1.0.tgz#26da62b2c8ba8bb8d512bbf91c2cb52ee9e15f3c"
+  integrity sha512-XkmU8N3lvw9hm2o4NbXqjRc+X07TAicw3qlmoTQ+QFSLLzDUfr2L2u7j4UYsj5i8Nxxl+EaB/7hYOIH/+d+fzA==
   dependencies:
     axios "^0.21.1"
 
@@ -1531,6 +1547,17 @@
     jwt-decode "^3.1.2"
     query-string "^7.0.1"
 
+"@nhost/nhost-js@0.3.13":
+  version "0.3.13"
+  resolved "https://registry.yarnpkg.com/@nhost/nhost-js/-/nhost-js-0.3.13.tgz#d5e96a63052b53f92cba33602c5709ca302c1217"
+  integrity sha512-kg85sZjWmsvW3Se7MfJAEUkurN4dWb+b5f54EFMSIJ/62x8Rj3whoBzpjgN/CXtv1QTt3I+YqT9RNpEP/Z+jBQ==
+  dependencies:
+    "@nhost/hasura-auth-js" "0.1.15"
+    "@nhost/hasura-storage-js" "0.1.0"
+    axios "^0.23.0"
+    jwt-decode "^3.1.2"
+    query-string "^7.0.1"
+
 "@nhost/react-apollo@2.1.4":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@nhost/react-apollo/-/react-apollo-2.1.4.tgz#76247c7cda78b1f4a2ee50fa555c17a92249ac5a"
@@ -1539,12 +1566,12 @@
     "@nhost/nhost-js" "0.3.10"
     subscriptions-transport-ws "^0.11.0"
 
-"@nhost/react-auth@2.0.8":
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/@nhost/react-auth/-/react-auth-2.0.8.tgz#203118b9e1a4a335c0f5cf9f0a86f013334c6573"
-  integrity sha512-cNIRsQdpMw7AfH7mazHC++NV23gB1QXRXOHdm1BXgDxndxDp0+6DdE4wSi3VZBYxDHCxsI3XueAU0PgZ9zv0gw==
+"@nhost/react-auth@2.0.11":
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/@nhost/react-auth/-/react-auth-2.0.11.tgz#bb1a7fbe6d798bac2c3380a93764d7f56e780f8e"
+  integrity sha512-E4wvFkg+Nwg06PR7n/E1joGZchSLIh/kEcLo+ePOnCYJPrjP0+ita6HC+OHsGNWtVWL1OU+jHlUNKIpCWUqgyQ==
   dependencies:
-    "@nhost/nhost-js" "0.3.10"
+    "@nhost/nhost-js" "0.3.13"
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
